@@ -7,12 +7,14 @@ import type { ApiResponse } from "@/types"
 import type { SuperAdminDashboardData } from "@/types/dashboard"
 
 export async function getSuperAdminDashboard() {
-  const response =
-    await api.get<ApiResponse<SuperAdminDashboardData>>("/super-admin/dashboard")
+  const response = await api.get<ApiResponse<SuperAdminDashboardData>>(
+    "/super-admin/dashboard"
+  )
 
   if (!response.data.success || !response.data.data) {
     throw new Error(response.data.message || "Dashboard could not be loaded")
   }
+  console.log(response)
 
   return response.data.data
 }
