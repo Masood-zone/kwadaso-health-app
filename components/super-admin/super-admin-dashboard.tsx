@@ -21,25 +21,24 @@ export function SuperAdminDashboard({
   roleLabel,
   userName,
 }: SuperAdminDashboardProps) {
-  const dashboard = useSuperAdminDashboard()
-  const data = dashboard.data
+  const { data: dashboard, isLoading, isError } = useSuperAdminDashboard()
 
   return (
     <DashboardShell
       title="System Overview"
       eyebrow="Super Admin"
-      facilityName={data?.facilityName ?? fallbackFacilityName}
+      facilityName={dashboard?.facilityName ?? fallbackFacilityName}
       userName={userName}
       roleLabel={roleLabel}
     >
-      {dashboard.isLoading ? (
+      {isLoading ? (
         <DashboardLoading />
-      ) : dashboard.isError ? (
+      ) : isError ? (
         <DashboardError message="Super admin dashboard could not be loaded." />
-      ) : data ? (
+      ) : dashboard ? (
         <div className="space-y-5">
           <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {data.metrics.map((metric) => (
+            {dashboard.metrics.map((metric) => (
               <MetricCard key={metric.label} {...metric} />
             ))}
           </section>
@@ -65,7 +64,7 @@ export function SuperAdminDashboard({
                     </tr>
                   </thead>
                   <tbody>
-                    {data.roleOverview.map((role) => (
+                    {dashboard.roleOverview.map((role) => (
                       <tr
                         key={role.role}
                         className="border-t border-border-subtle"
@@ -98,7 +97,7 @@ export function SuperAdminDashboard({
                   </div>
                 </div>
                 <div className="space-y-3">
-                  {data.departments.slice(0, 6).map((department) => (
+                  {dashboard?.departments.slice(0, 6).map((department) => (
                     <div
                       key={department.id}
                       className="flex items-center justify-between rounded border border-border-subtle p-3"
@@ -128,9 +127,12 @@ export function SuperAdminDashboard({
                   </div>
                 </div>
                 <div className="space-y-3">
-                  {data.auditLogs.length ? (
-                    data.auditLogs.map((log) => (
-                      <div key={log.id} className="border-l-2 border-primary pl-3">
+                  {dashboard?.auditLogs.length ? (
+                    dashboard.auditLogs.map((log) => (
+                      <div
+                        key={log.id}
+                        className="border-l-2 border-primary pl-3"
+                      >
                         <p className="text-sm font-semibold">{log.label}</p>
                         <p className="text-xs text-muted-foreground">
                           {log.detail}
