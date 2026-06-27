@@ -1,17 +1,43 @@
-import { ApiResponse } from "@/types"
+import type { ApiFieldErrors, ApiResponse } from "@/types"
 import { isAxiosError } from "axios"
+
+type ApiErrorPayload = Pick<ApiResponse<never>, "code" | "errors" | "message">
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null
+}
+
+function isApiFieldErrors(value: unknown): value is ApiFieldErrors {
+  if (!isRecord(value)) return false
+
+  return Object.values(value).every(
+    (fieldErrors) =>
+      Array.isArray(fieldErrors) &&
+      fieldErrors.every((message) => typeof message === "string")
+  )
+}
+
+function parseApiErrorPayload(payload: unknown): ApiErrorPayload | null {
+  if (!isRecord(payload)) return null
+
+  return {
+    code: typeof payload.code === "string" ? payload.code : undefined,
+    errors: isApiFieldErrors(payload.errors) ? payload.errors : undefined,
+    message: typeof payload.message === "string" ? payload.message : undefined,
+  }
+}
 
 export class ApiClientError extends Error {
   code?: string
   status?: number
-  fieldErrors?: Record<string, string[]>
+  fieldErrors?: ApiFieldErrors
 
   constructor(
     message: string,
     options?: {
       code?: string
       status?: number
-      fieldErrors?: Record<string, string[]>
+      fieldErrors?: ApiFieldErrors
     }
   ) {
     super(message)
@@ -28,9 +54,9 @@ export function toApiClientError(
 ): ApiClientError {
   if (isAxiosError<ApiResponse<never>>(error)) {
     const status = error.response?.status
-    const payload = error.response?.data
+    const payload = parseApiErrorPayload(error.response?.data)
 
-    if (payload && typeof payload === "object") {
+    if (payload) {
       return new ApiClientError(payload.message || fallbackMessage, {
         code: payload.code,
         status,
