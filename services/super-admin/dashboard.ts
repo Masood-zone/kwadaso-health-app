@@ -14,7 +14,6 @@ export async function getSuperAdminDashboard() {
   if (!response.data.success || !response.data.data) {
     throw new Error(response.data.message || "Dashboard could not be loaded")
   }
-  console.log(response)
 
   return response.data.data
 }
