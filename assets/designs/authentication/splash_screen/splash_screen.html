@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHMS | Initializing Clinical Environment</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Shared Component Styling & Tailwind Config Integration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f8f9ff",
+                        "secondary-fixed": "#ffdad7",
+                        "emergency-dark": "#B80021",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed": "#a5f693",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface-variant": "#40493c",
+                        "on-error": "#ffffff",
+                        "accent-blue": "#EAF3FA",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-container": "#784200",
+                        "border-subtle": "#E2E8F0",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#0b5d0b",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#8ad97a",
+                        "medical-green-soft": "#E8F5E9",
+                        "inverse-surface": "#213145",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#86d576",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#410005",
+                        "tertiary": "#572e00",
+                        "on-secondary-fixed-variant": "#930018",
+                        "outline": "#707a6b",
+                        "on-background": "#0b1c30",
+                        "on-primary-fixed-variant": "#005304",
+                        "pending-soft": "#FFF4E8",
+                        "on-primary-fixed": "#002201",
+                        "error": "#ba1a1a",
+                        "deep-forest": "#064906",
+                        "primary": "#004302",
+                        "surface-tint": "#206d1b",
+                        "surface-container-low": "#eff4ff",
+                        "secondary": "#bb0021",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "surface-dim": "#cbdbf5",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "on-secondary-container": "#fffbff",
+                        "on-tertiary-container": "#ffb168",
+                        "surface-container": "#e5eeff",
+                        "outline-variant": "#c0cab8",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-tertiary-fixed": "#2d1600",
+                        "secondary-container": "#ea002c",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#8ad97a",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "app-bg": "#F8FAFC",
+                        "emergency-soft": "#FDECEF",
+                        "surface": "#f8f9ff",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "1rem",
+                        "gutter": "1.5rem",
+                        "margin-desktop": "2rem",
+                        "topbar-height": "64px",
+                        "sidebar-width": "260px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "table-data": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Medical Abstract Pattern Background */
+        .medical-pattern {
+            background-color: #f8f9ff;
+            background-image: 
+                radial-gradient(circle at 2px 2px, #e2e8f0 1px, transparent 0);
+            background-size: 32px 32px;
+            opacity: 0.4;
+        }
+
+        /* Clean loading animation */
+        @keyframes clinical-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.98); }
+        }
+        
+        .pulse-effect {
+            animation: clinical-pulse 3s ease-in-out infinite;
+        }
+
+        .spinner-track {
+            border: 3px solid #E2E8F0;
+            border-top: 3px solid #004302; /* Primary Green */
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar-container {
+            width: 240px;
+            height: 4px;
+            background: #E2E8F0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: #004302;
+            width: 0%;
+            transition: width 4s cubic-bezier(0.1, 0.5, 0.5, 1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface flex items-center justify-center min-h-screen overflow-hidden selection:bg-primary-fixed">
+<!-- Subtle Background Elements -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden">
+<div class="medical-pattern absolute inset-0"></div>
+<!-- Aesthetic Gradient Glows (Medical/Clinical Calm) -->
+<div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-medical-green-soft rounded-full blur-[120px] opacity-30"></div>
+<div class="absolute top-[60%] -right-[5%] w-[30%] h-[30%] bg-accent-blue rounded-full blur-[100px] opacity-40"></div>
+</div>
+<!-- Main Splash Container -->
+<main class="relative z-10 flex flex-col items-center px-6 max-w-2xl text-center">
+<!-- Logo Branding -->
+<div class="fade-in mb-10 pulse-effect">
+<div class="bg-white p-8 rounded-xl shadow-[0px_4px_12px_rgba(15,23,42,0.04)] border border-border-subtle inline-block">
+<img alt="SDA Hospital Kwadaso Logo" class="h-24 md:h-32 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRiG07kQEy36ienkOBnqEmqInWWMeN_fj44xHNLyZDNXRjsGn2buGreBi3gUeiI75b0-tWnNewhJ11RVuz7-WOMhNEU3y85cMMogdTBBKMj_1xu2w53qYdIBp7XfEeAnnqWrvnI2ixn692N21lQTikG_hIaZBqxjpF0MNwg5UcvEqOAcOpdwUVA9AqP1W-Hbax2GIihGB76TgeC-ZlkmiSxYHoPwcX08pSe6B690HptlQZp2yuLzEeTSqYH86hUspvNihTPPf9sjE"/>
+</div>
+</div>
+<!-- Identity Section -->
+<div class="fade-in" style="animation-delay: 0.2s;">
+<h1 class="font-display-lg text-display-lg text-primary mb-2 tracking-tight">
+                KHMS — Kwadaso HealthLink Integrated Platform
+            </h1>
+<p class="font-body-lg text-on-surface-variant flex items-center justify-center gap-2 opacity-80">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1">verified_user</span>
+                Secure healthcare platform. Initializing clinical environment...
+            </p>
+</div>
+<!-- Loading Indicator -->
+<div class="flex flex-col items-center mt-12 fade-in" style="animation-delay: 0.4s;">
+<div class="spinner-track mb-6"></div>
+<div class="progress-bar-container">
+<div class="progress-bar-fill" id="progress-fill"></div>
+</div>
+<p class="mt-4 font-label-md text-on-surface-variant tracking-widest uppercase" id="status-text">
+                Synchronizing Database...
+            </p>
+</div>
+<!-- Footer / Credits -->
+<footer class="mt-24 fade-in opacity-40" style="animation-delay: 0.8s;">
+<p class="font-body-sm text-on-surface-variant">
+                © 2024 SDA Hospital Kwadaso IT Department. All rights reserved.
+            </p>
+<div class="flex justify-center gap-4 mt-2">
+<span class="material-symbols-outlined text-[16px]">health_and_safety</span>
+<span class="material-symbols-outlined text-[16px]">security</span>
+<span class="material-symbols-outlined text-[16px]">cloud_sync</span>
+</div>
+</footer>
+</main>
+<script>
+        // Micro-interactions for loading status
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressFill = document.getElementById('progress-fill');
+            const statusText = document.getElementById('status-text');
+            
+            const messages = [
+                "Synchronizing Database...",
+                "Loading Patient Directories...",
+                "Authenticating Clinical Node...",
+                "Preparing Dashboard Modules...",
+                "Finalizing Environment..."
+            ];
+            
+            let messageIndex = 0;
+            
+            // Initial animation trigger
+            setTimeout(() => {
+                progressFill.style.width = '100%';
+            }, 100);
+
+            const interval = setInterval(() => {
+                if (messageIndex < messages.length - 1) {
+                    messageIndex++;
+                    statusText.style.opacity = '0';
+                    setTimeout(() => {
+                        statusText.textContent = messages[messageIndex];
+                        statusText.style.opacity = '1';
+                    }, 300);
+                } else {
+                    clearInterval(interval);
+                }
+            }, 800);
+
+            // Transitions of the status text
+            statusText.style.transition = 'opacity 0.3s ease';
+        });
+    </script>
+</body></html>

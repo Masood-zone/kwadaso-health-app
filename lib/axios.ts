@@ -22,10 +22,9 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Handle 401 Unauthorized
     if (error.response?.status === 401) {
       if (typeof window !== "undefined") {
-        window.location.href = "/login";
+        window.location.href = "/session-expired";
       }
     }
     return Promise.reject(error);

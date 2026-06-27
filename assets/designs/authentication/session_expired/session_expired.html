@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Session Expired | KHMS Kwadaso HealthLink</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Manrope:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f8f9ff",
+                        "secondary-fixed": "#ffdad7",
+                        "emergency-dark": "#B80021",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed": "#a5f693",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface-variant": "#40493c",
+                        "on-error": "#ffffff",
+                        "accent-blue": "#EAF3FA",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-container": "#784200",
+                        "border-subtle": "#E2E8F0",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#0b5d0b",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#8ad97a",
+                        "medical-green-soft": "#E8F5E9",
+                        "inverse-surface": "#213145",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#86d576",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#410005",
+                        "tertiary": "#572e00",
+                        "on-secondary-fixed-variant": "#930018",
+                        "outline": "#707a6b",
+                        "on-background": "#0b1c30",
+                        "on-primary-fixed-variant": "#005304",
+                        "pending-soft": "#FFF4E8",
+                        "on-primary-fixed": "#002201",
+                        "error": "#ba1a1a",
+                        "deep-forest": "#064906",
+                        "primary": "#004302",
+                        "surface-tint": "#206d1b",
+                        "surface-container-low": "#eff4ff",
+                        "secondary": "#bb0021",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "surface-dim": "#cbdbf5",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "on-secondary-container": "#fffbff",
+                        "on-tertiary-container": "#ffb168",
+                        "surface-container": "#e5eeff",
+                        "outline-variant": "#c0cab8",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-tertiary-fixed": "#2d1600",
+                        "secondary-container": "#ea002c",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#8ad97a",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "app-bg": "#F8FAFC",
+                        "emergency-soft": "#FDECEF",
+                        "surface": "#f8f9ff",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "1rem",
+                        "gutter": "1.5rem",
+                        "margin-desktop": "2rem",
+                        "topbar-height": "64px",
+                        "sidebar-width": "260px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "table-data": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+        .shimmer-effect {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            from { background-position: 200% 0; }
+            to { background-position: -200% 0; }
+        }
+        body {
+            background-color: #F8FAFC;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-on-surface">
+<!-- Main Content Canvas -->
+<main class="flex-grow flex items-center justify-center p-margin-mobile md:p-margin-desktop relative overflow-hidden">
+<!-- Subtle Ambient Background Element -->
+<div class="absolute top-0 right-0 w-1/2 h-1/2 opacity-20 pointer-events-none">
+
+</div>
+<div class="w-full max-w-[480px] z-10">
+<!-- Security & Branding Card -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-8 md:p-10 shadow-sm relative overflow-hidden group">
+<!-- Vertical Priority Strip (Clinical Style) -->
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-pending-soft"></div>
+<div class="absolute left-0 top-0 h-1/3 w-1.5 bg-secondary-container"></div>
+<!-- Logo Section -->
+<div class="mb-10 flex flex-col items-center text-center">
+<img class="h-20 mb-6 object-contain" data-alt="A clean high-resolution logo for SDA Hospital Kwadaso featuring a green open book with a white cross, topped by a stylized orange flame, against a crisp clinical white background. The typography 'SDA Hospital' is bold with 'SDA' in deep forest green and 'Hospital' in clinical red, while 'Kwadaso' is spaced out underneath in dark green. Modern corporate healthcare aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZprV0ivG-aMIIEGtBT6_ERbKIFfw5UGrE3xXXpvX8hSXwYxhHnvvBA3bGMrchB4OkaTZKQ0zDetT_uOM-4IL0BRioexO2NYSGuFlC1PhAdxTUHz669Bf1oVeHStCv74LakzhLWMawt5jsSLsOy5tDV5F1aXKRHfHDkC5rbFUIDrL1BDtq3AQDtkLLGz2PnNzG_oO0tUk7RJ0BLg6cWRGjW8SpflbQplMUW5-urEKXfdZZw4-I_6owJkm6YfDC2iyutEBLj1dpjuU"/>
+<h1 class="font-display-lg text-display-lg text-primary tracking-tight">KHMS</h1>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mt-1">Kwadaso HealthLink</p>
+</div>
+<!-- Expiry Icon & Headline -->
+<div class="mb-8 text-center">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emergency-soft text-secondary mb-4">
+<span class="material-symbols-outlined text-[32px]">timer_off</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-3">Session Expired</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-[320px] mx-auto">
+                        Your session has timed out due to inactivity to protect patient privacy.
+                    </p>
+</div>
+<!-- Information Grid (Bento Style) -->
+<div class="grid grid-cols-1 gap-4 mb-8">
+<div class="p-4 bg-background border border-border-subtle rounded-lg flex items-start gap-4">
+<span class="material-symbols-outlined text-primary mt-0.5">security</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface uppercase opacity-70">Security Protocol</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">HIPAA-compliant automatic logout triggered after 15 minutes of inactivity.</p>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="space-y-3">
+<button class="w-full h-12 bg-primary text-on-primary font-bold rounded-lg hover:bg-deep-forest transition-all flex items-center justify-center gap-2 group/btn">
+<span>Login Again</span>
+<span class="material-symbols-outlined text-xl group-hover/btn:translate-x-1 transition-transform">login</span>
+</button>
+<button class="w-full h-12 border border-primary text-primary font-semibold rounded-lg hover:bg-medical-green-soft transition-all">
+                        Support Desk
+                    </button>
+</div>
+<!-- Footer Subtext -->
+<div class="mt-8 pt-6 border-t border-border-subtle flex justify-between items-center text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="font-body-sm text-body-sm">Secure Terminal</span>
+</div>
+<span class="font-body-sm text-body-sm">ID: 01-KW-7742</span>
+</div>
+</div>
+<!-- Bottom Brand Identity -->
+<p class="text-center mt-8 font-body-sm text-body-sm text-on-surface-variant/60">
+                © 2024 SDA Hospital Kwadaso. All patient data is encrypted.
+            </p>
+</div>
+</main>
+<!-- Micro-interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginBtn = document.querySelector('button.bg-primary');
+            
+            loginBtn.addEventListener('mousedown', () => {
+                loginBtn.style.transform = 'scale(0.98)';
+            });
+            
+            loginBtn.addEventListener('mouseup', () => {
+                loginBtn.style.transform = 'scale(1)';
+            });
+
+            // Subtle mouse tracking for the background shader if needed
+            const canvas = document.querySelector('main');
+            canvas.addEventListener('mousemove', (e) => {
+                // Potential for subtle lighting effects here
+            });
+        });
+    </script>
+</body></html>

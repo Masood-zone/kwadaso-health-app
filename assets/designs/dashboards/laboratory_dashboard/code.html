@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHMS Laboratory Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#572e00",
+                    "on-background": "#0b1c30",
+                    "on-primary-fixed-variant": "#005304",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#0b1c30",
+                    "on-error": "#ffffff",
+                    "surface-tint": "#206d1b",
+                    "outline": "#707a6b",
+                    "on-error-container": "#93000a",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#8ad97a",
+                    "on-primary-fixed": "#002201",
+                    "surface-dim": "#cbdbf5",
+                    "outline-variant": "#c0cab8",
+                    "surface": "#f8f9ff",
+                    "secondary": "#bb0021",
+                    "inverse-surface": "#213145",
+                    "tertiary-container": "#784200",
+                    "surface-bright": "#f8f9ff",
+                    "emergency-soft": "#FDECEF",
+                    "surface-container": "#e5eeff",
+                    "emergency-dark": "#B80021",
+                    "app-bg": "#F8FAFC",
+                    "deep-forest": "#064906",
+                    "primary-fixed": "#a5f693",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-secondary-fixed-variant": "#930018",
+                    "accent-blue": "#EAF3FA",
+                    "surface-container-high": "#dce9ff",
+                    "on-secondary-container": "#fffbff",
+                    "background": "#f8f9ff",
+                    "on-primary-container": "#86d576",
+                    "surface-variant": "#d3e4fe",
+                    "medical-green-soft": "#E8F5E9",
+                    "primary-fixed-dim": "#8ad97a",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "primary": "#004302",
+                    "primary-container": "#0b5d0b",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "on-secondary-fixed": "#410005",
+                    "tertiary-fixed": "#ffdcc0",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary-container": "#ea002c",
+                    "on-tertiary-container": "#ffb168",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "surface-container-low": "#eff4ff",
+                    "pending-soft": "#FFF4E8",
+                    "error": "#ba1a1a",
+                    "border-subtle": "#E2E8F0",
+                    "secondary-fixed": "#ffdad7",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#40493c"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "1rem",
+                    "gutter": "1.5rem",
+                    "container-max": "1440px",
+                    "topbar-height": "64px",
+                    "margin-desktop": "2rem",
+                    "sidebar-width": "260px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "table-data": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .sidebar-indicator {
+            width: 4px;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            background-color: #ea002c; /* Flame Orange from Design Guidance */
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md min-h-screen">
+<!-- SideNavBar Component -->
+<nav class="fixed left-0 top-0 h-screen w-sidebar-width flex flex-col py-6 bg-deep-forest dark:bg-on-background shadow-md z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-white flex items-center justify-center overflow-hidden">
+<img class="w-8 h-8 object-contain" data-alt="A clean, professional medical laboratory logo featuring a stylized microscope lens integrated with a healthcare cross. The design uses a crisp white background with primary emerald green accents, reflecting a clinical and modern corporate aesthetic suitable for a high-end hospital information system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAICooFNiBlGmZQsh877QXNszaA-4P1TWIvKeC5ATwH66O_Usuk5cHs1zs88RFrMTbotsX_YKPgOCC-ISKh4l0UNzj0Ma3GHL5kWRD9a3ALbixlrAdYdesm2WXvdnmT2IAv6fT2T6cLfeSl-1hjKeCWb36F-i0Npb4cvNW_3KKXBvu7Gbu57xYJh15I91cETtklgE-WJ2bD5rRZSJiHA98GUlCBGaMNrLRZFHkRmwFZjjbFPNPEUWYdAwJxTv8Q5GtdPAlNkjAxTpk"/>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-black text-white leading-none">KHMS Portal</h1>
+<p class="text-[10px] text-primary-fixed opacity-70 tracking-widest uppercase mt-1">Clinical Operations</p>
+</div>
+</div>
+<div class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-3 px-4 hover:bg-primary-container hover:opacity-100 transition-all scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Active State: Inventory / Lab -->
+<a class="flex items-center gap-3 bg-primary text-white border-l-4 border-secondary-container py-3 px-4 relative" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-3 px-4 hover:bg-primary-container hover:opacity-100 transition-all scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="patient_list">patient_list</span>
+<span class="font-label-md text-label-md">Patients</span>
+</a>
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-3 px-4 hover:bg-primary-container hover:opacity-100 transition-all scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="clinical_notes">clinical_notes</span>
+<span class="font-label-md text-label-md">Clinical Info</span>
+</a>
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-3 px-4 hover:bg-primary-container hover:opacity-100 transition-all scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="medication">medication</span>
+<span class="font-label-md text-label-md">Pharmacy</span>
+</a>
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-3 px-4 hover:bg-primary-container hover:opacity-100 transition-all scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label-md text-label-md">Administration</span>
+</a>
+</div>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary-fixed text-primary font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 mb-6 hover:brightness-110 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="font-label-md text-label-md">Admit Patient</span>
+</button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-2 px-4 hover:bg-primary-container transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-2 px-4 hover:bg-primary-container transition-all text-secondary-fixed" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-[260px] flex flex-col min-h-screen">
+<!-- TopAppBar Component -->
+<header class="flex justify-between items-center h-topbar-height px-margin-desktop w-full z-50 bg-surface border-b border-border-subtle sticky top-0">
+<div class="flex items-center gap-6">
+<h2 class="font-headline-md text-headline-md font-bold text-deep-forest">Laboratory Management</h2>
+<div class="hidden lg:flex items-center gap-4">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-md text-body-md" href="#">Facility: Main Hospital</a>
+<a class="text-on-surface-variant hover:bg-accent-blue transition-colors px-2 py-1 rounded font-body-md text-body-md" href="#">Directory</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-bold flex items-center gap-2 hover:opacity-90 active:opacity-80 transition-all">
+<span class="material-symbols-outlined" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+                    Emergency Alert
+                </button>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<button class="p-2 hover:bg-accent-blue rounded-full transition-colors material-symbols-outlined" data-icon="notifications">notifications</button>
+<button class="p-2 hover:bg-accent-blue rounded-full transition-colors material-symbols-outlined" data-icon="settings">settings</button>
+<button class="p-2 hover:bg-accent-blue rounded-full transition-colors material-symbols-outlined" data-icon="help">help</button>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden border border-border-subtle">
+<img class="w-full h-full object-cover" data-alt="Close-up professional portrait of a laboratory manager wearing a white clinical coat and stethoscope. The person has a focused and trustworthy expression, set against a blurred background of a modern, brightly lit hospital corridor. High-quality corporate photography with soft, natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP6pQ0LsNyABd4dCKl3sdwbZioCGWR-QPg5RuS7aUKaA3KOKBuUsCwhZqJBf3ri18cBqH0rJRAew78GFLblKfVOd7XiOToSbgYtR9z1d2jlYuMUg0KQxuDFmiMyBGAqxZpcwi8i_ssGg8o8sMVU23oiT8e2vgbXm_8-gmD63VEe26DmMNt7AqoDnyVRsNl7nwp8da8Rih5NUS4zmFwjLJJk2ElM1ZN_suh8JEgJ00Qiu1Bt1e0S8vg5nlqfRwUWktphq6n76nGnB4"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-margin-desktop space-y-gutter">
+<!-- Dashboard Stats Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="bg-white border border-border-subtle p-6 flex flex-col gap-2 relative overflow-hidden group hover:border-primary transition-all">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">New Requests</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-primary">24</span>
+<span class="text-medical-green-soft bg-primary px-2 py-0.5 rounded text-[10px] font-bold">+12%</span>
+</div>
+<p class="text-on-surface-variant text-body-sm font-body-sm">Awaiting sample collection</p>
+</div>
+<div class="bg-white border border-border-subtle p-6 flex flex-col gap-2 relative overflow-hidden group hover:border-tertiary-container transition-all">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container"></div>
+<span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">In Progress</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-tertiary-container">48</span>
+<span class="text-pending-soft bg-tertiary-container text-white px-2 py-0.5 rounded text-[10px] font-bold">Stable</span>
+</div>
+<p class="text-on-surface-variant text-body-sm font-body-sm">Currently in analyzers</p>
+</div>
+<div class="bg-white border border-border-subtle p-6 flex flex-col gap-2 relative overflow-hidden group hover:border-secondary transition-all">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Pending Validation</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-secondary">09</span>
+<span class="bg-emergency-soft text-emergency-dark px-2 py-0.5 rounded text-[10px] font-bold">Urgent</span>
+</div>
+<p class="text-on-surface-variant text-body-sm font-body-sm">Ready for pathologist review</p>
+</div>
+<div class="bg-white border border-border-subtle p-6 flex flex-col gap-2 relative overflow-hidden group hover:border-deep-forest transition-all">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-deep-forest"></div>
+<span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Completed Today</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-deep-forest">156</span>
+<span class="text-medical-green-soft bg-deep-forest px-2 py-0.5 rounded text-[10px] font-bold">100%</span>
+</div>
+<p class="text-on-surface-variant text-body-sm font-body-sm">Reports dispatched to wards</p>
+</div>
+</div>
+<!-- Workflow Management Section -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-gutter">
+<!-- Main Task Queue (2 Columns wide) -->
+<div class="xl:col-span-2 space-y-gutter">
+<div class="bg-white border border-border-subtle overflow-hidden">
+<div class="bg-accent-blue px-6 py-4 flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-deep-forest">Active Lab Workflow</h3>
+<div class="flex gap-2">
+<button class="bg-white border border-outline-variant px-3 py-1.5 rounded text-body-sm font-medium hover:bg-surface-container transition-all">Filter: All Tests</button>
+<button class="bg-deep-forest text-white px-3 py-1.5 rounded text-body-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+                                    Sync Queue
+                                </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-md text-label-md border-b border-border-subtle">
+<th class="px-6 py-3 font-semibold uppercase tracking-wider">Request ID</th>
+<th class="px-6 py-3 font-semibold uppercase tracking-wider">Patient Name</th>
+<th class="px-6 py-3 font-semibold uppercase tracking-wider">Test Type</th>
+<th class="px-6 py-3 font-semibold uppercase tracking-wider">Status</th>
+<th class="px-6 py-3 font-semibold uppercase tracking-wider">Priority</th>
+<th class="px-6 py-3 font-semibold uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-table-data text-table-data divide-y divide-border-subtle">
+<tr class="hover:bg-accent-blue/30 transition-colors">
+<td class="px-6 py-4 font-bold">#LAB-9041</td>
+<td class="px-6 py-4">Jameson, Robert (45M)</td>
+<td class="px-6 py-4">Full Blood Count (FBC)</td>
+<td class="px-6 py-4">
+<span class="bg-pending-soft text-tertiary-container px-2 py-1 rounded-full text-[11px] font-bold border border-tertiary/20">Sample Collected</span>
+</td>
+<td class="px-6 py-4">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-yellow-500"></span> Routine</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline font-bold">Begin Test</button>
+</td>
+</tr>
+<tr class="hover:bg-accent-blue/30 transition-colors">
+<td class="px-6 py-4 font-bold">#LAB-9045</td>
+<td class="px-6 py-4">Martinez, Elena (32F)</td>
+<td class="px-6 py-4">CRP &amp; Electrolytes</td>
+<td class="px-6 py-4">
+<span class="bg-medical-green-soft text-primary px-2 py-1 rounded-full text-[11px] font-bold border border-primary/20">In Progress</span>
+</td>
+<td class="px-6 py-4">
+<span class="text-secondary flex items-center gap-1 font-bold"><span class="w-2 h-2 rounded-full bg-secondary"></span> STAT</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline font-bold">View Progress</button>
+</td>
+</tr>
+<tr class="hover:bg-accent-blue/30 transition-colors">
+<td class="px-6 py-4 font-bold">#LAB-9042</td>
+<td class="px-6 py-4">Chen, Wei (58M)</td>
+<td class="px-6 py-4">Glucose Tolerance</td>
+<td class="px-6 py-4">
+<span class="bg-surface-container text-on-surface-variant px-2 py-1 rounded-full text-[11px] font-bold border border-outline-variant">Awaiting Sample</span>
+</td>
+<td class="px-6 py-4">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-yellow-500"></span> Routine</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-outline hover:underline font-bold">Remind Staff</button>
+</td>
+</tr>
+<tr class="hover:bg-accent-blue/30 transition-colors">
+<td class="px-6 py-4 font-bold">#LAB-9039</td>
+<td class="px-6 py-4">Wilson, Sarah (27F)</td>
+<td class="px-6 py-4">Liver Function Test</td>
+<td class="px-6 py-4">
+<span class="bg-emergency-soft text-emergency-dark px-2 py-1 rounded-full text-[11px] font-bold border border-secondary/20">Pending Validation</span>
+</td>
+<td class="px-6 py-4">
+<span class="text-on-surface-variant flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Urgent</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-secondary hover:underline font-bold">Validate Now</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-border-subtle flex justify-between items-center text-body-sm text-on-surface-variant">
+<span>Showing 4 of 82 pending requests</span>
+<div class="flex gap-1">
+<button class="p-1 hover:bg-surface-container rounded transition-colors material-symbols-outlined" data-icon="chevron_left">chevron_left</button>
+<button class="p-1 hover:bg-surface-container rounded transition-colors material-symbols-outlined" data-icon="chevron_right">chevron_right</button>
+</div>
+</div>
+</div>
+<!-- Interactive Data Insights (Asymmetric Card) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="bg-white border border-border-subtle p-6 flex items-start gap-6">
+<div class="p-3 bg-accent-blue text-primary rounded-xl">
+<span class="material-symbols-outlined scale-125" data-icon="timer">timer</span>
+</div>
+<div class="space-y-1">
+<h4 class="font-headline-md text-headline-md text-deep-forest">TAT Performance</h4>
+<p class="text-body-md text-on-surface-variant">Average Turnaround Time: <span class="font-bold">42 mins</span></p>
+<div class="w-full bg-surface-container rounded-full h-2 mt-4 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 85%"></div>
+</div>
+<p class="text-[10px] text-primary font-bold mt-1 uppercase tracking-tighter">5% Faster than hospital benchmark</p>
+</div>
+</div>
+<div class="bg-white border border-border-subtle p-6 flex items-start gap-6">
+<div class="p-3 bg-emergency-soft text-secondary rounded-xl">
+<span class="material-symbols-outlined scale-125" data-icon="biotech">biotech</span>
+</div>
+<div class="space-y-1">
+<h4 class="font-headline-md text-headline-md text-deep-forest">Critical Values</h4>
+<p class="text-body-md text-on-surface-variant">Unnotified critical results: <span class="font-bold text-secondary">3</span></p>
+<div class="flex gap-2 mt-4">
+<button class="bg-secondary text-white px-3 py-1 rounded text-body-sm font-bold">Action Required</button>
+<button class="border border-outline-variant px-3 py-1 rounded text-body-sm font-medium hover:bg-surface-container">Dismiss</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Content (Clinical Alerts & Status) -->
+<div class="space-y-gutter">
+<!-- Notifications Panel -->
+<div class="bg-white border border-border-subtle p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-deep-forest">Live Alerts</h3>
+<span class="bg-secondary text-white text-[10px] font-black px-1.5 py-0.5 rounded animate-pulse">LIVE</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-4 p-3 rounded bg-accent-blue/40 border-l-4 border-primary">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle">check_circle</span>
+<div>
+<p class="text-body-md font-bold text-on-surface">Equipment Recalibrated</p>
+<p class="text-body-sm text-on-surface-variant">Hematology Analyzer #4 sync complete.</p>
+<p class="text-[10px] text-on-surface-variant/60 mt-1">2 mins ago</p>
+</div>
+</div>
+<div class="flex gap-4 p-3 rounded bg-pending-soft border-l-4 border-tertiary-container">
+<span class="material-symbols-outlined text-tertiary-container" data-icon="inventory">inventory</span>
+<div>
+<p class="text-body-md font-bold text-on-surface">Reagent Low</p>
+<p class="text-body-sm text-on-surface-variant">HGB Reagent Pack &lt; 15% remaining.</p>
+<p class="text-[10px] text-on-surface-variant/60 mt-1">15 mins ago</p>
+</div>
+</div>
+<div class="flex gap-4 p-3 rounded bg-emergency-soft border-l-4 border-secondary">
+<span class="material-symbols-outlined text-secondary" data-icon="priority_high">priority_high</span>
+<div>
+<p class="text-body-md font-bold text-on-surface">Critical Delay</p>
+<p class="text-body-sm text-on-surface-variant">Sample #LAB-8901 exceeds TAT window.</p>
+<p class="text-[10px] text-on-surface-variant/60 mt-1">1 hour ago</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 text-primary text-body-sm font-bold py-2 border border-primary/20 hover:bg-accent-blue transition-all">View All Activity</button>
+</div>
+<!-- Staff On-Duty Panel -->
+<div class="bg-white border border-border-subtle p-6">
+<h3 class="font-headline-md text-headline-md text-deep-forest mb-6">Staff on Duty</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-100 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a senior laboratory scientist, a woman in her 50s with grey-streaked hair, wearing a white lab coat and a ID lanyard. Professional clinical lighting, sharp focus, set against a modern laboratory background with high-tech equipment. Authentic and authoritative medical professional appearance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmCfRaWOtsUQeqPQiWd-Ut_kx2qyUpgf9rOwRTMeV-pHmybBZNiXsZTItw9Oe4OoSrGuy9Xt4r0F-OzrJEcnaVTGWkIS80bC94UN3lHEpwSmY07JVTsVwUD8wI-VrvdE1flgZxjEkL68DbHoFBe75SEo3iSHVwZ4ZeWT-sI1YkEd7PTsCImZYBVEeakMhYt4upREkGcXAY_2-Ie6UnoIYGy2uxB0IFgJPgaNr4tpV84TB8vTd8A_dfUL36ntBFq-1EZvkxEKxLYrk"/>
+</div>
+<div>
+<p class="text-body-sm font-bold">Dr. Aris Thorne</p>
+<p class="text-[10px] text-on-surface-variant">Chief Pathologist</p>
+</div>
+</div>
+<span class="w-2 h-2 rounded-full bg-green-500 shadow-sm shadow-green-200"></span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-100 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a male laboratory technician in his late 20s, wearing protective blue medical scrubs and clear safety goggles. He has a friendly yet professional demeanor. The environment is a clean, sterile clinical lab with soft overhead lighting. High-end professional healthcare photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPqMbLxuuyJRRbX-uQ6JptCRxzNG713DQOyZ70NGW_UPw4hD83e4tmyRNSG22Watezq9vDRDUhNFzL1FDkt39iTKiyNQiy8BUSX61MEvg5ylTZeLg71Gu7nL2lvhAEA12tk626w_kXnCNuQjegD1S2-OVjcXCD16wa5j3h5mGgYsWY7mnFfOrRga_OXBWI5SJ6ITPTbaAUpmeBLkHbbGNye_RTgExrEAOMB5_Xe7SK5oN0jN1GUbDVCvkurvR-7MfGW5jAYolYPwc"/>
+</div>
+<div>
+<p class="text-body-sm font-bold">Sarah Jenkins</p>
+<p class="text-[10px] text-on-surface-variant">Senior Lab Tech</p>
+</div>
+</div>
+<span class="w-2 h-2 rounded-full bg-green-500 shadow-sm shadow-green-200"></span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3 opacity-60">
+<div class="w-8 h-8 rounded-full bg-slate-100 overflow-hidden grayscale">
+<img class="w-full h-full object-cover" data-alt="Portrait of a medical laboratory assistant, a young man with glasses wearing a white clinical coat. Professional photography with clean lighting and a minimalist medical background. He appears competent and ready for a shift." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF0-2OlXx-_YucYPGa58mToPlWDL3MsnDymAJVvpwiX49hcLK4gytYJI_eTgpptSzbALNC_rIO8VPoZ23bHHCPP64YCknxe5ZwIxq8Vtrtwg9Da2bb9XYMUBpbWk5IN_4g8E6XjvDyRg5zq5UYCTiq06JOcCINX6uG7vOFZqiJllbuRxDG1v2oC6TT1U3Yhg5JF8rQspirADWaz7UuAR19WFsEQ53FUgEe_0LQHvhHZtnstUxT4sjO1aUOpui9pPFw9lq2MGQEUik"/>
+</div>
+<div>
+<p class="text-body-sm font-bold">Marcus Vane</p>
+<p class="text-[10px] text-on-surface-variant">Lab Assistant</p>
+</div>
+</div>
+<span class="w-2 h-2 rounded-full bg-slate-300"></span>
+</div>
+</div>
+</div>
+<!-- Rapid Search / Scan Utility (Glassmorphism-ish Card) -->
+<div class="bg-deep-forest text-white p-6 rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
+<h3 class="font-headline-md text-headline-md mb-4 relative z-10">Quick Test Entry</h3>
+<div class="space-y-4 relative z-10">
+<div class="relative">
+<input class="w-full bg-white/10 border border-white/20 rounded-lg py-2 pl-10 pr-4 text-white placeholder-white/60 focus:ring-2 focus:ring-white/40 focus:border-transparent outline-none transition-all" placeholder="Scan Sample ID..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-white/60" data-icon="barcode_scanner">barcode_scanner</span>
+</div>
+<button class="w-full bg-primary-fixed text-primary font-black py-3 rounded-lg hover:brightness-110 active:scale-95 transition-all">MANUAL ENTRY</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB Suppression: Laboratory screens are transactional/workflow based, hiding FAB to prioritize content density as per Design System guidelines. -->
+<script>
+        // Micro-interactions for table rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                row.classList.toggle('bg-accent-blue/50');
+            });
+        });
+
+        // Simple sync simulation
+        const syncBtn = document.querySelector('button:has(span[data-icon="refresh"])');
+        if(syncBtn) {
+            syncBtn.addEventListener('click', function() {
+                const icon = this.querySelector('.material-symbols-outlined');
+                icon.classList.add('animate-spin');
+                this.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin" data-icon="refresh">refresh</span> Syncing...`;
+                setTimeout(() => {
+                    icon.classList.remove('animate-spin');
+                    this.innerHTML = `<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span> Sync Queue`;
+                }, 1500);
+            });
+        }
+    </script>
+</body></html>

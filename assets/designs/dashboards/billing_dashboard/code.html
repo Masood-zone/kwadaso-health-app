@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHMS | Billing Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#572e00",
+                    "on-background": "#0b1c30",
+                    "on-primary-fixed-variant": "#005304",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#0b1c30",
+                    "on-error": "#ffffff",
+                    "surface-tint": "#206d1b",
+                    "outline": "#707a6b",
+                    "on-error-container": "#93000a",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#8ad97a",
+                    "on-primary-fixed": "#002201",
+                    "surface-dim": "#cbdbf5",
+                    "outline-variant": "#c0cab8",
+                    "surface": "#f8f9ff",
+                    "secondary": "#bb0021",
+                    "inverse-surface": "#213145",
+                    "tertiary-container": "#784200",
+                    "surface-bright": "#f8f9ff",
+                    "emergency-soft": "#FDECEF",
+                    "surface-container": "#e5eeff",
+                    "emergency-dark": "#B80021",
+                    "app-bg": "#F8FAFC",
+                    "deep-forest": "#064906",
+                    "primary-fixed": "#a5f693",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-secondary-fixed-variant": "#930018",
+                    "accent-blue": "#EAF3FA",
+                    "surface-container-high": "#dce9ff",
+                    "on-secondary-container": "#fffbff",
+                    "background": "#f8f9ff",
+                    "on-primary-container": "#86d576",
+                    "surface-variant": "#d3e4fe",
+                    "medical-green-soft": "#E8F5E9",
+                    "primary-fixed-dim": "#8ad97a",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "primary": "#004302",
+                    "primary-container": "#0b5d0b",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "on-secondary-fixed": "#410005",
+                    "tertiary-fixed": "#ffdcc0",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary-container": "#ea002c",
+                    "on-tertiary-container": "#ffb168",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "surface-container-low": "#eff4ff",
+                    "pending-soft": "#FFF4E8",
+                    "error": "#ba1a1a",
+                    "border-subtle": "#E2E8F0",
+                    "secondary-fixed": "#ffdad7",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#40493c"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "1rem",
+                    "gutter": "1.5rem",
+                    "container-max": "1440px",
+                    "topbar-height": "64px",
+                    "margin-desktop": "2rem",
+                    "sidebar-width": "260px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "table-data": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #F8FAFC; color: #0b1c30; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-active-indicator {
+            position: absolute;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #ea002c; /* Flame Orange */
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-hidden">
+<!-- TopNavBar -->
+<nav class="flex justify-between items-center h-topbar-height px-margin-desktop w-full z-50 fixed top-0 bg-surface dark:bg-inverse-surface border-b border-border-subtle dark:border-outline-variant">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-deep-forest dark:text-inverse-primary">KHMS</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant dark:text-surface-variant font-body-md text-body-md hover:bg-accent-blue dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:opacity-80" href="#">Facility: Main Hospital</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-body-md text-body-md hover:bg-accent-blue dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:opacity-80" href="#">Directory</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-secondary text-on-secondary px-4 py-2 font-label-md text-label-md flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">emergency</span>
+                Emergency Alert
+            </button>
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-accent-blue rounded-full transition-colors"><span class="material-symbols-outlined">notifications</span></button>
+<button class="p-2 text-on-surface-variant hover:bg-accent-blue rounded-full transition-colors"><span class="material-symbols-outlined">settings</span></button>
+<button class="p-2 text-on-surface-variant hover:bg-accent-blue rounded-full transition-colors"><span class="material-symbols-outlined">help</span></button>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a healthcare administrator in a clinical setting, wearing a white coat and stethoscope, looking directly at the camera with a confident and trustworthy expression. The background is a brightly lit hospital corridor with soft blue accents and clean surfaces, reflecting a high-efficiency medical environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfCG-Mc3rdlXZLupBtxQouExhHFkHAYzimFRTT6cbfET_kROKJtew3kPWiBWYEhpzq4FcNMJ1wH3sZDNvtAyedLlVjyGDt9xF4HPQSws24W8F-tE7kdTJynuGxSP0aFNQPc406OMIEQZMtNnTkop5woOFSqjton5DYXjJ_ZgqDAkmD8O6uxEQaqeVGAG6jH6VzTVaUjn6NBSjCgFXeE5Z9WgD5a65wmMSmO3sz5yH_8np7RJZor5vbFxMMIrvm6fP7JJnDZUk0zFQ"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width flex flex-col py-6 bg-deep-forest dark:bg-on-background shadow-md z-40 pt-[80px]">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-white rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-deep-forest" style="font-variation-settings: 'FILL' 1;">local_hospital</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-black text-white leading-tight">KHMS Portal</h1>
+<p class="text-surface-container-lowest opacity-70 text-[10px] uppercase tracking-wider">Clinical Operations</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-2 space-y-1 overflow-y-auto no-scrollbar">
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-3 px-4 hover:bg-primary-container hover:opacity-100 transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-3 px-4 hover:bg-primary-container hover:opacity-100 transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">patient_list</span> Patients
+            </a>
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-3 px-4 hover:bg-primary-container hover:opacity-100 transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">clinical_notes</span> Clinical Info
+            </a>
+<a class="flex items-center gap-3 bg-primary text-white border-l-4 border-secondary-container py-3 px-4 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span> Administration
+            </a>
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-3 px-4 hover:bg-primary-container hover:opacity-100 transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">medication</span> Pharmacy
+            </a>
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-3 px-4 hover:bg-primary-container hover:opacity-100 transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">inventory_2</span> Inventory
+            </a>
+</nav>
+<div class="mt-auto px-4 pb-4 space-y-4">
+<button class="w-full bg-primary-fixed text-primary px-4 py-3 font-label-md text-label-md flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined">person_add</span> Admit Patient
+            </button>
+<div class="border-t border-white/10 pt-4">
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-2 px-4 hover:opacity-100 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+                </a>
+<a class="flex items-center gap-3 text-surface-container-lowest opacity-80 py-2 px-4 hover:opacity-100 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">logout</span> Logout
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-sidebar-width pt-topbar-height h-screen overflow-y-auto bg-app-bg px-margin-desktop py-8">
+<!-- Header & Top Summary -->
+<header class="mb-8 flex flex-col md:flex-row justify-between items-end gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-background">Billing & Financial Oversight</h2>
+<p class="text-on-surface-variant font-body-md text-body-md mt-1">Real-time revenue monitoring and claims reconciliation.</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="bg-white border border-border-subtle p-2 px-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">calendar_today</span>
+<span class="font-label-md text-label-md">Oct 24, 2023 - Today</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">arrow_drop_down</span>
+</div>
+<button class="bg-primary text-white px-6 py-2.5 font-label-md text-label-md flex items-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined">download</span> Export Report
+                </button>
+</div>
+</header>
+<!-- Key Metrics Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-8">
+<!-- Total Daily Collection -->
+<div class="bg-white border border-border-subtle p-6 flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-medical-green-soft text-primary">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</div>
+<span class="text-primary font-label-md text-label-md flex items-center">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> 12%
+                    </span>
+</div>
+<div>
+<h3 class="text-on-surface-variant font-label-md text-label-md uppercase tracking-widest">Daily Collection</h3>
+<div class="font-display-lg text-display-lg text-on-background mt-1">$42,850.00</div>
+</div>
+</div>
+<!-- Pending Bills -->
+<div class="bg-white border border-border-subtle p-6 flex flex-col justify-between relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-pending-soft text-tertiary">
+<span class="material-symbols-outlined">pending_actions</span>
+</div>
+</div>
+<div>
+<h3 class="text-on-surface-variant font-label-md text-label-md uppercase tracking-widest">Pending Bills</h3>
+<div class="font-display-lg text-display-lg text-on-background mt-1">184</div>
+<p class="text-tertiary font-body-sm text-body-sm mt-1">Est. Value: $12,400</p>
+</div>
+</div>
+<!-- NHIS Claims Status -->
+<div class="bg-white border border-border-subtle p-6 flex flex-col justify-between relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-emergency-soft text-secondary">
+<span class="material-symbols-outlined">policy</span>
+</div>
+<span class="text-secondary font-label-md text-label-md flex items-center">
+<span class="material-symbols-outlined text-[14px] mr-1">warning</span> 5 Urgent
+                    </span>
+</div>
+<div>
+<h3 class="text-on-surface-variant font-label-md text-label-md uppercase tracking-widest">NHIS/Private Claims</h3>
+<div class="font-display-lg text-display-lg text-on-background mt-1">$21,200</div>
+<p class="text-on-surface-variant font-body-sm text-body-sm mt-1">Awaiting Authorization</p>
+</div>
+</div>
+<!-- Reconciliation Accuracy -->
+<div class="bg-white border border-border-subtle p-6 flex flex-col justify-between relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-on-background"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-accent-blue text-on-background">
+<span class="material-symbols-outlined">verified</span>
+</div>
+</div>
+<div>
+<h3 class="text-on-surface-variant font-label-md text-label-md uppercase tracking-widest">Reconciliation</h3>
+<div class="font-display-lg text-display-lg text-on-background mt-1">99.2%</div>
+<div class="w-full bg-surface-container h-1.5 mt-2 overflow-hidden">
+<div class="bg-primary h-full" style="width: 99.2%"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Content Area: Splitted Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Account Reconciliation Table -->
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-white border border-border-subtle overflow-hidden">
+<div class="p-6 border-b border-border-subtle flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md">Recent Transactions</h3>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 border border-border-subtle text-body-sm font-label-md hover:bg-surface-container transition-colors">All</button>
+<button class="px-3 py-1.5 border border-border-subtle text-body-sm font-label-md hover:bg-surface-container transition-colors">NHIS</button>
+<button class="px-3 py-1.5 border border-border-subtle text-body-sm font-label-md hover:bg-surface-container transition-colors">Private</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-accent-blue">
+<tr>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">INVOICE ID</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">PATIENT NAME</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">PAYMENT TYPE</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">AMOUNT</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">STATUS</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">ACTION</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-[#F1F5F9] transition-colors cursor-pointer">
+<td class="px-6 py-4 font-table-data">INV-88219</td>
+<td class="px-6 py-4 font-table-data">Sarah Jenkins</td>
+<td class="px-6 py-4 font-table-data">Private (Card)</td>
+<td class="px-6 py-4 font-table-data">$1,240.00</td>
+<td class="px-6 py-4">
+<span class="bg-medical-green-soft text-primary px-2 py-1 font-label-md text-[10px] uppercase">Paid</span>
+</td>
+<td class="px-6 py-4"><span class="material-symbols-outlined text-on-surface-variant">more_vert</span></td>
+</tr>
+<tr class="hover:bg-[#F1F5F9] transition-colors cursor-pointer">
+<td class="px-6 py-4 font-table-data">INV-88220</td>
+<td class="px-6 py-4 font-table-data">Michael Adeyemi</td>
+<td class="px-6 py-4 font-table-data">NHIS Claim</td>
+<td class="px-6 py-4 font-table-data">$450.00</td>
+<td class="px-6 py-4">
+<span class="bg-pending-soft text-tertiary px-2 py-1 font-label-md text-[10px] uppercase">Pending Approval</span>
+</td>
+<td class="px-6 py-4"><span class="material-symbols-outlined text-on-surface-variant">more_vert</span></td>
+</tr>
+<tr class="hover:bg-[#F1F5F9] transition-colors cursor-pointer">
+<td class="px-6 py-4 font-table-data">INV-88221</td>
+<td class="px-6 py-4 font-table-data">Elena Rodriquez</td>
+<td class="px-6 py-4 font-table-data">Insurance (Cigna)</td>
+<td class="px-6 py-4 font-table-data">$3,100.00</td>
+<td class="px-6 py-4">
+<span class="bg-emergency-soft text-secondary px-2 py-1 font-label-md text-[10px] uppercase">Denied</span>
+</td>
+<td class="px-6 py-4"><span class="material-symbols-outlined text-on-surface-variant">more_vert</span></td>
+</tr>
+<tr class="hover:bg-[#F1F5F9] transition-colors cursor-pointer">
+<td class="px-6 py-4 font-table-data">INV-88222</td>
+<td class="px-6 py-4 font-table-data">David Thompson</td>
+<td class="px-6 py-4 font-table-data">Private (Cash)</td>
+<td class="px-6 py-4 font-table-data">$85.00</td>
+<td class="px-6 py-4">
+<span class="bg-medical-green-soft text-primary px-2 py-1 font-label-md text-[10px] uppercase">Paid</span>
+</td>
+<td class="px-6 py-4"><span class="material-symbols-outlined text-on-surface-variant">more_vert</span></td>
+</tr>
+<tr class="hover:bg-[#F1F5F9] transition-colors cursor-pointer">
+<td class="px-6 py-4 font-table-data">INV-88223</td>
+<td class="px-6 py-4 font-table-data">Lisa Park</td>
+<td class="px-6 py-4 font-table-data">NHIS Claim</td>
+<td class="px-6 py-4 font-table-data">$210.00</td>
+<td class="px-6 py-4">
+<span class="bg-pending-soft text-tertiary px-2 py-1 font-label-md text-[10px] uppercase">Under Review</span>
+</td>
+<td class="px-6 py-4"><span class="material-symbols-outlined text-on-surface-variant">more_vert</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-border-subtle flex justify-between items-center bg-surface">
+<span class="text-body-sm text-on-surface-variant">Showing 5 of 1,248 transactions</span>
+<div class="flex gap-1">
+<button class="p-1.5 border border-border-subtle hover:bg-white"><span class="material-symbols-outlined text-[18px]">chevron_left</span></button>
+<button class="p-1.5 border border-border-subtle hover:bg-white"><span class="material-symbols-outlined text-[18px]">chevron_right</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Financial Summary & Reconciliation View -->
+<div class="space-y-gutter">
+<!-- Payment Status Breakdown -->
+<div class="bg-white border border-border-subtle p-6">
+<h3 class="font-headline-md text-headline-md mb-6">Collection Mix</h3>
+<div class="space-y-4">
+<div class="space-y-1.5">
+<div class="flex justify-between font-label-md text-label-md">
+<span>Private Payments</span>
+<span>65%</span>
+</div>
+<div class="w-full bg-surface-container h-2">
+<div class="bg-primary h-full" style="width: 65%"></div>
+</div>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between font-label-md text-label-md">
+<span>NHIS Contributions</span>
+<span>25%</span>
+</div>
+<div class="w-full bg-surface-container h-2">
+<div class="bg-tertiary h-full" style="width: 25%"></div>
+</div>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between font-label-md text-label-md">
+<span>Private Insurance</span>
+<span>10%</span>
+</div>
+<div class="w-full bg-surface-container h-2">
+<div class="bg-on-background h-full" style="width: 10%"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 p-4 bg-accent-blue border-l-4 border-primary">
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+<span class="font-bold text-primary">Insight:</span> Private payments are up by 4.2% this week compared to last, driven primarily by outpatient diagnostics.
+                        </p>
+</div>
+</div>
+<!-- Account Reconciliation Card -->
+<div class="bg-inverse-surface text-white p-6 relative overflow-hidden">
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-[120px]">account_balance</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-2">Reconciliation Alerts</h3>
+<p class="text-surface-container-highest/70 font-body-sm text-body-sm mb-6">4 inconsistencies detected in last 24h batch.</p>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-3 bg-white/5 border border-white/10">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<div class="flex-1">
+<p class="text-body-sm font-label-md">Batch #992-B Missing</p>
+<p class="text-[10px] opacity-60">Wait-time: 4.5 hours</p>
+</div>
+<button class="text-secondary font-label-md text-[10px] uppercase underline">Fix</button>
+</div>
+<div class="flex items-center gap-3 p-3 bg-white/5 border border-white/10">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<div class="flex-1">
+<p class="text-body-sm font-label-md">Claim Ref mismatch (Sarah J.)</p>
+<p class="text-[10px] opacity-60">Discrepancy: $14.50</p>
+</div>
+<button class="text-secondary font-label-md text-[10px] uppercase underline">Fix</button>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border border-white/20 hover:bg-white/10 transition-colors font-label-md text-label-md">
+                        View Reconciliation Center
+                    </button>
+</div>
+<!-- Ad Section -->
+<div class="bg-white border border-border-subtle p-4 flex gap-4 items-center">
+<div class="w-16 h-16 bg-surface-container flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist 3D render of a hospital's financial software dashboard interface floating in a void. The visual should use medical greens and deep blue tones, highlighting financial charts and analytical tools with a professional, high-tech clinical look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR4qg2R2THhuffsTrmik_jRrzzBlh8pMhHg11xt7SfdG_3jxonwPP7ONQoSZhvTWZzvKUyoSNY3iHQ6gFqHLIKhV0i-KGZ2NGxErjGqgk1pAgde0-H7w_k48Ao1pcW53Flq5ROOha3q7JwVJTorE1MAuuhySkjMCOeP0dNSiTxYyTOwGI5gCi8OMn1FRF_KvXBWQM1BUF_Ec15n7ki3RjCDBzPQT8nFL7MsxtmhGmu65ZygeRjB2mE0Cxz31TW1rOjiyVAkShtACg"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-primary">Upgrade KHMS Finance</p>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Get AI-driven predictive billing analytics.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interactions
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.style.transform = 'scale(0.98)';
+            });
+            el.addEventListener('mouseup', () => {
+                el.style.transform = 'scale(1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'scale(1)';
+            });
+        });
+
+        // Search Bar Focus Effect (Example logic)
+        const searchInput = document.createElement('div');
+        // Logic could be added here for interactivity
+    </script>
+</body></html>

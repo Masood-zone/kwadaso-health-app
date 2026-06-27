@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Access Restricted | KHMS Kwadaso HealthLink</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#f8f9ff",
+                    "secondary-fixed": "#ffdad7",
+                    "emergency-dark": "#B80021",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "inverse-on-surface": "#eaf1ff",
+                    "primary-fixed": "#a5f693",
+                    "surface-variant": "#d3e4fe",
+                    "on-surface-variant": "#40493c",
+                    "on-error": "#ffffff",
+                    "accent-blue": "#EAF3FA",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary-container": "#784200",
+                    "border-subtle": "#E2E8F0",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#0b5d0b",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#8ad97a",
+                    "medical-green-soft": "#E8F5E9",
+                    "inverse-surface": "#213145",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-container": "#86d576",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed": "#410005",
+                    "tertiary": "#572e00",
+                    "on-secondary-fixed-variant": "#930018",
+                    "outline": "#707a6b",
+                    "on-background": "#0b1c30",
+                    "on-primary-fixed-variant": "#005304",
+                    "pending-soft": "#FFF4E8",
+                    "on-primary-fixed": "#002201",
+                    "error": "#ba1a1a",
+                    "deep-forest": "#064906",
+                    "primary": "#004302",
+                    "surface-tint": "#206d1b",
+                    "surface-container-low": "#eff4ff",
+                    "secondary": "#bb0021",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "surface-dim": "#cbdbf5",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "on-secondary-container": "#fffbff",
+                    "on-tertiary-container": "#ffb168",
+                    "surface-container": "#e5eeff",
+                    "outline-variant": "#c0cab8",
+                    "tertiary-fixed": "#ffdcc0",
+                    "on-tertiary-fixed": "#2d1600",
+                    "secondary-container": "#ea002c",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#8ad97a",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-high": "#dce9ff",
+                    "app-bg": "#F8FAFC",
+                    "emergency-soft": "#FDECEF",
+                    "surface": "#f8f9ff",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "1rem",
+                    "gutter": "1.5rem",
+                    "margin-desktop": "2rem",
+                    "topbar-height": "64px",
+                    "sidebar-width": "260px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "table-data": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "headline-md": ["Manrope"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-pattern {
+            background-color: #f8f9ff;
+            background-image:  linear-gradient(#e5eeff 1px, transparent 1px), linear-gradient(90deg, #e5eeff 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden h-screen flex flex-col">
+<!-- TopNavBar - Rendered but with simplified context for restricted access -->
+<header class="bg-surface border-b border-border-subtle flex justify-between items-center h-topbar-height px-margin-desktop w-full sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<div class="font-display-lg text-display-lg font-bold text-primary">
+                KHMS
+            </div>
+<span class="font-headline-md text-headline-md text-primary opacity-60">| Kwadaso HealthLink</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-accent-blue rounded-full transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-accent-blue rounded-full transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<main class="flex-1 relative flex items-center justify-center p-8 bg-pattern">
+<!-- Error Content Canvas -->
+<div class="max-w-xl w-full">
+<div class="bg-surface-container-lowest border border-border-subtle rounded-lg p-10 text-center relative overflow-hidden">
+<!-- Status Strip -->
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary"></div>
+<!-- Shield/Lock Icon -->
+<div class="mb-8 inline-flex items-center justify-center w-24 h-24 rounded-full bg-emergency-soft text-secondary">
+<span class="material-symbols-outlined text-6xl" style="font-variation-settings: 'FILL' 1;">
+                        shield_lock
+                    </span>
+</div>
+<!-- Text Content -->
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-4">Access Restricted</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 px-4">
+                    You do not have permission to view this section. This module is restricted to authorized personnel with elevated clinical or administrative privileges.
+                </p>
+<!-- Action Button -->
+<a class="inline-flex items-center gap-2 bg-primary text-on-primary font-bold px-8 py-4 rounded-lg hover:bg-deep-forest transition-all active:scale-95 mb-10" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Return to Dashboard
+                </a>
+<!-- Instructions Footer -->
+<div class="pt-8 border-t border-border-subtle">
+<div class="flex items-center justify-center gap-2 text-secondary mb-3">
+<span class="material-symbols-outlined text-sm">info</span>
+<p class="font-label-md text-label-md uppercase tracking-wider">Instructions</p>
+</div>
+<p class="text-on-surface-variant font-body-sm leading-relaxed">
+                        If you believe this is an error, please contact your <span class="font-semibold">IT Department</span> or the <span class="font-semibold">System Administrator</span>. 
+                        Request an adjustment to your clinical access level (Level 01 - General Staff minimum required).
+                    </p>
+</div>
+</div>
+<!-- Context Info -->
+<div class="mt-6 flex justify-between items-center px-4 text-on-surface-variant font-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>System ID: KHMS-SEC-403</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>Attempt logged: <span id="current-time">14:23:45</span></span>
+</div>
+</div>
+</div>
+</main>
+<!-- Script for dynamic time and simple interactivity -->
+<script>
+        // Set dynamic time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+            const timeEl = document.getElementById('current-time');
+            if (timeEl) timeEl.textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Subtle parallax effect on background
+        document.addEventListener('mousemove', (e) => {
+            const pattern = document.querySelector('.bg-pattern');
+            if (pattern) {
+                const moveX = (e.clientX - window.innerWidth / 2) / 50;
+                const moveY = (e.clientY - window.innerHeight / 2) / 50;
+                pattern.style.backgroundPosition = `${moveX}px ${moveY}px`;
+            }
+        });
+    </script>
+</body></html>

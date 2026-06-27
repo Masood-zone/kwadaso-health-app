@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | KHMS Kwadaso HealthLink</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f8f9ff",
+                        "secondary-fixed": "#ffdad7",
+                        "emergency-dark": "#B80021",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed": "#a5f693",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface-variant": "#40493c",
+                        "on-error": "#ffffff",
+                        "accent-blue": "#EAF3FA",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-container": "#784200",
+                        "border-subtle": "#E2E8F0",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#0b5d0b",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#8ad97a",
+                        "medical-green-soft": "#E8F5E9",
+                        "inverse-surface": "#213145",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#86d576",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#410005",
+                        "tertiary": "#572e00",
+                        "on-secondary-fixed-variant": "#930018",
+                        "outline": "#707a6b",
+                        "on-background": "#0b1c30",
+                        "on-primary-fixed-variant": "#005304",
+                        "pending-soft": "#FFF4E8",
+                        "on-primary-fixed": "#002201",
+                        "error": "#ba1a1a",
+                        "deep-forest": "#064906",
+                        "primary": "#004302",
+                        "surface-tint": "#206d1b",
+                        "surface-container-low": "#eff4ff",
+                        "secondary": "#bb0021",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "surface-dim": "#cbdbf5",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "on-secondary-container": "#fffbff",
+                        "on-tertiary-container": "#ffb168",
+                        "surface-container": "#e5eeff",
+                        "outline-variant": "#c0cab8",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-tertiary-fixed": "#2d1600",
+                        "secondary-container": "#ea002c",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#8ad97a",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "app-bg": "#F8FAFC",
+                        "emergency-soft": "#FDECEF",
+                        "surface": "#f8f9ff",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "1rem",
+                        "gutter": "1.5rem",
+                        "margin-desktop": "2rem",
+                        "topbar-height": "64px",
+                        "sidebar-width": "260px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .hero-pattern {
+            background-color: #004302;
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+        }
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<main class="min-h-screen flex flex-col md:flex-row overflow-hidden">
+<!-- Left Hero Section: Medical Imagery & Branding -->
+<section class="relative hidden md:flex md:w-1/2 lg:w-3/5 hero-pattern items-center justify-center p-12 overflow-hidden">
+<!-- Background Image with Overlay -->
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/70 to-transparent z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-resolution interior view of a modern clinical hospital hallway in Kwadaso. Soft morning light streams through glass windows, illuminating pristine white surfaces and advanced medical equipment. The atmosphere is calm, professional, and trustworthy, featuring a clean green and white color palette consistent with clinical healthcare branding. High-end architectural photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVmkcfbNdsP1URwarefNk8Uj2Gv4hhn4z4k85OG1E3LNBm6hTkhN6JBcwYCb0E8ZzJe6Dm5f7DrKTNm6gC2YHigOo_4OLaFelR1Ys5euccusml9hwfJvkwTQUyAkalfobTViqx6zXIOm9n1zGEzIMTpZ-2w5yX7Qb5qZZTCwMGYkH2g7eIJtM69CX-6QI0p-4WhbL16L3KVQOTWi7b_Vj3g195p1UtikvOVdsaHr-fdcjA7500IGlqI0CgjhxVLPt4tovidRJPk3w"/>
+</div>
+<!-- Content Overlay -->
+<div class="relative z-20 max-w-xl text-white">
+<div class="mb-12 flex flex-col items-start gap-4">
+<img alt="SDA Hospital Kwadaso Logo" class="h-24 md:h-32 drop-shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRiG07kQEy36ienkOBnqEmqInWWMeN_fj44xHNLyZDNXRjsGn2buGreBi3gUeiI75b0-tWnNewhJ11RVuz7-WOMhNEU3y85cMMogdTBBKMj_1xu2w53qYdIBp7XfEeAnnqWrvnI2ixn692N21lQTikG_hIaZBqxjpF0MNwg5UcvEqOAcOpdwUVA9AqP1W-Hbax2GIihGB76TgeC-ZlkmiSxYHoPwcX08pSe6B690HptlQZp2yuLzEeTSqYH86hUspvNihTPPf9sjE"/>
+<div class="h-1 w-24 bg-secondary-fixed rounded-full"></div>
+</div>
+<h1 class="font-display-lg text-display-lg mb-6 leading-tight">
+                    Integrated Healthcare <br/>
+<span class="text-primary-fixed">Management Excellence</span>
+</h1>
+<p class="font-body-lg text-body-lg text-primary-fixed-dim/90 mb-8 max-w-md">
+                    Providing compassionate care through advanced digital coordination. Access the KHMS Kwadaso portal to manage patient records, logistics, and clinical operations.
+                </p>
+<div class="grid grid-cols-2 gap-6">
+<div class="p-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm">
+<span class="material-symbols-outlined text-primary-fixed mb-2" style="font-variation-settings: 'FILL' 1;">security</span>
+<h3 class="font-label-md text-label-md uppercase tracking-wider mb-1">Secure Access</h3>
+<p class="text-xs text-white/70">Multi-layered clinical data protection.</p>
+</div>
+<div class="p-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm">
+<span class="material-symbols-outlined text-primary-fixed mb-2" style="font-variation-settings: 'FILL' 1;">speed</span>
+<h3 class="font-label-md text-label-md uppercase tracking-wider mb-1">High Efficiency</h3>
+<p class="text-xs text-white/70">Optimized for rapid clinical decision making.</p>
+</div>
+</div>
+</div>
+<!-- Floating Decoration -->
+<div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-primary-fixed/10 blur-[100px] rounded-full"></div>
+</section>
+<!-- Right Side: Login Card -->
+<section class="w-full md:w-1/2 lg:w-2/5 flex items-center justify-center p-6 md:p-12 lg:p-20 bg-background">
+<div class="w-full max-w-md">
+<!-- Mobile Branding -->
+<div class="md:hidden mb-10 flex flex-col items-center">
+<img alt="SDA Hospital Kwadaso Logo" class="h-16 mb-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRiG07kQEy36ienkOBnqEmqInWWMeN_fj44xHNLyZDNXRjsGn2buGreBi3gUeiI75b0-tWnNewhJ11RVuz7-WOMhNEU3y85cMMogdTBBKMj_1xu2w53qYdIBp7XfEeAnnqWrvnI2ixn692N21lQTikG_hIaZBqxjpF0MNwg5UcvEqOAcOpdwUVA9AqP1W-Hbax2GIihGB76TgeC-ZlkmiSxYHoPwcX08pSe6B690HptlQZp2yuLzEeTSqYH86hUspvNihTPPf9sjE"/>
+<h2 class="font-headline-md text-headline-md text-primary">KHMS HealthLink</h2>
+</div>
+<div class="mb-10 text-center md:text-left">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Staff Portal Login</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Please enter your credentials to access the clinical station.</p>
+</div>
+<!-- Form Section -->
+<form class="space-y-6" onsubmit="event.preventDefault()">
+<!-- Role Dropdown -->
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block uppercase tracking-wide" for="department">
+                            Department Context <span class="text-secondary">*</span>
+</label>
+<div class="relative group">
+<select class="w-full h-12 bg-surface-container-lowest border border-border-subtle rounded-lg px-4 font-body-md appearance-none focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none text-on-surface" id="department">
+<option disabled="" selected="" value="">Select your department...</option>
+<option value="clinical">Clinical Services (Doctors/Nurses)</option>
+<option value="admin">Administration &amp; Logistics</option>
+<option value="billing">Billing &amp; Finance</option>
+<option value="pharmacy">Pharmacy &amp; Laboratory</option>
+<option value="it">IT &amp; System Support</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-3 text-on-surface-variant pointer-events-none group-focus-within:rotate-180 transition-transform">expand_more</span>
+</div>
+</div>
+<!-- Email/ID Field -->
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block uppercase tracking-wide" for="staff-id">
+                            Email / Staff ID <span class="text-secondary">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3 text-on-surface-variant">person</span>
+<input class="w-full h-12 bg-surface-container-lowest border border-border-subtle rounded-lg pl-12 pr-4 font-body-md focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none" id="staff-id" placeholder="e.g. SDH-2024-001" type="text"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide" for="password">
+                                Password <span class="text-secondary">*</span>
+</label>
+<a class="text-body-sm font-label-md text-primary hover:text-deep-forest underline underline-offset-4 transition-colors" href="#">
+                                Forgot Password?
+                            </a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3 text-on-surface-variant">lock</span>
+<input class="w-full h-12 bg-surface-container-lowest border border-border-subtle rounded-lg pl-12 pr-12 font-body-md focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-3 text-on-surface-variant hover:text-primary transition-colors" onclick="togglePassword()" type="button">
+<span class="material-symbols-outlined" id="eye-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Security Notice -->
+<div class="p-4 bg-medical-green-soft border border-primary/10 rounded-lg flex gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">info</span>
+<p class="text-body-sm text-on-surface-variant">
+<strong>Notice:</strong> Authorized staff access only. Every interaction is cryptographically logged and monitored for clinical compliance.
+                        </p>
+</div>
+<!-- Submit Button -->
+<button class="w-full h-14 bg-primary text-white font-label-md text-lg rounded-lg shadow-lg shadow-primary/20 hover:bg-deep-forest hover:translate-y-[-2px] active:translate-y-[1px] transition-all flex items-center justify-center gap-2 group" type="submit">
+                        Sign In to Station
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">login</span>
+</button>
+</form>
+<!-- Footer Links -->
+<div class="mt-12 pt-8 border-t border-border-subtle flex flex-col items-center gap-4 text-center">
+<div class="flex gap-4">
+<a class="text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Support Center</a>
+<span class="text-border-subtle">|</span>
+<a class="text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+</div>
+<p class="text-[10px] text-on-surface-variant/60 uppercase tracking-[0.2em] font-medium">
+                        © 2024 SDA Hospital Kwadaso • HealthLink v4.2.1
+                    </p>
+</div>
+</div>
+</section>
+</main>
+<script>
+        function togglePassword() {
+            const pwd = document.getElementById('password');
+            const icon = document.getElementById('eye-icon');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                pwd.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+
+        // Add subtle form interactions
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.closest('.space-y-2').querySelector('label').classList.add('text-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.closest('.space-y-2').querySelector('label').classList.remove('text-primary');
+            });
+        });
+    </script>
+</body></html>
