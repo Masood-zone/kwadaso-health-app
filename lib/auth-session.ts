@@ -64,7 +64,7 @@ export async function redirectToStaffDashboard() {
   const staff = await getCurrentStaff()
 
   if (!staff) {
-    redirect("/(auth)/login")
+    redirect("/login")
   }
 
   if (staff.status !== "ACTIVE") {
