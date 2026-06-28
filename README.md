@@ -62,11 +62,10 @@ Patient arrives
 | Module | Description | Status |
 |---|---|---|
 | **Authentication** | Email/password login, session management, role-based access control | Implemented |
-| **Super Admin Dashboard** | Staff CRUD, role & permission management, department management, hospital settings, audit logs | Implemented |
-| **Hospital Admin Dashboard** | Department workload overview, patient flow metrics, staff activity feed | Implemented |
-| **Nurse/Triage Dashboard** | Triage queue, vital signs capture, emergency load indicator | Implemented |
-| **Patient Registration** | Demographics, NHIS number, national ID, blood group, medical history | Schema ready |
-| **Appointment Scheduling** | Book, reschedule, check-in, daily clinic lists, calendar view | Schema ready |
+| **Super Admin** | Staff CRUD, role & permission management, department management, hospital settings, audit logs | Implemented |
+| **Hospital Admin** | Patient flow, departments, appointments, queue, billing, staff, oversight, notifications, audit logs, settings, reports | Implemented |
+| **Records Officer** | Patient registration, search, profile, visit history, timeline, documents, appointments, check-in, queue, duplicate detection, print/export | Implemented |
+| **Nurse/Triage** | Triage queue, vital signs capture & history, emergency flagging, immunizations, queue board, notifications | Implemented |
 | **Clinical Encounters** | SOAP notes, diagnoses, treatment plans | Schema ready |
 | **Laboratory (LIMS)** | Test requests, sample tracking, result entry, EHR linkage | Schema ready |
 | **Pharmacy** | Prescriptions, dispensing, medication stock management, stock movements | Schema ready |
@@ -105,44 +104,57 @@ kwadaso-health-app/
 ├── app/
 │   ├── api/                         # API route handlers
 │   │   ├── auth/[...all]/           # Better Auth endpoints
-│   │   ├── hospital-admin/          # Hospital admin API routes
-│   │   ├── nurse/                   # Nurse/triage API routes
-│   │   └── super-admin/             # Super admin API routes
+│   │   ├── hospital-admin/          # Hospital admin API (dashboard, CRUD, queue, etc.)
+│   │   ├── nurse/                   # Nurse/triage API (queue, vitals, immunizations)
+│   │   ├── records-officer/         # Records officer API (patients, appointments, queue)
+│   │   └── super-admin/             # Super admin API (staff, roles, departments)
 │   ├── login/                       # Login page
 │   ├── super-admin/                 # Super admin pages
 │   ├── hospital-admin/              # Hospital admin pages
 │   ├── nurse/                       # Nurse/triage pages
+│   ├── records-officer/             # Records officer pages
 │   ├── unauthorized/                # Unauthorized access page
 │   └── session-expired/             # Session expiry page
 ├── assets/
-│   └── designs/                     # UI mockups (HTML + PNG) for every planned screen
+│   └── designs/                     # UI mockups (HTML + PNG) by role
 ├── components/
 │   ├── auth/                        # Login form, auth providers
 │   ├── common/                      # Shared layout components
-│   ├── dashboard/                   # Dashboard layout wrapper
+│   ├── dashboard/                   # Dashboard shell with sidebar nav
 │   ├── hospital-admin/              # Hospital admin UI components
 │   ├── nurse/                       # Nurse/triage UI components
+│   ├── records-officer/             # Records officer UI components
 │   ├── providers/                   # React Query, theme, session providers
 │   ├── super-admin/                 # Super admin UI components
-│   └── ui/                          # shadcn/ui primitives (button, card, table, etc.)
+│   └── ui/                          # shadcn/ui primitives
 ├── lib/
 │   ├── auth.ts                      # Better Auth server instance
-│   ├── auth-client.ts               # Better Auth React client (signIn, signOut, useSession)
-│   ├── auth-session.ts              # Session guards: requireStaffPage, requireRoleApi, etc.
+│   ├── auth-client.ts               # Better Auth React client
+│   ├── auth-session.ts              # Session guards: requireStaffPage, requireRoleApi
 │   ├── axios.ts                     # Axios instance with 401 interceptor
+│   ├── hospital-admin.ts            # Hospital admin business logic
+│   ├── nurse.ts                     # Nurse business logic
+│   ├── records-officer.ts           # Records officer business logic
+│   ├── super-admin.ts               # Super admin business logic
 │   ├── prisma.ts                    # Prisma client singleton
+│   ├── role-routes.ts               # Role → dashboard route mapping
 │   └── utils.ts                     # Utility functions (cn, etc.)
 ├── prisma/
 │   ├── schema.prisma                # Database schema (40+ models)
-│   ├── seed-admins.ts               # Seed script (facility, departments, staff, demo data)
+│   ├── seed-admins.ts               # Seed script (facility, staff, demo data)
 │   └── migrations/                  # Migration history
 ├── services/
 │   ├── hospital-admin/              # TanStack Query hooks for hospital admin
 │   ├── nurse/                       # TanStack Query hooks for nurse/triage
+│   ├── records-officer/             # TanStack Query hooks for records officer
 │   └── super-admin/                 # TanStack Query hooks for super admin
 ├── types/
 │   ├── api.ts                       # ApiResponse<T>, PaginatedResponse<T>
-│   └── [role].ts                    # Role-specific data types
+│   ├── dashboard.ts                 # Shared dashboard data types
+│   ├── hospital-admin.ts            # Hospital admin types
+│   ├── nurse.ts                     # Nurse types
+│   ├── records-officer.ts           # Records officer types
+│   └── super-admin.ts              # Super admin types
 └── public/                          # Static assets
 ```
 
@@ -263,6 +275,7 @@ The app will be available at [http://localhost:3000](http://localhost:3000).
 |---|---|---|
 | Super Admin | `superadmin@kwadaso.health` | `ChangeMe123!` |
 | Hospital Admin | `hospitaladmin@kwadaso.health` | `ChangeMe123!` |
+| Records Officer | `recordofficer@kwadaso.health` | `ChangeMe123!` |
 | Nurse | `nurse@kwadaso.health` | `ChangeMe123!` |
 
 > **Important**: Change these passwords immediately in production.
@@ -315,7 +328,7 @@ KHIP uses a Material Design 3 inspired token system with a custom **KHMS** layer
 
 1. **Thin pages, rich components**: Server pages handle auth guards only. All UI logic lives in domain components under `components/`.
 2. **Service layer isolation**: All client-side data fetching goes through TanStack Query hooks in `services/`. Components never call API routes directly.
-3. **Role-based organization**: Components, services, and types are organized by role (`super-admin/`, `nurse/`, `hospital-admin/`) for clear boundaries.
+3. **Role-based organization**: Components, services, and types are organized by role (`super-admin/`, `hospital-admin/`, `records-officer/`, `nurse/`) for clear boundaries.
 4. **Shared primitives**: `components/ui/` contains reusable shadcn/ui components. `components/common/` holds shared layout pieces.
 
 ### Adding a New Role Dashboard
@@ -326,7 +339,7 @@ KHIP uses a Material Design 3 inspired token system with a custom **KHMS** layer
 4. Create service hooks under `services/[role]/`
 5. Create API routes under `app/api/[role]/`
 6. Add types under `types/[role].ts`
-7. Update the role-route mapping in `lib/auth-session.ts`
+7. Update the role-route mapping in `lib/role-routes.ts`
 
 ---
 
