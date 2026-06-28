@@ -1,3 +1,5 @@
+import type { SuperAdminManagementData } from "@/types/super-admin"
+
 export type DashboardMetric = {
   label: string
   value: string
@@ -27,6 +29,7 @@ export type SuperAdminDashboardData = {
     type: string
     staffCount: number
   }[]
+  management: SuperAdminManagementData
 }
 
 export type HospitalAdminDashboardData = {

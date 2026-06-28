@@ -2,22 +2,44 @@ import { NextRequest } from "next/server"
 
 import { requireRoleApi } from "@/lib/auth-session"
 import { prisma } from "@/lib/prisma"
+import {
+  auditActions,
+  departmentTypes,
+  ensureSystemRolesAndPermissions,
+  facilityTypes,
+  getPrimaryFacility,
+  getSettingsData,
+  serializeDepartment,
+  serializePermission,
+  serializeRole,
+  serializeStaff,
+  staffRoles,
+  userStatuses,
+} from "@/lib/super-admin"
 import type { ApiResponse } from "@/types"
 import type { SuperAdminDashboardData } from "@/types/dashboard"
+import type { SuperAdminAuditLogItem } from "@/types/super-admin"
 
 export async function GET(request: NextRequest) {
   const { response } = await requireRoleApi(request, ["SUPER_ADMIN"])
   if (response) return response
 
   try {
+    await ensureSystemRolesAndPermissions()
+
     const [
       staffCount,
       activeDepartments,
       activePatients,
       auditLogs,
       roleOverview,
-      departments,
       facility,
+      staff,
+      departments,
+      allRoles,
+      permissions,
+      settings,
+      auditTotal,
     ] = await Promise.all([
       prisma.user.count({ where: { status: "ACTIVE" } }),
       prisma.department.count({ where: { isActive: true } }),
@@ -38,22 +60,40 @@ export async function GET(request: NextRequest) {
           },
         },
       }),
+      getPrimaryFacility(),
+      prisma.user.findMany({
+        take: 50,
+        orderBy: { createdAt: "desc" },
+        include: { department: true, facility: true },
+      }),
       prisma.department.findMany({
-        where: { isActive: true },
+        orderBy: { name: "asc" },
+        include: { _count: { select: { staff: true } } },
+      }),
+      prisma.role.findMany({
         orderBy: { name: "asc" },
         include: {
-          _count: {
-            select: {
-              staff: true,
-            },
-          },
+          permissions: { include: { permission: true } },
+          _count: { select: { users: true } },
         },
       }),
-      prisma.facility.findFirst({
-        where: { type: "HOSPITAL", isActive: true },
-        orderBy: { createdAt: "asc" },
-      }),
+      prisma.permission.findMany({ orderBy: [{ module: "asc" }, { name: "asc" }] }),
+      getSettingsData(),
+      prisma.auditLog.count(),
     ])
+
+    const serializedAuditLogs: SuperAdminAuditLogItem[] = auditLogs.map((log) => ({
+      id: log.id,
+      actorName: log.actor?.name ?? "System",
+      actorEmail: log.actor?.email ?? null,
+      action: log.action,
+      entityType: log.entityType,
+      entityId: log.entityId,
+      description: log.description,
+      ipAddress: log.ipAddress,
+      userAgent: log.userAgent,
+      createdAt: log.createdAt.toISOString(),
+    }))
 
     const data: SuperAdminDashboardData = {
       facilityName: facility?.name ?? "SDA Hospital Kwadaso",
@@ -102,6 +142,27 @@ export async function GET(request: NextRequest) {
         type: department.type,
         staffCount: department._count.staff,
       })),
+      management: {
+        lookups: {
+          roles: staffRoles,
+          statuses: userStatuses,
+          departmentTypes,
+          facilityTypes,
+          auditActions,
+        },
+        staff: staff.map(serializeStaff),
+        departments: departments.map(serializeDepartment),
+        permissions: permissions.map(serializePermission),
+        roles: allRoles.map(serializeRole),
+        settings,
+        auditLogs: serializedAuditLogs,
+        auditPagination: {
+          page: 1,
+          pageSize: 5,
+          total: auditTotal,
+          totalPages: Math.max(Math.ceil(auditTotal / 5), 1),
+        },
+      },
     }
 
     return Response.json({
