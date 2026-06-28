@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Public Queue Display | SDA Hospital Kwadaso</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#fffbff",
+                    "on-background": "#0b1c30",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-low": "#eff4ff",
+                    "emergency-soft": "#FDECEF",
+                    "surface-bright": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "emergency-dark": "#B80021",
+                    "inverse-surface": "#213145",
+                    "tertiary-container": "#784200",
+                    "tertiary": "#572e00",
+                    "on-primary-container": "#86d576",
+                    "error": "#ba1a1a",
+                    "surface-container": "#e5eeff",
+                    "primary-fixed": "#a5f693",
+                    "surface": "#f8f9ff",
+                    "accent-blue": "#EAF3FA",
+                    "surface-variant": "#d3e4fe",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#8ad97a",
+                    "on-surface-variant": "#40493c",
+                    "inverse-on-surface": "#eaf1ff",
+                    "primary-fixed-dim": "#8ad97a",
+                    "primary": "#004302",
+                    "on-primary": "#ffffff",
+                    "primary-container": "#0b5d0b",
+                    "app-bg": "#F8FAFC",
+                    "surface-container-lowest": "#ffffff",
+                    "border-subtle": "#E2E8F0",
+                    "outline": "#707a6b",
+                    "background": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#c0cab8",
+                    "on-surface": "#0b1c30",
+                    "secondary": "#bb0021",
+                    "pending-soft": "#FFF4E8",
+                    "deep-forest": "#064906",
+                    "medical-green-soft": "#E8F5E9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "topbar-height": "64px",
+                    "margin-desktop": "2rem",
+                    "gutter": "1.5rem",
+                    "margin-mobile": "1rem",
+                    "sidebar-width": "260px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Manrope"],
+                    "display-lg": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+      }
+      .calling-pulse {
+        animation: pulse-bg 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      @keyframes pulse-bg {
+        0%, 100% { opacity: 1; }
+        50% { opacity: .8; }
+      }
+      .marquee-container {
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .marquee-content {
+        display: inline-block;
+        animation: marquee 30s linear infinite;
+      }
+      @keyframes marquee {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+      }
+    </style>
+</head>
+<body class="bg-app-bg text-on-background font-body-md overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation Bar (Shared Component Style Implementation) -->
+<header class="bg-surface-container-lowest flex justify-between items-center h-topbar-height px-margin-desktop w-full z-40 border-b border-border-subtle shrink-0">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-3xl" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg font-black text-primary leading-none">SDA Hospital Kwadaso</h1>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Public Display Board • Waiting Area A</p>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<div class="font-display-lg text-display-lg text-primary" id="live-clock">14:30</div>
+<div class="font-label-md text-on-surface-variant uppercase" id="live-date">Monday, 23 October</div>
+</div>
+<div class="h-12 w-px bg-border-subtle"></div>
+<div class="flex flex-col items-end">
+<span class="text-label-md text-on-surface-variant">General Status</span>
+<span class="flex items-center gap-2 text-primary font-bold">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                    SYSTEM ACTIVE
+                </span>
+</div>
+</div>
+</header>
+<main class="flex-1 flex overflow-hidden p-6 gap-6 bg-surface-container-low">
+<!-- Left Section: Now Calling (Large visibility) -->
+<div class="w-2/3 flex flex-col gap-6">
+<div class="flex-1 grid grid-cols-2 gap-6">
+<!-- Main Calling Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-subtle overflow-hidden flex flex-col shadow-sm">
+<div class="bg-primary px-8 py-4 flex justify-between items-center">
+<span class="text-white font-headline-md uppercase tracking-widest">Now Calling</span>
+<span class="material-symbols-outlined text-white animate-bounce">campaign</span>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center p-8 gap-4">
+<span class="text-[140px] leading-none font-black text-primary tracking-tighter">P-402</span>
+<div class="h-px w-full bg-border-subtle"></div>
+<div class="text-center">
+<p class="text-on-surface-variant font-label-md uppercase mb-2">Proceed to</p>
+<h2 class="text-headline-lg font-display-lg text-on-background">Consultation Room 04</h2>
+</div>
+</div>
+<div class="bg-medical-green-soft px-8 py-4 text-center border-t border-border-subtle">
+<p class="text-primary font-bold font-body-md italic uppercase">General Practice (GP)</p>
+</div>
+</div>
+<!-- Main Calling Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-subtle overflow-hidden flex flex-col shadow-sm">
+<div class="bg-secondary px-8 py-4 flex justify-between items-center">
+<span class="text-white font-headline-md uppercase tracking-widest">Now Calling</span>
+<span class="material-symbols-outlined text-white animate-bounce">campaign</span>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center p-8 gap-4">
+<span class="text-[140px] leading-none font-black text-secondary tracking-tighter">S-118</span>
+<div class="h-px w-full bg-border-subtle"></div>
+<div class="text-center">
+<p class="text-on-surface-variant font-label-md uppercase mb-2">Proceed to</p>
+<h2 class="text-headline-lg font-display-lg text-on-background">Specialist Clinic 02</h2>
+</div>
+</div>
+<div class="bg-emergency-soft px-8 py-4 text-center border-t border-border-subtle">
+<p class="text-secondary font-bold font-body-md italic uppercase">Dermatology Dept</p>
+</div>
+</div>
+<!-- Small Secondary Calling Cards (Grid) -->
+<div class="col-span-2 grid grid-cols-3 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-border-subtle flex flex-col items-center shadow-sm">
+<p class="text-on-surface-variant font-label-md uppercase">Pharmacy</p>
+<span class="text-headline-lg font-black text-primary my-2">M-092</span>
+<p class="text-body-md font-bold text-on-surface">Window 01</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-border-subtle flex flex-col items-center shadow-sm">
+<p class="text-on-surface-variant font-label-md uppercase">Lab Results</p>
+<span class="text-headline-lg font-black text-primary my-2">L-221</span>
+<p class="text-body-md font-bold text-on-surface">Reception</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-border-subtle flex flex-col items-center shadow-sm">
+<p class="text-on-surface-variant font-label-md uppercase">Billing</p>
+<span class="text-headline-lg font-black text-primary my-2">C-501</span>
+<p class="text-body-md font-bold text-on-surface">Counter 03</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Section: Next in Queue & Stats -->
+<div class="w-1/3 flex flex-col gap-6">
+<!-- Statistics Card -->
+<div class="bg-deep-forest p-6 rounded-xl text-white flex flex-col justify-between h-48 relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="font-label-md uppercase tracking-widest opacity-80 mb-1">Avg. Waiting Time</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-display-lg font-bold">18</span>
+<span class="text-headline-md">Minutes</span>
+</div>
+</div>
+<div class="relative z-10 flex justify-between items-end">
+<div>
+<p class="text-body-sm opacity-80">Patients in Queue</p>
+<p class="text-headline-md font-bold">42 Total</p>
+</div>
+<div class="flex items-center gap-1 bg-white/10 px-3 py-1 rounded-full text-body-sm">
+<span class="material-symbols-outlined text-[16px]">trending_down</span>
+                        Optimized
+                    </div>
+</div>
+<!-- Abstract BG decoration -->
+<div class="absolute -right-12 -bottom-12 w-48 h-48 bg-primary-container rounded-full opacity-20 blur-3xl"></div>
+</div>
+<!-- Next in Queue List -->
+<div class="flex-1 bg-surface-container-lowest rounded-xl border border-border-subtle flex flex-col shadow-sm">
+<div class="p-6 border-b border-border-subtle flex justify-between items-center bg-accent-blue/30">
+<h3 class="font-headline-md text-primary">Up Next</h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-medical-green-soft text-primary text-label-md rounded-full font-bold">GENERAL</span>
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant text-label-md rounded-full font-bold">SPECIAL</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-2">
+<table class="w-full">
+<thead class="sticky top-0 bg-surface-container-lowest">
+<tr class="text-left text-on-surface-variant text-label-md uppercase">
+<th class="p-4 font-normal">Ticket</th>
+<th class="p-4 font-normal">Department</th>
+<th class="p-4 font-normal text-right">Est. Time</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="p-4 font-bold text-headline-md text-on-background">P-403</td>
+<td class="p-4">
+<span class="text-body-md block">GP Consultation</span>
+<span class="text-body-sm text-on-surface-variant">Room 04</span>
+</td>
+<td class="p-4 text-right">
+<span class="text-pending-soft bg-tertiary-container/10 px-2 py-1 rounded text-body-sm font-bold text-tertiary">~ 4 min</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="p-4 font-bold text-headline-md text-on-background">S-119</td>
+<td class="p-4">
+<span class="text-body-md block">Dermatology</span>
+<span class="text-body-sm text-on-surface-variant">Specialist 02</span>
+</td>
+<td class="p-4 text-right">
+<span class="text-pending-soft bg-tertiary-container/10 px-2 py-1 rounded text-body-sm font-bold text-tertiary">~ 7 min</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="p-4 font-bold text-headline-md text-on-background">P-404</td>
+<td class="p-4">
+<span class="text-body-md block">GP Consultation</span>
+<span class="text-body-sm text-on-surface-variant">Room 01</span>
+</td>
+<td class="p-4 text-right">
+<span class="text-pending-soft bg-tertiary-container/10 px-2 py-1 rounded text-body-sm font-bold text-tertiary">~ 12 min</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="p-4 font-bold text-headline-md text-on-background">M-093</td>
+<td class="p-4">
+<span class="text-body-md block">Pharmacy</span>
+<span class="text-body-sm text-on-surface-variant">Pick-up</span>
+</td>
+<td class="p-4 text-right">
+<span class="text-pending-soft bg-tertiary-container/10 px-2 py-1 rounded text-body-sm font-bold text-tertiary">~ 15 min</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="p-4 font-bold text-headline-md text-on-background">L-222</td>
+<td class="p-4">
+<span class="text-body-md block">Laboratories</span>
+<span class="text-body-sm text-on-surface-variant">Vitals Check</span>
+</td>
+<td class="p-4 text-right">
+<span class="text-pending-soft bg-tertiary-container/10 px-2 py-1 rounded text-body-sm font-bold text-tertiary">~ 22 min</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-6 bg-accent-blue border-t border-border-subtle flex flex-col items-center gap-3">
+<p class="text-body-sm text-on-surface-variant text-center font-medium">Please have your ticket ready. You will hear an audio announcement when your number is called.</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">landscape</span>
+<span class="text-label-md text-primary font-bold uppercase">Priority Assistance Available</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Marquee Footer for announcements -->
+<footer class="h-14 bg-primary text-white flex items-center overflow-hidden marquee-container shrink-0">
+<div class="marquee-content px-8 flex items-center gap-12 font-bold text-headline-md">
+<span>HEALTH ALERT: PLEASE SANITIZE YOUR HANDS REGULARLY</span>
+<span class="w-2 h-2 rounded-full bg-white"></span>
+<span>BLOOD DONATION EXERCISE SCHEDULED FOR THIS FRIDAY AT THE MAIN HALL</span>
+<span class="w-2 h-2 rounded-full bg-white"></span>
+<span>VISITING HOURS: 6:00 AM - 8:00 AM &amp; 4:00 PM - 6:00 PM DAILY</span>
+<span class="w-2 h-2 rounded-full bg-white"></span>
+<span>THANK YOU FOR CHOOSING SDA HOSPITAL KWADASO - YOUR HEALTH, OUR CONCERN</span>
+</div>
+</footer>
+<script>
+        // Update Live Clock and Date
+        function updateDateTime() {
+            const now = new Date();
+            
+            // Time
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('live-clock').textContent = `${hours}:${minutes}`;
+            
+            // Date
+            const options = { weekday: 'long', day: 'numeric', month: 'long' };
+            document.getElementById('live-date').textContent = now.toLocaleDateString('en-US', options).toUpperCase();
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        // Simulate "Now Calling" UI Updates periodically
+        const callingCodes = ['P-402', 'S-118', 'P-405', 'M-094', 'L-223'];
+        let currentIndex = 0;
+
+        function simulateCallUpdate() {
+            // For visual interest only - in reality would hook to a WebSocket
+            const card = document.querySelector('.bg-primary.px-8.py-4').parentElement;
+            card.classList.add('calling-pulse');
+            setTimeout(() => card.classList.remove('calling-pulse'), 3000);
+        }
+        
+        // Random visual notification simulation
+        setInterval(simulateCallUpdate, 8000);
+    </script>
+</body></html>

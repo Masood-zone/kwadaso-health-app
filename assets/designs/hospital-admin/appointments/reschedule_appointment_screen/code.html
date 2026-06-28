@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reschedule Appointment | SDA Hospital Kwadaso</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#fffbff",
+                        "on-background": "#0b1c30",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "emergency-soft": "#FDECEF",
+                        "surface-bright": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "emergency-dark": "#B80021",
+                        "inverse-surface": "#213145",
+                        "tertiary-container": "#784200",
+                        "tertiary": "#572e00",
+                        "on-primary-container": "#86d576",
+                        "error": "#ba1a1a",
+                        "surface-container": "#e5eeff",
+                        "primary-fixed": "#a5f693",
+                        "surface": "#f8f9ff",
+                        "accent-blue": "#EAF3FA",
+                        "surface-variant": "#d3e4fe",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#8ad97a",
+                        "on-surface-variant": "#40493c",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed-dim": "#8ad97a",
+                        "primary": "#004302",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "primary-container": "#0b5d0b",
+                        "on-secondary-fixed-variant": "#930018",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "app-bg": "#F8FAFC",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#2d1600",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "secondary-fixed": "#ffdad7",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#ffdcc0",
+                        "border-subtle": "#E2E8F0",
+                        "outline": "#707a6b",
+                        "background": "#f8f9ff",
+                        "surface-container-high": "#dce9ff",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c0cab8",
+                        "on-primary-fixed": "#002201",
+                        "secondary-container": "#ea002c",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#410005",
+                        "on-primary-fixed-variant": "#005304",
+                        "on-tertiary-container": "#ffb168",
+                        "surface-dim": "#cbdbf5",
+                        "secondary": "#bb0021",
+                        "pending-soft": "#FFF4E8",
+                        "surface-tint": "#206d1b",
+                        "on-secondary": "#ffffff",
+                        "deep-forest": "#064906",
+                        "medical-green-soft": "#E8F5E9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "topbar-height": "64px",
+                        "margin-desktop": "2rem",
+                        "gutter": "1.5rem",
+                        "margin-mobile": "1rem",
+                        "sidebar-width": "260px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Manrope"],
+                        "display-lg": ["Manrope"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "table-data": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #F8FAFC;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #004302;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen text-on-background font-body-md overflow-x-hidden">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-surface-container-lowest border-r border-border-subtle flex flex-col py-6 space-y-2 z-50 hidden md:flex">
+<div class="px-6 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-deep-forest">SDA Kwadaso</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Clinical Portal</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined mr-3">queue</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Queue Monitor</span>
+</a>
+<a class="flex items-center px-6 py-3 bg-primary text-on-primary border-l-4 border-secondary-container transition-all" href="#">
+<span class="material-symbols-outlined mr-3">calendar_today</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Appointments</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined mr-3">medical_services</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Clinics</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined mr-3">person_search</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Patient Records</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined mr-3">group</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Staff Directory</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Reports</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full bg-primary text-on-primary py-3 rounded flex items-center justify-center font-label-md hover:bg-primary-container transition-colors active:scale-95">
+<span class="material-symbols-outlined mr-2">add</span>
+                New Appointment
+            </button>
+<button class="w-full mt-4 flex items-center px-0 py-3 text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined mr-3">logout</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Sign Out</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-sidebar-width flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center h-topbar-height px-margin-desktop w-full bg-surface-container-lowest border-b border-border-subtle z-40 sticky top-0">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer md:hidden">menu</span>
+<h2 class="font-headline-lg text-headline-lg font-black text-primary">Reschedule Appointment</h2>
+</div>
+<div class="flex items-center space-x-6">
+<div class="hidden lg:flex items-center space-x-4">
+<span class="font-body-md text-on-surface-variant hover:text-primary cursor-pointer transition-colors">Dashboard</span>
+<span class="font-body-md text-on-surface-variant hover:text-primary cursor-pointer transition-colors">Patient Care</span>
+<span class="font-body-md text-primary font-bold border-b-2 border-primary cursor-pointer">Schedule</span>
+</div>
+<div class="flex items-center space-x-3 border-l border-border-subtle pl-6">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded transition-colors">settings</button>
+<img class="w-8 h-8 rounded-full border border-border-subtle object-cover" data-alt="A professional headshot of a middle-aged male doctor in a crisp white medical coat with a stethoscope around his neck. He is standing against a clean, clinical background with soft, diffused lighting that suggests a high-end medical facility. The image has a calm, authoritative, and trustworthy tone, perfectly matching the SDA Hospital's corporate medical aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1UtxTRndX5UStn_m_s7YQq-CafjdEVQmfKGmfefRF0mdCoeqVgKFfCaBwkMiEdfNIWTlaRu_Q7nUEFeVfG65KsqSdeDbhlmB5uhnizLDuTvfXhf_YbuxkMGyZTljgt2U6vpmRxA7J6okurh2w1UV73RTVHYRef86nUpQVVcrGXeKleQ79RD57eqmMoH_jM4O1UCLN7rGzKq5G4-tOizhZq1YNrfiB1OkgfxR_Va29hnkqcQWifkDft1neQRQ0ngrp_5yvZtWMA1Y"/>
+</div>
+</div>
+</header>
+<!-- Reschedule Content -->
+<section class="p-8 max-w-5xl mx-auto w-full">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left: Current Details & Flow Info -->
+<div class="lg:col-span-5 space-y-6">
+<div class="bg-white border border-border-subtle rounded p-6">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-md text-label-md text-primary uppercase tracking-widest">Current Booking</span>
+<span class="bg-pending-soft text-tertiary px-2 py-1 rounded text-xs font-bold">CONFIRMED</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-background mb-4">Kofi Mensah Boateng</h3>
+<div class="space-y-4">
+<div class="flex items-start">
+<span class="material-symbols-outlined text-on-surface-variant mr-3">calendar_today</span>
+<div>
+<p class="font-label-md text-on-surface-variant">Date &amp; Time</p>
+<p class="font-body-md font-semibold">Tuesday, Oct 24, 2023 at 09:30 AM</p>
+</div>
+</div>
+<div class="flex items-start">
+<span class="material-symbols-outlined text-on-surface-variant mr-3">medical_services</span>
+<div>
+<p class="font-label-md text-on-surface-variant">Specialty</p>
+<p class="font-body-md font-semibold">General Cardiology</p>
+</div>
+</div>
+<div class="flex items-start">
+<span class="material-symbols-outlined text-on-surface-variant mr-3">person</span>
+<div>
+<p class="font-label-md text-on-surface-variant">Physician</p>
+<p class="font-body-md font-semibold">Dr. Sarah Owusu</p>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-border-subtle">
+<p class="text-body-sm text-on-surface-variant">Patient ID: <span class="font-mono">SDA-KW-10922</span></p>
+</div>
+</div>
+<!-- Guidelines -->
+<div class="bg-accent-blue rounded p-6 border border-blue-100">
+<h4 class="font-headline-md text-on-background mb-2 flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">info</span>
+                            Rescheduling Policy
+                        </h4>
+<ul class="space-y-2 text-body-sm text-on-surface-variant list-disc pl-5">
+<li>Rescheduling within 24 hours of appointment may incur a convenience fee.</li>
+<li>The original slot will be released immediately upon confirmation of the new time.</li>
+<li>Critical care appointments require telephone verification for changes.</li>
+</ul>
+</div>
+</div>
+<!-- Right: Selection Interface -->
+<div class="lg:col-span-7 bg-white border border-border-subtle rounded p-8">
+<div class="mb-8">
+<label class="block font-label-md text-on-surface-variant mb-4 uppercase">1. Select New Date</label>
+<div class="grid grid-cols-7 gap-2">
+<!-- Simple Calendar Mockup -->
+<div class="text-center font-label-md text-on-surface-variant py-2">S</div>
+<div class="text-center font-label-md text-on-surface-variant py-2">M</div>
+<div class="text-center font-label-md text-on-surface-variant py-2">T</div>
+<div class="text-center font-label-md text-on-surface-variant py-2">W</div>
+<div class="text-center font-label-md text-on-surface-variant py-2">T</div>
+<div class="text-center font-label-md text-on-surface-variant py-2">F</div>
+<div class="text-center font-label-md text-on-surface-variant py-2">S</div>
+<button class="h-10 flex items-center justify-center text-body-sm text-outline-variant cursor-not-allowed">25</button>
+<button class="h-10 flex items-center justify-center text-body-sm text-outline-variant cursor-not-allowed">26</button>
+<button class="h-10 flex items-center justify-center text-body-sm hover:bg-surface-container transition-colors rounded">27</button>
+<button class="h-10 flex items-center justify-center text-body-sm hover:bg-surface-container transition-colors rounded">28</button>
+<button class="h-10 flex items-center justify-center text-body-sm bg-primary text-on-primary font-bold rounded">29</button>
+<button class="h-10 flex items-center justify-center text-body-sm hover:bg-surface-container transition-colors rounded">30</button>
+<button class="h-10 flex items-center justify-center text-body-sm hover:bg-surface-container transition-colors rounded">31</button>
+</div>
+<p class="mt-4 text-body-sm text-primary font-semibold flex items-center">
+<span class="material-symbols-outlined text-sm mr-1">check_circle</span>
+                            Selected: October 29th, 2023
+                        </p>
+</div>
+<div class="mb-8">
+<label class="block font-label-md text-on-surface-variant mb-4 uppercase">2. Select New Time</label>
+<div class="grid grid-cols-3 sm:grid-cols-4 gap-3">
+<button class="py-2 px-3 border border-border-subtle rounded text-body-sm hover:border-primary transition-colors">08:00 AM</button>
+<button class="py-2 px-3 border-2 border-primary bg-medical-green-soft rounded text-body-sm font-bold text-primary">09:00 AM</button>
+<button class="py-2 px-3 border border-border-subtle rounded text-body-sm hover:border-primary transition-colors">10:30 AM</button>
+<button class="py-2 px-3 border border-border-subtle bg-surface-container-low text-outline-variant rounded text-body-sm line-through cursor-not-allowed">11:00 AM</button>
+<button class="py-2 px-3 border border-border-subtle rounded text-body-sm hover:border-primary transition-colors">01:30 PM</button>
+<button class="py-2 px-3 border border-border-subtle rounded text-body-sm hover:border-primary transition-colors">02:00 PM</button>
+<button class="py-2 px-3 border border-border-subtle rounded text-body-sm hover:border-primary transition-colors">03:30 PM</button>
+<button class="py-2 px-3 border border-border-subtle rounded text-body-sm hover:border-primary transition-colors">04:00 PM</button>
+</div>
+</div>
+<div class="mb-8">
+<label class="block font-label-md text-on-surface-variant mb-2 uppercase">3. Reason for Change <span class="text-secondary">*</span></label>
+<textarea class="w-full border border-border-subtle p-4 text-body-md focus:ring-2 focus:ring-primary focus:border-transparent outline-none rounded transition-shadow" placeholder="Please explain why you need to reschedule this appointment..." rows="4"></textarea>
+<p class="text-[10px] text-on-surface-variant mt-2 italic">Minimum 20 characters required for clinical audit trails.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-border-subtle">
+<button class="flex-1 bg-primary text-on-primary py-4 rounded font-bold hover:bg-primary-container active:scale-[0.98] transition-all flex items-center justify-center">
+<span class="material-symbols-outlined mr-2">update</span>
+                            Update Appointment
+                        </button>
+<button class="px-8 py-4 border border-secondary text-secondary rounded font-bold hover:bg-emergency-soft transition-colors active:scale-[0.98]">
+                            Cancel
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Availability Status Bar -->
+<div class="fixed bottom-0 right-0 p-4 w-full md:w-auto z-50">
+<div class="bg-surface-container-lowest border border-border-subtle shadow-lg p-4 rounded-lg flex items-center space-x-4 animate-bounce-subtle">
+<div class="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
+<p class="text-body-sm font-semibold">Checking clinician availability in real-time...</p>
+<button class="material-symbols-outlined text-on-surface-variant text-sm hover:text-primary">close</button>
+</div>
+</div>
+</main>
+<script>
+        // Simple Micro-interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.classList.contains('cursor-not-allowed')) return;
+                
+                // Toggle active states for time slots
+                if (this.parentElement.classList.contains('grid-cols-3')) {
+                    document.querySelectorAll('.grid-cols-3 button, .grid-cols-4 button').forEach(b => {
+                        b.classList.remove('border-2', 'border-primary', 'bg-medical-green-soft', 'font-bold', 'text-primary');
+                        b.classList.add('border-border-subtle');
+                    });
+                    this.classList.add('border-2', 'border-primary', 'bg-medical-green-soft', 'font-bold', 'text-primary');
+                    this.classList.remove('border-border-subtle');
+                }
+            });
+        });
+
+        // Simulating loading states
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const toast = document.querySelector('.animate-bounce-subtle');
+                if(toast) {
+                    toast.innerHTML = `
+                        <span class="material-symbols-outlined text-primary">check_circle</span>
+                        <p class="text-body-sm font-semibold">Dr. Owusu is available for the selected slot.</p>
+                        <button onclick="this.parentElement.remove()" class="material-symbols-outlined text-on-surface-variant text-sm ml-2">close</button>
+                    `;
+                    toast.classList.remove('animate-bounce-subtle');
+                }
+            }, 3000);
+        });
+    </script>
+<style>
+        @keyframes bounce-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .animate-bounce-subtle {
+            animation: bounce-subtle 2s infinite ease-in-out;
+        }
+    </style>
+</body></html>
