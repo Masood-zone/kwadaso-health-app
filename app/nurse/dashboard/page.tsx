@@ -1,14 +1,5 @@
-import { requireRolePage } from "@/lib/auth-session"
-import { NurseDashboard } from "@/components/nurse/nurse-dashboard"
+import { NurseDashboardPage as NurseDashboard } from "@/components/nurse/nurse-pages"
 
 export default async function NurseDashboardPage() {
-  const staff = await requireRolePage("/nurse/dashboard", ["NURSE"])
-
-  return (
-    <NurseDashboard
-      userName={staff.name}
-      roleLabel="Nurse / Triage Officer"
-      fallbackFacilityName={staff.facility.name}
-    />
-  )
+  return <NurseDashboard />
 }

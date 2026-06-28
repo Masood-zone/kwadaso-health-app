@@ -4,10 +4,10 @@ import { useQuery } from "@tanstack/react-query"
 
 import api from "@/lib/axios"
 import type { ApiResponse } from "@/types"
-import type { NurseDashboardData } from "@/types/dashboard"
+import type { NurseDashboardSummary } from "@/types/nurse"
 
 export async function getNurseDashboard() {
-  const response = await api.get<ApiResponse<NurseDashboardData>>(
+  const response = await api.get<ApiResponse<NurseDashboardSummary>>(
     "/nurse/dashboard"
   )
 
