@@ -3,6 +3,7 @@ import "dotenv/config"
 import { hashPassword } from "better-auth/crypto"
 
 import { prisma } from "../lib/prisma"
+import { ensureSystemRolesAndPermissions } from "../lib/super-admin"
 import { DepartmentType, FacilityType } from "../lib/generated/prisma/enums"
 import type { StaffRole } from "../types"
 
@@ -565,6 +566,8 @@ async function ensureQueueEntry(data: {
 }
 
 async function seedAdmins() {
+  await ensureSystemRolesAndPermissions()
+
   const { facility, departmentMap } = await seedFacilityAndDepartments()
   const users = new Map<StaffRole, { id: string }>()
 

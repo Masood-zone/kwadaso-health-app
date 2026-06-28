@@ -8,8 +8,8 @@ export default function LoginPage() {
   return (
     <main className="flex min-h-svh overflow-hidden bg-background text-foreground">
       <section className="relative hidden w-3/5 items-center justify-center overflow-hidden bg-primary p-12 text-white lg:flex">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(255,255,255,0.08)_1px,transparent_0)] bg-[length:24px_24px]" />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-deep-forest" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(255,255,255,0.08)_1px,transparent_0)] bg-size-[24px_24px]" />
+        <div className="absolute inset-0 bg-linear-to-br from-primary via-primary/90 to-deep-forest" />
         <div className="relative z-10 max-w-xl">
           <div className="mb-12 flex flex-col items-start gap-4">
             <Image
@@ -25,9 +25,7 @@ export default function LoginPage() {
           <h1 className="font-heading text-4xl leading-tight font-bold">
             Integrated Healthcare
             <br />
-            <span className="text-primary-fixed">
-              Management Excellence
-            </span>
+            <span className="text-primary-fixed">Management Excellence</span>
           </h1>
           <p className="mt-6 max-w-md text-base leading-7 text-primary-fixed-dim">
             Access the KHMS Kwadaso portal to manage patient records, clinical
