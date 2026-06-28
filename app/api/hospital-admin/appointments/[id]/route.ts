@@ -28,6 +28,7 @@ const appointmentSchema = z.object({
     "MISSED",
     "RESCHEDULED",
   ]),
+  cancellationReason: z.string().trim().optional().nullable(),
 })
 
 async function validateAppointmentRefs({
@@ -68,62 +69,14 @@ async function validateAppointmentRefs({
   return null
 }
 
-function createAppointmentNo() {
-  return `APT-SDA-${Date.now()}`
-}
-
-export async function GET(request: NextRequest) {
+export async function PATCH(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
   const { staff: actor, response } = await requireHospitalAdminApi(request)
   if (response) return response
 
-  const searchParams = request.nextUrl.searchParams
-  const dateFrom = searchParams.get("dateFrom")
-  const dateTo = searchParams.get("dateTo")
-  const status = searchParams.get("status")
-  const departmentId = searchParams.get("departmentId")
-  const clinicianId = searchParams.get("clinicianId")
-  const patientSearch = searchParams.get("patientSearch")?.trim()
-
-  const appointments = await prisma.appointment.findMany({
-    where: {
-      facilityId: actor!.facilityId,
-      ...(dateFrom || dateTo
-        ? {
-            scheduledAt: {
-              ...(dateFrom ? { gte: new Date(dateFrom) } : {}),
-              ...(dateTo ? { lte: new Date(dateTo) } : {}),
-            },
-          }
-        : {}),
-      ...(status ? { status: status as never } : {}),
-      ...(departmentId ? { departmentId } : {}),
-      ...(clinicianId ? { clinicianId } : {}),
-      ...(patientSearch
-        ? {
-            patient: {
-              OR: [
-                { firstName: { contains: patientSearch, mode: "insensitive" } },
-                { lastName: { contains: patientSearch, mode: "insensitive" } },
-                { patientNo: { contains: patientSearch, mode: "insensitive" } },
-              ],
-            },
-          }
-        : {}),
-    },
-    orderBy: { scheduledAt: "desc" },
-    include: { patient: true, department: true, clinician: true },
-  })
-
-  return Response.json({
-    success: true,
-    data: appointments.map(serializeHospitalAdminAppointment),
-  } satisfies ApiResponse)
-}
-
-export async function POST(request: NextRequest) {
-  const { staff: actor, response } = await requireHospitalAdminApi(request)
-  if (response) return response
-
+  const { id } = await context.params
   const parsed = appointmentSchema.safeParse(await request.json())
   if (!parsed.success) {
     return Response.json(
@@ -133,6 +86,16 @@ export async function POST(request: NextRequest) {
         errors: z.flattenError(parsed.error).fieldErrors,
       } satisfies ApiResponse,
       { status: 400 }
+    )
+  }
+
+  const before = await prisma.appointment.findFirst({
+    where: { id, facilityId: actor!.facilityId },
+  })
+  if (!before) {
+    return Response.json(
+      { success: false, message: "Appointment was not found." },
+      { status: 404 }
     )
   }
 
@@ -150,11 +113,15 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  const appointment = await prisma.appointment.create({
+  const statusBecameCheckedIn =
+    values.status === "CHECKED_IN" && before.status !== "CHECKED_IN"
+  const statusBecameCancelled =
+    values.status === "CANCELLED" && before.status !== "CANCELLED"
+
+  const updated = await prisma.appointment.update({
+    where: { id },
     data: {
-      appointmentNo: createAppointmentNo(),
       patientId: values.patientId,
-      facilityId: actor!.facilityId,
       departmentId: values.departmentId,
       clinicianId: values.clinicianId || null,
       scheduledAt: new Date(values.scheduledAt),
@@ -163,10 +130,16 @@ export async function POST(request: NextRequest) {
       reason: values.reason || null,
       notes: values.notes || null,
       status: values.status,
-      checkedInAt: values.status === "CHECKED_IN" ? new Date() : null,
-      cancelledAt: values.status === "CANCELLED" ? new Date() : null,
-      createdById: actor!.id,
       updatedById: actor!.id,
+      ...(statusBecameCheckedIn ? { checkedInAt: new Date() } : {}),
+      ...(statusBecameCancelled
+        ? {
+            cancelledAt: new Date(),
+            cancellationReason: values.cancellationReason || null,
+          }
+        : values.status === "CANCELLED"
+          ? { cancellationReason: values.cancellationReason || null }
+          : {}),
     },
     include: { patient: true, department: true, clinician: true },
   })
@@ -174,25 +147,29 @@ export async function POST(request: NextRequest) {
   await writeHospitalAdminAuditLog({
     request,
     actor: actor!,
-    action: "CREATE",
+    action: "UPDATE",
     entityType: "Appointment",
-    entityId: appointment.id,
-    description: `Created appointment ${appointment.appointmentNo}`,
+    entityId: updated.id,
+    description: `Updated appointment ${updated.appointmentNo}`,
+    before: {
+      scheduledAt: before.scheduledAt,
+      status: before.status,
+      patientId: before.patientId,
+      departmentId: before.departmentId,
+      clinicianId: before.clinicianId,
+    },
     after: {
-      appointmentNo: appointment.appointmentNo,
-      scheduledAt: appointment.scheduledAt,
-      status: appointment.status,
-      patientId: appointment.patientId,
-      departmentId: appointment.departmentId,
-      clinicianId: appointment.clinicianId,
+      scheduledAt: updated.scheduledAt,
+      status: updated.status,
+      patientId: updated.patientId,
+      departmentId: updated.departmentId,
+      clinicianId: updated.clinicianId,
+      previousScheduledAt: before.scheduledAt,
     },
   })
 
-  return Response.json(
-    {
-      success: true,
-      data: serializeHospitalAdminAppointment(appointment),
-    } satisfies ApiResponse,
-    { status: 201 }
-  )
+  return Response.json({
+    success: true,
+    data: serializeHospitalAdminAppointment(updated),
+  } satisfies ApiResponse)
 }

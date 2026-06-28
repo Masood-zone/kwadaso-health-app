@@ -1,5 +1,5 @@
-import { ReportsDashboardPage } from "@/components/hospital-admin/hospital-admin-pages"
+import { HospitalAdminReportsPage as ReportsCrudPage } from "@/components/hospital-admin/hospital-admin-crud-pages"
 
 export default function HospitalAdminReportsPage() {
-  return <ReportsDashboardPage />
+  return <ReportsCrudPage />
 }

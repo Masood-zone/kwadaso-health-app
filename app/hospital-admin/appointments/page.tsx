@@ -1,5 +1,5 @@
-import { AppointmentSummaryPage } from "@/components/hospital-admin/hospital-admin-pages"
+import { HospitalAdminAppointmentsCrudPage } from "@/components/hospital-admin/hospital-admin-crud-pages"
 
 export default function HospitalAdminAppointmentsPage() {
-  return <AppointmentSummaryPage />
+  return <HospitalAdminAppointmentsCrudPage />
 }

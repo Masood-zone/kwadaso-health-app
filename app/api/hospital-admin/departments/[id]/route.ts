@@ -30,38 +30,14 @@ const departmentSchema = z.object({
   isActive: z.boolean(),
 })
 
-export async function GET(request: NextRequest) {
+export async function PATCH(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
   const { staff: actor, response } = await requireHospitalAdminApi(request)
   if (response) return response
 
-  const search = request.nextUrl.searchParams.get("search")?.trim()
-  const departments = await prisma.department.findMany({
-    where: {
-      facilityId: actor!.facilityId,
-      ...(search
-        ? {
-            OR: [
-              { name: { contains: search, mode: "insensitive" } },
-              { code: { contains: search, mode: "insensitive" } },
-              { description: { contains: search, mode: "insensitive" } },
-            ],
-          }
-        : {}),
-    },
-    orderBy: { name: "asc" },
-    include: { _count: { select: { staff: true } } },
-  })
-
-  return Response.json({
-    success: true,
-    data: departments.map(serializeHospitalAdminDepartment),
-  } satisfies ApiResponse)
-}
-
-export async function POST(request: NextRequest) {
-  const { staff: actor, response } = await requireHospitalAdminApi(request)
-  if (response) return response
-
+  const { id } = await context.params
   const parsed = departmentSchema.safeParse(await request.json())
   if (!parsed.success) {
     return Response.json(
@@ -74,14 +50,24 @@ export async function POST(request: NextRequest) {
     )
   }
 
+  const before = await prisma.department.findFirst({
+    where: { id, facilityId: actor!.facilityId },
+  })
+  if (!before) {
+    return Response.json(
+      { success: false, message: "Department was not found." },
+      { status: 404 }
+    )
+  }
+
   const values = parsed.data
   try {
-    const department = await prisma.department.create({
+    const department = await prisma.department.update({
+      where: { id },
       data: {
         ...values,
         code: values.code.toUpperCase(),
         description: values.description || null,
-        facilityId: actor!.facilityId,
       },
       include: { _count: { select: { staff: true } } },
     })
@@ -89,31 +75,36 @@ export async function POST(request: NextRequest) {
     await writeHospitalAdminAuditLog({
       request,
       actor: actor!,
-      action: "CREATE",
+      action: "UPDATE",
       entityType: "Department",
       entityId: department.id,
-      description: `Created department ${department.name}`,
+      description: `Updated department ${department.name}`,
+      before: {
+        code: before.code,
+        name: before.name,
+        description: before.description,
+        type: before.type,
+        isActive: before.isActive,
+      },
       after: {
         code: department.code,
         name: department.name,
+        description: department.description,
         type: department.type,
         isActive: department.isActive,
       },
     })
 
-    return Response.json(
-      {
-        success: true,
-        data: serializeHospitalAdminDepartment(department),
-      } satisfies ApiResponse,
-      { status: 201 }
-    )
+    return Response.json({
+      success: true,
+      data: serializeHospitalAdminDepartment(department),
+    } satisfies ApiResponse)
   } catch (error) {
-    console.error("Failed to create hospital department", error)
+    console.error("Failed to update hospital department", error)
     return Response.json(
       {
         success: false,
-        message: "Department could not be created. Code must be unique.",
+        message: "Department could not be updated. Code must be unique.",
       } satisfies ApiResponse,
       { status: 400 }
     )

@@ -17,11 +17,7 @@ type HospitalAdminShellProps = {
 
 const navItems = [
   { label: "Dashboard", href: "/hospital-admin/dashboard", icon: "dashboard" },
-  {
-    label: "Patient Flow",
-    href: "/hospital-admin/patient-flow",
-    icon: "patient_list",
-  },
+  { label: "Staff", href: "/hospital-admin/staff", icon: "badge" },
   {
     label: "Departments",
     href: "/hospital-admin/departments",
@@ -32,13 +28,15 @@ const navItems = [
     href: "/hospital-admin/appointments",
     icon: "event_available",
   },
-  { label: "Billing", href: "/hospital-admin/billing", icon: "payments" },
+  { label: "Queue", href: "/hospital-admin/queue", icon: "queue" },
+  { label: "Settings", href: "/hospital-admin/settings", icon: "settings" },
   { label: "Reports", href: "/hospital-admin/reports", icon: "analytics" },
   {
-    label: "Daily Activity",
-    href: "/hospital-admin/daily-activity",
-    icon: "monitor_heart",
+    label: "Notifications",
+    href: "/hospital-admin/notifications",
+    icon: "notifications",
   },
+  { label: "Audit Logs", href: "/hospital-admin/audit-logs", icon: "history" },
 ]
 
 export function HospitalAdminShell({
