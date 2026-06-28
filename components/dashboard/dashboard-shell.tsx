@@ -9,10 +9,10 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
-  Pill,
   Search,
+  Settings,
   ShieldCheck,
-  Stethoscope,
+  SlidersHorizontal,
   Users,
 } from "lucide-react"
 
@@ -30,11 +30,12 @@ type DashboardShellProps = {
 
 const navItems = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
-  { label: "Patients", href: "#patients", icon: Users },
-  { label: "Clinical Info", href: "#clinical", icon: Stethoscope },
-  { label: "Pharmacy", href: "#pharmacy", icon: Pill },
-  { label: "Reports", href: "#reports", icon: FileText },
+  { label: "Staff", href: "#staff", icon: Users },
+  { label: "Roles", href: "#roles", icon: ShieldCheck },
+  { label: "Departments", href: "#departments", icon: SlidersHorizontal },
   { label: "Audit Logs", href: "#audit", icon: ClipboardList },
+  { label: "Settings", href: "#settings", icon: Settings },
+  { label: "Reports", href: "#reports", icon: FileText },
 ]
 
 export function DashboardShell({
@@ -56,15 +57,17 @@ export function DashboardShell({
 
   return (
     <main className="min-h-svh bg-app-bg text-foreground">
-      <aside className="fixed inset-y-0 left-0 z-20 hidden w-[var(--sidebar-width)] border-r border-sidebar-border bg-sidebar text-sidebar-foreground lg:flex lg:flex-col">
-        <div className="flex h-[var(--topbar-height)] items-center gap-3 border-b border-sidebar-border px-5">
-          <div className="flex size-9 items-center justify-center rounded bg-primary-container text-white">
+      <aside className="fixed inset-y-0 left-0 z-20 hidden w-[var(--sidebar-width)] bg-inverse-surface text-inverse-on-surface lg:flex lg:flex-col">
+        <div className="flex h-[var(--topbar-height)] items-center gap-3 px-5">
+          <div className="flex size-10 items-center justify-center rounded bg-primary text-white">
             <ShieldCheck className="size-5" />
           </div>
           <div className="min-w-0">
-            <p className="font-heading text-lg leading-6 font-bold">KHMS</p>
-            <p className="truncate text-xs leading-4 text-muted-foreground">
-              Clinical Operations
+            <p className="font-heading text-lg leading-6 font-bold text-white">
+              SDA Hospital
+            </p>
+            <p className="truncate text-[10px] leading-4 tracking-wider text-white/55 uppercase">
+              Kwadaso HMIS
             </p>
           </div>
         </div>
@@ -79,12 +82,12 @@ export function DashboardShell({
                 href={item.href}
                 className={
                   active
-                    ? "relative flex h-10 items-center gap-3 rounded bg-deep-forest px-3 text-sm font-semibold text-white"
-                    : "flex h-10 items-center gap-3 rounded px-3 text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent"
+                    ? "relative flex h-10 items-center gap-3 rounded bg-primary px-3 text-sm font-semibold text-white"
+                    : "flex h-10 items-center gap-3 rounded px-3 text-sm font-medium text-white/65 hover:bg-primary-container hover:text-white"
                 }
               >
                 {active ? (
-                  <span className="absolute inset-y-1 left-0 w-1 rounded-full bg-chart-2" />
+                  <span className="absolute inset-y-1 left-0 w-1 rounded-full bg-secondary-container" />
                 ) : null}
                 <item.icon className="size-4" />
                 <span>{item.label}</span>
@@ -93,14 +96,16 @@ export function DashboardShell({
           })}
         </nav>
 
-        <div className="border-t border-sidebar-border p-4">
-          <p className="khms-label">Signed in as</p>
-          <p className="mt-1 text-sm font-semibold">{userName}</p>
-          <p className="text-xs text-muted-foreground">{roleLabel}</p>
+        <div className="border-t border-white/10 p-4">
+          <p className="khms-label text-white/55">Signed in as</p>
+          <p className="mt-1 truncate text-sm font-semibold text-white">
+            {userName}
+          </p>
+          <p className="text-xs text-white/60">{roleLabel}</p>
           <Button
             variant="outline"
             size="sm"
-            className="mt-3 w-full"
+            className="mt-3 w-full border-white/20 bg-transparent text-white hover:bg-white/10"
             onClick={handleSignOut}
           >
             <LogOut className="size-4" />
@@ -154,7 +159,7 @@ export function DashboardShell({
           <Link
             key={item.label}
             href={item.href}
-            className="flex h-16 flex-col items-center justify-center gap-1 text-muted-foreground first:text-primary-container"
+            className="flex h-16 flex-col items-center justify-center gap-1 text-muted-foreground"
           >
             <item.icon className="size-5" />
             <span className="text-[11px] leading-3 font-semibold">

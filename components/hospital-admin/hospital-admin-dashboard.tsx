@@ -2,36 +2,25 @@
 
 import { Activity, BarChart3, Building2 } from "lucide-react"
 
-import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import {
   DashboardError,
   MetricCard,
   StatusBadge,
 } from "@/components/dashboard/dashboard-widgets"
+import { PageHeader } from "@/components/super-admin/super-admin-ui"
 import { useHospitalAdminDashboard } from "@/services/hospital-admin/dashboard"
 
-type HospitalAdminDashboardProps = {
-  userName: string
-  roleLabel: string
-  fallbackFacilityName: string
-}
-
-export function HospitalAdminDashboard({
-  fallbackFacilityName,
-  roleLabel,
-  userName,
-}: HospitalAdminDashboardProps) {
+export function HospitalAdminDashboard() {
   const dashboard = useHospitalAdminDashboard()
   const data = dashboard.data
 
   return (
-    <DashboardShell
-      title="Operational Overview"
-      eyebrow="Hospital Administration"
-      facilityName={data?.facilityName ?? fallbackFacilityName}
-      userName={userName}
-      roleLabel={roleLabel}
-    >
+    <div className="space-y-6">
+      <PageHeader
+        eyebrow="Hospital Admin / Dashboard"
+        title="Hospital Admin Dashboard"
+        description={`Live operational overview${data?.facilityName ? ` for ${data.facilityName}` : ""}.`}
+      />
       {dashboard.isLoading ? (
         <DashboardLoading />
       ) : dashboard.isError ? (
@@ -78,7 +67,9 @@ export function HospitalAdminDashboard({
                           {department.staffCount}
                         </td>
                         <td className="px-4 py-3">
-                          <StatusBadge value={`${department.queueCount} waiting`} />
+                          <StatusBadge
+                            value={`${department.queueCount} waiting`}
+                          />
                         </td>
                         <td className="khms-table-data px-4 py-3 text-muted-foreground">
                           {department.openEncounters}
@@ -106,12 +97,16 @@ export function HospitalAdminDashboard({
                     <div key={item.label}>
                       <div className="flex items-center justify-between text-sm">
                         <span className="font-semibold">{item.label}</span>
-                        <span className="text-muted-foreground">{item.value}</span>
+                        <span className="text-muted-foreground">
+                          {item.value}
+                        </span>
                       </div>
                       <div className="mt-2 h-2 overflow-hidden rounded-full bg-muted">
                         <div
                           className="h-full rounded-full bg-primary"
-                          style={{ width: `${Math.min(item.value * 10, 100)}%` }}
+                          style={{
+                            width: `${Math.min(item.value * 10, 100)}%`,
+                          }}
                         />
                       </div>
                     </div>
@@ -132,7 +127,10 @@ export function HospitalAdminDashboard({
                 <div className="space-y-3">
                   {data.staffActivity.length ? (
                     data.staffActivity.map((item) => (
-                      <div key={item.id} className="border-l-2 border-primary pl-3">
+                      <div
+                        key={item.id}
+                        className="border-l-2 border-primary pl-3"
+                      >
                         <p className="text-sm font-semibold">{item.label}</p>
                         <p className="text-xs text-muted-foreground">
                           {item.detail}
@@ -150,7 +148,7 @@ export function HospitalAdminDashboard({
           </section>
         </div>
       ) : null}
-    </DashboardShell>
+    </div>
   )
 }
 
