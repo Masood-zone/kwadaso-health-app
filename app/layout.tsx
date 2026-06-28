@@ -35,6 +35,18 @@ export default function RootLayout({
         fontMono.variable
       )}
     >
+      <head>
+        <meta charSet="utf-8" />
+        {/* Prototype icon fonts */}
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
+      </head>
       <body>
         <Providers>{children}</Providers>
       </body>
