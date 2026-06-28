@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Wound Care &amp; Procedure Notes | KHMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#eff4ff",
+                    "inverse-primary": "#8ad97a",
+                    "surface-container": "#e5eeff",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "secondary-container": "#ea002c",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#213145",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-surface": "#0b1c30",
+                    "tertiary-fixed": "#ffdcc0",
+                    "outline-variant": "#c0cab8",
+                    "secondary": "#bb0021",
+                    "on-error": "#ffffff",
+                    "secondary-fixed": "#ffdad7",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary-fixed-dim": "#8ad97a",
+                    "medical-green-soft": "#E8F5E9",
+                    "emergency-dark": "#B80021",
+                    "surface-container-high": "#dce9ff",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "on-primary-fixed": "#002201",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#d3e4fe",
+                    "pending-soft": "#FFF4E8",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed-variant": "#005304",
+                    "inverse-on-surface": "#eaf1ff",
+                    "emergency-soft": "#FDECEF",
+                    "border-subtle": "#E2E8F0",
+                    "tertiary-container": "#784200",
+                    "surface-container-highest": "#d3e4fe",
+                    "background": "#f8f9ff",
+                    "on-tertiary-container": "#ffb168",
+                    "surface": "#f8f9ff",
+                    "primary": "#004302",
+                    "surface-tint": "#206d1b",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#cbdbf5",
+                    "on-secondary-fixed-variant": "#930018",
+                    "outline": "#707a6b",
+                    "on-secondary-container": "#fffbff",
+                    "on-surface-variant": "#40493c",
+                    "app-bg": "#F8FAFC",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#86d576",
+                    "deep-forest": "#064906",
+                    "on-background": "#0b1c30",
+                    "primary-fixed": "#a5f693",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary": "#572e00",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "primary-container": "#0b5d0b",
+                    "on-secondary-fixed": "#410005",
+                    "accent-blue": "#EAF3FA"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "topbar-height": "64px",
+                    "gutter": "1.5rem",
+                    "margin-mobile": "1rem",
+                    "margin-desktop": "2rem",
+                    "container-max": "1440px",
+                    "sidebar-width": "260px"
+            },
+            "fontFamily": {
+                    "table-data": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Manrope"]
+            },
+            "fontSize": {
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+        .form-focus-ring:focus {
+            outline: none;
+            border-color: #004302;
+            box-shadow: 0 0 0 2px rgba(0, 67, 2, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md selection:bg-primary-fixed">
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-deep-forest border-r border-outline-variant/20 flex flex-col py-6 z-50">
+<div class="px-6 mb-10">
+<h1 class="font-headline-lg text-headline-lg font-bold text-white tracking-tight">MediCare Central</h1>
+<p class="font-label-md text-label-md text-primary-fixed opacity-80 uppercase tracking-widest mt-1">Clinical Portal</p>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-variant hover:bg-primary-container/20 transition-all" href="#">
+<span class="material-symbols-outlined">queue</span>
+<span class="font-label-md text-label-md">Patient Queues</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-variant hover:bg-primary-container/20 transition-all" href="#">
+<span class="material-symbols-outlined">vital_signs</span>
+<span class="font-label-md text-label-md">Clinical Vitals</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary text-white border-l-4 border-secondary-container shadow-sm" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md">Nursing Notes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-variant hover:bg-primary-container/20 transition-all" href="#">
+<span class="material-symbols-outlined">vaccines</span>
+<span class="font-label-md text-label-md">Immunizations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-variant hover:bg-primary-container/20 transition-all" href="#">
+<span class="material-symbols-outlined">child_care</span>
+<span class="font-label-md text-label-md">Child Health</span>
+</a>
+</nav>
+<div class="mt-auto px-3 space-y-4">
+<button class="w-full bg-secondary-container hover:bg-secondary text-white font-bold py-3 rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_alert</span>
+<span class="font-label-md text-label-md">Emergency Admission</span>
+</button>
+<div class="pt-4 border-t border-white/10 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-surface-variant hover:bg-primary-container/20 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-surface-variant hover:bg-primary-container/20 transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface-container-lowest border-b border-border-subtle flex justify-between items-center px-gutter z-40">
+<div class="flex items-center gap-6">
+<h2 class="font-headline-md text-headline-md font-bold text-deep-forest">Nursing &amp; Triage</h2>
+<div class="h-6 w-px bg-border-subtle"></div>
+<div class="flex gap-4">
+<span class="text-primary font-bold border-b-2 border-primary py-1 font-body-md text-body-md">Facility: Main Campus</span>
+<span class="text-on-surface-variant py-1 font-body-md text-body-md">Ward: A1</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex gap-2">
+<button class="material-symbols-outlined p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant">notifications</button>
+<button class="material-symbols-outlined p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant">account_circle</button>
+</div>
+<div class="h-8 w-px bg-border-subtle"></div>
+<button class="bg-primary text-white px-6 py-2 rounded-full font-label-md text-label-md hover:bg-primary-container transition-all active:opacity-80">Check In</button>
+<button class="bg-secondary text-white px-6 py-2 rounded-full font-label-md text-label-md hover:bg-emergency-dark transition-all active:opacity-80">Emergency Alert</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[260px] pt-[88px] p-gutter min-h-screen">
+<div class="max-w-container-max mx-auto">
+<!-- Patient Header Banner -->
+<div class="bg-white border border-border-subtle rounded-xl p-6 mb-8 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-5">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-medical-green-soft">
+<img class="w-full h-full object-cover" data-alt="Professional clinical headshot of a middle-aged patient with a calm expression, captured in a brightly lit medical office with soft focused equipment in the background. The aesthetic is clean, high-key, and sterile with soft green and blue undertones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoXhCg3r3760IS-xCYXidQBhAvJH5KkNrvCv_GLeRqSza8lP-KCbLO2DuWvY8_TB2f_32JwXyLadJpUB3-mhCdyf1Ixqovfpd5tnlbI3_DG-H7zP5v06J5cXiK6tnSyx2FWxjktPOAaPo3kB9aYCDBzI10KmzsKVpKTmuMuzylsw5SteJ2q65Wg0esvxtyTdlVroE5AuhvNaxiXOEH3PNfZEm_Z_QazKyzpJmI5Ggd2efhtGxC9EXc9lmL6WgYRgPpcFlaLBZNSnw"/>
+</div>
+<div>
+<div class="flex items-center gap-3">
+<h3 class="font-headline-md text-headline-md text-on-surface">Elena Rodriguez</h3>
+<span class="px-2 py-0.5 bg-medical-green-soft text-primary font-label-md text-label-md rounded border border-primary/10">STABLE</span>
+</div>
+<p class="text-on-surface-variant font-body-sm text-body-sm">ID: KHMS-8829-X • Female • 42 yrs • Allergy: Penicillin</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Admission Date</p>
+<p class="font-headline-md text-headline-md text-on-surface">Oct 24, 2023</p>
+</div>
+</div>
+<div class="bento-grid">
+<!-- Procedure Entry Form (Main Content) -->
+<section class="col-span-12 lg:col-span-8 space-y-6">
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden shadow-sm">
+<div class="bg-accent-blue/50 px-6 py-4 border-b border-border-subtle flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md text-deep-forest">Procedure Note: Wound Care</h4>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">history</span>
+                                Draft saved 2 mins ago
+                            </div>
+</div>
+<form class="p-8 space-y-8">
+<!-- Field: Procedure Type -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface">Procedure Type <span class="text-secondary">*</span></label>
+<div class="relative">
+<select class="w-full h-12 px-4 rounded-lg border border-border-subtle bg-white font-body-md text-body-md appearance-none form-focus-ring cursor-pointer">
+<option>Minor Wound Dressing Change</option>
+<option>Suture Removal</option>
+<option>Abscess Incision &amp; Drainage</option>
+<option>Debridement (Sharp)</option>
+<option>Burn Care &amp; Debridement</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-3 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface">Severity Level</label>
+<div class="flex gap-2">
+<button class="flex-1 py-3 px-4 rounded-lg border border-border-subtle bg-white font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors" type="button">Low</button>
+<button class="flex-1 py-3 px-4 rounded-lg border-2 border-primary bg-medical-green-soft font-label-md text-label-md text-primary" type="button">Moderate</button>
+<button class="flex-1 py-3 px-4 rounded-lg border border-border-subtle bg-white font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors" type="button">High</button>
+</div>
+</div>
+</div>
+<!-- Field: Wound Description -->
+<div class="space-y-4">
+<h5 class="font-label-md text-label-md uppercase text-on-surface-variant tracking-wider border-b border-border-subtle pb-2">Wound Description</h5>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface">Location</label>
+<input class="w-full h-12 px-4 rounded-lg border border-border-subtle font-body-md text-body-md form-focus-ring" placeholder="e.g., Left Forearm" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface">Size (cm)</label>
+<input class="w-full h-12 px-4 rounded-lg border border-border-subtle font-body-md text-body-md form-focus-ring" placeholder="L x W x D" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface">Exudate</label>
+<select class="w-full h-12 px-4 rounded-lg border border-border-subtle bg-white font-body-md text-body-md appearance-none form-focus-ring">
+<option>None/Minimal</option>
+<option>Serous</option>
+<option>Sanguineous</option>
+<option>Purulent</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface">Clinical Observations</label>
+<textarea class="w-full p-4 rounded-lg border border-border-subtle font-body-md text-body-md form-focus-ring" placeholder="Describe wound bed, margins, periwound skin condition..." rows="4"></textarea>
+</div>
+</div>
+<!-- Field: Materials Used -->
+<div class="space-y-4">
+<h5 class="font-label-md text-label-md uppercase text-on-surface-variant tracking-wider border-b border-border-subtle pb-2">Inventory &amp; Materials</h5>
+<div class="flex flex-wrap gap-2">
+<label class="inline-flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-full border border-outline-variant/30 cursor-pointer hover:bg-surface-variant transition-colors">
+<input checked="" class="rounded text-primary focus:ring-primary w-4 h-4 border-outline" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Sterile Gauze</span>
+</label>
+<label class="inline-flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-full border border-outline-variant/30 cursor-pointer hover:bg-surface-variant transition-colors">
+<input checked="" class="rounded text-primary focus:ring-primary w-4 h-4 border-outline" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Betadine Solution</span>
+</label>
+<label class="inline-flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-full border border-outline-variant/30 cursor-pointer hover:bg-surface-variant transition-colors">
+<input class="rounded text-primary focus:ring-primary w-4 h-4 border-outline" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Nylon Sutures (4-0)</span>
+</label>
+<label class="inline-flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-full border border-outline-variant/30 cursor-pointer hover:bg-surface-variant transition-colors">
+<input checked="" class="rounded text-primary focus:ring-primary w-4 h-4 border-outline" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Normal Saline</span>
+</label>
+<button class="px-3 py-1.5 border border-dashed border-primary text-primary rounded-full font-body-sm text-body-sm hover:bg-medical-green-soft" type="button">+ Add Other Material</button>
+</div>
+</div>
+<!-- Field: Follow-up -->
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface">Follow-up Recommendation</label>
+<textarea class="w-full p-4 rounded-lg border border-border-subtle font-body-md text-body-md form-focus-ring" placeholder="Next dressing change schedule, signs of infection to watch for..." rows="2"></textarea>
+</div>
+<!-- Audit Trail Info -->
+<div class="p-4 bg-surface-container-low rounded-lg border border-border-subtle flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs">SK</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Performed by Nurse Sarah K.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Auth ID: #NUR-99218-B</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface">Timestamp</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Oct 26, 2023 • 14:45 PM</p>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex justify-end gap-4 pt-4 border-t border-border-subtle">
+<button class="px-8 py-3 border border-border-subtle rounded-xl font-headline-md text-headline-md text-on-surface-variant hover:bg-surface-container-low transition-all" type="button">Cancel</button>
+<button class="px-10 py-3 bg-primary text-white rounded-xl font-headline-md text-headline-md shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all" type="submit">Submit Record</button>
+</div>
+</form>
+</div>
+</section>
+<!-- Sidebar Content -->
+<aside class="col-span-12 lg:col-span-4 space-y-6">
+<!-- Anatomy Diagram (Contextual Image) -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden shadow-sm">
+<div class="p-4 border-b border-border-subtle bg-surface-container-low flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface font-bold">Anatomical Reference</span>
+<span class="material-symbols-outlined text-primary text-[20px]">map</span>
+</div>
+<div class="p-6">
+<div class="aspect-square bg-surface-container rounded-lg flex items-center justify-center relative group">
+<img class="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" data-alt="A clean medical anatomical illustration of the human upper body, highlighting skin layers and muscle structure with minimalist green and blue linework. The aesthetic is modern and clinical, resembling a medical textbook illustration for a professional software dashboard, on a pure white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIEkz4OM84BR96yAO74GPR0yNqU2R9rA5selN0c9WCvFF8QLzTyLLB6CH5ntPiV_ynGZsZHTOUEEuI1aV56xV5jzb-9CWtYAYmVQ8dE9tfxtoBQiaHUoNLbLnpuFhX_yCTn28enEIcUIT_E1COanr-2mElwYpOmJC6QdlQNeG0Xb3q82cRKS7xR9tRVerEc1Y5ZE19lDlXVqArahYSzQnyEIi9Pv-mSO30YtWwnzhrS5LRliwi-jBn9ZmAP6ElIZ1Kc8q6v4Nsa6Q"/>
+<div class="absolute top-1/4 left-1/3 w-4 h-4 bg-secondary rounded-full animate-pulse flex items-center justify-center">
+<div class="w-8 h-8 bg-secondary/20 rounded-full animate-ping"></div>
+</div>
+</div>
+<p class="mt-4 font-body-sm text-body-sm text-on-surface-variant text-center">Selected Site: <span class="text-on-surface font-bold">Posterior Forearm</span></p>
+</div>
+</div>
+<!-- Previous Records Quick List -->
+<div class="bg-white border border-border-subtle rounded-xl shadow-sm">
+<div class="p-4 border-b border-border-subtle bg-surface-container-low">
+<h5 class="font-label-md text-label-md text-on-surface font-bold">Procedure History</h5>
+</div>
+<div class="divide-y divide-border-subtle">
+<div class="p-4 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<p class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">Wound Dressing</p>
+<span class="text-[11px] font-bold text-on-surface-variant">24 OCT</span>
+</div>
+<p class="text-[13px] text-on-surface-variant line-clamp-1">Purulent exudate noted. Betadine applied.</p>
+<p class="text-[11px] text-primary mt-2 font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">person</span>
+                                    Nurse James L.
+                                </p>
+</div>
+<div class="p-4 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<p class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">Primary Suturing</p>
+<span class="text-[11px] font-bold text-on-surface-variant">22 OCT</span>
+</div>
+<p class="text-[13px] text-on-surface-variant line-clamp-1">5-0 Prolene used for laceration closure.</p>
+<p class="text-[11px] text-primary mt-2 font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">person</span>
+                                    Dr. Michael Chen
+                                </p>
+</div>
+<div class="p-4 bg-medical-green-soft/30 text-center">
+<button class="text-primary font-label-md text-label-md hover:underline">View Full Medical History</button>
+</div>
+</div>
+</div>
+<!-- Help Tooltip -->
+<div class="bg-primary-container/10 border-l-4 border-primary p-6 rounded-r-xl">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary">info</span>
+<div class="space-y-2">
+<h6 class="font-label-md text-label-md text-primary">Nursing Protocol Tip</h6>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                                    Ensure all wound measurements are taken after cleaning. Any signs of spreading erythema &gt;2cm must be reported to the attending surgeon immediately.
+                                </p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interaction for form focus and interactive elements
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('focus', () => {
+                element.parentElement.querySelector('label')?.classList.add('text-primary');
+            });
+            element.addEventListener('blur', () => {
+                element.parentElement.querySelector('label')?.classList.remove('text-primary');
+            });
+        });
+
+        // Simple notification for "Draft Saved" simulation
+        setInterval(() => {
+            const timeText = document.querySelector('.material-symbols-outlined + span');
+            if(timeText && timeText.innerText.includes('saved')) {
+                timeText.innerText = 'Draft saved just now';
+                setTimeout(() => {
+                    timeText.innerText = 'Draft saved 1 min ago';
+                }, 60000);
+            }
+        }, 120000);
+    </script>
+</body></html>

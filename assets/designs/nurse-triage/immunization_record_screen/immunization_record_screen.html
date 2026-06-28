@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Immunization Record | MediCare Central</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for clinical density */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .indicator-line {
+            width: 4px;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#eff4ff",
+                        "inverse-primary": "#8ad97a",
+                        "surface-container": "#e5eeff",
+                        "secondary-container": "#ea002c",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "on-surface": "#0b1c30",
+                        "tertiary-fixed": "#ffdcc0",
+                        "outline-variant": "#c0cab8",
+                        "secondary": "#bb0021",
+                        "on-error": "#ffffff",
+                        "medical-green-soft": "#E8F5E9",
+                        "emergency-dark": "#B80021",
+                        "on-primary": "#ffffff",
+                        "border-subtle": "#E2E8F0",
+                        "background": "#f8f9ff",
+                        "surface": "#f8f9ff",
+                        "primary": "#004302",
+                        "deep-forest": "#064906",
+                        "app-bg": "#F8FAFC",
+                        "surface-container-lowest": "#ffffff",
+                        "accent-blue": "#EAF3FA",
+                        "pending-soft": "#FFF4E8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "topbar-height": "64px",
+                        "gutter": "1.5rem",
+                        "sidebar-width": "260px"
+                    },
+                    "fontFamily": {
+                        "table-data": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md overflow-hidden">
+<!-- SideNavBar (Authority: Shared Component JSON) -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-deep-forest border-r border-outline-variant/20 flex flex-col py-6 z-50">
+<div class="px-6 mb-8">
+<h1 class="font-headline-lg text-headline-lg font-bold text-white leading-tight">MediCare Central</h1>
+<p class="font-label-md text-label-md text-primary-fixed/70 uppercase tracking-widest mt-1">Clinical Portal</p>
+</div>
+<nav class="flex-1 space-y-1 px-3">
+<a class="flex items-center gap-3 px-3 py-3 font-label-md text-label-md text-surface-variant hover:bg-primary-container/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="queue">queue</span>
+<span>Patient Queues</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 font-label-md text-label-md text-surface-variant hover:bg-primary-container/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="vital_signs">vital_signs</span>
+<span>Clinical Vitals</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 font-label-md text-label-md text-surface-variant hover:bg-primary-container/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Nursing Notes</span>
+</a>
+<!-- ACTIVE TAB: Immunizations -->
+<a class="flex items-center gap-3 px-3 py-3 font-label-md text-label-md bg-primary text-white border-l-4 border-secondary-container transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="vaccines" style="font-variation-settings: 'FILL' 1;">vaccines</span>
+<span>Immunizations</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 font-label-md text-label-md text-surface-variant hover:bg-primary-container/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="child_care">child_care</span>
+<span>Child Health</span>
+</a>
+</nav>
+<div class="px-3 mt-auto pt-6 border-t border-outline-variant/10">
+<button class="w-full bg-secondary py-3 px-4 text-white font-label-md text-label-md flex items-center justify-center gap-2 mb-4 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-sm">emergency</span>
+                Emergency Admission
+            </button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 font-label-md text-label-md text-surface-variant hover:bg-primary-container/20 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 font-label-md text-label-md text-surface-variant hover:bg-primary-container/20 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TopNavBar (Authority: Shared Component JSON) -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface-container-lowest border-b border-border-subtle flex justify-between items-center px-gutter z-40">
+<div class="flex items-center gap-6">
+<h2 class="font-headline-md text-headline-md font-bold text-deep-forest">Nursing &amp; Triage</h2>
+<div class="flex gap-4">
+<span class="px-3 py-1 bg-surface-container rounded text-on-surface-variant font-label-md text-[11px] uppercase tracking-wider">Facility: Main Campus</span>
+<span class="px-3 py-1 bg-surface-container rounded text-on-surface-variant font-label-md text-[11px] uppercase tracking-wider">Ward: A1</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded text-body-md w-64 focus:ring-2 focus:ring-primary" placeholder="Search patient ID or name..." type="text"/>
+</div>
+<div class="flex items-center gap-2 border-l pl-4 border-border-subtle">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-3 ml-2">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface">Sr. Elena Rossi</p>
+<p class="text-[10px] text-on-surface-variant uppercase">Charge Nurse</p>
+</div>
+<img class="w-10 h-10 rounded-full object-cover border-2 border-primary-container" data-alt="A professional headshot of a female nurse in her 40s wearing a clean clinical uniform, with a soft-focus hospital hallway background. The lighting is bright and professional, adhering to a high-key medical aesthetic with a palette of soft whites and clinical blues." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEuWBeQciWJkIXDSiaNo1Pru57UpKrfYkfO7D-7oYFl1iIL_Gi4Cq1uZvBph0WgNi1vPJnAMVHzWiDa3XYPAyVYJ4_H3txM6jr5P22JlM-byvwn-ASUFFLgUw3hLlDLkrIzxvKP22E4k6JlQYJsiCB1hxR1wM2CBNT0XC_Dj1I_rkPljms2o9QCRb5SJbjXIb3-GygEowpMD6JAlUGD7ijnPwLMrPY08LFOGczawHyL5B5yvH4i7zNkszB24hsKsgxF69NrWbtGyU"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-sidebar-width mt-topbar-height p-gutter overflow-y-auto h-[calc(100vh-64px)]">
+<!-- Patient Context Header -->
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-5">
+<div class="w-16 h-16 rounded-xl bg-accent-blue flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-4xl" data-icon="child_care" style="font-variation-settings: 'FILL' 1;">child_care</span>
+</div>
+<div>
+<div class="flex items-center gap-3">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Liam O'Connell</h1>
+<span class="px-2 py-0.5 bg-medical-green-soft text-primary font-label-md text-[11px] rounded">STABLE</span>
+</div>
+<p class="text-on-surface-variant font-body-md">Patient ID: <span class="font-semibold">KHMS-2024-0982</span> • DOB: <span class="font-semibold">12 May 2022 (2y 1m)</span></p>
+</div>
+</div>
+<button class="bg-primary text-white px-6 py-3 font-label-md text-label-md flex items-center gap-2 hover:bg-deep-forest shadow-sm active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                Record New Immunization
+            </button>
+</div>
+<!-- Dashboard Layout: Bento Grid -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Immunization Summary Cards -->
+<div class="col-span-12 grid grid-cols-4 gap-4">
+<div class="bg-white border border-border-subtle p-5 relative overflow-hidden">
+<div class="indicator-line bg-primary"></div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase mb-2">Total Administered</p>
+<p class="font-headline-lg text-headline-lg text-primary">14 <span class="text-body-md font-normal text-on-surface-variant">Doses</span></p>
+</div>
+<div class="bg-white border border-border-subtle p-5 relative overflow-hidden">
+<div class="indicator-line bg-secondary-container"></div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase mb-2">Upcoming (30 Days)</p>
+<p class="font-headline-lg text-headline-lg text-secondary">02 <span class="text-body-md font-normal text-on-surface-variant">Vaccines</span></p>
+</div>
+<div class="bg-white border border-border-subtle p-5 relative overflow-hidden">
+<div class="indicator-line bg-tertiary-fixed"></div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase mb-2">Pending Booster</p>
+<p class="font-headline-lg text-headline-lg text-tertiary">01 <span class="text-body-md font-normal text-on-surface-variant">Late</span></p>
+</div>
+<div class="bg-white border border-border-subtle p-5 relative overflow-hidden">
+<div class="indicator-line bg-accent-blue"></div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase mb-2">Last Visit</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">14 Jan <span class="text-body-md font-normal text-on-surface-variant">2024</span></p>
+</div>
+</div>
+<!-- Left Column: Administered Vaccines Table -->
+<div class="col-span-8 bg-white border border-border-subtle flex flex-col">
+<div class="px-6 py-4 border-b border-border-subtle flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Vaccines Administered</h3>
+<div class="flex gap-2">
+<button class="p-1.5 border border-border-subtle hover:bg-surface-container-low transition-colors"><span class="material-symbols-outlined text-xl">filter_list</span></button>
+<button class="p-1.5 border border-border-subtle hover:bg-surface-container-low transition-colors"><span class="material-symbols-outlined text-xl">print</span></button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue">
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase">Date</th>
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase">Vaccine Name</th>
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase">Batch No</th>
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase">Dose</th>
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase">Admin. Nurse</th>
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 font-table-data text-table-data">14 Jan 2024</td>
+<td class="px-6 py-4 font-table-data text-table-data font-semibold text-primary">MMR (Measles, Mumps, Rubella)</td>
+<td class="px-6 py-4 font-table-data text-table-data">SERO-29384-A</td>
+<td class="px-6 py-4 font-table-data text-table-data">0.5 mL</td>
+<td class="px-6 py-4 font-table-data text-table-data">Nurse M. Thompson</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-medical-green-soft text-primary">COMPLETED</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 font-table-data text-table-data">12 May 2023</td>
+<td class="px-6 py-4 font-table-data text-table-data font-semibold text-primary">DTPa (Diphtheria, Tetanus, Pertussis)</td>
+<td class="px-6 py-4 font-table-data text-table-data">VACC-11029-B</td>
+<td class="px-6 py-4 font-table-data text-table-data">0.5 mL</td>
+<td class="px-6 py-4 font-table-data text-table-data">Nurse S. Khan</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-medical-green-soft text-primary">COMPLETED</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 font-table-data text-table-data">12 May 2023</td>
+<td class="px-6 py-4 font-table-data text-table-data font-semibold text-primary">IPV (Inactivated Polio Vaccine)</td>
+<td class="px-6 py-4 font-table-data text-table-data">POL-88271-X</td>
+<td class="px-6 py-4 font-table-data text-table-data">0.5 mL</td>
+<td class="px-6 py-4 font-table-data text-table-data">Nurse S. Khan</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-medical-green-soft text-primary">COMPLETED</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 font-table-data text-table-data">14 Nov 2022</td>
+<td class="px-6 py-4 font-table-data text-table-data font-semibold text-primary">PCV (Pneumococcal)</td>
+<td class="px-6 py-4 font-table-data text-table-data">PNEM-44321-K</td>
+<td class="px-6 py-4 font-table-data text-table-data">0.5 mL</td>
+<td class="px-6 py-4 font-table-data text-table-data">Nurse J. Doe</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-medical-green-soft text-primary">COMPLETED</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 font-table-data text-table-data">14 Aug 2022</td>
+<td class="px-6 py-4 font-table-data text-table-data font-semibold text-primary">BCG (Tuberculosis)</td>
+<td class="px-6 py-4 font-table-data text-table-data">TBV-99003-M</td>
+<td class="px-6 py-4 font-table-data text-table-data">0.1 mL</td>
+<td class="px-6 py-4 font-table-data text-table-data">Nurse J. Doe</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-medical-green-soft text-primary">COMPLETED</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-auto p-4 border-t border-border-subtle bg-surface-container-lowest text-center">
+<button class="text-primary font-label-md text-label-md hover:underline">View All Historical Records</button>
+</div>
+</div>
+<!-- Right Column: Due Vaccines Schedule -->
+<div class="col-span-4 space-y-6">
+<!-- Schedule Card -->
+<div class="bg-white border border-border-subtle">
+<div class="px-6 py-4 border-b border-border-subtle bg-slate-50">
+<h3 class="font-headline-md text-headline-md text-on-surface">Immunization Schedule</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Based on National Health Ministry Standards</p>
+</div>
+<div class="p-6">
+<div class="relative border-l-2 border-slate-100 pl-6 space-y-8">
+<!-- Late Vaccine -->
+<div class="relative">
+<div class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-secondary ring-4 ring-white"></div>
+<div class="flex justify-between items-start mb-1">
+<p class="font-label-md text-label-md text-secondary uppercase">Overdue</p>
+<p class="text-[11px] font-semibold bg-pending-soft text-tertiary px-2 py-0.5 rounded">24 Months</p>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Meningococcal ACWY</h4>
+<p class="text-body-sm text-on-surface-variant mt-1">Recommended age: 24 months. Missed appointment on 12 May 2024.</p>
+<button class="mt-3 w-full border border-secondary text-secondary py-2 font-label-md text-label-md hover:bg-secondary-container hover:text-white transition-all">Schedule Appointment</button>
+</div>
+<!-- Next Vaccine -->
+<div class="relative">
+<div class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-primary ring-4 ring-white"></div>
+<div class="flex justify-between items-start mb-1">
+<p class="font-label-md text-label-md text-primary uppercase">Upcoming</p>
+<p class="text-[11px] font-semibold bg-surface-container text-on-surface px-2 py-0.5 rounded">4 Years</p>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface">DTPa / Polio Booster</h4>
+<p class="text-body-sm text-on-surface-variant mt-1">Scheduled for May 2026. Required for primary school enrollment.</p>
+</div>
+<!-- Future Vaccine -->
+<div class="relative opacity-60">
+<div class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-slate-300 ring-4 ring-white"></div>
+<div class="flex justify-between items-start mb-1">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase">Future</p>
+<p class="text-[11px] font-semibold bg-surface-container text-on-surface px-2 py-0.5 rounded">12 Years</p>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface">HPV / dTpa Booster</h4>
+<p class="text-body-sm text-on-surface-variant mt-1">Year 7 School Program. Target: 2034.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Compliance Check Card -->
+<div class="bg-primary p-6 shadow-md text-white">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-3xl">verified</span>
+<div>
+<h4 class="font-headline-md text-headline-md mb-1">Compliance Status</h4>
+<p class="text-body-sm opacity-90 leading-relaxed mb-4">Patient is partially compliant. One mandatory dose is overdue for the current age bracket (2-3 years).</p>
+<div class="w-full bg-primary-container h-2 rounded-full mb-2">
+<div class="bg-inverse-primary h-full rounded-full w-[85%]"></div>
+</div>
+<p class="font-label-md text-[10px] text-right uppercase">85% Complete</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Compliance & Regulatory Footer -->
+<div class="mt-8 pt-6 border-t border-border-subtle flex justify-between items-center text-on-surface-variant font-body-sm">
+<div class="flex gap-6">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">gavel</span> HL7/FHIR Compliant</span>
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">lock</span> HIPAA Data Encryption Active</span>
+</div>
+<p>Last Data Sync: 24 May 2024, 08:42 AM</p>
+</div>
+</main>
+<!-- Micro-interaction for Table Rows -->
+<script>
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                // Future expansion: open detail modal
+                console.log('Record details requested');
+            });
+        });
+    </script>
+</body></html>

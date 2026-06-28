@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Triage Summary - MediCare Central</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#eff4ff",
+                        "inverse-primary": "#8ad97a",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "secondary-container": "#ea002c",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "on-tertiary-fixed": "#2d1600",
+                        "on-surface": "#0b1c30",
+                        "tertiary-fixed": "#ffdcc0",
+                        "outline-variant": "#c0cab8",
+                        "secondary": "#bb0021",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#ffdad7",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#8ad97a",
+                        "medical-green-soft": "#E8F5E9",
+                        "emergency-dark": "#B80021",
+                        "surface-container-high": "#dce9ff",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "on-primary-fixed": "#002201",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#d3e4fe",
+                        "pending-soft": "#FFF4E8",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#005304",
+                        "inverse-on-surface": "#eaf1ff",
+                        "emergency-soft": "#FDECEF",
+                        "border-subtle": "#E2E8F0",
+                        "tertiary-container": "#784200",
+                        "surface-container-highest": "#d3e4fe",
+                        "background": "#f8f9ff",
+                        "on-tertiary-container": "#ffb168",
+                        "surface": "#f8f9ff",
+                        "primary": "#004302",
+                        "surface-tint": "#206d1b",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#cbdbf5",
+                        "on-secondary-fixed-variant": "#930018",
+                        "outline": "#707a6b",
+                        "on-secondary-container": "#fffbff",
+                        "on-surface-variant": "#40493c",
+                        "app-bg": "#F8FAFC",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#86d576",
+                        "deep-forest": "#064906",
+                        "on-background": "#0b1c30",
+                        "primary-fixed": "#a5f693",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary": "#572e00",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "primary-container": "#0b5d0b",
+                        "on-secondary-fixed": "#410005",
+                        "accent-blue": "#EAF3FA"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "topbar-height": "64px",
+                        "gutter": "1.5rem",
+                        "margin-mobile": "1rem",
+                        "margin-desktop": "2rem",
+                        "container-max": "1440px",
+                        "sidebar-width": "260px"
+                    },
+                    "fontFamily": {
+                        "table-data": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC;
+            color: #0b1c30;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1rem;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E2E8F0;
+        }
+        .status-indicator {
+            width: 4px;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md">
+<!-- Side Navigation Bar -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-deep-forest dark:bg-on-surface border-r border-outline-variant/20 flex flex-col py-6 z-50">
+<div class="px-6 mb-8">
+<h1 class="font-headline-lg text-headline-lg font-bold text-white tracking-tight">MediCare Central</h1>
+<p class="font-label-md text-label-md text-primary-fixed/70 uppercase tracking-widest mt-1">Clinical Portal</p>
+</div>
+<nav class="flex-1 space-y-1 px-2">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary text-white border-l-4 border-secondary-container transition-transform scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="queue">queue</span>
+<span class="font-label-md text-label-md">Patient Queues</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:bg-primary-container/30 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="vital_signs">vital_signs</span>
+<span class="font-label-md text-label-md">Clinical Vitals</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:bg-primary-container/30 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label-md text-label-md">Nursing Notes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:bg-primary-container/30 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="vaccines">vaccines</span>
+<span class="font-label-md text-label-md">Immunizations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-surface-variant hover:bg-primary-container/30 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="child_care">child_care</span>
+<span class="font-label-md text-label-md">Child Health</span>
+</a>
+</nav>
+<div class="mt-auto px-2 space-y-1">
+<button class="w-full mb-4 px-4 py-3 bg-secondary text-white font-label-md text-label-md rounded flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="emergency">emergency</span>
+                Emergency Admission
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 text-surface-variant hover:bg-primary-container/20 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-surface-variant hover:bg-primary-container/20 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="ml-sidebar-width flex flex-col min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface-container-lowest dark:bg-inverse-surface border-b border-border-subtle flex justify-between items-center px-gutter z-40">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-deep-forest dark:text-primary-fixed">Nursing &amp; Triage</span>
+<div class="hidden md:flex gap-4">
+<span class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="location_on">location_on</span>
+                        Facility: Main Campus
+                    </span>
+<span class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary">Ward: A1</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 border-r border-border-subtle pr-6">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 text-secondary border border-secondary font-label-md text-label-md hover:bg-secondary/5 active:opacity-80 transition-all">Emergency Alert</button>
+<button class="px-4 py-2 bg-primary text-white font-label-md text-label-md hover:opacity-90 active:opacity-80 transition-all">Check In</button>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<main class="mt-topbar-height p-margin-desktop flex-1">
+<div class="max-w-container-max mx-auto">
+<!-- Triage Header Summary -->
+<div class="mb-8 flex justify-between items-end">
+<div>
+<nav class="flex text-on-surface-variant font-label-md text-label-md mb-2">
+<span>Triage Process</span>
+<span class="mx-2">/</span>
+<span class="text-primary font-bold">Summary</span>
+</nav>
+<h2 class="font-display-lg text-display-lg text-on-surface">Triage Summary: John Doe</h2>
+<p class="text-on-surface-variant font-body-lg text-body-lg">Patient ID: #KH-2023-8842 • 45 Yrs • Male</p>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 px-6 py-3 border border-primary text-primary font-label-md text-label-md hover:bg-medical-green-soft transition-all">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+                            Re-triage
+                        </button>
+<button class="flex items-center gap-2 px-8 py-3 bg-primary text-white font-label-md text-label-md shadow-sm hover:bg-primary-container transition-all">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+                            Send to Clinician
+                        </button>
+</div>
+</div>
+<div class="bento-grid">
+<!-- Priority Status Card -->
+<div class="col-span-12 lg:col-span-4 glass-card p-6 relative overflow-hidden flex flex-col justify-between h-64 shadow-sm border-l-8 border-secondary">
+<div>
+<span class="font-label-md text-label-md text-secondary uppercase tracking-widest block mb-1">Priority Status</span>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-2">Level 2 - Urgent</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Patient requires immediate clinical assessment within 15 minutes. Severe symptoms noted.</p>
+</div>
+<div class="flex items-center gap-2 text-secondary font-bold">
+<span class="material-symbols-outlined" data-icon="priority_high">priority_high</span>
+<span class="font-label-md text-label-md">High Acuity Warning</span>
+</div>
+</div>
+<!-- Destination Card -->
+<div class="col-span-12 lg:col-span-4 glass-card p-6 relative overflow-hidden flex flex-col justify-between h-64 shadow-sm border-l-8 border-primary">
+<div>
+<span class="font-label-md text-label-md text-primary uppercase tracking-widest block mb-1">Suggested Destination</span>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-2">Emergency Department</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Direct admission to Resuscitation Bay 3 or Acute Care Wing A1 based on capacity.</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="px-3 py-1 bg-medical-green-soft text-primary font-label-md text-label-md rounded">ER: 2 Beds Free</div>
+<div class="px-3 py-1 bg-accent-blue text-on-surface font-label-md text-label-md rounded">OPD: 12m Wait</div>
+</div>
+</div>
+<!-- Visual Summary/Image (Representing Hospital Environment) -->
+<div class="col-span-12 lg:col-span-4 glass-card relative overflow-hidden h-64 shadow-sm group">
+<div class="absolute inset-0 z-10 bg-gradient-to-t from-on-surface/60 to-transparent"></div>
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A clean, brightly lit modern hospital corridor with polished floors and glass partitions. The lighting is clinical yet calm, with soft blues and greens in the interior design. Medical staff in professional scrubs are visible in the distance, conveying a busy but organized healthcare setting with high-end technological equipment visible." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX4p069v-dIAsW3VKkVV4qAgTRuvIo_puUggK8Z7VqDc9bU9qQMWISWuTK-bMygob9b9YJewk4TmXnOIhV5AQFRqmd_JzH65HM3-6guYd8j4dakRzxbuiFaKDofM5gVvScM4xhzPDB6ylBXfMDUE_RN37IlDCQvX_j0VBeqV93vMnSYdn2JGN2ThMGfD6lNBFbPPLR-AuwcafzuoCH5p8d9ZX_11BGPkS02PlFyps6vzpumc-2ydLD9qT87MG5FEsDDraT3m0xJu4"/>
+<div class="absolute bottom-4 left-4 z-20">
+<span class="text-white font-headline-md text-headline-md">Main Campus</span>
+<p class="text-white/80 font-body-sm text-body-sm">Section: Trauma Care Unit</p>
+</div>
+</div>
+<!-- Final Triage Vitals Bento Section -->
+<div class="col-span-12 glass-card p-gutter shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="vital_signs">vital_signs</span>
+                                Final Triage Vitals
+                            </h3>
+<span class="text-on-surface-variant font-label-md text-label-md">Recorded: 10:42 AM</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+<!-- BP -->
+<div class="p-4 bg-background border border-border-subtle rounded flex flex-col items-center text-center">
+<span class="font-label-md text-label-md text-on-surface-variant mb-2">Blood Pressure</span>
+<span class="font-headline-lg text-headline-lg text-secondary">145/92</span>
+<span class="font-label-md text-label-md text-secondary mt-1 uppercase">Elevated</span>
+</div>
+<!-- Heart Rate -->
+<div class="p-4 bg-background border border-border-subtle rounded flex flex-col items-center text-center">
+<span class="font-label-md text-label-md text-on-surface-variant mb-2">Heart Rate</span>
+<span class="font-headline-lg text-headline-lg text-on-surface">98 bpm</span>
+<span class="font-label-md text-label-md text-primary mt-1 uppercase">Normal High</span>
+</div>
+<!-- SpO2 -->
+<div class="p-4 bg-background border border-border-subtle rounded flex flex-col items-center text-center">
+<span class="font-label-md text-label-md text-on-surface-variant mb-2">Oxygen (SpO2)</span>
+<span class="font-headline-lg text-headline-lg text-on-surface">94%</span>
+<span class="font-label-md text-label-md text-on-secondary-fixed-variant mt-1 uppercase">Observation</span>
+</div>
+<!-- Temp -->
+<div class="p-4 bg-background border border-border-subtle rounded flex flex-col items-center text-center">
+<span class="font-label-md text-label-md text-on-surface-variant mb-2">Temperature</span>
+<span class="font-headline-lg text-headline-lg text-on-surface">38.2°C</span>
+<span class="font-label-md text-label-md text-secondary mt-1 uppercase">Febrile</span>
+</div>
+<!-- RR -->
+<div class="p-4 bg-background border border-border-subtle rounded flex flex-col items-center text-center">
+<span class="font-label-md text-label-md text-on-surface-variant mb-2">Resp Rate</span>
+<span class="font-headline-lg text-headline-lg text-on-surface">22 /min</span>
+<span class="font-label-md text-label-md text-primary mt-1 uppercase">Normal</span>
+</div>
+<!-- Pain -->
+<div class="p-4 bg-background border border-border-subtle rounded flex flex-col items-center text-center">
+<span class="font-label-md text-label-md text-on-surface-variant mb-2">Pain Scale</span>
+<span class="font-headline-lg text-headline-lg text-secondary">7/10</span>
+<span class="font-label-md text-label-md text-secondary mt-1 uppercase">Severe</span>
+</div>
+</div>
+</div>
+<!-- Clinical Notes / Observations -->
+<div class="col-span-12 lg:col-span-8 glass-card p-6 shadow-sm">
+<h4 class="font-headline-md text-headline-md mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="notes">notes</span>
+                            Triage Officer Notes
+                        </h4>
+<div class="space-y-4">
+<p class="font-body-md text-body-md text-on-surface-variant border-l-4 border-accent-blue pl-4 py-2 italic bg-accent-blue/20">
+                                "Patient presenting with acute chest discomfort radiating to the left arm. Onset 45 minutes prior to arrival. History of hypertension. Administered 300mg Aspirin at triage desk."
+                            </p>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-surface-container-low rounded">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-1">Chief Complaint</span>
+<span class="font-body-lg text-body-lg font-bold">Chest Pain / Dyspnea</span>
+</div>
+<div class="p-4 bg-surface-container-low rounded">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-1">Allergies</span>
+<span class="font-body-lg text-body-lg text-secondary font-bold">Penicillin, Latex</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Timeline / Status Checklist -->
+<div class="col-span-12 lg:col-span-4 glass-card p-6 shadow-sm">
+<h4 class="font-headline-md text-headline-md mb-4">Process Checklist</h4>
+<ul class="space-y-4">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface">Vitals Successfully Captured</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface">Risk Assessment Completed</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface">Medication History Logged</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Waiting for Clinician Assignment</span>
+</li>
+</ul>
+<div class="mt-8 pt-6 border-t border-border-subtle text-center">
+<p class="font-label-md text-label-md text-on-surface-variant mb-4">Suggested Next Step:</p>
+<button class="w-full py-4 bg-primary text-white font-headline-md text-headline-md flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+                                Finalize &amp; Transfer
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.addEventListener('mousedown', () => {
+                    btn.classList.add('scale-95');
+                });
+                btn.addEventListener('mouseup', () => {
+                    btn.classList.remove('scale-95');
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.classList.remove('scale-95');
+                });
+            });
+
+            // Simulate vital "breathing" or updating state subtly
+            const vitalValues = document.querySelectorAll('.font-headline-lg');
+            setInterval(() => {
+                vitalValues.forEach(val => {
+                    if(Math.random() > 0.8) {
+                        val.style.opacity = '0.7';
+                        setTimeout(() => val.style.opacity = '1', 100);
+                    }
+                });
+            }, 3000);
+        });
+    </script>
+</body></html>

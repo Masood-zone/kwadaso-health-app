@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Emergency Alert | KHMS Clinical Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .emergency-pulse {
+            animation: pulse-red 2s infinite ease-in-out;
+        }
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(186, 26, 26, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(186, 26, 26, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(186, 26, 26, 0); }
+        }
+        .critical-glow {
+            background: linear-gradient(135deg, #ba1a1a 0%, #93000a 100%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#eff4ff",
+                        "inverse-primary": "#8ad97a",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "secondary-container": "#ea002c",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "on-tertiary-fixed": "#2d1600",
+                        "on-surface": "#0b1c30",
+                        "tertiary-fixed": "#ffdcc0",
+                        "outline-variant": "#c0cab8",
+                        "secondary": "#bb0021",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#ffdad7",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#8ad97a",
+                        "medical-green-soft": "#E8F5E9",
+                        "emergency-dark": "#B80021",
+                        "surface-container-high": "#dce9ff",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "on-primary-fixed": "#002201",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#d3e4fe",
+                        "pending-soft": "#FFF4E8",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#005304",
+                        "inverse-on-surface": "#eaf1ff",
+                        "emergency-soft": "#FDECEF",
+                        "border-subtle": "#E2E8F0",
+                        "tertiary-container": "#784200",
+                        "surface-container-highest": "#d3e4fe",
+                        "background": "#f8f9ff",
+                        "on-tertiary-container": "#ffb168",
+                        "surface": "#f8f9ff",
+                        "primary": "#004302",
+                        "surface-tint": "#206d1b",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#cbdbf5",
+                        "on-secondary-fixed-variant": "#930018",
+                        "outline": "#707a6b",
+                        "on-secondary-container": "#fffbff",
+                        "on-surface-variant": "#40493c",
+                        "app-bg": "#F8FAFC",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#86d576",
+                        "deep-forest": "#064906",
+                        "on-background": "#0b1c30",
+                        "primary-fixed": "#a5f693",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary": "#572e00",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "primary-container": "#0b5d0b",
+                        "on-secondary-fixed": "#410005",
+                        "accent-blue": "#EAF3FA"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "topbar-height": "64px",
+                        "gutter": "1.5rem",
+                        "margin-mobile": "1rem",
+                        "margin-desktop": "2rem",
+                        "container-max": "1440px",
+                        "sidebar-width": "260px"
+                    },
+                    "fontFamily": {
+                        "table-data": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-app-bg min-h-screen text-on-surface antialiased overflow-hidden">
+<!-- Emergency Shell -->
+<main class="fixed inset-0 z-50 flex flex-col items-center justify-center p-gutter bg-emergency-soft/90 backdrop-blur-md">
+<!-- Header Section -->
+<div class="w-full max-w-4xl text-center mb-8">
+<div class="inline-flex items-center gap-4 bg-error text-white px-8 py-4 rounded-lg critical-glow emergency-pulse mb-6">
+<span class="material-symbols-outlined text-[48px]" style="font-variation-settings: 'FILL' 1;">error</span>
+<h1 class="font-display-lg text-display-lg uppercase tracking-wider">Emergency Alert</h1>
+</div>
+<p class="font-headline-md text-headline-md text-emergency-dark font-bold">
+                CRITICAL SYSTEM TRIGGER: IMMEDIATE INTERVENTION REQUIRED
+            </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full max-w-6xl">
+<!-- Patient & Vital Summary (Left) -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-xl shadow-sm">
+<div class="flex items-center gap-4 mb-6 border-b border-border-subtle pb-4">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-error">
+<img class="w-full h-full object-cover" data-alt="A clinical close-up portrait of an elderly male patient in a hospital gown, looking slightly fatigued but stable, neutral lighting, medical setting, high-detail professional photography for healthcare software." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw11FVlsSccBwBQ2Zuhyc_ZadpfxaWDIxos9sCqi832TGZakx5wUyQowbQqauvg-lT9UYh0i9gmcg_7VZYdWGW1PmkpcrMGQJO4Jh9Vk9M5iiaHL4Mw77TvfCWHcrd_RdK7MF9cGthsbbArKZ7ojrd0pTR_bnVcIgniE458kfWWJDouV9_S-K1azhMjs7c-qZc-748Ev2EcAYqo5j253uM_rsSw7vIgFwgzMzVdXz974knMJeAWWM8mB_IK37xmLF5kYfzRaE_yfM"/>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Arthur Jenkins</h2>
+<p class="font-label-md text-label-md text-on-surface-variant">ID: #MS-992-04 | Room: 402-B</p>
+</div>
+</div>
+<h3 class="font-label-md text-label-md uppercase text-on-surface-variant mb-4">Critical Vitals (Last 30s)</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 bg-emergency-soft border-l-4 border-error rounded">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error">favorite</span>
+<span class="font-body-md text-body-md font-semibold">Heart Rate</span>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md text-error">162</span>
+<span class="font-label-md text-label-md text-on-surface-variant ml-1">BPM</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 bg-emergency-soft border-l-4 border-error rounded">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error">air</span>
+<span class="font-body-md text-body-md font-semibold">SpO2</span>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md text-error">84</span>
+<span class="font-label-md text-label-md text-on-surface-variant ml-1">%</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 bg-surface-container-low border-l-4 border-outline rounded">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">blood_pressure</span>
+<span class="font-body-md text-body-md font-semibold">BP</span>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md text-on-surface">190/115</span>
+<span class="font-label-md text-label-md text-on-surface-variant ml-1">mmHg</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-xl shadow-sm">
+<h3 class="font-label-md text-label-md uppercase text-on-surface-variant mb-4">Triggering Logic</h3>
+<p class="font-body-md text-body-md text-on-surface">
+                        Multiple algorithmic flags detected: Sustained Tachycardia (&gt;150bpm) and Acute Hypoxia (&lt;88%) for over 45 seconds. High probability of <span class="font-bold text-error">Cardiac Arrest</span> or <span class="font-bold text-error">Respiratory Failure</span>.
+                    </p>
+</div>
+</div>
+<!-- Critical Flags & Actions (Right) -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-xl shadow-sm h-full">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Confirmed Red Flags</h3>
+<div class="space-y-3 mb-8">
+<div class="flex items-center gap-4 p-4 border border-error/30 bg-emergency-soft/50 rounded-lg">
+<div class="w-6 h-6 rounded-full bg-error flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-lg text-body-lg text-error font-bold">Severe Respiratory Distress</span>
+</div>
+<div class="flex items-center gap-4 p-4 border border-error/30 bg-emergency-soft/50 rounded-lg">
+<div class="w-6 h-6 rounded-full bg-error flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-lg text-body-lg text-error font-bold">Potential Cardiac Arrest</span>
+</div>
+<div class="flex items-center gap-4 p-4 border border-error/30 bg-emergency-soft/50 rounded-lg">
+<div class="w-6 h-6 rounded-full bg-error flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-lg text-body-lg text-error font-bold">Level 1 Loss of Consciousness</span>
+</div>
+<div class="flex items-center gap-4 p-4 border border-border-subtle opacity-50 rounded-lg grayscale">
+<div class="w-6 h-6 rounded-full border border-outline flex items-center justify-center"></div>
+<span class="font-body-lg text-body-lg text-on-surface-variant">Hypoglycemic Shock</span>
+</div>
+</div>
+<div class="mt-auto space-y-4">
+<button class="w-full py-6 bg-error text-white rounded-lg flex items-center justify-center gap-3 transition-transform active:scale-95 critical-glow" onclick="alert('Doctor Escallated - Code Blue Broadcasted')">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+<span class="font-headline-lg text-headline-lg font-bold">ESCALATE TO DOCTOR</span>
+</button>
+<button class="w-full py-4 border-2 border-emergency-dark text-emergency-dark rounded-lg flex items-center justify-center gap-3 hover:bg-emergency-soft transition-colors active:scale-95" onclick="alert('Rapid Response Team Notified')">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">group_add</span>
+<span class="font-headline-md text-headline-md font-bold uppercase">Notify Rapid Response Team</span>
+</button>
+<div class="flex gap-4">
+<button class="flex-1 py-3 bg-surface-container-high text-on-surface rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-surface-container-highest" onclick="window.history.back()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+                                FALSE POSITIVE / DISMISS
+                            </button>
+<button class="flex-1 py-3 bg-surface-container-high text-on-surface rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-surface-container-highest">
+<span class="material-symbols-outlined text-[20px]">print</span>
+                                PRINT STRIP
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Protocol Strip -->
+<div class="mt-12 w-full max-w-6xl py-4 px-6 bg-inverse-surface text-inverse-on-surface flex justify-between items-center rounded-lg">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-inverse-primary">verified_user</span>
+<p class="font-body-sm text-body-sm">KHMS Safety Protocol Active. All actions on this screen are logged and timestamped for clinical audit.</p>
+</div>
+<div class="font-table-data text-table-data opacity-80" id="timestamp">
+                Current Time: 14:22:09 UTC
+            </div>
+</div>
+</main>
+<!-- Background Simulation (Blurred Content) -->
+<div class="p-margin-desktop opacity-10 pointer-events-none scale-95 origin-top">
+<header class="h-topbar-height flex items-center justify-between mb-8 border-b border-border-subtle">
+<h1 class="font-headline-lg text-headline-lg text-deep-forest">MediCare Central</h1>
+<div class="flex gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full"></div>
+<div class="w-10 h-10 bg-surface-container-highest rounded-full"></div>
+</div>
+</header>
+<div class="grid grid-cols-4 gap-6">
+<div class="h-64 bg-white border border-border-subtle rounded-xl"></div>
+<div class="h-64 bg-white border border-border-subtle rounded-xl"></div>
+<div class="h-64 bg-white border border-border-subtle rounded-xl"></div>
+<div class="h-64 bg-white border border-border-subtle rounded-xl"></div>
+</div>
+</div>
+<script>
+        // Real-time timestamp
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toTimeString().split(' ')[0];
+            document.getElementById('timestamp').textContent = `Clinical Timestamp: ${timeStr} UTC`;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Sound effect simulation (optional atmospheric layer)
+        // In a real environment, this would trigger a continuous medical alert tone.
+        window.addEventListener('load', () => {
+            console.log("Emergency UI Loaded - Monitoring Vitals Stream");
+        });
+    </script>
+</body></html>

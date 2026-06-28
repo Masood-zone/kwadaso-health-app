@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nursing &amp; Triage Handover - KHMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#eff4ff",
+                    "inverse-primary": "#8ad97a",
+                    "surface-container": "#e5eeff",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "secondary-container": "#ea002c",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#213145",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-surface": "#0b1c30",
+                    "tertiary-fixed": "#ffdcc0",
+                    "outline-variant": "#c0cab8",
+                    "secondary": "#bb0021",
+                    "on-error": "#ffffff",
+                    "secondary-fixed": "#ffdad7",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary-fixed-dim": "#8ad97a",
+                    "medical-green-soft": "#E8F5E9",
+                    "emergency-dark": "#B80021",
+                    "surface-container-high": "#dce9ff",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "on-primary-fixed": "#002201",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#d3e4fe",
+                    "pending-soft": "#FFF4E8",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed-variant": "#005304",
+                    "inverse-on-surface": "#eaf1ff",
+                    "emergency-soft": "#FDECEF",
+                    "border-subtle": "#E2E8F0",
+                    "tertiary-container": "#784200",
+                    "surface-container-highest": "#d3e4fe",
+                    "background": "#f8f9ff",
+                    "on-tertiary-container": "#ffb168",
+                    "surface": "#f8f9ff",
+                    "primary": "#004302",
+                    "surface-tint": "#206d1b",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#cbdbf5",
+                    "on-secondary-fixed-variant": "#930018",
+                    "outline": "#707a6b",
+                    "on-secondary-container": "#fffbff",
+                    "on-surface-variant": "#40493c",
+                    "app-bg": "#F8FAFC",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#86d576",
+                    "deep-forest": "#064906",
+                    "on-background": "#0b1c30",
+                    "primary-fixed": "#a5f693",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary": "#572e00",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "primary-container": "#0b5d0b",
+                    "on-secondary-fixed": "#410005",
+                    "accent-blue": "#EAF3FA"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "topbar-height": "64px",
+                    "gutter": "1.5rem",
+                    "margin-mobile": "1rem",
+                    "margin-desktop": "2rem",
+                    "container-max": "1440px",
+                    "sidebar-width": "260px"
+            },
+            "fontFamily": {
+                    "table-data": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Manrope"]
+            },
+            "fontSize": {
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .signature-pad {
+            background-image: radial-gradient(#E2E8F0 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-deep-forest dark:bg-on-surface border-r border-outline-variant/20 shadow-sm flex flex-col py-6 z-50">
+<div class="px-6 mb-10">
+<h1 class="font-headline-lg text-headline-lg font-bold text-white tracking-tight">MediCare Central</h1>
+<p class="font-label-md text-label-md text-primary-fixed/70 uppercase tracking-widest mt-1">Clinical Portal</p>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<!-- Navigation Items Mapping from JSON -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-variant hover:bg-primary-container/30 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">queue</span>
+<span class="font-label-md text-label-md">Patient Queues</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-variant hover:bg-primary-container/30 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">vital_signs</span>
+<span class="font-label-md text-label-md">Clinical Vitals</span>
+</a>
+<!-- Active State: Nursing Notes (Handover Context) -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary text-white border-l-4 border-secondary-container transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md">Nursing Notes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-variant hover:bg-primary-container/30 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">vaccines</span>
+<span class="font-label-md text-label-md">Immunizations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-variant hover:bg-primary-container/30 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">child_care</span>
+<span class="font-label-md text-label-md">Child Health</span>
+</a>
+</nav>
+<div class="px-3 mt-auto space-y-1 pt-6 border-t border-outline-variant/10">
+<button class="w-full flex items-center justify-center gap-2 bg-secondary text-white font-label-md text-label-md py-3 rounded-lg hover:bg-emergency-dark transition-all active:scale-95 mb-4 shadow-lg shadow-secondary/20">
+<span class="material-symbols-outlined">emergency</span>
+                Emergency Admission
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-surface-variant hover:bg-primary-container/20 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-surface-variant hover:bg-primary-container/20 transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface-container-lowest border-b border-border-subtle flex justify-between items-center px-gutter z-40">
+<div class="flex items-center gap-6">
+<div class="flex flex-col">
+<h2 class="font-headline-md text-headline-md font-bold text-deep-forest">Nursing &amp; Triage</h2>
+<div class="flex gap-4">
+<span class="text-primary font-bold border-b-2 border-primary font-body-sm text-body-sm">Facility: Main Campus</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Ward: A1</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-white px-4 py-2 rounded-lg font-label-md text-label-md hover:opacity-90 active:opacity-80 transition-all">Check In</button>
+<button class="border border-secondary text-secondary px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-secondary/5 active:opacity-80 transition-all">Emergency Alert</button>
+<div class="h-8 w-[1px] bg-border-subtle mx-2"></div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low p-2 rounded-full transition-colors">notifications</span>
+<div class="flex items-center gap-2 cursor-pointer hover:bg-surface-container-low p-1 pr-3 rounded-full transition-colors">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of a female nurse in clinical scrubs, soft studio lighting, high-end medical professional photography style, neutral corporate background, medical green and white color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD2JdLAonWN9cdZIGlUCdJB4MBaEtgmH-T_b9plYv8mSh5FFGjcrgO51PAcn2cuA3auF05itduZTSYMPor9iDJY1meZSS8tNB9zsmC8tGYbku7uP-qRE7WSO-5zinWWEqM5zNp3Q5h1Hy12MuKA55hzKH9aOBtaislQnmyEG3zwU-fnQ2L6ODG5gpYEv3oYk9LmSf6AT9AoeRWRsrYWV6L3X4rHwmN_3XxAZh-7e985OJPX4u80GSVgzawZdZWOAKKtDHPpeehTrE"/>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[260px] pt-topbar-height h-screen overflow-y-auto px-gutter py-8">
+<!-- Handover Header -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<nav class="flex text-body-sm text-on-surface-variant mb-2 gap-2">
+<span>Clinical Records</span>
+<span>/</span>
+<span class="text-primary font-semibold">Shift Handover</span>
+</nav>
+<h3 class="font-display-lg text-display-lg text-on-surface tracking-tight">Shift Change Documentation</h3>
+<p class="text-on-surface-variant font-body-lg text-body-lg">Shift: Day (07:00 - 19:00) | Oct 24, 2023</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 border border-border-subtle bg-white px-4 py-2 rounded-lg text-on-surface-variant font-label-md hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[20px]">print</span>
+                    Print Summary
+                </button>
+<button class="flex items-center gap-2 bg-deep-forest text-white px-6 py-2 rounded-lg font-label-md hover:opacity-95 shadow-md">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                    Finalize Handover
+                </button>
+</div>
+</div>
+<!-- Bento Layout for Handover -->
+<div class="bento-grid pb-12">
+<!-- Column 1: Summary & Critical Patients -->
+<div class="col-span-12 lg:col-span-7 space-y-6">
+<!-- Shift Summary Card -->
+<section class="bg-white rounded-xl border border-border-subtle p-6 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-headline-md text-headline-md flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                            Shift Summary
+                        </h4>
+<span class="text-body-sm text-on-surface-variant">4 Records Updated</span>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div class="bg-surface-container-low p-4 rounded-lg border border-primary/10">
+<p class="text-label-md font-label-md text-on-surface-variant uppercase">Admissions</p>
+<p class="text-display-lg font-display-lg text-primary">03</p>
+</div>
+<div class="bg-emergency-soft p-4 rounded-lg border border-secondary/10">
+<p class="text-label-md font-label-md text-on-secondary-fixed-variant uppercase">Discharges</p>
+<p class="text-display-lg font-display-lg text-secondary">01</p>
+</div>
+<div class="bg-accent-blue p-4 rounded-lg border border-primary/10">
+<p class="text-label-md font-label-md text-on-surface-variant uppercase">Procedures</p>
+<p class="text-display-lg font-display-lg text-deep-forest">05</p>
+</div>
+</div>
+<div class="mt-4">
+<textarea class="w-full bg-surface-container-lowest border border-border-subtle rounded-lg p-4 font-body-md text-body-md focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all h-24" placeholder="Enter general shift observations and ward events..."></textarea>
+</div>
+</section>
+<!-- Critical Patients Section -->
+<section class="bg-white rounded-xl border border-border-subtle p-6 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-headline-md text-headline-md flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">priority_high</span>
+                            Critical Patients
+                        </h4>
+<button class="text-primary font-label-md hover:underline">+ Add to Watchlist</button>
+</div>
+<div class="space-y-4">
+<!-- Critical Patient Row 1 -->
+<div class="flex items-stretch gap-4 p-4 rounded-xl border-l-4 border-secondary bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div class="flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<p class="font-headline-md text-headline-md">Jonathan Reed <span class="text-on-surface-variant text-body-md font-normal">(Bed 402)</span></p>
+<div class="flex gap-2 mt-1">
+<span class="bg-emergency-soft text-emergency-dark px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border border-secondary/20">Triage: Level 1</span>
+<span class="bg-medical-green-soft text-deep-forest px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border border-primary/20">Post-Op</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-label-md font-label-md text-on-surface-variant">Last Vitals: 10:45 AM</p>
+<p class="text-emergency-dark font-bold text-body-sm">BP: 160/95 ↓</p>
+</div>
+</div>
+<p class="text-body-md text-on-surface-variant italic">"Monitoring for sepsis. Drain output increased. Dr. Miller notified."</p>
+</div>
+<button class="bg-surface-container-low px-4 rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</button>
+</div>
+<!-- Critical Patient Row 2 -->
+<div class="flex items-stretch gap-4 p-4 rounded-xl border-l-4 border-tertiary-container bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow">
+<div class="flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<p class="font-headline-md text-headline-md">Sarah Jenkins <span class="text-on-surface-variant text-body-md font-normal">(Bed 415)</span></p>
+<div class="flex gap-2 mt-1">
+<span class="bg-pending-soft text-tertiary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border border-tertiary/20">Triage: Level 2</span>
+<span class="bg-accent-blue text-deep-forest px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border border-primary/20">Diabetes Mgmt</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-label-md font-label-md text-on-surface-variant">Last Vitals: 11:15 AM</p>
+<p class="text-tertiary-container font-bold text-body-sm">Sugar: 240 mg/dL ↑</p>
+</div>
+</div>
+<p class="text-body-md text-on-surface-variant italic">"Requires insulin correction at 13:00. Patient reporting dizziness."</p>
+</div>
+<button class="bg-surface-container-low px-4 rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Column 2: Pending Care & Handover Notes -->
+<div class="col-span-12 lg:col-span-5 space-y-6">
+<!-- Pending Care Tasks -->
+<section class="bg-white rounded-xl border border-border-subtle p-6 shadow-sm overflow-hidden relative">
+<div class="absolute top-0 right-0 w-32 h-32 opacity-10">
+
+</div>
+<h4 class="font-headline-md text-headline-md flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">assignment_turned_in</span>
+                        Pending Care Tasks
+                    </h4>
+<div class="space-y-4 relative z-10">
+<div class="flex items-start gap-4 pb-4 border-b border-border-subtle">
+<div class="w-10 h-10 rounded-full bg-medical-green-soft flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">medication</span>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md text-deep-forest">Medication Due (12:00)</p>
+<p class="text-body-sm text-on-surface-variant">IV Antibiotics - Bed 402, 408</p>
+</div>
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+</div>
+<div class="flex items-start gap-4 pb-4 border-b border-border-subtle">
+<div class="w-10 h-10 rounded-full bg-accent-blue flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">science</span>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md text-deep-forest">Lab Collection</p>
+<p class="text-body-sm text-on-surface-variant">CBC/Lytes for Sarah Jenkins (415)</p>
+</div>
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-pending-soft flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary">monitor_heart</span>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md text-deep-forest">Wound Dressing</p>
+<p class="text-body-sm text-on-surface-variant">Pressure ulcer care - Bed 422</p>
+</div>
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+</div>
+</div>
+</section>
+<!-- Incoming Staff Notes -->
+<section class="bg-deep-forest rounded-xl p-6 shadow-xl text-white">
+<h4 class="font-headline-md text-headline-md flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary-fixed">comment</span>
+                        Handover Notes
+                    </h4>
+<p class="text-body-sm text-primary-fixed/80 mb-4">Crucial info for the incoming night shift team.</p>
+<textarea class="w-full bg-white/10 border border-white/20 rounded-lg p-4 font-body-md text-white placeholder:text-white/40 focus:ring-2 focus:ring-primary-fixed outline-none transition-all h-32" placeholder="List high-priority concerns, family updates, or equipment issues..."></textarea>
+<div class="mt-6 space-y-4">
+<div class="p-3 bg-white/5 rounded-lg border border-white/10">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary-fixed" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<p class="text-label-md font-label-md">Inventory Alert</p>
+<p class="text-body-sm text-white/70">Oxygen regulators low in Ward A1 storage.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Full Width: Digital Signature -->
+<div class="col-span-12">
+<section class="bg-white rounded-xl border border-border-subtle p-8 shadow-md">
+<h4 class="font-headline-md text-headline-md text-center mb-8">Handover Attestation</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+<!-- Outgoing Signature -->
+<div class="space-y-4">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase text-center">Outgoing Nurse Signature</p>
+<div class="signature-pad h-40 border-2 border-dashed border-border-subtle rounded-xl flex items-center justify-center group cursor-pointer hover:border-primary transition-colors">
+<div class="text-center group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant/30">draw</span>
+<p class="text-body-sm text-on-surface-variant/50">Click to Sign (Nurse Diane Cooper)</p>
+</div>
+</div>
+<p class="text-center text-body-sm text-on-surface-variant">Time: 18:45:12</p>
+</div>
+<!-- Incoming Signature -->
+<div class="space-y-4">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase text-center">Incoming Nurse Signature</p>
+<div class="signature-pad h-40 border-2 border-dashed border-border-subtle rounded-xl flex items-center justify-center group cursor-pointer hover:border-primary transition-colors">
+<div class="text-center group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant/30">signature</span>
+<p class="text-body-sm text-on-surface-variant/50">Click to Sign (Nurse James Hall)</p>
+</div>
+</div>
+<p class="text-center text-body-sm text-on-surface-variant">Awaiting Entry...</p>
+</div>
+</div>
+<div class="mt-10 flex flex-col items-center">
+<label class="flex items-center gap-3 mb-6 cursor-pointer">
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-md text-on-surface-variant">I certify that all critical patient information and pending tasks have been communicated.</span>
+</label>
+<button class="bg-primary text-white px-12 py-4 rounded-xl font-headline-md hover:shadow-xl hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-50">
+                            Complete Shift Handover
+                        </button>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Contextual Micro-Interactions Script -->
+<script>
+        // Simple signature simulation
+        document.querySelectorAll('.signature-pad').forEach(pad => {
+            pad.addEventListener('click', function() {
+                this.classList.remove('border-dashed');
+                this.classList.add('border-solid', 'bg-medical-green-soft', 'border-primary');
+                this.innerHTML = `
+                    <div class="flex flex-col items-center text-primary">
+                        <span class="material-symbols-outlined text-4xl">verified</span>
+                        <p class="font-headline-md italic">D. Cooper</p>
+                        <p class="text-[10px] uppercase font-bold tracking-widest mt-1">Authenticated via FaceID</p>
+                    </div>
+                `;
+            });
+        });
+
+        // Hover effect for patient cards
+        const patientCards = document.querySelectorAll('.flex-1');
+        patientCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Subtle interaction logic
+            });
+        });
+    </script>
+</body></html>
