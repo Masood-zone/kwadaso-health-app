@@ -374,10 +374,12 @@ model User {
   receivedPayments            Payment[]            @relation("PaymentReceivedBy")
   referralsMade               Referral[]           @relation("ReferralReferredBy")
   referralsReceived           Referral[]           @relation("ReferralReceivedBy")
+  assignedQueueEntries        PatientQueue[]       @relation("QueueAssignedTo")
   messageParticipants         MessageParticipant[]
   createdMessageThreads       MessageThread[]      @relation("MessageThreadCreatedBy")
   sentMessages                Message[]            @relation("SentMessages")
   notifications               Notification[]       @relation("UserNotifications")
+  createdNotifications        Notification[]       @relation("NotificationCreatedBy")
   auditLogs                   AuditLog[]           @relation("AuditActor")
   generatedReports            ReportExport[]       @relation("ReportGeneratedBy")
   updatedSystemSettings       SystemSetting[]      @relation("SystemSettingUpdatedBy")
@@ -488,6 +490,7 @@ model Facility {
   fromReferrals      Referral[]        @relation("ReferralFromFacility")
   toReferrals        Referral[]        @relation("ReferralToFacility")
   reportExports      ReportExport[]
+  notifications      Notification[]    @relation("FacilityNotifications")
   offlineSyncJobs    OfflineSyncJob[]
 
   @@index([type])
@@ -495,20 +498,22 @@ model Facility {
 }
 
 model Department {
-  id         String         @id @default(cuid())
-  facilityId String
-  code       String
-  name       String
-  type       DepartmentType @default(OTHER)
-  isActive   Boolean        @default(true)
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
+  id          String         @id @default(cuid())
+  facilityId  String
+  code        String
+  name        String
+  description String?
+  type        DepartmentType @default(OTHER)
+  isActive    Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 
   facility      Facility       @relation("FacilityDepartments", fields: [facilityId], references: [id], onDelete: Cascade)
   staff         User[]         @relation("DepartmentStaff")
   appointments  Appointment[]  @relation("DepartmentAppointments")
   encounters    Encounter[]    @relation("DepartmentEncounters")
   queues        PatientQueue[] @relation("DepartmentQueues")
+  notifications Notification[] @relation("DepartmentNotifications")
   fromReferrals Referral[]     @relation("ReferralFromDepartment")
   toReferrals   Referral[]     @relation("ReferralToDepartment")
 
@@ -690,6 +695,7 @@ model Appointment {
   clinicianId        String?
   title              String?
   reason             String?
+  notes              String?
   scheduledAt        DateTime
   durationMinutes    Int               @default(30)
   status             AppointmentStatus @default(SCHEDULED)
@@ -721,26 +727,32 @@ model Appointment {
 }
 
 model PatientQueue {
-  id            String         @id @default(cuid())
-  queueNo       String
-  patientId     String
-  appointmentId String?
-  departmentId  String
-  priority      TriagePriority @default(ROUTINE)
-  status        QueueStatus    @default(WAITING)
-  arrivedAt     DateTime       @default(now())
-  calledAt      DateTime?
-  completedAt   DateTime?
-  notes         String?
+  id                 String         @id @default(cuid())
+  queueNo            String
+  patientId          String
+  appointmentId      String?
+  departmentId       String
+  assignedToId       String?
+  priority           TriagePriority @default(ROUTINE)
+  status             QueueStatus    @default(WAITING)
+  arrivedAt          DateTime       @default(now())
+  calledAt           DateTime?
+  completedAt        DateTime?
+  cancelledAt        DateTime?
+  cancellationReason String?
+  reason             String?
+  notes              String?
 
   patient     Patient      @relation(fields: [patientId], references: [id], onDelete: Cascade)
   appointment Appointment? @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
   department  Department   @relation("DepartmentQueues", fields: [departmentId], references: [id])
+  assignedTo  User?        @relation("QueueAssignedTo", fields: [assignedToId], references: [id], onDelete: SetNull)
 
   @@unique([departmentId, queueNo, arrivedAt])
   @@index([patientId])
   @@index([appointmentId])
   @@index([departmentId])
+  @@index([assignedToId])
   @@index([status])
   @@index([priority])
 }
@@ -1349,22 +1361,36 @@ model Message {
 }
 
 model Notification {
-  id          String             @id @default(cuid())
-  recipientId String?
-  type        NotificationType
-  status      NotificationStatus @default(UNREAD)
-  title       String
-  body        String?
-  actionUrl   String?
-  entityType  String?
-  entityId    String?
-  readAt      DateTime?
-  createdAt   DateTime           @default(now())
+  id                 String             @id @default(cuid())
+  recipientId        String?
+  facilityId         String?
+  createdById        String?
+  targetRole         StaffRole?
+  targetDepartmentId String?
+  type               NotificationType
+  priority           MessagePriority    @default(NORMAL)
+  status             NotificationStatus @default(UNREAD)
+  title              String
+  body               String?
+  actionUrl          String?
+  entityType         String?
+  entityId           String?
+  readAt             DateTime?
+  expiresAt          DateTime?
+  createdAt          DateTime           @default(now())
 
-  recipient User? @relation("UserNotifications", fields: [recipientId], references: [id], onDelete: Cascade)
+  recipient        User?       @relation("UserNotifications", fields: [recipientId], references: [id], onDelete: Cascade)
+  facility         Facility?   @relation("FacilityNotifications", fields: [facilityId], references: [id], onDelete: Cascade)
+  createdBy        User?       @relation("NotificationCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  targetDepartment Department? @relation("DepartmentNotifications", fields: [targetDepartmentId], references: [id], onDelete: SetNull)
 
   @@index([recipientId])
+  @@index([facilityId])
+  @@index([createdById])
+  @@index([targetDepartmentId])
+  @@index([targetRole])
   @@index([type])
+  @@index([priority])
   @@index([status])
   @@index([createdAt])
 }
@@ -1382,6 +1408,9 @@ model ReportExport {
   parameters    Json?
   fileUrl       String?
   rowCount      Int?
+  status        String     @default("REQUESTED")
+  dateFrom      DateTime?
+  dateTo        DateTime?
   generatedAt   DateTime   @default(now())
 
   facility    Facility? @relation(fields: [facilityId], references: [id], onDelete: SetNull)
@@ -1390,6 +1419,9 @@ model ReportExport {
   @@index([type])
   @@index([facilityId])
   @@index([generatedById])
+  @@index([status])
+  @@index([dateFrom])
+  @@index([dateTo])
   @@index([generatedAt])
 }
 

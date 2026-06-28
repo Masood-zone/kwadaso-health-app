@@ -31,7 +31,11 @@ const hospital = {
 }
 
 const departments = [
-  { code: "ADMIN", name: "Administration", type: DepartmentType.ADMINISTRATION },
+  {
+    code: "ADMIN",
+    name: "Administration",
+    type: DepartmentType.ADMINISTRATION,
+  },
   { code: "RECORDS", name: "Records Office", type: DepartmentType.RECORDS },
   { code: "OPD", name: "Outpatient Department", type: DepartmentType.OPD },
   { code: "TRIAGE", name: "Triage", type: DepartmentType.TRIAGE },
@@ -83,6 +87,17 @@ const staffMembers = [
     jobTitle: "Triage Nurse",
     role: "NURSE",
     departmentCode: "TRIAGE",
+  },
+  {
+    staffId: "KHS-RO-001",
+    firstName: "Mr Man",
+    lastName: "Miller",
+    name: "Mr Man Miller",
+    email: "recordofficer@kwadaso.health",
+    password: DEFAULT_PASSWORD,
+    jobTitle: "Records Officer",
+    role: "RECORDS_OFFICER",
+    departmentCode: "RECORDS",
   },
 ] as const satisfies readonly StaffSeed[]
 
@@ -590,7 +605,9 @@ async function seedAdmins() {
     users.get("HOSPITAL_ADMIN")!.id
   )
 
-  console.log("Seeded SDA Hospital Kwadaso departments, pharmacy, and demo flow.")
+  console.log(
+    "Seeded SDA Hospital Kwadaso departments, pharmacy, and demo flow."
+  )
 }
 
 seedAdmins()
