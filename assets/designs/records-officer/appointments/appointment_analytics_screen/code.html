@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SDA Hospital Kwadaso - Analytics Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#fffbff",
+                    "on-background": "#0b1c30",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-low": "#eff4ff",
+                    "emergency-soft": "#FDECEF",
+                    "surface-bright": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "emergency-dark": "#B80021",
+                    "inverse-surface": "#213145",
+                    "tertiary-container": "#784200",
+                    "tertiary": "#572e00",
+                    "on-primary-container": "#86d576",
+                    "error": "#ba1a1a",
+                    "surface-container": "#e5eeff",
+                    "primary-fixed": "#a5f693",
+                    "surface": "#f8f9ff",
+                    "accent-blue": "#EAF3FA",
+                    "surface-variant": "#d3e4fe",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#8ad97a",
+                    "on-surface-variant": "#40493c",
+                    "inverse-on-surface": "#eaf1ff",
+                    "primary-fixed-dim": "#8ad97a",
+                    "primary": "#004302",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "primary-container": "#0b5d0b",
+                    "on-secondary-fixed-variant": "#930018",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "app-bg": "#F8FAFC",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "secondary-fixed": "#ffdad7",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffdcc0",
+                    "border-subtle": "#E2E8F0",
+                    "outline": "#707a6b",
+                    "background": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#c0cab8",
+                    "on-primary-fixed": "#002201",
+                    "secondary-container": "#ea002c",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed": "#410005",
+                    "on-primary-fixed-variant": "#005304",
+                    "on-tertiary-container": "#ffb168",
+                    "surface-dim": "#cbdbf5",
+                    "secondary": "#bb0021",
+                    "pending-soft": "#FFF4E8",
+                    "surface-tint": "#206d1b",
+                    "on-secondary": "#ffffff",
+                    "deep-forest": "#064906",
+                    "medical-green-soft": "#E8F5E9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "topbar-height": "64px",
+                    "margin-desktop": "2rem",
+                    "gutter": "1.5rem",
+                    "margin-mobile": "1rem",
+                    "sidebar-width": "260px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Manrope"],
+                    "display-lg": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "table-data": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .chart-container {
+            position: relative;
+            background: linear-gradient(180deg, rgba(232, 245, 233, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+        .metric-card-hover {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .metric-card-hover:hover {
+            transform: translateY(-2px);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #004302;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-app-bg text-on-background font-body-md min-h-screen">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-surface-container-lowest border-r border-border-subtle flex flex-col py-6 space-y-2 z-50 overflow-y-auto custom-scrollbar">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">local_hospital</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-deep-forest leading-tight">SDA Kwadaso</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Clinical Portal</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 rounded-lg active:translate-x-1" href="#">
+<span class="material-symbols-outlined">queue</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Queue Monitor</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 rounded-lg active:translate-x-1" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Appointments</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 rounded-lg active:translate-x-1" href="#">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Clinics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 rounded-lg active:translate-x-1" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Patient Records</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 rounded-lg active:translate-x-1" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Staff Directory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary text-on-primary border-l-4 border-secondary-container rounded-lg shadow-sm" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-label-md text-label-md uppercase tracking-wider font-bold">Reports</span>
+</a>
+</nav>
+<div class="px-4 mt-auto pt-6 space-y-4">
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md uppercase flex items-center justify-center gap-2 hover:bg-primary-container transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined">add</span>
+                New Appointment
+            </button>
+<div class="pt-4 border-t border-border-subtle">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Sign Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-[260px] flex flex-col min-h-screen">
+<!-- Top Nav Bar -->
+<header class="h-topbar-height px-margin-desktop bg-surface-container-lowest flex justify-between items-center z-40 sticky top-0 border-b border-border-subtle">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary" placeholder="Search analytics or reports..." type="text"/>
+</div>
+<nav class="hidden lg:flex items-center gap-8">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Patient Care</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Schedule</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 bg-secondary text-on-secondary px-4 py-2 rounded-full font-label-md text-label-md uppercase font-bold active:scale-95 duration-150">
+<span class="material-symbols-outlined">emergency_home</span>
+                    Emergency Alert
+                </button>
+<div class="flex items-center gap-1">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-border-subtle overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional close-up headshot of a diverse male medical practitioner in a clean white lab coat with a stethoscope around his neck, set against a blurred hospital background with soft clinical lighting, maintaining a trustworthy and efficient medical professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1AER1XBIZGmakzIy2f8DAR2fJw-W8X8YoAgJBiiDyJmxZhCHtQY062wH5qFgOH3PNMkVVMdwkuA4euybJNzlZ2DtHwrTH3VIT-l_nQiQv2Z1mYq86qVfvVJ6Kae93jgQBy5EhcFnmGZAkQEmNdhTc7itfJmgHHIZ554aYSY6emoSDrEZGODmqSlI8rHlQLVZgdhgK3jma8Ij1hdiaP3RhztutYJUdbcCNZFbSH0Dn32zrZ9GFwJOEFLpF9-Ywp9gFWOyqWYP7rJs"/>
+</div>
+</div>
+</header>
+<!-- Analytics Content -->
+<div class="p-margin-desktop space-y-gutter flex-1 overflow-y-auto">
+<!-- Dashboard Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-background">System Analytics</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Real-time performance metrics for SDA Hospital Kwadaso</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="bg-surface-container-lowest px-4 py-2 rounded-lg border border-border-subtle flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">calendar_month</span>
+<span class="font-label-md text-label-md">Last 30 Days: Oct 01 - Oct 31</span>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined">download</span>
+                        Export PDF
+                    </button>
+</div>
+</div>
+<!-- KPI Cards Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Total Visits -->
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-lg metric-card-hover relative overflow-hidden">
+<div class="absolute left-0 top-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-medical-green-soft rounded-lg">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">event_available</span>
+</div>
+<span class="text-primary font-bold text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> 12%
+                        </span>
+</div>
+<h3 class="font-body-sm text-body-sm text-on-surface-variant uppercase tracking-wider mb-1">Total Booked Visits</h3>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg">2,842</span>
+<span class="text-body-sm text-on-surface-variant">this month</span>
+</div>
+</div>
+<!-- Average Wait Time -->
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-lg metric-card-hover relative overflow-hidden">
+<div class="absolute left-0 top-0 w-1 h-full bg-tertiary-container"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-pending-soft rounded-lg">
+<span class="material-symbols-outlined text-tertiary-container" style="font-variation-settings: 'FILL' 1;">timer</span>
+</div>
+<span class="text-tertiary-container font-bold text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_down</span> 4m
+                        </span>
+</div>
+<h3 class="font-body-sm text-body-sm text-on-surface-variant uppercase tracking-wider mb-1">Avg. Waiting Time</h3>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg">22.5 min</span>
+<span class="text-body-sm text-on-surface-variant">per patient</span>
+</div>
+</div>
+<!-- Cancellations -->
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-lg metric-card-hover relative overflow-hidden">
+<div class="absolute left-0 top-0 w-1 h-full bg-secondary"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-emergency-soft rounded-lg">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">event_busy</span>
+</div>
+<span class="text-secondary font-bold text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> 2%
+                        </span>
+</div>
+<h3 class="font-body-sm text-body-sm text-on-surface-variant uppercase tracking-wider mb-1">Cancellations</h3>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg">148</span>
+<span class="text-body-sm text-on-surface-variant">rate: 5.2%</span>
+</div>
+</div>
+<!-- No-Shows -->
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-lg metric-card-hover relative overflow-hidden">
+<div class="absolute left-0 top-0 w-1 h-full bg-outline"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-on-surface" style="font-variation-settings: 'FILL' 1;">person_off</span>
+</div>
+<span class="text-on-surface-variant font-bold text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">horizontal_rule</span> 0%
+                        </span>
+</div>
+<h3 class="font-body-sm text-body-sm text-on-surface-variant uppercase tracking-wider mb-1">No-Shows</h3>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg">89</span>
+<span class="text-body-sm text-on-surface-variant">rate: 3.1%</span>
+</div>
+</div>
+</section>
+<!-- Charts Section -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Trend Line Chart -->
+<div class="lg:col-span-2 bg-surface-container-lowest border border-border-subtle p-6 rounded-lg shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-background">Appointment Trends</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Daily volume for booked vs. actual visits</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-body-sm">Booked</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="text-body-sm">Canceled</span>
+</div>
+</div>
+</div>
+<!-- Simulated Chart Visualization -->
+<div class="h-64 chart-container flex items-end justify-between gap-2 px-2 border-b border-l border-border-subtle">
+<!-- Chart Bars & Lines Simulated -->
+<div class="flex-1 h-[45%] bg-primary/20 hover:bg-primary/40 transition-colors relative group">
+<div class="absolute inset-x-0 bottom-0 h-2 bg-primary"></div>
+<div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-on-background text-white text-[10px] py-1 px-2 rounded">84</div>
+</div>
+<div class="flex-1 h-[60%] bg-primary/20 hover:bg-primary/40 transition-colors relative group">
+<div class="absolute inset-x-0 bottom-0 h-2 bg-primary"></div>
+<div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-on-background text-white text-[10px] py-1 px-2 rounded">112</div>
+</div>
+<div class="flex-1 h-[55%] bg-primary/20 hover:bg-primary/40 transition-colors relative group">
+<div class="absolute inset-x-0 bottom-0 h-2 bg-primary"></div>
+<div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-on-background text-white text-[10px] py-1 px-2 rounded">98</div>
+</div>
+<div class="flex-1 h-[80%] bg-primary/20 hover:bg-primary/40 transition-colors relative group">
+<div class="absolute inset-x-0 bottom-0 h-2 bg-primary"></div>
+<div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-on-background text-white text-[10px] py-1 px-2 rounded">145</div>
+</div>
+<div class="flex-1 h-[70%] bg-primary/20 hover:bg-primary/40 transition-colors relative group">
+<div class="absolute inset-x-0 bottom-0 h-2 bg-primary"></div>
+<div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-on-background text-white text-[10px] py-1 px-2 rounded">130</div>
+</div>
+<div class="flex-1 h-[40%] bg-primary/20 hover:bg-primary/40 transition-colors relative group">
+<div class="absolute inset-x-0 bottom-0 h-2 bg-primary"></div>
+<div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-on-background text-white text-[10px] py-1 px-2 rounded">75</div>
+</div>
+<div class="flex-1 h-[65%] bg-primary/20 hover:bg-primary/40 transition-colors relative group">
+<div class="absolute inset-x-0 bottom-0 h-2 bg-primary"></div>
+<div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-on-background text-white text-[10px] py-1 px-2 rounded">118</div>
+</div>
+</div>
+<div class="flex justify-between mt-2 text-body-sm text-on-surface-variant">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+</div>
+<!-- Waiting Time by Department -->
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-lg shadow-sm">
+<h3 class="font-headline-md text-headline-md text-on-background mb-1">Wait Time Leaderboard</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">Average waiting time per department</p>
+<div class="space-y-4">
+<div class="space-y-2">
+<div class="flex justify-between text-body-md">
+<span class="font-medium">General Practice</span>
+<span class="text-primary font-bold">12m</span>
+</div>
+<div class="w-full bg-surface-container-low h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[35%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-body-md">
+<span class="font-medium">Pediatrics</span>
+<span class="text-primary font-bold">18m</span>
+</div>
+<div class="w-full bg-surface-container-low h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[50%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-body-md">
+<span class="font-medium">Dentistry</span>
+<span class="text-tertiary-container font-bold">28m</span>
+</div>
+<div class="w-full bg-surface-container-low h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary-container h-full w-[70%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-body-md">
+<span class="font-medium">Emergency</span>
+<span class="text-secondary font-bold">45m</span>
+</div>
+<div class="w-full bg-surface-container-low h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[90%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-body-md">
+<span class="font-medium">Obstetrics</span>
+<span class="text-primary font-bold">15m</span>
+</div>
+<div class="w-full bg-surface-container-low h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[40%]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Activity & Detailed Stats -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Recent High-Wait Alerts -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-lg overflow-hidden shadow-sm">
+<div class="px-6 py-4 bg-accent-blue border-b border-border-subtle flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-background">Efficiency Alerts</h3>
+<span class="bg-secondary text-on-secondary text-label-md px-2 py-0.5 rounded-full">3 Active</span>
+</div>
+<div class="divide-y divide-border-subtle">
+<div class="p-6 flex gap-4 items-start bg-emergency-soft/30">
+<span class="material-symbols-outlined text-secondary">warning</span>
+<div>
+<h4 class="font-bold text-body-md">Emergency Wait Time Peak</h4>
+<p class="text-body-sm text-on-surface-variant">Emergency department wait times exceeded 40 minutes at 14:30 today. Staff reinforcement recommended.</p>
+<span class="text-body-sm font-medium mt-2 block">10 mins ago</span>
+</div>
+</div>
+<div class="p-6 flex gap-4 items-start">
+<span class="material-symbols-outlined text-tertiary-container">info</span>
+<div>
+<h4 class="font-bold text-body-md">High No-Show Cluster</h4>
+<p class="text-body-sm text-on-surface-variant">Pediatrics clinic saw 4 consecutive no-shows for Dr. Amankwah's shift. Automated reminders triggered.</p>
+<span class="text-body-sm font-medium mt-2 block">2 hours ago</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Popular Time Slots -->
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-lg shadow-sm">
+<h3 class="font-headline-md text-headline-md text-on-background mb-4">Visit Density (Heatmap)</h3>
+<div class="grid grid-cols-6 gap-2">
+<!-- Morning -->
+<div class="space-y-1">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant block mb-2">08:00</span>
+<div class="h-12 bg-primary/20 rounded"></div>
+<div class="h-12 bg-primary/40 rounded"></div>
+<div class="h-12 bg-primary/10 rounded"></div>
+</div>
+<div class="space-y-1">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant block mb-2">10:00</span>
+<div class="h-12 bg-primary/60 rounded"></div>
+<div class="h-12 bg-primary/80 rounded"></div>
+<div class="h-12 bg-primary/40 rounded"></div>
+</div>
+<div class="space-y-1">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant block mb-2">12:00</span>
+<div class="h-12 bg-primary/100 rounded"></div>
+<div class="h-12 bg-primary/90 rounded"></div>
+<div class="h-12 bg-primary/70 rounded"></div>
+</div>
+<div class="space-y-1">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant block mb-2">14:00</span>
+<div class="h-12 bg-primary/40 rounded"></div>
+<div class="h-12 bg-primary/30 rounded"></div>
+<div class="h-12 bg-primary/20 rounded"></div>
+</div>
+<div class="space-y-1">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant block mb-2">16:00</span>
+<div class="h-12 bg-primary/20 rounded"></div>
+<div class="h-12 bg-primary/10 rounded"></div>
+<div class="h-12 bg-primary/10 rounded"></div>
+</div>
+<div class="space-y-1">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant block mb-2">18:00</span>
+<div class="h-12 bg-primary/10 rounded"></div>
+<div class="h-12 bg-primary/5 rounded"></div>
+<div class="h-12 bg-primary/5 rounded"></div>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-end gap-2 text-body-sm text-on-surface-variant">
+<span>Low Density</span>
+<div class="flex gap-1">
+<div class="w-3 h-3 bg-primary/10 rounded-sm"></div>
+<div class="w-3 h-3 bg-primary/40 rounded-sm"></div>
+<div class="w-3 h-3 bg-primary/70 rounded-sm"></div>
+<div class="w-3 h-3 bg-primary rounded-sm"></div>
+</div>
+<span>Peak Capacity</span>
+</div>
+</div>
+</section>
+</div>
+<!-- System Footer Info -->
+<footer class="p-6 border-t border-border-subtle bg-surface-container-lowest text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                © 2024 Seventh-day Adventist Hospital Kwadaso - Clinical Data Systems. 
+                <span class="mx-2">|</span> 
+                Confidential Medical Information 
+                <span class="mx-2">|</span> 
+                System Version 4.2.1-Analytics
+            </p>
+</footer>
+</main>
+<script>
+        // Micro-interaction for sidebar expansion/collapse (simplified logic)
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebarLinks = document.querySelectorAll('aside nav a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // Logic for switching active state if this were a multi-page app
+                });
+            });
+        });
+    </script>
+</body></html>

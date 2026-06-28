@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patient Registration | KHMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-surface": "#213145",
+                    "border-subtle": "#E2E8F0",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-tertiary-container": "#ffb168",
+                    "on-primary-fixed-variant": "#005304",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#cbdbf5",
+                    "error": "#ba1a1a",
+                    "surface-bright": "#f8f9ff",
+                    "primary-fixed": "#a5f693",
+                    "on-primary-container": "#86d576",
+                    "emergency-soft": "#FDECEF",
+                    "emergency-dark": "#B80021",
+                    "tertiary": "#572e00",
+                    "primary-fixed-dim": "#8ad97a",
+                    "on-secondary-fixed": "#410005",
+                    "on-primary-fixed": "#002201",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "on-secondary": "#ffffff",
+                    "accent-blue": "#EAF3FA",
+                    "app-bg": "#F8FAFC",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "surface-container": "#e5eeff",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "tertiary-container": "#784200",
+                    "deep-forest": "#064906",
+                    "outline-variant": "#c0cab8",
+                    "surface-container-high": "#dce9ff",
+                    "background": "#f8f9ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "tertiary-fixed": "#ffdcc0",
+                    "on-surface-variant": "#40493c",
+                    "surface-container-low": "#eff4ff",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#ffdad7",
+                    "secondary-container": "#ea002c",
+                    "surface-variant": "#d3e4fe",
+                    "secondary": "#bb0021",
+                    "surface-tint": "#206d1b",
+                    "inverse-on-surface": "#eaf1ff",
+                    "outline": "#707a6b",
+                    "on-error": "#ffffff",
+                    "inverse-primary": "#8ad97a",
+                    "primary": "#004302",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed-variant": "#930018",
+                    "primary-container": "#0b5d0b",
+                    "pending-soft": "#FFF4E8",
+                    "on-primary": "#ffffff",
+                    "medical-green-soft": "#E8F5E9",
+                    "surface": "#f8f9ff",
+                    "on-background": "#0b1c30"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "topbar-height": "64px",
+                    "sidebar-width": "260px",
+                    "margin-mobile": "1rem",
+                    "gutter": "1.5rem",
+                    "container-max": "1440px",
+                    "margin-desktop": "2rem"
+            },
+            "fontFamily": {
+                    "headline-md": ["Manrope"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "table-data": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-indicator {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #ff5c00; /* Flame Orange from guidance description */
+        }
+        .step-transition {
+            transition: all 0.3s ease-in-out;
+        }
+        .form-input-focus:focus {
+            outline: none;
+            border-color: #004302;
+            ring: 2px solid #004302;
+        }
+    </style>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="bg-surface-container-lowest fixed top-0 w-full h-topbar-height z-50 flex justify-between items-center px-gutter border-b border-border-subtle">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-deep-forest">KHMS</span>
+<div class="h-6 w-px bg-border-subtle mx-2"></div>
+<div class="flex items-center gap-2 text-primary font-semibold border-b-2 border-primary h-full pt-1">
+<span class="font-body-md text-body-md">Facility: St. Mary's General</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="hover:bg-surface-container-low p-2 transition-colors cursor-pointer">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:bg-surface-container-low p-2 transition-colors cursor-pointer">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="hover:bg-surface-container-low p-2 transition-colors cursor-pointer">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden md:block">
+<p class="font-label-md text-label-md text-on-surface">Dr. Sarah Jenkins</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Chief Medical Officer</p>
+</div>
+<img class="w-10 h-10 rounded-full border border-border-subtle object-cover" data-alt="A professional headshot of a female medical officer in clinical scrubs, with soft, diffused lighting and a clean hospital interior background. The style is sharp, authoritative yet warm, matching a modern clinical healthcare portal aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtBA5thBJAblx9EQsE9yhrjtUcW6kyxIosCSNsnmPqmP1xKMJYaWvc-juRrjzEdGiWq57Tp5VcmeMIS1QtEpw5-CU6YKkTlhpvRfSaFMgXE9J_B31oLVQDfdOaR9Qm52uNuUcmF1tCDRtBE5_vWRrKNZ2tLRhSQNr7rMQBi9z3MqxPtnad1kwyEJ-enN2XiPOZjtQrebiLz7vqguBo3Szg3jzWOhvNYy5okwznD7Mj9qQgnYDjhOlVzAiB7sA2C-v4t9Y3oKKKRG8"/>
+</div>
+</div>
+</header>
+<div class="flex h-screen pt-topbar-height">
+<!-- Sidebar Navigation -->
+<nav class="fixed left-0 h-full w-sidebar-width bg-surface-container-lowest border-r border-border-subtle flex flex-col pt-4">
+<div class="px-6 mb-8">
+<h2 class="font-headline-lg text-headline-lg font-black text-deep-forest">KHMS Admin</h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Clinical Portal</p>
+</div>
+<div class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary text-on-primary border-l-4 border-[#ff5c00] transition-all relative" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">personal_injury</span>
+<span class="font-label-md">Patients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-label-md">Departments</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-label-md">Pharmacy</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-label-md">Laboratory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md">Billing</span>
+</a>
+</div>
+<div class="p-4">
+<button class="w-full bg-secondary text-on-secondary py-3 px-4 font-label-md flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">emergency</span>
+                    Emergency Alert
+                </button>
+</div>
+<div class="mt-auto border-t border-border-subtle py-4">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="font-label-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md">Log Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-sidebar-width flex-1 overflow-y-auto bg-app-bg p-8">
+<div class="max-w-[1000px] mx-auto">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-deep-forest mb-1">New Patient Registration</h1>
+<p class="font-body-md text-on-surface-variant">Complete all clinical documentation steps to create a new patient profile.</p>
+</div>
+<div class="text-right">
+<span class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Registration ID</span>
+<p class="font-headline-md text-headline-md text-primary">REG-2024-8842</p>
+</div>
+</div>
+<!-- Progress Indicator -->
+<div class="mb-10 relative">
+<div class="absolute top-1/2 left-0 w-full h-1 bg-border-subtle -translate-y-1/2 z-0"></div>
+<div class="absolute top-1/2 left-0 h-1 bg-primary -translate-y-1/2 z-0 transition-all duration-500" id="progress-bar" style="width: 0%;"></div>
+<div class="relative z-10 flex justify-between">
+<!-- Step 1 -->
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold transition-colors" id="step-1-dot">1</div>
+<span class="mt-2 font-label-md text-label-md text-primary">Personal</span>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-2 border-border-subtle text-on-surface-variant flex items-center justify-center font-bold transition-colors" id="step-2-dot">2</div>
+<span class="mt-2 font-label-md text-label-md text-on-surface-variant">Contact</span>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-2 border-border-subtle text-on-surface-variant flex items-center justify-center font-bold transition-colors" id="step-3-dot">3</div>
+<span class="mt-2 font-label-md text-label-md text-on-surface-variant">Emergency</span>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-2 border-border-subtle text-on-surface-variant flex items-center justify-center font-bold transition-colors" id="step-4-dot">4</div>
+<span class="mt-2 font-label-md text-label-md text-on-surface-variant">Insurance</span>
+</div>
+</div>
+</div>
+<!-- Form Card -->
+<div class="bg-surface-container-lowest border border-border-subtle shadow-sm overflow-hidden min-h-[500px] flex flex-col">
+<!-- Form Sections -->
+<form class="flex-1" id="registration-form">
+<!-- Step 1: Personal Details -->
+<div class="p-8 space-y-8 animate-fadeIn" id="section-1">
+<div class="grid grid-cols-12 gap-6">
+<div class="col-span-12 flex items-center gap-2 pb-2 border-b border-border-subtle">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+<h3 class="font-headline-md text-headline-md text-deep-forest">Personal Information</h3>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">First Name <span class="text-error">*</span></label>
+<input class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline-variant" placeholder="e.g. John" type="text"/>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Last Name <span class="text-error">*</span></label>
+<input class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline-variant" placeholder="e.g. Doe" type="text"/>
+</div>
+<div class="col-span-12 md:col-span-4 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Date of Birth <span class="text-error">*</span></label>
+<input class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary" type="date"/>
+</div>
+<div class="col-span-12 md:col-span-4 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Gender <span class="text-error">*</span></label>
+<select class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary">
+<option value="">Select gender</option>
+<option value="male">Male</option>
+<option value="female">Female</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="col-span-12 md:col-span-4 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Blood Type</label>
+<select class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary">
+<option value="">Unknown</option>
+<option value="A+">A+</option>
+<option value="A-">A-</option>
+<option value="B+">B+</option>
+<option value="B-">B-</option>
+<option value="O+">O+</option>
+<option value="O-">O-</option>
+<option value="AB+">AB+</option>
+<option value="AB-">AB-</option>
+</select>
+</div>
+<div class="col-span-12 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Known Allergies</label>
+<textarea class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline-variant" placeholder="List any medical allergies..." rows="3"></textarea>
+</div>
+</div>
+</div>
+<!-- Step 2: Contact Info -->
+<div class="p-8 space-y-8 hidden animate-fadeIn" id="section-2">
+<div class="grid grid-cols-12 gap-6">
+<div class="col-span-12 flex items-center gap-2 pb-2 border-b border-border-subtle">
+<span class="material-symbols-outlined text-primary">contact_phone</span>
+<h3 class="font-headline-md text-headline-md text-deep-forest">Contact Details</h3>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Primary Phone <span class="text-error">*</span></label>
+<input class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="+233 (0) ..." type="tel"/>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Email Address</label>
+<input class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="example@hospital.com" type="email"/>
+</div>
+<div class="col-span-12 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Residential Address <span class="text-error">*</span></label>
+<input class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Street name / House number" type="text"/>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">City / Town <span class="text-error">*</span></label>
+<input class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="e.g. Kumasi" type="text"/>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Region <span class="text-error">*</span></label>
+<select class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary">
+<option value="">Select Region</option>
+<option value="ashanti">Ashanti</option>
+<option value="greater_accra">Greater Accra</option>
+<option value="central">Central</option>
+<option value="western">Western</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Step 3: Emergency Contact -->
+<div class="p-8 space-y-8 hidden animate-fadeIn" id="section-3">
+<div class="grid grid-cols-12 gap-6">
+<div class="col-span-12 flex items-center gap-2 pb-2 border-b border-border-subtle">
+<span class="material-symbols-outlined text-primary">emergency_home</span>
+<h3 class="font-headline-md text-headline-md text-deep-forest">Emergency Contact Information</h3>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Contact Full Name <span class="text-error">*</span></label>
+<input class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="e.g. Jane Doe" type="text"/>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Relationship <span class="text-error">*</span></label>
+<select class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary">
+<option value="">Select relationship</option>
+<option value="spouse">Spouse</option>
+<option value="parent">Parent</option>
+<option value="sibling">Sibling</option>
+<option value="child">Child</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Contact Phone Number <span class="text-error">*</span></label>
+<input class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="+233 (0) ..." type="tel"/>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Alternative Phone</label>
+<input class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="+233 (0) ..." type="tel"/>
+</div>
+</div>
+</div>
+<!-- Step 4: Insurance -->
+<div class="p-8 space-y-8 hidden animate-fadeIn" id="section-4">
+<div class="grid grid-cols-12 gap-6">
+<div class="col-span-12 flex items-center gap-2 pb-2 border-b border-border-subtle">
+<span class="material-symbols-outlined text-primary">health_and_safety</span>
+<h3 class="font-headline-md text-headline-md text-deep-forest">Insurance / NHIS Information</h3>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Insurance Type <span class="text-error">*</span></label>
+<div class="flex gap-4 pt-2">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="text-primary focus:ring-primary" name="insurance" type="radio" value="nhis"/>
+<span class="font-body-md">NHIS</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="text-primary focus:ring-primary" name="insurance" type="radio" value="private"/>
+<span class="font-body-md">Private Insurance</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="text-primary focus:ring-primary" name="insurance" type="radio" value="none"/>
+<span class="font-body-md">Out-of-pocket</span>
+</label>
+</div>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Policy / Card Number <span class="text-error">*</span></label>
+<input class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="e.g. 12345678" type="text"/>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Expiry Date <span class="text-error">*</span></label>
+<input class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary" type="date"/>
+</div>
+<div class="col-span-12 md:col-span-6 space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Provider Name (Private)</label>
+<select class="w-full border-border-subtle px-4 py-2.5 focus:border-primary focus:ring-1 focus:ring-primary">
+<option value="">Select Provider</option>
+<option value="metropolitan">Metropolitan Insurance</option>
+<option value="star_assurance">Star Assurance</option>
+<option value="enterprise">Enterprise Life</option>
+</select>
+</div>
+<div class="col-span-12 p-4 bg-medical-green-soft border border-primary-fixed-dim rounded">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-deep-forest">info</span>
+<p class="text-body-sm text-primary">Ensure that the insurance card is valid and the details match the personal information provided in Step 1. Invalid insurance may delay patient care.</p>
+</div>
+</div>
+</div>
+</div>
+</form>
+<!-- Form Navigation Footer -->
+<div class="p-6 bg-surface-container-low border-t border-border-subtle flex justify-between">
+<button class="px-6 py-2.5 border border-primary text-primary font-bold hover:bg-primary-fixed-dim transition-colors hidden flex items-center gap-2" id="prev-btn">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                            Previous
+                        </button>
+<div class="flex-1"></div>
+<button class="px-8 py-2.5 bg-primary text-on-primary font-bold hover:opacity-90 transition-opacity flex items-center gap-2" id="next-btn">
+                            Next Step
+                            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<button class="px-10 py-2.5 bg-deep-forest text-on-primary font-bold hover:opacity-90 transition-opacity hidden flex items-center gap-2" id="submit-btn">
+                            Complete Registration
+                            <span class="material-symbols-outlined text-[20px]">check_circle</span>
+</button>
+</div>
+</div>
+<!-- Success State Overlay (Hidden) -->
+<div class="hidden fixed inset-0 z-[100] bg-on-surface/20 backdrop-blur-sm flex items-center justify-center p-4" id="success-modal">
+<div class="bg-surface-container-lowest max-w-md w-full p-10 text-center shadow-2xl border border-border-subtle">
+<div class="w-20 h-20 bg-medical-green-soft text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-[48px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-deep-forest mb-2">Registration Successful</h2>
+<p class="text-body-md text-on-surface-variant mb-8">Patient profile has been created and synced with the clinical database. Card and folder number have been generated.</p>
+<div class="space-y-4">
+<button class="w-full bg-primary text-on-primary py-3 font-bold" onclick="location.reload()">Print Hospital Card</button>
+<button class="w-full border border-primary text-primary py-3 font-bold" onclick="location.reload()">Go to Dashboard</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const successModal = document.getElementById('success-modal');
+
+        function updateUI() {
+            // Update Progress Bar
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            // Update Sections visibility
+            for (let i = 1; i <= totalSteps; i++) {
+                const section = document.getElementById(`section-${i}`);
+                const dot = document.getElementById(`step-${i}-dot`);
+                const label = dot.nextElementSibling;
+
+                if (i === currentStep) {
+                    section.classList.remove('hidden');
+                    dot.classList.remove('bg-surface-container-lowest', 'border-border-subtle', 'text-on-surface-variant', 'bg-primary-fixed-dim');
+                    dot.classList.add('bg-primary', 'text-on-primary');
+                    label.classList.add('text-primary');
+                    label.classList.remove('text-on-surface-variant');
+                } else if (i < currentStep) {
+                    section.classList.add('hidden');
+                    dot.classList.remove('bg-surface-container-lowest', 'border-border-subtle', 'text-on-surface-variant');
+                    dot.classList.add('bg-primary-fixed-dim', 'text-primary');
+                    label.classList.add('text-primary');
+                    label.classList.remove('text-on-surface-variant');
+                    dot.innerHTML = `<span class="material-symbols-outlined text-[18px]">check</span>`;
+                } else {
+                    section.classList.add('hidden');
+                    dot.classList.add('bg-surface-container-lowest', 'border-2', 'border-border-subtle', 'text-on-surface-variant');
+                    dot.classList.remove('bg-primary', 'text-on-primary', 'bg-primary-fixed-dim');
+                    label.classList.remove('text-primary');
+                    label.classList.add('text-on-surface-variant');
+                    dot.innerHTML = i;
+                }
+            }
+
+            // Update Buttons
+            if (currentStep === 1) {
+                prevBtn.classList.add('hidden');
+            } else {
+                prevBtn.classList.remove('hidden');
+            }
+
+            if (currentStep === totalSteps) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateUI();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateUI();
+            }
+        });
+
+        submitBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            successModal.classList.remove('hidden');
+        });
+
+        // Initialize UI
+        updateUI();
+    </script>
+</body></html>

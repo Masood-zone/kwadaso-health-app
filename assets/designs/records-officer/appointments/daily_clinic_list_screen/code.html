@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SDA Hospital Kwadaso - General OPD Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#fffbff",
+                    "on-background": "#0b1c30",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-low": "#eff4ff",
+                    "emergency-soft": "#FDECEF",
+                    "surface-bright": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "emergency-dark": "#B80021",
+                    "inverse-surface": "#213145",
+                    "tertiary-container": "#784200",
+                    "tertiary": "#572e00",
+                    "on-primary-container": "#86d576",
+                    "error": "#ba1a1a",
+                    "surface-container": "#e5eeff",
+                    "primary-fixed": "#a5f693",
+                    "surface": "#f8f9ff",
+                    "accent-blue": "#EAF3FA",
+                    "surface-variant": "#d3e4fe",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#8ad97a",
+                    "on-surface-variant": "#40493c",
+                    "inverse-on-surface": "#eaf1ff",
+                    "primary-fixed-dim": "#8ad97a",
+                    "primary": "#004302",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "primary-container": "#0b5d0b",
+                    "on-secondary-fixed-variant": "#930018",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "app-bg": "#F8FAFC",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "secondary-fixed": "#ffdad7",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffdcc0",
+                    "border-subtle": "#E2E8F0",
+                    "outline": "#707a6b",
+                    "background": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#c0cab8",
+                    "on-primary-fixed": "#002201",
+                    "secondary-container": "#ea002c",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed": "#410005",
+                    "on-primary-fixed-variant": "#005304",
+                    "on-tertiary-container": "#ffb168",
+                    "surface-dim": "#cbdbf5",
+                    "secondary": "#bb0021",
+                    "pending-soft": "#FFF4E8",
+                    "surface-tint": "#206d1b",
+                    "on-secondary": "#ffffff",
+                    "deep-forest": "#064906",
+                    "medical-green-soft": "#E8F5E9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "topbar-height": "64px",
+                    "margin-desktop": "2rem",
+                    "gutter": "1.5rem",
+                    "margin-mobile": "1rem",
+                    "sidebar-width": "260px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Manrope"],
+                    "display-lg": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "table-data": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #F8FAFC;
+        }
+        .sidebar-indicator {
+            width: 4px;
+            height: 100%;
+            background-color: #ff5722; /* Flame Orange placeholder as per Style Guidance */
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        /* Custom scrollbar for clinical readability */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-40 flex justify-between items-center h-topbar-height px-margin-desktop bg-surface-container-lowest border-b border-border-subtle">
+<div class="flex items-center gap-8">
+<span class="font-headline-lg text-headline-lg font-black text-primary">SDA Hospital Kwadaso</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant font-body-md hover:bg-surface-container-low px-3 py-2 rounded-lg transition-colors cursor-pointer" href="#">Dashboard</a>
+<a class="text-primary font-bold border-b-2 border-primary font-body-md px-3 py-2 cursor-pointer" href="#">Patient Care</a>
+<a class="text-on-surface-variant font-body-md hover:bg-surface-container-low px-3 py-2 rounded-lg transition-colors cursor-pointer" href="#">Schedule</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-border-subtle rounded-full text-body-sm focus:outline-none focus:ring-2 focus:ring-primary w-64 transition-all" placeholder="Search patient or ID..." type="text"/>
+</div>
+<button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-label-md uppercase tracking-wider flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-base">emergency</span>
+                Emergency Alert
+            </button>
+<div class="flex gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors material-symbols-outlined">notifications</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors material-symbols-outlined">settings</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors material-symbols-outlined">help_outline</button>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary-fixed object-cover" data-alt="Close-up professional portrait of a Ghanaian medical doctor in a clean white lab coat with a stethoscope around their neck. The background is a soft-focus clinical hallway with cool blue tones, conveying authority and compassionate care." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxa6fQcBr2ylV0C27HFPzWFwAPdt2MdmkSAaHd3mm1E0ztzHKODzZtVPSPpO3bMCKnKknZxCSx62rjmCmVLWm6fl8FwEGhlc2Ifh0ekz9NhGFuhx6LLLZ-gbziL99rXcvTHX7h21wZ8X1BNoVqr_KRucVDdmaKFEa9Fq8S_9UErft2jqHEVOGxz0r_esnQVEskPXsk8Hcl6i55qZ3MnEcDTybE6Knc-kBD1UvNRuyNYD7QsCG_bXGfcNo24vFK4fA8JXqi0b26AM0"/>
+</div>
+</header>
+<!-- Side Navigation Bar -->
+<aside class="fixed left-0 top-topbar-height h-[calc(100vh-64px)] w-sidebar-width bg-surface-container-lowest border-r border-border-subtle py-6 flex flex-col z-30">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-deep-forest leading-tight">SDA Kwadaso</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Clinical Portal</p>
+</div>
+</div>
+<button class="w-full mt-6 bg-primary text-on-primary py-3 rounded-lg font-label-md flex items-center justify-center gap-2 hover:opacity-95 transition-transform active:translate-x-1">
+<span class="material-symbols-outlined">add</span>
+                New Appointment
+            </button>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">queue</span>
+<span class="font-label-md">Queue Monitor</span>
+</a>
+<!-- Active State -->
+<a class="relative flex items-center gap-3 px-6 py-3 bg-primary text-on-primary border-l-4 border-secondary-container transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-label-md">Appointments</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">medical_services</span>
+<span class="font-label-md">Clinics</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">person_search</span>
+<span class="font-label-md">Patient Records</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">group</span>
+<span class="font-label-md">Staff Directory</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">analytics</span>
+<span class="font-label-md">Reports</span>
+</a>
+</nav>
+<div class="px-6 pt-6 mt-auto border-t border-border-subtle">
+<a class="flex items-center gap-3 py-3 text-on-surface-variant hover:text-secondary transition-colors group" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-sidebar-width mt-topbar-height min-h-[calc(100vh-64px)] p-margin-desktop overflow-x-hidden">
+<!-- Dashboard Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div>
+<nav class="flex items-center gap-2 text-body-sm text-on-surface-variant mb-2">
+<span>Clinics</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="font-bold text-primary">General OPD</span>
+</nav>
+<h1 class="font-display-lg text-display-lg text-on-background">Operational Daily List</h1>
+<p class="text-on-surface-variant font-body-md mt-1">Today: Tuesday, Oct 24, 2023 • General Outpatient Department</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="bg-surface-container-lowest border border-border-subtle rounded-lg px-4 py-2 flex items-center gap-4">
+<div class="text-center border-r border-border-subtle pr-4">
+<p class="text-label-md text-on-surface-variant uppercase">Total</p>
+<p class="font-headline-md text-primary">48</p>
+</div>
+<div class="text-center border-r border-border-subtle pr-4">
+<p class="text-label-md text-on-surface-variant uppercase">Waiting</p>
+<p class="font-headline-md text-secondary">12</p>
+</div>
+<div class="text-center">
+<p class="text-label-md text-on-surface-variant uppercase">Seen</p>
+<p class="font-headline-md text-primary-container">34</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Filter & Search Bar Area -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-4 mb-6 flex flex-wrap items-center gap-4 shadow-sm">
+<div class="flex items-center gap-2 bg-accent-blue rounded-lg p-1">
+<button class="px-4 py-2 rounded-md bg-white text-primary shadow-sm font-label-md transition-all">All Appointments</button>
+<button class="px-4 py-2 rounded-md text-on-surface-variant font-label-md hover:bg-white/50 transition-all">Waiting</button>
+<button class="px-4 py-2 rounded-md text-on-surface-variant font-label-md hover:bg-white/50 transition-all">Arrived</button>
+<button class="px-4 py-2 rounded-md text-on-surface-variant font-label-md hover:bg-white/50 transition-all">No-show</button>
+</div>
+<div class="h-8 w-[1px] bg-border-subtle hidden lg:block"></div>
+<div class="relative flex-1 min-w-[200px]">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 border border-border-subtle rounded-lg bg-surface-bright focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Quick find by name, ID or phone..." type="text"/>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 border border-border-subtle rounded-lg hover:bg-surface-container-low transition-colors font-label-md">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+                More Filters
+            </button>
+</div>
+<!-- Data Table Section -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue border-b border-border-subtle">
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Time</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Patient Name / ID</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Appointment Type</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Row 1: Arrived -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer group">
+<td class="px-6 py-4">
+<span class="font-table-data text-on-background">08:00 AM</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-primary text-xs">EK</div>
+<div>
+<p class="font-table-data text-on-background font-bold">Emmanuel Kwesi</p>
+<p class="text-body-sm text-on-surface-variant">SDA-OPD-9982</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-body-sm">Routine Check-up</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-medical-green-soft text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary mr-1.5"></span>
+                                    ARRIVED
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary font-label-md hover:underline">View File</button>
+</td>
+</tr>
+<!-- Row 2: Waiting (Action Required) -->
+<tr class="bg-pending-soft/30 hover:bg-pending-soft transition-colors cursor-pointer border-l-4 border-l-secondary-container">
+<td class="px-6 py-4">
+<span class="font-table-data text-on-background">08:15 AM</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-primary text-xs">AA</div>
+<div>
+<p class="font-table-data text-on-background font-bold">Abena Antwiwaa</p>
+<p class="text-body-sm text-on-surface-variant">SDA-OPD-1024</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-body-sm">Post-Surgical Follow-up</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-pending-soft text-tertiary-container">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5 animate-pulse"></span>
+                                    WAITING
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="bg-primary text-white px-4 py-1.5 rounded-md font-label-md hover:bg-primary-container active:scale-95 transition-all shadow-sm">
+                                    Check-In
+                                </button>
+</td>
+</tr>
+<!-- Row 3: Emergency Status (Critical) -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer border-l-4 border-l-secondary">
+<td class="px-6 py-4">
+<span class="font-table-data text-secondary font-bold">08:30 AM</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-emergency-soft flex items-center justify-center font-bold text-secondary text-xs">KO</div>
+<div>
+<p class="font-table-data text-on-background font-bold">Kofi Owusu</p>
+<p class="text-body-sm text-on-surface-variant">SDA-OPD-8821</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-body-sm text-secondary font-semibold">Urgent Consultation</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emergency-soft text-emergency-dark border border-secondary/20">
+<span class="material-symbols-outlined text-xs mr-1">priority_high</span>
+                                    CRITICAL
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="bg-secondary text-white px-4 py-1.5 rounded-md font-label-md hover:opacity-90 active:scale-95 transition-all shadow-sm">
+                                    Triage
+                                </button>
+</td>
+</tr>
+<!-- Row 4: No-Show -->
+<tr class="opacity-60 hover:bg-surface-container-low transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<span class="font-table-data text-on-surface-variant">08:45 AM</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-on-surface-variant text-xs">JA</div>
+<div>
+<p class="font-table-data text-on-surface-variant font-bold">John Appiah</p>
+<p class="text-body-sm text-on-surface-variant">SDA-OPD-7612</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-body-sm">General Review</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-surface-container-high text-on-surface-variant">
+                                    NO-SHOW
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-on-surface-variant font-label-md hover:underline">Re-schedule</button>
+</td>
+</tr>
+<!-- Row 5: Arrived -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<span class="font-table-data text-on-background">09:00 AM</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-primary text-xs">SA</div>
+<div>
+<p class="font-table-data text-on-background font-bold">Serwaa Akoto</p>
+<p class="text-body-sm text-on-surface-variant">SDA-OPD-4410</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-body-sm">Antenatal Visit</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-medical-green-soft text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary mr-1.5"></span>
+                                    ARRIVED
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary font-label-md hover:underline">View File</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Footer -->
+<div class="px-6 py-4 bg-surface-container-lowest border-t border-border-subtle flex items-center justify-between">
+<p class="text-body-sm text-on-surface-variant">Showing 1-10 of 48 patients</p>
+<div class="flex items-center gap-2">
+<button class="p-1 rounded hover:bg-surface-container-high border border-border-subtle disabled:opacity-50 transition-colors" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex gap-1">
+<button class="w-8 h-8 rounded bg-primary text-white font-label-md flex items-center justify-center">1</button>
+<button class="w-8 h-8 rounded hover:bg-surface-container-high font-label-md flex items-center justify-center transition-colors">2</button>
+<button class="w-8 h-8 rounded hover:bg-surface-container-high font-label-md flex items-center justify-center transition-colors">3</button>
+</div>
+<button class="p-1 rounded hover:bg-surface-container-high border border-border-subtle transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Quick Insight Cards (Bento Style) -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-white border border-border-subtle p-5 rounded-xl">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-accent-blue flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">history</span>
+</div>
+<h3 class="font-headline-md text-on-background">Queue Velocity</h3>
+</div>
+<p class="text-display-lg font-bold text-on-background">14 <span class="text-body-md font-normal text-on-surface-variant">min avg. wait</span></p>
+<div class="mt-2 flex items-center gap-1 text-primary text-body-sm">
+<span class="material-symbols-outlined text-xs">trending_down</span>
+<span>3 min less than yesterday</span>
+</div>
+</div>
+<div class="bg-white border border-border-subtle p-5 rounded-xl">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-pending-soft flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">group_add</span>
+</div>
+<h3 class="font-headline-md text-on-background">New Admissions</h3>
+</div>
+<p class="text-display-lg font-bold text-on-background">8 <span class="text-body-md font-normal text-on-surface-variant">pending referral</span></p>
+<div class="mt-2 flex items-center gap-1 text-tertiary text-body-sm">
+<span class="material-symbols-outlined text-xs">warning</span>
+<span>High volume expected at 11 AM</span>
+</div>
+</div>
+<div class="bg-white border border-border-subtle p-5 rounded-xl relative overflow-hidden">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-emergency-soft flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">notifications_active</span>
+</div>
+<h3 class="font-headline-md text-on-background">Clinic Alerts</h3>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-2 p-2 bg-emergency-soft/50 rounded-lg border border-secondary/10">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<p class="text-body-sm font-bold text-emergency-dark">Staff shortage in Room 4</p>
+</div>
+<div class="flex items-center gap-2 p-2 bg-pending-soft rounded-lg border border-tertiary/10">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<p class="text-body-sm font-bold text-tertiary-container">Lab results delay (Chemistry)</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB for quick actions -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="w-16 h-16 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all group">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform">add</span>
+</button>
+</div>
+<script>
+        // Simple micro-interaction for rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                // In a real app, this would navigate to the patient profile
+                console.log('Row clicked');
+            });
+        });
+
+        // Search bar interaction
+        const searchInput = document.querySelector('input[placeholder="Quick find by name, ID or phone..."]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.classList.add('w-80');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.classList.remove('w-80');
+        });
+    </script>
+</body></html>

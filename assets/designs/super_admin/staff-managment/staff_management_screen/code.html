@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Staff Management | SDA Hospital HMIS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "border-subtle": "#E2E8F0",
+                        "on-secondary-container": "#fffbff",
+                        "inverse-surface": "#213145",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed": "#2d1600",
+                        "on-tertiary-container": "#ffb168",
+                        "on-primary-fixed-variant": "#005304",
+                        "surface-dim": "#cbdbf5",
+                        "on-secondary-fixed": "#410005",
+                        "primary-fixed-dim": "#8ad97a",
+                        "on-primary-fixed": "#002201",
+                        "emergency-soft": "#FDECEF",
+                        "emergency-dark": "#B80021",
+                        "surface-bright": "#f8f9ff",
+                        "primary-fixed": "#a5f693",
+                        "on-primary-container": "#86d576",
+                        "tertiary": "#572e00",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "on-secondary": "#ffffff",
+                        "accent-blue": "#EAF3FA",
+                        "app-bg": "#F8FAFC",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "on-surface-variant": "#40493c",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "tertiary-container": "#784200",
+                        "deep-forest": "#064906",
+                        "surface-container": "#e5eeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "outline-variant": "#c0cab8",
+                        "surface-container-high": "#dce9ff",
+                        "background": "#f8f9ff",
+                        "surface-variant": "#d3e4fe",
+                        "secondary": "#bb0021",
+                        "surface-tint": "#206d1b",
+                        "secondary-container": "#ea002c",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary-fixed": "#ffdad7",
+                        "primary": "#004302",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed-variant": "#930018",
+                        "outline": "#707a6b",
+                        "inverse-primary": "#8ad97a",
+                        "on-error": "#ffffff",
+                        "on-background": "#0b1c30",
+                        "primary-container": "#0b5d0b",
+                        "pending-soft": "#FFF4E8",
+                        "on-primary": "#ffffff",
+                        "medical-green-soft": "#E8F5E9",
+                        "surface": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "gutter": "1.5rem",
+                        "margin-desktop": "2rem",
+                        "sidebar-width": "260px",
+                        "margin-mobile": "1rem",
+                        "topbar-height": "64px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "table-data": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC;
+            color: #0b1c30;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-indicator {
+            position: absolute;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #ea002c; /* Flame Orange from guidance description */
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .modal-overlay {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-hidden">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-inverse-surface dark:bg-inverse-surface flex flex-col h-full py-6 z-50">
+<div class="px-6 mb-10 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 1;">local_hospital</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary leading-tight">SDA Hospital</h1>
+<p class="text-on-surface-variant font-label-md text-[10px] uppercase tracking-wider">Kwadaso HMIS</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-primary-container transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+<span class="material-symbols-outlined group-hover:text-on-primary">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-primary-container transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+<span class="material-symbols-outlined group-hover:text-on-primary">assessment</span>
+<span>Reports</span>
+</a>
+<!-- Active Tab: Staff -->
+<a class="relative flex items-center gap-3 px-6 py-3 bg-primary text-on-primary border-l-4 border-secondary-container cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">badge</span>
+<span class="font-bold">Staff</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-primary-container transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+<span class="material-symbols-outlined group-hover:text-on-primary">account_tree</span>
+<span>Departments</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-primary-container transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+<span class="material-symbols-outlined group-hover:text-on-primary">history</span>
+<span>Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-primary-container transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+<span class="material-symbols-outlined group-hover:text-on-primary">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg flex items-center justify-center gap-2 font-bold transition-all hover:opacity-90 active:scale-95" onclick="toggleModal('staffModal')">
+<span class="material-symbols-outlined">add</span>
+                New Record
+            </button>
+</div>
+</aside>
+<!-- Main Content Shell -->
+<div class="ml-[260px] h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="h-[64px] bg-surface dark:bg-surface-dim border-b border-border-subtle flex justify-between items-center px-gutter shrink-0">
+<div class="flex items-center gap-6">
+<h2 class="font-headline-md text-headline-md font-extrabold text-primary">HMIS Administrative Portal</h2>
+<div class="relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-[20px]">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container-low border border-border-subtle rounded-lg w-[320px] font-body-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Search staff or ID..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-secondary text-on-primary px-4 py-1.5 rounded-full font-label-md flex items-center gap-2 hover:opacity-90 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">emergency</span>
+                    Emergency Alert
+                </button>
+<div class="flex items-center gap-2 border-l border-border-subtle pl-4 ml-2">
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="ml-2 w-10 h-10 rounded-full bg-surface-container overflow-hidden border border-border-subtle cursor-pointer active:scale-95 transition-transform">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a hospital administrator in a clean white medical coat with a digital badge, set against a blurred clinical background with soft morning light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHUn0TrbeK6qdRQE7UdwVZXbpvooK3_-PRoEt7WtJshuAxwE9Z0grSYw__zUnSXtGYp_KNW2K08-d97cwAxppD6gEGF48BQ_tmf1h4qVaBoUI3jcobdZGkaYjykPO8eo94WAOZFIPoqPcIHOWaklApC9_6wVx06RcfeH5ISncHvFiONNYAjEd_prTYfEkJOFLnBR9tiShzS5N4d2SctBmfnYHJig4usIEPCC-1yuPXbiUwC4-fUTonRe0cZ3pUB-g2Ato2wBzGUYU"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<main class="flex-1 overflow-y-auto p-8 custom-scrollbar bg-app-bg">
+<div class="max-w-[1200px] mx-auto">
+<!-- Header Actions -->
+<div class="flex items-end justify-between mb-8">
+<div>
+<nav class="flex items-center gap-2 text-on-surface-variant font-label-md mb-2">
+<span>Admin</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-primary font-bold">Staff Directory</span>
+</nav>
+<h3 class="font-display-lg text-display-lg text-on-surface">Staff Management</h3>
+<p class="text-on-surface-variant mt-1">Manage hospital personnel records, roles, and security permissions.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-border-subtle bg-white rounded-lg font-label-md text-on-surface-variant hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined">filter_list</span>
+                            Filter
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 border border-border-subtle bg-white rounded-lg font-label-md text-on-surface-variant hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined">file_download</span>
+                            Export CSV
+                        </button>
+</div>
+</div>
+<!-- Stats Bento -->
+<div class="grid grid-cols-4 gap-6 mb-8">
+<div class="bg-white p-6 border border-border-subtle rounded-xl flex flex-col gap-2 relative overflow-hidden group">
+<div class="absolute left-0 top-0 w-1.5 h-full bg-primary"></div>
+<span class="font-label-md text-on-surface-variant uppercase tracking-widest">Total Staff</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg">1,248</span>
+<span class="text-primary font-label-md">+12%</span>
+</div>
+</div>
+<div class="bg-white p-6 border border-border-subtle rounded-xl flex flex-col gap-2 relative overflow-hidden">
+<div class="absolute left-0 top-0 w-1.5 h-full bg-accent-blue"></div>
+<span class="font-label-md text-on-surface-variant uppercase tracking-widest">Medical Officers</span>
+<span class="font-display-lg text-display-lg">452</span>
+</div>
+<div class="bg-white p-6 border border-border-subtle rounded-xl flex flex-col gap-2 relative overflow-hidden">
+<div class="absolute left-0 top-0 w-1.5 h-full bg-pending-soft"></div>
+<span class="font-label-md text-on-surface-variant uppercase tracking-widest">On Leave</span>
+<span class="font-display-lg text-display-lg">34</span>
+</div>
+<div class="bg-white p-6 border border-border-subtle rounded-xl flex flex-col gap-2 relative overflow-hidden">
+<div class="absolute left-0 top-0 w-1.5 h-full bg-emergency-soft"></div>
+<span class="font-label-md text-on-surface-variant uppercase tracking-widest">Vacant Positions</span>
+<span class="font-display-lg text-display-lg">18</span>
+</div>
+</div>
+<!-- Table Card -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-accent-blue border-b border-border-subtle">
+<tr>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Staff Name</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Staff ID</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Role</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Department</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle font-table-data text-table-data">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">EO</div>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Dr. Elizabeth Osei</span>
+<span class="text-body-sm text-on-surface-variant">elizabeth.o@sdahospital.com</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">SDA-2023-0045</td>
+<td class="px-6 py-4">Senior Consultant</td>
+<td class="px-6 py-4">Surgery</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full bg-medical-green-soft text-primary text-[11px] font-bold uppercase">Active</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex justify-end gap-2">
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-primary transition-all" title="Edit Profile">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-emergency-soft rounded-lg text-secondary transition-all" title="Suspend Access">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-outline transition-all" title="Reset Password">
+<span class="material-symbols-outlined text-[20px]">lock_reset</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">KM</div>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Kofi Mensah</span>
+<span class="text-body-sm text-on-surface-variant">kofi.m@sdahospital.com</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">SDA-2021-1289</td>
+<td class="px-6 py-4">Head Nurse</td>
+<td class="px-6 py-4">Pediatrics</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full bg-pending-soft text-tertiary-container text-[11px] font-bold uppercase">On Leave</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex justify-end gap-2">
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-primary transition-all">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-emergency-soft rounded-lg text-secondary transition-all">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-outline transition-all">
+<span class="material-symbols-outlined text-[20px]">lock_reset</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">AA</div>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Abena Appiah</span>
+<span class="text-body-sm text-on-surface-variant">abena.a@sdahospital.com</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">SDA-2024-0012</td>
+<td class="px-6 py-4">Radiologist</td>
+<td class="px-6 py-4">Diagnostics</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full bg-medical-green-soft text-primary text-[11px] font-bold uppercase">Active</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex justify-end gap-2">
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-primary transition-all">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-emergency-soft rounded-lg text-secondary transition-all">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-outline transition-all">
+<span class="material-symbols-outlined text-[20px]">lock_reset</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">ST</div>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Samuel Tetteh</span>
+<span class="text-body-sm text-on-surface-variant">samuel.t@sdahospital.com</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant">SDA-2019-0567</td>
+<td class="px-6 py-4">Administrator</td>
+<td class="px-6 py-4">Front Office</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full bg-emergency-soft text-emergency-dark text-[11px] font-bold uppercase">Suspended</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex justify-end gap-2">
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-primary transition-all">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-primary/10 rounded-lg text-primary transition-all" title="Reactive Account">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</button>
+<button class="p-1.5 hover:bg-surface-container rounded-lg text-outline transition-all">
+<span class="material-symbols-outlined text-[20px]">lock_reset</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 border-t border-border-subtle flex items-center justify-between bg-surface-bright">
+<span class="text-body-sm text-on-surface-variant">Showing 1 to 10 of 1,248 entries</span>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-border-subtle bg-white text-on-surface-variant hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-primary bg-primary text-on-primary font-bold">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-border-subtle bg-white text-on-surface-variant hover:bg-surface-container transition-all">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-border-subtle bg-white text-on-surface-variant hover:bg-surface-container transition-all">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-border-subtle bg-white text-on-surface-variant hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Add Staff Modal -->
+<div class="hidden fixed inset-0 z-[100] flex items-center justify-center modal-overlay p-4" id="staffModal">
+<div class="bg-white w-full max-w-[600px] rounded-xl shadow-2xl overflow-hidden transform transition-all animate-in fade-in zoom-in duration-300">
+<div class="p-6 border-b border-border-subtle flex items-center justify-between">
+<h4 class="font-headline-md text-headline-md font-bold text-on-surface">Add New Staff Member</h4>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-low rounded-full transition-all" onclick="toggleModal('staffModal')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<form class="p-6 space-y-6">
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-1.5">
+<label class="font-label-md text-on-surface-variant uppercase tracking-wider">First Name <span class="text-secondary">*</span></label>
+<input class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="e.g. John" type="text"/>
+</div>
+<div class="space-y-1.5">
+<label class="font-label-md text-on-surface-variant uppercase tracking-wider">Last Name <span class="text-secondary">*</span></label>
+<input class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="e.g. Doe" type="text"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="font-label-md text-on-surface-variant uppercase tracking-wider">Email Address <span class="text-secondary">*</span></label>
+<input class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="john.doe@sdahospital.com" type="email"/>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-1.5">
+<label class="font-label-md text-on-surface-variant uppercase tracking-wider">Role <span class="text-secondary">*</span></label>
+<select class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all bg-white">
+<option value="">Select Role</option>
+<option value="doctor">Medical Officer</option>
+<option value="nurse">Nurse</option>
+<option value="admin">Administrator</option>
+<option value="lab">Lab Technician</option>
+</select>
+</div>
+<div class="space-y-1.5">
+<label class="font-label-md text-on-surface-variant uppercase tracking-wider">Department <span class="text-secondary">*</span></label>
+<select class="w-full px-4 py-2 border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all bg-white">
+<option value="">Select Dept</option>
+<option value="opd">Outpatient (OPD)</option>
+<option value="surgery">Surgery</option>
+<option value="pediatrics">Pediatrics</option>
+<option value="diagnostics">Diagnostics</option>
+</select>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="font-label-md text-on-surface-variant uppercase tracking-wider">Staff ID Assignment</label>
+<input class="w-full px-4 py-2 bg-surface-container-low border border-border-subtle rounded-lg text-outline italic" disabled="" type="text" value="SDA-2024-AUTO"/>
+</div>
+<div class="pt-6 border-t border-border-subtle flex justify-end gap-4">
+<button class="px-6 py-2 rounded-lg font-label-md text-on-surface-variant hover:bg-surface-container transition-all" onclick="toggleModal('staffModal')" type="button">Cancel</button>
+<button class="px-8 py-2 bg-primary text-on-primary rounded-lg font-bold hover:opacity-90 active:scale-95 transition-all" type="submit">Create Record</button>
+</div>
+</form>
+</div>
+</div>
+<script>
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.toggle('hidden');
+        }
+
+        // Simple row hover interaction enhancement
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', (e) => {
+                if (!e.target.closest('button')) {
+                    // Could lead to a detail view
+                    console.log('Row clicked for staff details');
+                }
+            });
+        });
+    </script>
+</body></html>

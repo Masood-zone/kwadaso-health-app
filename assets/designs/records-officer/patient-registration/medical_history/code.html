@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHMS - Patient Medical History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-active-indicator {
+            width: 4px;
+            height: 100%;
+            background-color: #ea002c; /* Flame Orange from secondary-container/secondary logic */
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        body {
+            background-color: #F8FAFC;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F1F5F9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-surface": "#213145",
+                    "border-subtle": "#E2E8F0",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-tertiary-container": "#ffb168",
+                    "on-primary-fixed-variant": "#005304",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#cbdbf5",
+                    "error": "#ba1a1a",
+                    "surface-bright": "#f8f9ff",
+                    "primary-fixed": "#a5f693",
+                    "on-primary-container": "#86d576",
+                    "emergency-soft": "#FDECEF",
+                    "emergency-dark": "#B80021",
+                    "tertiary": "#572e00",
+                    "primary-fixed-dim": "#8ad97a",
+                    "on-secondary-fixed": "#410005",
+                    "on-primary-fixed": "#002201",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "on-secondary": "#ffffff",
+                    "accent-blue": "#EAF3FA",
+                    "app-bg": "#F8FAFC",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "surface-container": "#e5eeff",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "tertiary-container": "#784200",
+                    "deep-forest": "#064906",
+                    "outline-variant": "#c0cab8",
+                    "surface-container-high": "#dce9ff",
+                    "background": "#f8f9ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "tertiary-fixed": "#ffdcc0",
+                    "on-surface-variant": "#40493c",
+                    "surface-container-low": "#eff4ff",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#ffdad7",
+                    "secondary-container": "#ea002c",
+                    "surface-variant": "#d3e4fe",
+                    "secondary": "#bb0021",
+                    "surface-tint": "#206d1b",
+                    "inverse-on-surface": "#eaf1ff",
+                    "outline": "#707a6b",
+                    "on-error": "#ffffff",
+                    "inverse-primary": "#8ad97a",
+                    "primary": "#004302",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed-variant": "#930018",
+                    "primary-container": "#0b5d0b",
+                    "pending-soft": "#FFF4E8",
+                    "on-primary": "#ffffff",
+                    "medical-green-soft": "#E8F5E9",
+                    "surface": "#f8f9ff",
+                    "on-background": "#0b1c30"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "topbar-height": "64px",
+                    "sidebar-width": "260px",
+                    "margin-mobile": "1rem",
+                    "gutter": "1.5rem",
+                    "container-max": "1440px",
+                    "margin-desktop": "2rem"
+            },
+            "fontFamily": {
+                    "headline-md": ["Manrope"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "table-data": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-body-md text-on-surface bg-app-bg min-h-screen flex overflow-hidden">
+<!-- SideNavBar Anchor -->
+<aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-lowest dark:bg-inverse-surface border-r border-border-subtle dark:border-outline-variant flex flex-col z-50">
+<div class="p-6 flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg font-black text-deep-forest dark:text-primary-fixed leading-none">KHMS</h1>
+<p class="text-[10px] font-bold uppercase tracking-wider text-outline">Clinical Portal</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 mt-4 space-y-1 overflow-y-auto custom-scrollbar">
+<!-- Dashboard -->
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</div>
+<!-- Patients - Active for Medical History -->
+<div class="relative flex items-center gap-3 px-4 py-3 cursor-pointer bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container border-l-4 border-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">personal_injury</span>
+<span>Patients</span>
+</div>
+<!-- Departments -->
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined">domain</span>
+<span>Departments</span>
+</div>
+<!-- Pharmacy -->
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined">medical_services</span>
+<span>Pharmacy</span>
+</div>
+<!-- Laboratory -->
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined">biotech</span>
+<span>Laboratory</span>
+</div>
+<!-- Billing -->
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined">payments</span>
+<span>Billing</span>
+</div>
+</nav>
+<div class="p-4 border-t border-border-subtle space-y-1">
+<button class="w-full py-3 px-4 bg-secondary text-on-secondary rounded-lg font-bold flex items-center justify-center gap-2 mb-4 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined">emergency</span>
+                Emergency Alert
+            </button>
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-low text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined">support_agent</span>
+<span>Support</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-low text-on-surface-variant font-label-md text-label-md text-error">
+<span class="material-symbols-outlined">logout</span>
+<span>Log Out</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-[260px] flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar Anchor -->
+<header class="bg-surface-container-lowest dark:bg-inverse-surface border-b border-border-subtle dark:border-outline-variant flex justify-between items-center w-full px-gutter h-topbar-height z-50 sticky top-0">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-96 max-w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-app-bg border border-border-subtle rounded-lg text-body-md focus:ring-2 focus:ring-primary focus:border-primary transition-all" placeholder="Search Patient Records (Name, ID, ICD-10)..." type="text"/>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 bg-medical-green-soft text-primary font-semibold text-body-sm rounded-full border border-primary/10">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+                    Facility: St. Mary's General
+                </div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="p-2 hover:bg-surface-container-low rounded-full relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full ring-2 ring-white"></span>
+</button>
+<button class="p-2 hover:bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-2 hover:bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-border-subtle"></div>
+<div class="flex items-center gap-3 pl-2">
+<div class="text-right hidden xl:block">
+<p class="font-bold text-body-md text-on-surface leading-none">Dr. Sarah Jenkins</p>
+<p class="text-[11px] text-outline mt-1 font-semibold uppercase tracking-tight">Chief Medical Officer</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary-container object-cover" data-alt="A professional portrait of a female medical officer in a clinical setting, wearing a white lab coat and a stethoscope. She has a confident, warm expression. The background is a blurred hospital administrative office with soft, bright light-mode aesthetic lighting and neutral tones of white and grey." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUpG9n_Akd0vWuCLXlAB3txtQ814GSX6__cpAeoVvLkgElMjtR20DMs8VpZoqWI1lltuSmiNjsLkQ4j8FJDW6XZ1qKk3lwUS1-DAkKzCB5gCSsV8A2xCsKGeP1sEaZPzfqjx0ZVxlfNHT3VN26WsJ-7COSC_WsyJ_FCTtvupXwrHIrRROSUjyEy_xTy_WW1wCaSV3MlmsPFpXcT06xshEtUML_tBN3U-vIhSxPT5LM1q9iDjO1AeNNloIByHINxCYK2drY9emQuwA"/>
+</div>
+</div>
+</header>
+<!-- Content Scrollable Canvas -->
+<div class="flex-1 overflow-y-auto p-gutter custom-scrollbar">
+<!-- Patient Brief Header Card -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<div class="flex items-center gap-5">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Close up portrait of an elderly male patient with a gentle smile, captured in a clinical studio setting with soft high-key lighting. The style is clean and corporate modern, reflecting a medical professional environment. The color palette is dominated by whites, light greys, and subtle medical green accents, creating a sense of calm and clinical precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTtRC1Cut-ZaWeIchaY5jcu_SFTlu0280E-KB6JyTk6cwEP8I5WXWYefkIExG6cU-D96KmfMLnZdLEWhuKz50Qoxe6nDmKnrOwpK26j1BGr8IkRlQ_RbvTRyZ7W3lh7C-EQLbktC8EQpMEEE-mPTfwvxmSCX4k68aLIcnjNX9K-Uxk_Duy-rLnCXPLeF2NZgAw2VeP9q2DtOq3wv--xdZOy95dwkxTb3n_bACQ95zAGgAjkknexq0NsTdp5rh7NCKJcmpLEom2a8k"/>
+</div>
+<div>
+<div class="flex items-center gap-3">
+<h2 class="font-headline-lg text-headline-lg text-deep-forest">Arthur P. Miller</h2>
+<span class="px-3 py-1 bg-medical-green-soft text-primary text-label-md font-bold rounded-full border border-primary/20 uppercase tracking-wider">Patient ID: 8821-004</span>
+</div>
+<div class="flex flex-wrap gap-x-6 gap-y-2 mt-2 text-on-surface-variant font-body-md">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">calendar_today</span> 68 Years (July 12, 1955)</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">person</span> Male</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bloodtype</span> B+ Positive</span>
+<span class="flex items-center gap-1 font-bold text-error"><span class="material-symbols-outlined text-[18px]">warning</span> Penicillin Allergy</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-primary text-primary font-bold rounded-lg hover:bg-medical-green-soft transition-all text-body-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">print</span> Print History
+                    </button>
+<button class="px-4 py-2 bg-primary text-on-primary font-bold rounded-lg hover:opacity-90 active:scale-95 transition-all text-body-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">add</span> New Clinical Note
+                    </button>
+</div>
+</div>
+<!-- Bento Grid of Medical History -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Left Column: Past Visits & Diagnoses -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<!-- Past Visits List -->
+<section class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden">
+<div class="p-5 border-b border-border-subtle flex justify-between items-center bg-accent-blue/30">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">history</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Past Clinical Encounters</h3>
+</div>
+<span class="text-body-sm text-outline font-semibold">Showing last 24 months</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+<th class="px-6 py-3 font-semibold">Date</th>
+<th class="px-6 py-3 font-semibold">Visit Type</th>
+<th class="px-6 py-3 font-semibold">Department</th>
+<th class="px-6 py-3 font-semibold">Clinician</th>
+<th class="px-6 py-3 font-semibold">Status</th>
+<th class="px-6 py-3 font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="text-table-data text-on-surface divide-y divide-border-subtle">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-bold">Oct 14, 2023</td>
+<td class="px-6 py-4">Routine Follow-up</td>
+<td class="px-6 py-4">Cardiology</td>
+<td class="px-6 py-4">Dr. Emily Chen</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-medical-green-soft text-primary rounded-md text-[11px] font-bold">COMPLETED</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline font-bold">View Note</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-bold">Aug 22, 2023</td>
+<td class="px-6 py-4">Diagnostic Imaging</td>
+<td class="px-6 py-4">Radiology</td>
+<td class="px-6 py-4">Dr. Marcus Thorne</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-medical-green-soft text-primary rounded-md text-[11px] font-bold">COMPLETED</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline font-bold">View Result</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-bold">Jun 05, 2023</td>
+<td class="px-6 py-4">Emergency Visit</td>
+<td class="px-6 py-4">Emergency Care</td>
+<td class="px-6 py-4">Dr. Robert Vance</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-emergency-soft text-emergency-dark rounded-md text-[11px] font-bold">CRITICAL</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline font-bold">Summary</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-bold">Jan 12, 2023</td>
+<td class="px-6 py-4">Annual Physical</td>
+<td class="px-6 py-4">Internal Medicine</td>
+<td class="px-6 py-4">Dr. Sarah Jenkins</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-medical-green-soft text-primary rounded-md text-[11px] font-bold">COMPLETED</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline font-bold">View Note</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Diagnoses (ICD-10) Section -->
+<section class="bg-surface-container-lowest border border-border-subtle rounded-xl p-5">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">fact_check</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Active Diagnoses</h3>
+</div>
+<button class="text-body-sm font-bold text-primary hover:underline">Edit Problems List</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- ICD Card 1 -->
+<div class="p-4 rounded-lg bg-app-bg border-l-4 border-primary border flex justify-between items-start">
+<div>
+<p class="text-label-md text-outline font-bold uppercase tracking-widest">I10</p>
+<h4 class="font-bold text-body-lg text-on-surface">Essential (primary) hypertension</h4>
+<p class="text-body-sm text-on-surface-variant mt-1">Confirmed: Jan 2018 | Primary: Yes</p>
+</div>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">info</span>
+</div>
+<!-- ICD Card 2 -->
+<div class="p-4 rounded-lg bg-app-bg border-l-4 border-secondary border flex justify-between items-start">
+<div>
+<p class="text-label-md text-outline font-bold uppercase tracking-widest">E11.9</p>
+<h4 class="font-bold text-body-lg text-on-surface">Type 2 diabetes mellitus</h4>
+<p class="text-body-sm text-on-surface-variant mt-1">Confirmed: Mar 2021 | Under Control</p>
+</div>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">info</span>
+</div>
+<!-- ICD Card 3 -->
+<div class="p-4 rounded-lg bg-app-bg border-l-4 border-outline border flex justify-between items-start">
+<div>
+<p class="text-label-md text-outline font-bold uppercase tracking-widest">J45.909</p>
+<h4 class="font-bold text-body-lg text-on-surface">Unspecified asthma, uncomplicated</h4>
+<p class="text-body-sm text-on-surface-variant mt-1">Confirmed: Sep 2015 | Inactive</p>
+</div>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">info</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Medications & Lab Results -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<!-- Medications List -->
+<section class="bg-surface-container-lowest border border-border-subtle rounded-xl shadow-sm">
+<div class="p-5 border-b border-border-subtle bg-accent-blue/30 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">pill</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Medications</h3>
+</div>
+<span class="px-2 py-1 bg-primary text-on-primary text-[10px] rounded font-black">4 ACTIVE</span>
+</div>
+<div class="divide-y divide-border-subtle max-h-[400px] overflow-y-auto custom-scrollbar">
+<!-- Med Item 1 -->
+<div class="p-4 hover:bg-surface-container-low transition-colors">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-body-md text-on-surface">Lisinopril 10mg Oral Tablet</h4>
+<span class="text-[10px] font-bold text-primary">DAILY</span>
+</div>
+<p class="text-body-sm text-on-surface-variant mt-1">Take 1 tablet by mouth once daily for hypertension.</p>
+<div class="flex justify-between items-center mt-3">
+<span class="text-[11px] text-outline italic">Refills: 2 remaining</span>
+<button class="text-primary font-bold text-body-sm hover:underline">Reorder</button>
+</div>
+</div>
+<!-- Med Item 2 -->
+<div class="p-4 hover:bg-surface-container-low transition-colors">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-body-md text-on-surface">Metformin 500mg ER</h4>
+<span class="text-[10px] font-bold text-primary">TWICE DAILY</span>
+</div>
+<p class="text-body-sm text-on-surface-variant mt-1">Take with evening meal to manage blood glucose levels.</p>
+<div class="flex justify-between items-center mt-3">
+<span class="text-[11px] text-outline italic">Refills: 0 (Expired)</span>
+<button class="text-error font-bold text-body-sm hover:underline">Renewal Req.</button>
+</div>
+</div>
+<!-- Med Item 3 -->
+<div class="p-4 hover:bg-surface-container-low transition-colors">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-body-md text-on-surface">Atorvastatin 20mg</h4>
+<span class="text-[10px] font-bold text-primary">NIGHTLY</span>
+</div>
+<p class="text-body-sm text-on-surface-variant mt-1">Used for hyperlipidemia control.</p>
+<div class="flex justify-between items-center mt-3">
+<span class="text-[11px] text-outline italic">Refills: 5 remaining</span>
+<button class="text-primary font-bold text-body-sm hover:underline">Reorder</button>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-border-subtle text-center">
+<button class="text-body-sm font-bold text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center gap-2 w-full">
+<span class="material-symbols-outlined text-[18px]">history</span> View Discontinued Medications
+                            </button>
+</div>
+</section>
+<!-- Lab History Summary -->
+<section class="bg-surface-container-lowest border border-border-subtle rounded-xl p-5">
+<div class="flex justify-between items-center mb-5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">biotech</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Labs</h3>
+</div>
+<span class="material-symbols-outlined text-outline cursor-pointer">open_in_new</span>
+</div>
+<div class="space-y-4">
+<!-- Lab Item 1 -->
+<div class="flex flex-col gap-2 p-3 bg-app-bg rounded-lg">
+<div class="flex justify-between items-center">
+<span class="text-body-sm font-bold text-on-surface">HbA1c (Glycated Hb)</span>
+<span class="text-body-md font-black text-secondary">7.1 %</span>
+</div>
+<div class="w-full bg-border-subtle h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 71%;"></div>
+</div>
+<div class="flex justify-between text-[10px] text-outline uppercase font-bold">
+<span>Target &lt; 6.5</span>
+<span>Above Range</span>
+</div>
+</div>
+<!-- Lab Item 2 -->
+<div class="flex flex-col gap-2 p-3 bg-app-bg rounded-lg">
+<div class="flex justify-between items-center">
+<span class="text-body-sm font-bold text-on-surface">Creatinine, Serum</span>
+<span class="text-body-md font-black text-primary">0.92 mg/dL</span>
+</div>
+<div class="w-full bg-border-subtle h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 45%;"></div>
+</div>
+<div class="flex justify-between text-[10px] text-outline uppercase font-bold">
+<span>Range: 0.7-1.3</span>
+<span>Stable</span>
+</div>
+</div>
+<!-- Lab Item 3 -->
+<div class="flex flex-col gap-2 p-3 bg-app-bg rounded-lg">
+<div class="flex justify-between items-center">
+<span class="text-body-sm font-bold text-on-surface">LDL Cholesterol</span>
+<span class="text-body-md font-black text-on-surface">98 mg/dL</span>
+</div>
+<div class="w-full bg-border-subtle h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 60%;"></div>
+</div>
+<div class="flex justify-between text-[10px] text-outline uppercase font-bold">
+<span>Target &lt; 100</span>
+<span>In Range</span>
+</div>
+</div>
+</div>
+<p class="mt-4 text-center text-body-sm text-outline font-semibold italic">Last updated: Oct 15, 2023</p>
+</section>
+</div>
+</div>
+</div>
+<!-- Floating Action Interaction for Quick Notes -->
+<div class="fixed bottom-8 right-8 flex flex-col items-end gap-3 pointer-events-none" id="quick-fab">
+<button class="pointer-events-auto w-14 h-14 bg-deep-forest text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all group">
+<span class="material-symbols-outlined transition-transform group-hover:rotate-90">add</span>
+</button>
+</div>
+</main>
+<script>
+        // Simple micro-interactions for KHMS interface
+        document.addEventListener('DOMContentLoaded', () => {
+            const tableRows = document.querySelectorAll('tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('click', () => {
+                    // Simulating record selection
+                    tableRows.forEach(r => r.classList.remove('bg-accent-blue/20'));
+                    row.classList.add('bg-accent-blue/20');
+                });
+            });
+
+            // Smooth scroll shadow for custom-scrollbar
+            const scrollContainer = document.querySelector('.overflow-y-auto');
+            const topBar = document.querySelector('header');
+            scrollContainer.addEventListener('scroll', () => {
+                if (scrollContainer.scrollTop > 10) {
+                    topBar.classList.add('shadow-md');
+                } else {
+                    topBar.classList.remove('shadow-md');
+                }
+            });
+        });
+    </script>
+</body></html>

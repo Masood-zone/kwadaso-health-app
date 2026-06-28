@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patient Timeline - KHMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #E2E8F0;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+<!-- Embedded Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-surface": "#213145",
+                    "border-subtle": "#E2E8F0",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-tertiary-container": "#ffb168",
+                    "on-primary-fixed-variant": "#005304",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#cbdbf5",
+                    "error": "#ba1a1a",
+                    "surface-bright": "#f8f9ff",
+                    "primary-fixed": "#a5f693",
+                    "on-primary-container": "#86d576",
+                    "emergency-soft": "#FDECEF",
+                    "emergency-dark": "#B80021",
+                    "tertiary": "#572e00",
+                    "primary-fixed-dim": "#8ad97a",
+                    "on-secondary-fixed": "#410005",
+                    "on-primary-fixed": "#002201",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "on-secondary": "#ffffff",
+                    "accent-blue": "#EAF3FA",
+                    "app-bg": "#F8FAFC",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "surface-container": "#e5eeff",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "tertiary-container": "#784200",
+                    "deep-forest": "#064906",
+                    "outline-variant": "#c0cab8",
+                    "surface-container-high": "#dce9ff",
+                    "background": "#f8f9ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "tertiary-fixed": "#ffdcc0",
+                    "on-surface-variant": "#40493c",
+                    "surface-container-low": "#eff4ff",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#ffdad7",
+                    "secondary-container": "#ea002c",
+                    "surface-variant": "#d3e4fe",
+                    "secondary": "#bb0021",
+                    "surface-tint": "#206d1b",
+                    "inverse-on-surface": "#eaf1ff",
+                    "outline": "#707a6b",
+                    "on-error": "#ffffff",
+                    "inverse-primary": "#8ad97a",
+                    "primary": "#004302",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed-variant": "#930018",
+                    "primary-container": "#0b5d0b",
+                    "pending-soft": "#FFF4E8",
+                    "on-primary": "#ffffff",
+                    "medical-green-soft": "#E8F5E9",
+                    "surface": "#f8f9ff",
+                    "on-background": "#0b1c30"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "topbar-height": "64px",
+                    "sidebar-width": "260px",
+                    "margin-mobile": "1rem",
+                    "gutter": "1.5rem",
+                    "container-max": "1440px",
+                    "margin-desktop": "2rem"
+            },
+            "fontFamily": {
+                    "headline-md": ["Manrope"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "table-data": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                    "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                    "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                    "table-data": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+                    "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                    "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+                    "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md min-h-screen flex overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-lowest border-r border-border-subtle flex flex-col z-50">
+<div class="p-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-deep-forest rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">health_and_safety</span>
+</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg font-black text-deep-forest leading-none">KHMS</h1>
+<p class="font-label-md text-label-md text-on-surface-variant opacity-70">Clinical Portal</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all text-on-surface-variant font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Active State: Patients -->
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer bg-primary dark:bg-primary-container text-on-primary border-l-4 border-secondary font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="personal_injury">personal_injury</span>
+<span>Patients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all text-on-surface-variant font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+<span>Departments</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all text-on-surface-variant font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+<span>Pharmacy</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all text-on-surface-variant font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+<span>Laboratory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all text-on-surface-variant font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Billing</span>
+</a>
+</nav>
+<div class="px-4 py-6 mt-auto border-t border-border-subtle">
+<button class="w-full bg-secondary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">notification_important</span>
+                Emergency Alert
+            </button>
+<div class="mt-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-low rounded transition-colors text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-low rounded transition-colors text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Log Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-[260px] flex-1 flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar (Shared Component) -->
+<header class="h-topbar-height bg-surface-container-lowest border-b border-border-subtle flex justify-between items-center px-gutter z-40">
+<div class="flex items-center gap-4">
+<div class="flex items-center bg-surface-container-low px-3 py-1.5 rounded-lg border border-border-subtle">
+<span class="material-symbols-outlined text-outline text-[20px] mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-64 p-0" placeholder="Search Patient ID..." type="text"/>
+</div>
+<div class="text-primary font-semibold border-b-2 border-primary h-topbar-height flex items-center px-2 font-body-md text-body-md">
+                    Facility: St. Mary's General
+                </div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="material-symbols-outlined hover:text-primary transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined hover:text-primary transition-colors" data-icon="settings">settings</button>
+<button class="material-symbols-outlined hover:text-primary transition-colors" data-icon="help">help</button>
+</div>
+<div class="flex items-center gap-3 border-l pl-6 border-border-subtle">
+<div class="text-right">
+<p class="font-bold text-body-md leading-tight">Dr. Julian Vance</p>
+<p class="text-[11px] text-on-surface-variant uppercase tracking-wider">Chief Medical Officer</p>
+</div>
+<img class="w-10 h-10 rounded-full border border-border-subtle object-cover" data-alt="A portrait of a professional medical doctor in clinical attire, high-efficiency hospital setting background with soft white lighting, corporate modern aesthetic with clean lines and trust-inspiring atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVh9JEdLTEEkJq8SUmg7MOeWWO_pYoVezADWwPRKWSETb99XvAKZGA3JgxW7RU-qSeqICrldMw4IvGYKeOv4TEEwVLtCPJS-eFs5O99M-8_IskxOcOzr74pBUm960hl-IJ-RV0PZrGma99Z-KPYuRy_1B0qs3arRwwMOxtuhMiIZWgZXnn20ahqHkYmDne6euukc3KuuoV6JEdBDI1wrbm16AGktFNX5KFKN3onu_1SZ8lvNBmaa2irvXmQw_vm-EeWX3dBpY4nwM"/>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="flex-1 overflow-hidden flex flex-col p-8 space-y-6">
+<!-- Patient Header Info -->
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-6">
+<div class="relative">
+<img class="w-20 h-20 rounded-2xl object-cover shadow-sm" data-alt="Close-up portrait of a middle-aged male patient with a friendly expression, soft clinical lighting, background of a modern hospital corridor, conveying a sense of patient care and reliable health monitoring." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfMrWdRgHuSZAoOdqyF7jo2seuwpBN4uVfvM_sBaqUUb2Rxgda_JJJSDIPLHftNboKn3n8UPfTGaaqxuwL4KmQLo4w_-WoCDO4dcQjQoW0SwBCjO5Ci6-xO6LgGw7yryAECcTk7gGYQDSAz8eokWjaU8VyyvAPCN6-n5aNBSRYKAZH1L7Br7aUX7kfQDXD54nFT9i9-RK8nlLHmsWUWKlRP1n-pu5c-U7gxAlISEovDFAq9g4uz56-NEdUs2pm7fDShWFmm1RIwR4"/>
+<div class="absolute -bottom-2 -right-2 bg-medical-green-soft text-primary p-1 rounded-lg border border-primary-container">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+</div>
+<div>
+<div class="flex items-center gap-3">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Elena Rodriguez</h2>
+<span class="bg-medical-green-soft text-primary px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider">Stable</span>
+</div>
+<div class="flex gap-4 mt-1 text-on-surface-variant font-body-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">fingerprint</span> ID: 884-219-MX</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">cake</span> 42 years</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">bloodtype</span> O Positive</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="bg-surface-container-lowest p-3 rounded-xl border border-border-subtle flex flex-col items-center min-w-[100px]">
+<span class="text-on-surface-variant text-[11px] uppercase font-bold mb-1">Last Visit</span>
+<span class="font-headline-md text-headline-md text-primary">2d Ago</span>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded-xl border border-border-subtle flex flex-col items-center min-w-[100px]">
+<span class="text-on-surface-variant text-[11px] uppercase font-bold mb-1">Risk Level</span>
+<span class="font-headline-md text-headline-md text-on-tertiary-container">Low</span>
+</div>
+<button class="bg-primary text-white px-6 py-3 rounded-xl font-bold self-center flex items-center gap-2 hover:shadow-lg transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                        Log Encounter
+                    </button>
+</div>
+</div>
+<!-- Dashboard Controls (Filters & Jump to Date) -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl border border-border-subtle flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<span class="text-label-md font-bold text-on-surface-variant mr-2">FILTER BY:</span>
+<button class="px-4 py-2 rounded-full border border-primary bg-primary text-white font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">list</span>
+                        All Events
+                    </button>
+<button class="px-4 py-2 rounded-full border border-border-subtle hover:bg-surface-container-low transition-colors font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">stethoscope</span>
+                        Clinical
+                    </button>
+<button class="px-4 py-2 rounded-full border border-border-subtle hover:bg-surface-container-low transition-colors font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">prescriptions</span>
+                        Prescriptions
+                    </button>
+<button class="px-4 py-2 rounded-full border border-border-subtle hover:bg-surface-container-low transition-colors font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">science</span>
+                        Lab Results
+                    </button>
+<button class="px-4 py-2 rounded-full border border-border-subtle hover:bg-surface-container-low transition-colors font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">forward</span>
+                        Referrals
+                    </button>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-label-md font-bold text-on-surface-variant">JUMP TO:</span>
+<div class="relative">
+<input class="bg-surface-container-low border border-border-subtle rounded-lg px-4 py-2 font-label-md text-label-md focus:ring-primary focus:border-primary" type="date"/>
+</div>
+</div>
+</div>
+<!-- Timeline Main Container -->
+<div class="flex-1 overflow-y-auto custom-scrollbar pr-4 relative timeline-line">
+<!-- Group: October 2023 -->
+<div class="mb-10 relative">
+<div class="flex items-center gap-4 mb-8">
+<div class="bg-surface-container-lowest px-4 py-1.5 rounded-full border border-border-subtle z-10 shadow-sm">
+<span class="font-bold text-on-surface-variant text-label-md">OCTOBER 2023</span>
+</div>
+<div class="h-[1px] flex-1 bg-border-subtle"></div>
+</div>
+<!-- Timeline Item: Clinical Encounter -->
+<div class="flex gap-8 mb-12 group relative">
+<div class="w-10 h-10 rounded-full bg-accent-blue border-4 border-surface-container-lowest z-10 flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">stethoscope</span>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-border-subtle p-6 rounded-2xl group-hover:border-primary group-hover:shadow-md transition-all">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="bg-medical-green-soft text-primary text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-sm">Clinical Encounter</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-1">General Follow-up Consultation</h3>
+<p class="text-on-surface-variant text-body-sm mt-1">Provider: <span class="font-bold">Dr. Michael Chen</span> • St. Mary's Outpatient Clinic</p>
+</div>
+<span class="text-on-surface-variant font-label-md text-label-md bg-surface-container-low px-3 py-1 rounded-lg">Oct 24, 14:30</span>
+</div>
+<div class="grid grid-cols-3 gap-4 mb-4">
+<div class="bg-app-bg p-3 rounded-xl border border-border-subtle">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Blood Pressure</p>
+<p class="font-bold text-on-surface">122/81 mmHg</p>
+</div>
+<div class="bg-app-bg p-3 rounded-xl border border-border-subtle">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Heart Rate</p>
+<p class="font-bold text-on-surface">74 BPM</p>
+</div>
+<div class="bg-app-bg p-3 rounded-xl border border-border-subtle">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Temp</p>
+<p class="font-bold text-on-surface">98.4 °F</p>
+</div>
+</div>
+<p class="text-on-surface-variant text-body-md line-clamp-2">Patient reports consistent improvement in respiratory function since starting the new inhaler regimen. Minimal wheezing noted upon exertion. Lungs are clear on auscultation...</p>
+<button class="mt-4 text-primary font-bold text-label-md flex items-center gap-1 hover:underline">
+                                View Full Clinical Notes
+                                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Timeline Item: Prescription Issued -->
+<div class="flex gap-8 mb-12 group relative">
+<div class="w-10 h-10 rounded-full bg-pending-soft border-4 border-surface-container-lowest z-10 flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-tertiary text-[20px]">prescriptions</span>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-border-subtle p-6 rounded-2xl group-hover:border-tertiary-container group-hover:shadow-md transition-all">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="bg-pending-soft text-tertiary text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-sm">Prescription Issued</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-1">Lisinopril 10mg Tablets</h3>
+<p class="text-on-surface-variant text-body-sm mt-1">Refills: <span class="font-bold">3</span> • Pharmacist: <span class="font-bold">S. Taylor</span></p>
+</div>
+<span class="text-on-surface-variant font-label-md text-label-md bg-surface-container-low px-3 py-1 rounded-lg">Oct 12, 09:15</span>
+</div>
+<div class="flex items-center gap-4 bg-app-bg p-4 rounded-xl border-l-4 border-tertiary-container">
+<span class="material-symbols-outlined text-tertiary-container text-[32px]">medication</span>
+<div>
+<p class="font-bold text-on-surface">Instruction: Take one tablet daily by mouth.</p>
+<p class="text-on-surface-variant text-body-sm">Indication: Hypertension management. Monitor for dry cough.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Group: September 2023 -->
+<div class="mb-10 relative">
+<div class="flex items-center gap-4 mb-8">
+<div class="bg-surface-container-lowest px-4 py-1.5 rounded-full border border-border-subtle z-10 shadow-sm">
+<span class="font-bold text-on-surface-variant text-label-md">SEPTEMBER 2023</span>
+</div>
+<div class="h-[1px] flex-1 bg-border-subtle"></div>
+</div>
+<!-- Timeline Item: Lab Result -->
+<div class="flex gap-8 mb-12 group relative">
+<div class="w-10 h-10 rounded-full bg-medical-green-soft border-4 border-surface-container-lowest z-10 flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">science</span>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-border-subtle p-6 rounded-2xl group-hover:border-primary-container group-hover:shadow-md transition-all">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="bg-medical-green-soft text-primary text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-sm">Lab Results Released</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-1">Comprehensive Metabolic Panel (CMP)</h3>
+<p class="text-on-surface-variant text-body-sm mt-1">Lab ID: <span class="font-bold">L-552-09</span> • Status: <span class="text-primary font-bold">Normal Range</span></p>
+</div>
+<span class="text-on-surface-variant font-label-md text-label-md bg-surface-container-low px-3 py-1 rounded-lg">Sep 28, 11:45</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue border-b border-border-subtle">
+<th class="p-3 text-[11px] font-black uppercase text-on-surface-variant">Test Component</th>
+<th class="p-3 text-[11px] font-black uppercase text-on-surface-variant">Value</th>
+<th class="p-3 text-[11px] font-black uppercase text-on-surface-variant">Ref Range</th>
+<th class="p-3 text-[11px] font-black uppercase text-on-surface-variant">Status</th>
+</tr>
+</thead>
+<tbody class="text-table-data">
+<tr class="border-b border-border-subtle hover:bg-app-bg transition-colors">
+<td class="p-3 font-semibold">Glucose, Serum</td>
+<td class="p-3">92 mg/dL</td>
+<td class="p-3">65 - 99 mg/dL</td>
+<td class="p-3"><span class="text-primary material-symbols-outlined text-[18px]">check_circle</span></td>
+</tr>
+<tr class="border-b border-border-subtle hover:bg-app-bg transition-colors">
+<td class="p-3 font-semibold">Creatinine, Serum</td>
+<td class="p-3">0.88 mg/dL</td>
+<td class="p-3">0.76 - 1.27 mg/dL</td>
+<td class="p-3"><span class="text-primary material-symbols-outlined text-[18px]">check_circle</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Timeline Item: Referral -->
+<div class="flex gap-8 mb-12 group relative">
+<div class="w-10 h-10 rounded-full bg-emergency-soft border-4 border-surface-container-lowest z-10 flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-emergency-dark text-[20px]">forward</span>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-border-subtle p-6 rounded-2xl group-hover:border-secondary group-hover:shadow-md transition-all">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="bg-emergency-soft text-emergency-dark text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-sm">Specialist Referral</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-1">Cardiology Consultation</h3>
+<p class="text-on-surface-variant text-body-sm mt-1">Referred to: <span class="font-bold">Dr. Sarah West</span> • Heart Center</p>
+</div>
+<span class="text-on-surface-variant font-label-md text-label-md bg-surface-container-low px-3 py-1 rounded-lg">Sep 15, 16:00</span>
+</div>
+<div class="bg-emergency-soft/30 p-4 rounded-xl border border-emergency-soft">
+<p class="text-on-surface-variant text-body-md"><span class="font-bold text-emergency-dark">Reason:</span> Evaluating reported palpitations and mild sinus tachycardia observed during initial screening.</p>
+<div class="mt-3 flex items-center gap-2">
+<span class="bg-emergency-dark text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase">Priority: High</span>
+<span class="text-on-surface-variant text-[11px]">Appointment scheduled for Oct 30</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Quick Actions -->
+<div class="fixed bottom-8 right-8 flex flex-col gap-3">
+<button class="w-14 h-14 bg-surface-container-lowest border border-border-subtle rounded-full shadow-lg flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary transition-all group">
+<span class="material-symbols-outlined">print</span>
+<span class="absolute right-16 bg-on-surface text-white px-3 py-1.5 rounded-lg text-body-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Export Timeline</span>
+</button>
+<button class="w-14 h-14 bg-primary text-white rounded-full shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[30px]">add</span>
+</button>
+</div>
+<script>
+        // Micro-interactions and simple event filtering simulation
+        document.querySelectorAll('button[class*="rounded-full border"]').forEach(button => {
+            button.addEventListener('click', function() {
+                // Simplified active state toggle
+                document.querySelectorAll('button[class*="rounded-full border"]').forEach(btn => {
+                    btn.classList.remove('bg-primary', 'text-white', 'border-primary');
+                    btn.classList.add('border-border-subtle', 'text-on-surface-variant');
+                });
+                this.classList.remove('border-border-subtle', 'text-on-surface-variant');
+                this.classList.add('bg-primary', 'text-white', 'border-primary');
+                
+                // Visual feedback only for this prototype
+                console.log('Filtering timeline by:', this.textContent.trim());
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[placeholder*="Search"]');
+        searchInput.parentElement.addEventListener('click', () => searchInput.focus());
+        
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('border-primary', 'ring-2', 'ring-primary/20');
+        });
+        
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('border-primary', 'ring-2', 'ring-primary/20');
+        });
+    </script>
+</body></html>

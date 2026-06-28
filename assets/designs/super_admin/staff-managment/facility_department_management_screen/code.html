@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Facility & Department Management | HMIS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "border-subtle": "#E2E8F0",
+                        "on-secondary-container": "#fffbff",
+                        "inverse-surface": "#213145",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed": "#2d1600",
+                        "on-tertiary-container": "#ffb168",
+                        "on-primary-fixed-variant": "#005304",
+                        "surface-dim": "#cbdbf5",
+                        "on-secondary-fixed": "#410005",
+                        "primary-fixed-dim": "#8ad97a",
+                        "on-primary-fixed": "#002201",
+                        "emergency-soft": "#FDECEF",
+                        "emergency-dark": "#B80021",
+                        "surface-bright": "#f8f9ff",
+                        "primary-fixed": "#a5f693",
+                        "on-primary-container": "#86d576",
+                        "tertiary": "#572e00",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "on-secondary": "#ffffff",
+                        "accent-blue": "#EAF3FA",
+                        "app-bg": "#F8FAFC",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "on-surface-variant": "#40493c",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "tertiary-container": "#784200",
+                        "deep-forest": "#064906",
+                        "surface-container": "#e5eeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "outline-variant": "#c0cab8",
+                        "surface-container-high": "#dce9ff",
+                        "background": "#f8f9ff",
+                        "surface-variant": "#d3e4fe",
+                        "secondary": "#bb0021",
+                        "surface-tint": "#206d1b",
+                        "secondary-container": "#ea002c",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary-fixed": "#ffdad7",
+                        "primary": "#004302",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed-variant": "#930018",
+                        "outline": "#707a6b",
+                        "inverse-primary": "#8ad97a",
+                        "on-error": "#ffffff",
+                        "on-background": "#0b1c30",
+                        "primary-container": "#0b5d0b",
+                        "pending-soft": "#FFF4E8",
+                        "on-primary": "#ffffff",
+                        "medical-green-soft": "#E8F5E9",
+                        "surface": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "gutter": "1.5rem",
+                        "margin-desktop": "2rem",
+                        "sidebar-width": "260px",
+                        "margin-mobile": "1rem",
+                        "topbar-height": "64px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "table-data": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .active-nav-indicator {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #ea002c; /* Flame Orange from guidance mapping */
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md selection:bg-primary selection:text-white overflow-hidden h-screen flex">
+<!-- SideNavBar (from JSON) -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-inverse-surface flex flex-col py-6 z-50">
+<div class="px-6 mb-8 flex items-center space-x-3">
+<div class="w-10 h-10 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">local_hospital</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">SDA Hospital</h1>
+<p class="font-body-sm text-body-sm text-surface-container-highest opacity-70">Kwadaso HMIS</p>
+</div>
+</div>
+<button class="mx-6 mb-8 bg-primary text-on-primary font-label-md text-label-md py-3 px-4 rounded flex items-center justify-center space-x-2 transition-all active:scale-95 shadow-md">
+<span class="material-symbols-outlined">add_circle</span>
+<span>New Record</span>
+</button>
+<nav class="flex-1 overflow-y-auto">
+<!-- Dashboard -->
+<div class="group relative px-6 py-3 cursor-pointer transition-colors duration-200 text-on-surface-variant hover:text-on-primary hover:bg-primary-container">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</div>
+</div>
+<!-- Reports -->
+<div class="group relative px-6 py-3 cursor-pointer transition-colors duration-200 text-on-surface-variant hover:text-on-primary hover:bg-primary-container">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-body-md text-body-md">Reports</span>
+</div>
+</div>
+<!-- Staff -->
+<div class="group relative px-6 py-3 cursor-pointer transition-colors duration-200 text-on-surface-variant hover:text-on-primary hover:bg-primary-container">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="font-body-md text-body-md">Staff</span>
+</div>
+</div>
+<!-- Departments (Active Tab) -->
+<div class="group relative px-6 py-3 cursor-pointer transition-colors duration-200 bg-primary text-on-primary border-l-4 border-secondary-container">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined" data-icon="account_tree" style="font-variation-settings: 'FILL' 1;">account_tree</span>
+<span class="font-body-md text-body-md">Departments</span>
+</div>
+</div>
+<!-- Audit Logs -->
+<div class="group relative px-6 py-3 cursor-pointer transition-colors duration-200 text-on-surface-variant hover:text-on-primary hover:bg-primary-container">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-body-md text-body-md">Audit Logs</span>
+</div>
+</div>
+<!-- Settings -->
+<div class="group relative px-6 py-3 cursor-pointer transition-colors duration-200 text-on-surface-variant hover:text-on-primary hover:bg-primary-container">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</div>
+</div>
+</nav>
+<div class="px-6 pt-6 border-t border-white/10 mt-auto">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Professional clinical headshot of a hospital administrator in a minimalist office setting, wearing professional attire, soft natural lighting, high resolution medical professional portrait." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB3hh9yORs3B14Hgk3dKUkW57x6zFc9wTjdROtRwmrlHcJqSagubeQ-3fOrvk4si7OPj4iBxAkRmWh9ahqAvzEmOKQp5HhrXcrGZTum6RCE7M3j7--HUjHvAw9j0Yzi8DBRkI-Atr-bqI7HPzeHekQ0-eKftxJQegFZN1Q4rm5Rik40GDnFAVtrThKpCRdx5UH8nhz9v1hICVP_nFWpzBjGCGqSFynwGKMYEAViY5uT6tfzpQl5ClQaHwI9AzZ1sKnoPklpR2hH0U"/>
+</div>
+<div class="overflow-hidden">
+<p class="font-label-md text-label-md text-white truncate">Dr. Arhinful</p>
+<p class="text-[10px] text-white/50 truncate uppercase tracking-wider">Chief Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 ml-[260px] flex flex-col h-full overflow-hidden">
+<!-- TopNavBar (from JSON) -->
+<header class="h-[64px] bg-surface border-b border-border-subtle flex justify-between items-center px-gutter shrink-0">
+<div class="flex items-center space-x-4">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container-low border border-border-subtle rounded text-body-sm w-64 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Search facilities, staff..." type="text"/>
+</div>
+<h2 class="font-headline-md text-headline-md font-extrabold text-primary ml-4">HMIS Administrative Portal</h2>
+</div>
+<div class="flex items-center space-x-6">
+<button class="bg-secondary text-white font-label-md text-label-md px-4 py-2 rounded flex items-center space-x-2 transition-all hover:bg-emergency-dark active:scale-95 shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">emergency</span>
+<span>Emergency Alert</span>
+</button>
+<div class="flex items-center space-x-3">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-border-subtle"></div>
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center cursor-pointer">
+<img class="w-full h-full object-cover rounded" data-alt="Small avatar icon of a hospital administrator profile, clean clinical aesthetic, modern UI headshot icon." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY2_HwumVocsKLYXKH2iJpxtQf9RPMPjv60suCG2WqVe_wgI9DzV7a5nLgyPovWvEBwKcAQTEAshNIXZ7hn93wK4a7B5P4A06hM4mbsyDXSXuHBo35glpP9y_slcuR1lx4IcmQz0lJ1bxj--gf4UZD7RZZ-DxVd_1d5bUeT4KuKIC8GOgzIIjOVkPyLdtMBQdy3yDRA6j4CgIJT68xrehu67rwGGyD_FayKbslHo4rPmQ3iM_CEUOykdOz1lfU8ndEOoNB6rFTYKs"/>
+</div>
+</div>
+</header>
+<!-- Scrollable Content -->
+<main class="flex-1 overflow-y-auto p-gutter bg-app-bg">
+<div class="max-w-container-max mx-auto space-y-6">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div>
+<nav class="flex items-center space-x-2 text-outline text-label-md mb-1">
+<span>Administration</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface-variant">Facility Management</span>
+</nav>
+<h1 class="font-display-lg text-display-lg text-on-surface">Departmental Infrastructure</h1>
+</div>
+<div class="flex space-x-3">
+<button class="px-4 py-2 border border-primary text-primary font-label-md text-label-md rounded flex items-center space-x-2 hover:bg-medical-green-soft transition-colors">
+<span class="material-symbols-outlined">file_download</span>
+<span>Export Registry</span>
+</button>
+<button class="px-4 py-2 bg-primary text-white font-label-md text-label-md rounded flex items-center space-x-2 shadow-md hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined">add</span>
+<span>Add Department</span>
+</button>
+</div>
+</div>
+<!-- Facility General Settings Section -->
+<section class="grid grid-cols-12 gap-6">
+<div class="col-span-12 lg:col-span-8 bg-white border border-border-subtle rounded-xl p-6 shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Facility Overview</h3>
+<p class="text-on-surface-variant text-body-md">Primary operational parameters for Kwadaso SDA Hospital.</p>
+</div>
+<button class="text-primary hover:underline text-label-md">Edit Configuration</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
+<div class="space-y-1">
+<label class="text-label-md text-outline uppercase tracking-wider">Facility Name</label>
+<p class="text-body-lg font-semibold text-on-surface">Seventh Day Adventist Hospital, Kwadaso</p>
+</div>
+<div class="space-y-1">
+<label class="text-label-md text-outline uppercase tracking-wider">Operational ID</label>
+<p class="text-body-lg font-mono text-on-surface">SDA-KWA-2024-001</p>
+</div>
+<div class="space-y-1">
+<label class="text-label-md text-outline uppercase tracking-wider">Physical Address</label>
+<p class="text-body-lg text-on-surface">12 Hospital Ave, Kwadaso, Kumasi - Ashanti Region</p>
+</div>
+<div class="space-y-1">
+<label class="text-label-md text-outline uppercase tracking-wider">Contact Gateway</label>
+<p class="text-body-lg text-on-surface">+233 24 555 0102 / info@sdakwadaso.org</p>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-border-subtle grid grid-cols-3 gap-4">
+<div class="bg-accent-blue p-4 rounded">
+<p class="text-label-md text-outline">Total Bed Capacity</p>
+<p class="text-headline-lg font-bold text-primary">240</p>
+<p class="text-body-sm text-on-surface-variant mt-1">185 Active Beds (77% Occ.)</p>
+</div>
+<div class="bg-medical-green-soft p-4 rounded">
+<p class="text-label-md text-outline">Specialist Units</p>
+<p class="text-headline-lg font-bold text-deep-forest">14</p>
+<p class="text-body-sm text-on-surface-variant mt-1">3 Integrated ICUs</p>
+</div>
+<div class="bg-pending-soft p-4 rounded">
+<p class="text-label-md text-outline">Active Staff Count</p>
+<p class="text-headline-lg font-bold text-tertiary">312</p>
+<p class="text-body-sm text-on-surface-variant mt-1">28 On-call Today</p>
+</div>
+</div>
+</div>
+<!-- Facility Map/Location Context -->
+<div class="col-span-12 lg:col-span-4 bg-white border border-border-subtle rounded-xl overflow-hidden shadow-sm flex flex-col">
+<div class="h-48 relative">
+<div class="absolute inset-0 bg-surface-container">
+<img class="w-full h-full object-cover opacity-80" data-alt="A clean, professional digital map interface showing a hospital location in an urban environment. Minimalist cartography style with soft blues and greens, emphasizing medical facility pins. Hospital logo integrated into a map marker." data-location="Kumasi" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBh5l75EJy3YRLtavQdWrCDXq4Mt8vB0Rd2ROXptOtsPBG5SawjopOsz2BKlWbPEO-iwtcarvT4S9TnXXjBwCX5XdqPkUIhWAPS9jYcOrd-iP2LdLIcYZ2l8wIC4sVTYEJhERnFKRTmbuGZ7bDbDwyqkOug6qal-xXua2XGxKsdZogPGdSsPdoj9kolZZGEgHQdDhi3wogmH43aYXArSsXbt9dP4ZXsqbCMgkIRyjq4x4MSpFT_HERynoQU8WVuzk87ey84SsTViL8"/>
+</div>
+<div class="absolute bottom-4 left-4 bg-white px-3 py-1.5 rounded shadow-sm flex items-center space-x-2">
+<span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+<span class="text-label-md font-bold text-primary">LIVE STATUS</span>
+</div>
+</div>
+<div class="p-6 space-y-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">Emergency Access</h3>
+<div class="flex items-center space-x-3 p-3 border border-border-subtle rounded hover:bg-surface-container-low transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-secondary">local_shipping</span>
+<div class="flex-1">
+<p class="text-label-md font-bold text-on-surface">Ambulance Bay A</p>
+<p class="text-body-sm text-outline">3 Vehicles Available</p>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<div class="flex items-center space-x-3 p-3 border border-border-subtle rounded hover:bg-surface-container-low transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary">helicopter</span>
+<div class="flex-1">
+<p class="text-label-md font-bold text-on-surface">Helipad Status</p>
+<p class="text-body-sm text-outline">Clear for Landing</p>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Departments List Section -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center space-x-2">
+<span>Departmental Directory</span>
+<span class="bg-surface-container-highest text-on-surface-variant text-[12px] px-2 py-0.5 rounded-full">14 Active</span>
+</h3>
+<div class="flex space-x-2">
+<div class="flex bg-white border border-border-subtle rounded p-0.5">
+<button class="p-1.5 bg-accent-blue text-primary rounded"><span class="material-symbols-outlined text-[20px]">list</span></button>
+<button class="p-1.5 text-outline hover:bg-surface-container-low rounded"><span class="material-symbols-outlined text-[20px]">grid_view</span></button>
+</div>
+</div>
+</div>
+<div class="bg-white border border-border-subtle rounded-xl shadow-sm overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue border-b border-border-subtle">
+<th class="py-4 px-6 font-label-md text-label-md text-outline uppercase">Department Name</th>
+<th class="py-4 px-6 font-label-md text-label-md text-outline uppercase">Clinical Lead</th>
+<th class="py-4 px-6 font-label-md text-label-md text-outline uppercase">Staffing</th>
+<th class="py-4 px-6 font-label-md text-label-md text-outline uppercase">Bed Occupancy</th>
+<th class="py-4 px-6 font-label-md text-label-md text-outline uppercase">Status</th>
+<th class="py-4 px-6 font-label-md text-label-md text-outline uppercase text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Emergency Dept -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded bg-emergency-soft flex items-center justify-center text-emergency-dark">
+<span class="material-symbols-outlined">e911_emergency</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Emergency & Trauma</p>
+<p class="text-body-sm text-outline">Main Wing - Level 1</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center space-x-2">
+<div class="w-7 h-7 rounded-full bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a senior medical specialist, head of emergency department, clinical precision aesthetic, professional healthcare photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_vtGqb6oT93ystTR1Xj7gvmqCIY5Gaby8qtr69jA7INCYPmpUZqfQuFKFqEgWr-jo9qO1US1uhnfY9QS48MEm6rIAYMDMlDUviobDaJUKALgh2VqQP17TkucjVoUvNPEBSv3is7wVXJn74kdHyYiM9O4YsPv4aaM7-xgkhYr-cBsHIIHCFKDeQE2Sio3M4YFsvzuuFroT8xTWkIccINLOCuGus_Dg3KZJQ9kEtM0bsVxLxuxsSl53YLaf1q8JpJEySXs9f_goCiE"/>
+</div>
+<span class="text-table-data text-on-surface">Dr. Samuel Appiah</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex flex-col">
+<span class="text-table-data text-on-surface font-semibold">42 Registered</span>
+<span class="text-[11px] text-outline">12 Doctors, 26 Nurses</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="w-full max-w-[120px]">
+<div class="flex justify-between text-[11px] mb-1">
+<span class="font-bold text-on-surface">92%</span>
+<span class="text-outline">22/24</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[92%]"></div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-tight bg-emergency-soft text-emergency-dark">Critical Load</span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="p-2 text-outline hover:text-primary hover:bg-medical-green-soft rounded-full transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-2 text-outline hover:text-primary hover:bg-medical-green-soft rounded-full transition-all">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<!-- Cardiology -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded bg-medical-green-soft flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">cardiology</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Cardiovascular Center</p>
+<p class="text-body-sm text-outline">East Wing - Level 3</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center space-x-2">
+<div class="w-7 h-7 rounded-full bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a female cardiology department head, professional clinical attire, high resolution healthcare portrait, modern hospital background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-ZJLrFewgA9zviDcH2dbevVPu1MJjH9zijNmKruOJCxlL9uHyS1atYP3xsB-TwiPGxCCdJ46bWWMMmDu9D7d043iwnjTvufVWnnF_fyrM2YtItARhURunJKIW-bb869biOee6WBcJm-1QW6g2WvEi1I_l-uBmmqvKbb8gzcZiA0_SfMQovod5Bp0ftXkbqmXjE1aHBczn31wNbcF_AYQZ12YCUUo32cCqVoEtgoJDB4GArahG41dh9oOqgUOx2w8RWvWYemFKGYE"/>
+</div>
+<span class="text-table-data text-on-surface">Dr. Sarah Mensah</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex flex-col">
+<span class="text-table-data text-on-surface font-semibold">28 Registered</span>
+<span class="text-[11px] text-outline">8 Specialists, 16 Nurses</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="w-full max-w-[120px]">
+<div class="flex justify-between text-[11px] mb-1">
+<span class="font-bold text-on-surface">65%</span>
+<span class="text-outline">13/20</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[65%]"></div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-tight bg-medical-green-soft text-primary">Stable</span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="p-2 text-outline hover:text-primary hover:bg-medical-green-soft rounded-full transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-2 text-outline hover:text-primary hover:bg-medical-green-soft rounded-full transition-all">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<!-- Pediatrics -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded bg-pending-soft flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">child_care</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Pediatrics Wing</p>
+<p class="text-body-sm text-outline">North Wing - Level 2</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center space-x-2">
+<div class="w-7 h-7 rounded-full bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a pediatrician department lead, friendly clinical presence, professional healthcare setting, clean white coat and stethoscope, high quality photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB440qSTAo9Jox0CdI8nUkIGHlWzb3dJB390lSVL5XZomk7q7nOth1oWQU7eeYVXxXcRRaEvKlsN4HwI_e0GLA49yEA0qqaHboGkCPwDSi-7WXLdgiEsKeQlSUuBx7MY_wepIbHzBDPBZ98A3p9oN4QzuDsSWGcoAtZZ_lgMeZUJgG_hQEIwQcDzztLbGoCjhDw2JIlYSnloLneTUyl_J892xnIQCmrMymKprYU4EHdp18p9kGh_er-p0QedjKabLYiQRdiKKqZpjE"/>
+</div>
+<span class="text-table-data text-on-surface">Dr. Kwesi Baah</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex flex-col">
+<span class="text-table-data text-on-surface font-semibold">35 Registered</span>
+<span class="text-[11px] text-outline">9 Pediatricians, 22 Nurses</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="w-full max-w-[120px]">
+<div class="flex justify-between text-[11px] mb-1">
+<span class="font-bold text-on-surface">80%</span>
+<span class="text-outline">32/40</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[80%]"></div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-tight bg-pending-soft text-tertiary">Under Observation</span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="p-2 text-outline hover:text-primary hover:bg-medical-green-soft rounded-full transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-2 text-outline hover:text-primary hover:bg-medical-green-soft rounded-full transition-all">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-4 bg-surface-container-lowest border-t border-border-subtle flex items-center justify-between">
+<p class="text-body-sm text-outline">Showing 1-3 of 14 Departments</p>
+<div class="flex items-center space-x-2">
+<button class="px-3 py-1 border border-border-subtle rounded text-body-sm hover:bg-surface-container-low disabled:opacity-50" disabled="">Previous</button>
+<button class="px-3 py-1 bg-primary text-white border border-primary rounded text-body-sm">1</button>
+<button class="px-3 py-1 border border-border-subtle rounded text-body-sm hover:bg-surface-container-low">2</button>
+<button class="px-3 py-1 border border-border-subtle rounded text-body-sm hover:bg-surface-container-low">Next</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- Right Side Context Panel (Floating Effect) -->
+<div class="w-[320px] bg-white border-l border-border-subtle h-screen overflow-y-auto p-6 space-y-8 hidden xl:block shrink-0">
+<h3 class="font-headline-md text-headline-md text-on-surface">Staffing Compliance</h3>
+<div class="space-y-4">
+<div class="p-4 bg-medical-green-soft rounded-xl border-l-4 border-primary">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-md font-bold text-primary">Shift Handover</span>
+<span class="text-[10px] bg-white px-2 py-0.5 rounded-full text-primary border border-primary">98% COMPLETE</span>
+</div>
+<p class="text-body-sm text-on-surface">Morning shift reporting has been finalized across 12 departments.</p>
+</div>
+<div class="p-4 bg-emergency-soft rounded-xl border-l-4 border-secondary">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-md font-bold text-secondary">Shortage Alert</span>
+<span class="text-[10px] bg-white px-2 py-0.5 rounded-full text-secondary border border-secondary">ACTION REQ.</span>
+</div>
+<p class="text-body-sm text-on-surface">Oncology wing reporting 2 nurse vacancies for the upcoming night shift.</p>
+<button class="mt-3 w-full py-1.5 bg-secondary text-white rounded text-label-md shadow-sm">View Roster</button>
+</div>
+</div>
+<div class="pt-6 border-t border-border-subtle">
+<h4 class="text-label-md text-outline uppercase tracking-widest mb-4">Quick Statistics</h4>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-body-md text-on-surface-variant">Active ICU Beds</span>
+<span class="font-bold text-on-surface">18/24</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[75%]"></div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-body-md text-on-surface-variant">Lab Efficiency</span>
+<span class="font-bold text-on-surface">94.2%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[94%]"></div>
+</div>
+</div>
+</div>
+<div class="pt-6 border-t border-border-subtle">
+<h4 class="text-label-md text-outline uppercase tracking-widest mb-4">Departmental Log</h4>
+<div class="space-y-4 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-surface-container">
+<div class="flex items-start space-x-4 relative">
+<div class="w-[24px] h-[24px] bg-white border-2 border-primary rounded-full flex items-center justify-center z-10 shrink-0">
+<div class="w-2 h-2 bg-primary rounded-full"></div>
+</div>
+<div>
+<p class="text-label-md font-bold text-on-surface">ER Capacity Update</p>
+<p class="text-body-sm text-outline">14:22 • trauma level increased</p>
+</div>
+</div>
+<div class="flex items-start space-x-4 relative">
+<div class="w-[24px] h-[24px] bg-white border-2 border-border-subtle rounded-full flex items-center justify-center z-10 shrink-0">
+<div class="w-2 h-2 bg-border-subtle rounded-full"></div>
+</div>
+<div>
+<p class="text-label-md font-bold text-on-surface">Staff Onboarding</p>
+<p class="text-body-sm text-outline">11:05 • 3 new nurses assigned</p>
+</div>
+</div>
+<div class="flex items-start space-x-4 relative">
+<div class="w-[24px] h-[24px] bg-white border-2 border-border-subtle rounded-full flex items-center justify-center z-10 shrink-0">
+<div class="w-2 h-2 bg-border-subtle rounded-full"></div>
+</div>
+<div>
+<p class="text-label-md font-bold text-on-surface">Audit Completed</p>
+<p class="text-body-sm text-outline">Yesterday • Equipment check</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactions Script -->
+<script>
+        document.querySelectorAll('button, .cursor-pointer').forEach(el => {
+            el.addEventListener('click', () => {
+                // Micro-interaction simulation
+                el.classList.add('scale-95');
+                setTimeout(() => el.classList.remove('scale-95'), 100);
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SDA Hospital Kwadaso - Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .active-tab-indicator {
+            position: absolute;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #ea002c; /* secondary-container / Flame Orange indicator */
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "border-subtle": "#E2E8F0",
+                        "on-secondary-container": "#fffbff",
+                        "inverse-surface": "#213145",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed": "#2d1600",
+                        "on-tertiary-container": "#ffb168",
+                        "on-primary-fixed-variant": "#005304",
+                        "surface-dim": "#cbdbf5",
+                        "on-secondary-fixed": "#410005",
+                        "primary-fixed-dim": "#8ad97a",
+                        "on-primary-fixed": "#002201",
+                        "emergency-soft": "#FDECEF",
+                        "emergency-dark": "#B80021",
+                        "surface-bright": "#f8f9ff",
+                        "primary-fixed": "#a5f693",
+                        "on-primary-container": "#86d576",
+                        "tertiary": "#572e00",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "on-secondary": "#ffffff",
+                        "accent-blue": "#EAF3FA",
+                        "app-bg": "#F8FAFC",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "on-surface-variant": "#40493c",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "tertiary-container": "#784200",
+                        "deep-forest": "#064906",
+                        "surface-container": "#e5eeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "outline-variant": "#c0cab8",
+                        "surface-container-high": "#dce9ff",
+                        "background": "#f8f9ff",
+                        "surface-variant": "#d3e4fe",
+                        "secondary": "#bb0021",
+                        "surface-tint": "#206d1b",
+                        "secondary-container": "#ea002c",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary-fixed": "#ffdad7",
+                        "primary": "#004302",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed-variant": "#930018",
+                        "outline": "#707a6b",
+                        "inverse-primary": "#8ad97a",
+                        "on-error": "#ffffff",
+                        "on-background": "#0b1c30",
+                        "primary-container": "#0b5d0b",
+                        "pending-soft": "#FFF4E8",
+                        "on-primary": "#ffffff",
+                        "medical-green-soft": "#E8F5E9",
+                        "surface": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "gutter": "1.5rem",
+                        "margin-desktop": "2rem",
+                        "sidebar-width": "260px",
+                        "margin-mobile": "1rem",
+                        "topbar-height": "64px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "table-data": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-app-bg text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-inverse-surface flex flex-col py-6 z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-on-primary" data-icon="local_hospital">local_hospital</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary leading-none">SDA Hospital</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant opacity-70">Kwadaso HMIS</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-3 font-body-md text-body-md text-on-surface-variant hover:text-on-primary hover:bg-primary-container transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 font-body-md text-body-md text-on-surface-variant hover:text-on-primary hover:bg-primary-container transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span>Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 font-body-md text-body-md text-on-surface-variant hover:text-on-primary hover:bg-primary-container transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span>Staff</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 font-body-md text-body-md text-on-surface-variant hover:text-on-primary hover:bg-primary-container transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span>Departments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 font-body-md text-body-md text-on-surface-variant hover:text-on-primary hover:bg-primary-container transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span>Audit Logs</span>
+</a>
+<a class="relative flex items-center gap-3 px-3 py-3 font-body-md text-body-md bg-primary text-on-primary border-l-4 border-secondary-container transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full flex items-center justify-center gap-2 py-3 bg-primary text-on-primary font-label-md text-label-md rounded hover:opacity-90 transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                New Record
+            </button>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-[260px] w-[calc(100%-260px)] h-[64px] bg-surface border-b border-border-subtle flex justify-between items-center px-gutter z-40">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none focus:ring-2 focus:ring-primary text-body-md font-body-md rounded-lg" placeholder="Search configuration..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-2 px-4 py-2 bg-secondary text-on-secondary font-label-md text-label-md rounded hover:bg-secondary-container transition-all">
+<span class="material-symbols-outlined" data-icon="campaign">campaign</span>
+                Emergency Alert
+            </button>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="hover:bg-surface-container-low p-2 rounded transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:bg-surface-container-low p-2 rounded transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-border-subtle"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface leading-none">Admin Profile</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Super Administrator</p>
+</div>
+<img class="w-10 h-10 rounded-full border border-border-subtle object-cover" data-alt="Professional headshot of a hospital administrator in a clean white laboratory coat against a neutral clinical background. High-key lighting, corporate modern aesthetic with sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxGjrhyS2gs3paG_vVxN7VDbl-WX1PHt6pxz5IIONRBHldcReORMRYZZ5C-D1bWYqNBgG0ayA_Pl9ktQWbLNrzJf09S2buOihW535tRo6NOqvP4eaw50uFfD3VYD0nw0_su6MemXQhwj61_c-A5zYNl0n0EsDHxPCHW8JDiwR9SpIuVWgFQGOcmNO5gzEXu_2fsTbingmysvhXfD1rebSM8p2IvM46CqG3_wx7SVptB6veF1jUun19NUNJO9PdN5gdxrRJ0xD9mMk"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[260px] mt-[64px] p-margin-desktop min-h-[calc(100vh-64px)]">
+<header class="mb-8">
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold">System Settings</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Configure hospital infrastructure, branding, and system-wide security protocols.</p>
+</header>
+<div class="flex gap-8 items-start">
+<!-- Vertical Tab Navigation -->
+<nav class="w-64 flex-shrink-0 space-y-1 bg-surface rounded-xl border border-border-subtle p-2">
+<button class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left font-label-md text-label-md transition-all duration-200 bg-primary text-on-primary" id="btn-hospital-profile" onclick="switchTab('hospital-profile')">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+                    Hospital Profile
+                </button>
+<button class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:bg-surface-container-low" id="btn-branding" onclick="switchTab('branding')">
+<span class="material-symbols-outlined" data-icon="palette">palette</span>
+                    Branding
+                </button>
+<button class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:bg-surface-container-low" id="btn-notifications" onclick="switchTab('notifications')">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+                    Notifications
+                </button>
+<button class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:bg-surface-container-low" id="btn-security" onclick="switchTab('security')">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+                    Security
+                </button>
+<div class="pt-4 mt-4 border-t border-border-subtle">
+<button class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:bg-surface-container-low">
+<span class="material-symbols-outlined" data-icon="cloud_download">cloud_download</span>
+                        Export Config
+                    </button>
+</div>
+</nav>
+<!-- Settings Content -->
+<div class="flex-1 max-w-4xl space-y-6">
+<!-- Section: Hospital Profile -->
+<section class="settings-panel bg-white rounded-xl border border-border-subtle p-8 block" id="hospital-profile">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md font-bold mb-1">Hospital Profile</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Basic information about the healthcare facility.</p>
+</div>
+<button class="px-6 py-2 bg-primary text-on-primary rounded font-label-md text-label-md hover:bg-primary-container transition-all">Save Changes</button>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Hospital Name <span class="text-secondary">*</span></label>
+<input class="w-full border border-border-subtle rounded-lg p-3 font-body-md text-body-md focus:ring-2 focus:ring-primary outline-none" type="text" value="SDA Hospital Kwadaso"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Facility Code</label>
+<input class="w-full bg-surface-container-low border border-border-subtle rounded-lg p-3 font-body-md text-body-md text-on-surface-variant" disabled="" type="text" value="GHS-AS-KWD-001"/>
+</div>
+<div class="space-y-2 col-span-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Physical Address</label>
+<textarea class="w-full border border-border-subtle rounded-lg p-3 font-body-md text-body-md focus:ring-2 focus:ring-primary outline-none" rows="3">PO Box 19, Kwadaso, Kumasi, Ashanti Region, Ghana</textarea>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Contact Email</label>
+<input class="w-full border border-border-subtle rounded-lg p-3 font-body-md text-body-md focus:ring-2 focus:ring-primary outline-none" type="email" value="info@sdahospitalkwadaso.com"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Phone Number</label>
+<input class="w-full border border-border-subtle rounded-lg p-3 font-body-md text-body-md focus:ring-2 focus:ring-primary outline-none" type="tel" value="+233 322 012345"/>
+</div>
+</div>
+</section>
+<!-- Section: Branding -->
+<section class="settings-panel bg-white rounded-xl border border-border-subtle p-8 hidden" id="branding">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md font-bold mb-1">Branding &amp; Identity</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Customize the visual appearance of patient portals and receipts.</p>
+</div>
+<button class="px-6 py-2 bg-primary text-on-primary rounded font-label-md text-label-md hover:bg-primary-container transition-all">Save Changes</button>
+</div>
+<div class="grid grid-cols-3 gap-8">
+<div class="col-span-1">
+<label class="font-label-md text-label-md text-on-surface-variant mb-4 block">Institutional Logo</label>
+<div class="aspect-square border-2 border-dashed border-border-subtle rounded-xl flex flex-col items-center justify-center p-4 bg-app-bg group cursor-pointer hover:border-primary transition-all">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-primary mb-2" data-icon="upload_file">upload_file</span>
+<p class="font-label-md text-label-md text-center text-on-surface-variant group-hover:text-primary">Click to upload SVG or PNG</p>
+<p class="text-[10px] text-on-surface-variant mt-2">Max 2MB. Preferred: 512x512px</p>
+</div>
+</div>
+<div class="col-span-2 space-y-6">
+<div class="space-y-4">
+<label class="font-label-md text-label-md text-on-surface-variant">System Color Palette</label>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex items-center gap-3 p-3 border border-border-subtle rounded-lg">
+<div class="w-8 h-8 rounded bg-[#004302]"></div>
+<div>
+<p class="font-label-md text-[11px] uppercase tracking-tighter">Primary</p>
+<p class="font-body-md text-body-md">#004302</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 border border-border-subtle rounded-lg">
+<div class="w-8 h-8 rounded bg-[#bb0021]"></div>
+<div>
+<p class="font-label-md text-[11px] uppercase tracking-tighter">Secondary</p>
+<p class="font-body-md text-body-md">#BB0021</p>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<label class="font-label-md text-label-md text-on-surface-variant">Visual Density</label>
+<div class="flex gap-4">
+<label class="flex-1 cursor-pointer">
+<input checked="" class="hidden peer" name="density" type="radio"/>
+<div class="p-4 border-2 border-border-subtle rounded-lg peer-checked:border-primary peer-checked:bg-medical-green-soft transition-all">
+<p class="font-label-md text-label-md">High Density</p>
+<p class="text-[10px] text-on-surface-variant">Maximize data visibility (Default)</p>
+</div>
+</label>
+<label class="flex-1 cursor-pointer">
+<input class="hidden peer" name="density" type="radio"/>
+<div class="p-4 border-2 border-border-subtle rounded-lg peer-checked:border-primary peer-checked:bg-medical-green-soft transition-all">
+<p class="font-label-md text-label-md">Comfortable</p>
+<p class="text-[10px] text-on-surface-variant">More whitespace between records</p>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Notifications -->
+<section class="settings-panel bg-white rounded-xl border border-border-subtle p-8 hidden" id="notifications">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md font-bold mb-1">Notification Preferences</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage how staff and patients receive updates.</p>
+</div>
+<button class="px-6 py-2 bg-primary text-on-primary rounded font-label-md text-label-md hover:bg-primary-container transition-all">Save Changes</button>
+</div>
+<div class="space-y-6">
+<div class="flex items-center justify-between p-4 bg-app-bg rounded-lg border border-border-subtle">
+<div class="flex gap-4 items-center">
+<div class="w-10 h-10 bg-accent-blue rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="sms">sms</span>
+</div>
+<div>
+<p class="font-label-md text-label-md">Patient SMS Reminders</p>
+<p class="text-body-sm text-on-surface-variant">Automated appointment reminders via local telco gateway.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-border-subtle peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-4 bg-app-bg rounded-lg border border-border-subtle">
+<div class="flex gap-4 items-center">
+<div class="w-10 h-10 bg-accent-blue rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="mail">mail</span>
+</div>
+<div>
+<p class="font-label-md text-label-md">Internal Staff Digest</p>
+<p class="text-body-sm text-on-surface-variant">Daily summary of admissions, discharges, and bed capacity.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-border-subtle peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-4 bg-emergency-soft rounded-lg border border-emergency-dark/10">
+<div class="flex gap-4 items-center">
+<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-emergency-dark" data-icon="emergency_share">emergency_share</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-emergency-dark">Critical Result Alerts</p>
+<p class="text-body-sm text-on-surface-variant">Push notifications for life-threatening lab values.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-border-subtle peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Section: Security -->
+<section class="settings-panel bg-white rounded-xl border border-border-subtle p-8 hidden" id="security">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md font-bold mb-1">Security &amp; Privacy</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">HIPAA compliance and access control settings.</p>
+</div>
+<button class="px-6 py-2 bg-primary text-on-primary rounded font-label-md text-label-md hover:bg-primary-container transition-all">Save Changes</button>
+</div>
+<div class="space-y-8">
+<div class="space-y-4">
+<h4 class="font-label-md text-label-md uppercase text-on-surface-variant tracking-wider">Authentication</h4>
+<div class="grid grid-cols-1 gap-4">
+<div class="flex items-center justify-between p-4 border border-border-subtle rounded-lg">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="phonelink_setup">phonelink_setup</span>
+<div>
+<p class="font-label-md text-label-md">Enforce Two-Factor Authentication (2FA)</p>
+<p class="text-body-sm text-on-surface-variant">Required for all users with access to patient records.</p>
+</div>
+</div>
+<div class="flex items-center">
+<span class="px-2 py-1 bg-medical-green-soft text-primary font-label-md text-[10px] rounded mr-4">RECOMMENDED</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-border-subtle peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="font-label-md text-label-md uppercase text-on-surface-variant tracking-wider">Password Policy</h4>
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Minimum Length</label>
+<select class="w-full border border-border-subtle rounded-lg p-3 font-body-md text-body-md focus:ring-2 focus:ring-primary outline-none">
+<option>8 Characters</option>
+<option selected="">12 Characters (Compliance Std)</option>
+<option>16 Characters</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Password Expiry</label>
+<select class="w-full border border-border-subtle rounded-lg p-3 font-body-md text-body-md focus:ring-2 focus:ring-primary outline-none">
+<option>Never</option>
+<option>30 Days</option>
+<option selected="">90 Days</option>
+</select>
+</div>
+</div>
+</div>
+<div class="p-4 bg-pending-soft border border-secondary-container/10 rounded-lg flex gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="lock_reset">lock_reset</span>
+<div>
+<p class="font-label-md text-label-md text-secondary">Global Session Termination</p>
+<p class="text-body-sm text-on-surface-variant mb-3">Logs out all users across all devices immediately. Use only in case of suspected breach.</p>
+<button class="px-4 py-2 border-2 border-secondary text-secondary font-label-md text-label-md rounded hover:bg-secondary hover:text-on-secondary transition-all">Revoke All Sessions</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<script>
+        function switchTab(tabId) {
+            // Hide all panels
+            document.querySelectorAll('.settings-panel').forEach(panel => {
+                panel.classList.add('hidden');
+                panel.classList.remove('block');
+            });
+
+            // Reset all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-on-primary');
+                btn.classList.add('text-on-surface-variant', 'hover:bg-surface-container-low');
+            });
+
+            // Show selected panel
+            const activePanel = document.getElementById(tabId);
+            activePanel.classList.remove('hidden');
+            activePanel.classList.add('block');
+
+            // Set active button style
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.add('bg-primary', 'text-on-primary');
+            activeBtn.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-low');
+        }
+
+        // Interactivity for micro-transitions
+        document.querySelectorAll('input, select, textarea').forEach(el => {
+            el.addEventListener('focus', () => {
+                el.parentElement.querySelector('label')?.classList.add('text-primary');
+            });
+            el.addEventListener('blur', () => {
+                el.parentElement.querySelector('label')?.classList.remove('text-primary');
+            });
+        });
+    </script>
+</body></html>

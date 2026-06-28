@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Appointment Detail - SDA Hospital Kwadaso</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#fffbff",
+                    "on-background": "#0b1c30",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-low": "#eff4ff",
+                    "emergency-soft": "#FDECEF",
+                    "surface-bright": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "emergency-dark": "#B80021",
+                    "inverse-surface": "#213145",
+                    "tertiary-container": "#784200",
+                    "tertiary": "#572e00",
+                    "on-primary-container": "#86d576",
+                    "error": "#ba1a1a",
+                    "surface-container": "#e5eeff",
+                    "primary-fixed": "#a5f693",
+                    "surface": "#f8f9ff",
+                    "accent-blue": "#EAF3FA",
+                    "surface-variant": "#d3e4fe",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#8ad97a",
+                    "on-surface-variant": "#40493c",
+                    "inverse-on-surface": "#eaf1ff",
+                    "primary-fixed-dim": "#8ad97a",
+                    "primary": "#004302",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "primary-container": "#0b5d0b",
+                    "on-secondary-fixed-variant": "#930018",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "app-bg": "#F8FAFC",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "secondary-fixed": "#ffdad7",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffdcc0",
+                    "border-subtle": "#E2E8F0",
+                    "outline": "#707a6b",
+                    "background": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#c0cab8",
+                    "on-primary-fixed": "#002201",
+                    "secondary-container": "#ea002c",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed": "#410005",
+                    "on-primary-fixed-variant": "#005304",
+                    "on-tertiary-container": "#ffb168",
+                    "surface-dim": "#cbdbf5",
+                    "secondary": "#bb0021",
+                    "pending-soft": "#FFF4E8",
+                    "surface-tint": "#206d1b",
+                    "on-secondary": "#ffffff",
+                    "deep-forest": "#064906",
+                    "medical-green-soft": "#E8F5E9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "topbar-height": "64px",
+                    "margin-desktop": "2rem",
+                    "gutter": "1.5rem",
+                    "margin-mobile": "1rem",
+                    "sidebar-width": "260px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Manrope"],
+                    "display-lg": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "table-data": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #F8FAFC;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background antialiased flex">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-surface-container-lowest border-r border-border-subtle flex flex-col py-6 space-y-2 z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined text-white">medical_services</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-deep-forest leading-tight">SDA Kwadaso</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Clinical Portal</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Queue Monitor -->
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-3">queue</span>
+<span class="font-label-md text-label-md">Queue Monitor</span>
+</a>
+<!-- Appointments (Active) -->
+<a class="flex items-center px-6 py-3 bg-primary text-on-primary border-l-4 border-secondary-container transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-3" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-label-md text-label-md">Appointments</span>
+</a>
+<!-- Clinics -->
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-3">medical_services</span>
+<span class="font-label-md text-label-md">Clinics</span>
+</a>
+<!-- Patient Records -->
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-3">person_search</span>
+<span class="font-label-md text-label-md">Patient Records</span>
+</a>
+<!-- Staff Directory -->
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-3">group</span>
+<span class="font-label-md text-label-md">Staff Directory</span>
+</a>
+<!-- Reports -->
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-low transition-all active:translate-x-1" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full bg-primary text-white py-3 rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm">
+                New Appointment
+            </button>
+<div class="mt-6 border-t border-border-subtle pt-4">
+<a class="flex items-center py-2 text-on-surface-variant hover:text-secondary transition-colors" href="#">
+<span class="material-symbols-outlined mr-3">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-sidebar-width flex-1 flex flex-col min-h-screen">
+<!-- TopAppBar (Shared Component) -->
+<header class="flex justify-between items-center h-topbar-height px-margin-desktop w-full bg-surface-container-lowest border-b border-border-subtle z-40">
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex items-center space-x-6">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary py-2" href="#">Patient Care</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Schedule</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-secondary text-white px-4 py-1.5 rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-95 duration-150">
+                    Emergency Alert
+                </button>
+<div class="flex items-center gap-2 border-l border-border-subtle pl-4 ml-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-accent-blue border border-border-subtle ml-2">
+<img class="w-full h-full object-cover" data-alt="A professional medical practitioner avatar, female, wearing a white clinical coat and a stethoscope, high-quality digital photography, clean medical environment, clinical modern style with soft neutral lighting and professional healthcare aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8BW_MhR3fo45FAR_GDD1eCFJB_yj7jTQshG5it3Lqb4WuDw8P3WxZE6u4mU_Lt8HswsmnMvCxzSuY5stBfsOCmqDSPvzkUpaNMbTbBukrhWTq53sCN0_iP6atRlylvFjaTNdFyejNOGFtCArmW-5BddhStxQlLqkKqBBYiYyxW9JihNpwjrIfLgV-93eQarj4VCYr-6wAxOFrxqPWrQzppNl9yrRWteX0gaQ9PpKlDy6X3F6fj66Yb4lmAQWmFwfhRCpXEuP3Qfk"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<div class="p-8 max-w-container-max mx-auto w-full">
+<!-- Header Section -->
+<div class="flex justify-between items-start mb-8">
+<div>
+<nav class="flex items-center gap-2 text-on-surface-variant mb-2">
+<span class="text-xs font-medium uppercase tracking-wider">Patient Care</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-xs font-medium uppercase tracking-wider">Appointments</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-xs font-medium uppercase tracking-wider text-primary">Detail View</span>
+</nav>
+<h2 class="font-headline-lg text-headline-lg text-on-background">Appointment Details</h2>
+<p class="text-on-surface-variant font-body-md">Ref ID: #KWD-2023-9842</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-white border border-border-subtle text-on-background px-6 py-2.5 rounded-xl font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">close</span>
+                        Cancel
+                    </button>
+<button class="bg-white border border-primary text-primary px-6 py-2.5 rounded-xl font-label-md text-label-md hover:bg-medical-green-soft transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+                        Reschedule
+                    </button>
+<button class="bg-primary text-white px-8 py-2.5 rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[20px]">how_to_reg</span>
+                        Check-in
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Patient Demographics Card (Bento Slot 1) -->
+<div class="col-span-12 lg:col-span-4 bg-white border border-border-subtle rounded-xl p-6 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1.5 h-full bg-primary"></div>
+<div class="flex items-center gap-4 mb-6">
+<div class="w-20 h-20 rounded-full overflow-hidden border-4 border-medical-green-soft">
+<img class="w-full h-full object-cover" data-alt="Portrait of an elderly Ghanaian patient with a friendly expression, soft lighting, hospital hallway background slightly out of focus, high-resolution clinical portraiture, professional and clean aesthetic, medical healthcare focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIqtmbOfBhyvoQqlHlz9bOBXvpzKhLDQycqfa9RLTLXpNOq3cJ1dIP6uVDzJwEG9JF4Sxx3GLsjkFMyhI4axMibjcZatdVnig21-fF1rAI2_BJZhYW3e_5ZxKEvHrSw740wGh4oPEL0UnX9UyOL4x3Gh9IYqy1Yw8p4AS4hcLyFzSEh75AQmkrTRnZqoUxYd2zr-sYf1ylJYLUTJhx9jC0JFFgxaKOhlnN0RyfJJXJrPICKZsnSEBBZIMeqUoqGvGuYJkYMPAqWbc"/>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md">Kwame Mensah</h3>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-medical-green-soft text-primary">
+                                Regular Patient
+                            </span>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center py-2 border-b border-border-subtle">
+<span class="text-on-surface-variant text-sm">Patient ID</span>
+<span class="font-medium text-sm">PT-8832-KW</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-border-subtle">
+<span class="text-on-surface-variant text-sm">Age / Gender</span>
+<span class="font-medium text-sm">64 Yrs / Male</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-border-subtle">
+<span class="text-on-surface-variant text-sm">Blood Group</span>
+<span class="font-medium text-sm text-secondary">O+ Positive</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-border-subtle">
+<span class="text-on-surface-variant text-sm">Insurance</span>
+<span class="font-medium text-sm">NHIS Active</span>
+</div>
+</div>
+<div class="mt-8">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3">Allergies</h4>
+<div class="flex flex-wrap gap-2">
+<span class="bg-emergency-soft text-emergency-dark px-3 py-1 rounded-full text-xs font-bold">Penicillin</span>
+<span class="bg-emergency-soft text-emergency-dark px-3 py-1 rounded-full text-xs font-bold">Latex</span>
+</div>
+</div>
+</div>
+<!-- Visit Purpose & Clinician (Bento Slot 2) -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<!-- Timeline Progress Bar -->
+<div class="bg-white border border-border-subtle rounded-xl p-6">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-6">Appointment Status</h4>
+<div class="relative">
+<div class="absolute top-5 left-0 w-full h-1 bg-surface-container-high rounded-full"></div>
+<div class="absolute top-5 left-0 w-1/2 h-1 bg-primary rounded-full transition-all duration-700"></div>
+<div class="relative flex justify-between">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center z-10 shadow-sm">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<span class="mt-2 text-xs font-bold text-primary">Scheduled</span>
+<span class="text-[10px] text-on-surface-variant">08:30 AM</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center z-10 shadow-sm">
+<span class="material-symbols-outlined">login</span>
+</div>
+<span class="mt-2 text-xs font-bold text-primary">Arrived</span>
+<span class="text-[10px] text-on-surface-variant">09:15 AM</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center z-10">
+<span class="material-symbols-outlined">pending_actions</span>
+</div>
+<span class="mt-2 text-xs font-medium text-on-surface-variant">In Progress</span>
+<span class="text-[10px] text-on-surface-variant">--:--</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center z-10">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<span class="mt-2 text-xs font-medium text-on-surface-variant">Completed</span>
+<span class="text-[10px] text-on-surface-variant">--:--</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Visit Info Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Left Info Card -->
+<div class="bg-white border border-border-subtle rounded-xl p-6">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4">Visit Information</h4>
+<div class="space-y-4">
+<div class="flex items-start gap-4">
+<div class="p-2 bg-accent-blue rounded-lg">
+<span class="material-symbols-outlined text-primary">medical_information</span>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant">Purpose of Visit</p>
+<p class="font-medium text-sm">Post-Surgical Follow-up (Cardiac)</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="p-2 bg-accent-blue rounded-lg">
+<span class="material-symbols-outlined text-primary">location_on</span>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant">Department / Room</p>
+<p class="font-medium text-sm">Cardiology Unit - Block B, Room 402</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="p-2 bg-accent-blue rounded-lg">
+<span class="material-symbols-outlined text-primary">event</span>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant">Date &amp; Time</p>
+<p class="font-medium text-sm">Oct 24, 2023 | 09:30 AM</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Clinician Card -->
+<div class="bg-white border border-border-subtle rounded-xl p-6 flex flex-col justify-between">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4">Assigned Clinician</h4>
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-xl overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young male specialist doctor in a hospital setting, sharp focus, professional lighting, wearing a navy blue scrub, modern clinical aesthetic, high-quality digital photography for a medical directory." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCs60klN2wdHwz-W_e6Lj9RiVdc5yMBWuvdSXDtYlTJ2ouoYQsx8mn8Nm918eK5NU_xVTm4zYFW7n6YaPYnWyeSYLL8ISis6l0S7nt8nAhvvNv86_PrTCu8RKQ586I1xiCQjNgVVDPaeSxI97cnGmoeSee8ZVSCkfChGYGUJSde_cevIu-glAGIwPp5_6lUjpzQRN0aBOjK9llqDEpAYzmukV87joHmJ0JHFVhFzpB_f1WpADIhrZbAw15wbOIXn-p0sjJ55eEGCHU"/>
+</div>
+<div>
+<p class="font-headline-md text-headline-md text-deep-forest">Dr. Kofi Asare</p>
+<p class="text-sm text-on-surface-variant">Senior Cardiologist</p>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-border-subtle flex justify-between items-center">
+<span class="text-xs text-on-surface-variant">Availability</span>
+<span class="text-xs font-bold text-primary flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                                    On Premises
+                                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Full-Width Section: Vital Signs & Medical Notes -->
+<div class="col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Vitals Bento Box -->
+<div class="bg-white border border-border-subtle rounded-xl p-6">
+<div class="flex justify-between items-center mb-6">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Recent Vitals</h4>
+<button class="text-primary text-xs font-bold hover:underline">Update</button>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-3 rounded-lg border border-border-subtle">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">BP</p>
+<p class="text-headline-md font-bold text-on-background">120/80</p>
+<p class="text-[10px] text-primary">Normal</p>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg border border-border-subtle">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Pulse</p>
+<p class="text-headline-md font-bold text-on-background">72 <span class="text-xs font-normal">bpm</span></p>
+<p class="text-[10px] text-primary">Steady</p>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg border border-border-subtle">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Temp</p>
+<p class="text-headline-md font-bold text-on-background">36.8 <span class="text-xs font-normal">°C</span></p>
+<p class="text-[10px] text-primary">Normal</p>
+</div>
+<div class="bg-emergency-soft p-3 rounded-lg border border-emergency-soft">
+<p class="text-[10px] text-emergency-dark uppercase font-bold">Weight</p>
+<p class="text-headline-md font-bold text-emergency-dark">88.5 <span class="text-xs font-normal">kg</span></p>
+<p class="text-[10px] text-emergency-dark">+2.1kg (Last visit)</p>
+</div>
+</div>
+</div>
+<!-- Medical Notes Bento Box -->
+<div class="bg-white border border-border-subtle rounded-xl p-6 md:col-span-2">
+<div class="flex justify-between items-center mb-4">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Clinical Notes &amp; Instructions</h4>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">edit_note</span>
+</div>
+<div class="p-4 bg-accent-blue rounded-lg border border-outline-variant h-32 overflow-y-auto">
+<p class="text-sm text-on-background leading-relaxed">
+                                Patient complaining of mild fatigue during morning walks. Cardiac rhythm was stable during last check. Ensure EKG is performed before consultation. Patient was advised to continue low-sodium diet and daily aspirin 75mg. Check for any swelling in lower extremities during physical exam.
+                            </p>
+</div>
+<div class="mt-4 flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center text-[10px] font-bold">NT</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-300 flex items-center justify-center text-[10px] font-bold">AS</div>
+</div>
+<p class="text-[10px] text-on-surface-variant">Last updated by Nurse Tetteh, 09:18 AM</p>
+</div>
+</div>
+</div>
+<!-- Footer Action Strip -->
+<div class="col-span-12 flex justify-between items-center bg-surface-container-lowest p-4 rounded-xl border border-border-subtle border-dashed">
+<div class="flex gap-4">
+<div class="flex items-center gap-2 text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">history</span>
+                            View Full History
+                        </div>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">description</span>
+                            Download PDF Summary
+                        </div>
+</div>
+<p class="text-[10px] italic text-on-surface-variant">SDA Hospital Kwadaso - Clinical Management System v4.2.1</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Quick Actions (Contextual FAB Suppression - Only shown if active task) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:scale-105 transition-transform active:scale-95 group" id="quick-action-fab">
+<span class="material-symbols-outlined group-hover:rotate-90 transition-transform">add</span>
+<div class="absolute right-full mr-4 bg-inverse-surface text-inverse-on-surface px-3 py-1.5 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+            Quick Add Note
+        </div>
+</button>
+<script>
+        // Micro-interaction for the FAB
+        const fab = document.getElementById('quick-action-fab');
+        fab.addEventListener('click', () => {
+            alert('Opening quick note modal...');
+        });
+
+        // Simple tab active state handling (visual only for this demo)
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                // If we had routing, this is where it would live
+                console.log('Navigating to:', link.textContent.trim());
+            });
+        });
+    </script>
+</body></html>

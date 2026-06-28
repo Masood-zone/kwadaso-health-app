@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Immunization Report | SDA Hospital HMIS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "border-subtle": "#E2E8F0",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-surface": "#213145",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-tertiary-container": "#ffb168",
+                    "on-primary-fixed-variant": "#005304",
+                    "surface-dim": "#cbdbf5",
+                    "on-secondary-fixed": "#410005",
+                    "primary-fixed-dim": "#8ad97a",
+                    "on-primary-fixed": "#002201",
+                    "emergency-soft": "#FDECEF",
+                    "emergency-dark": "#B80021",
+                    "surface-bright": "#f8f9ff",
+                    "primary-fixed": "#a5f693",
+                    "on-primary-container": "#86d576",
+                    "tertiary": "#572e00",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "on-secondary": "#ffffff",
+                    "accent-blue": "#EAF3FA",
+                    "app-bg": "#F8FAFC",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "on-surface-variant": "#40493c",
+                    "tertiary-fixed": "#ffdcc0",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#eff4ff",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "tertiary-container": "#784200",
+                    "deep-forest": "#064906",
+                    "surface-container": "#e5eeff",
+                    "surface-container-highest": "#d3e4fe",
+                    "outline-variant": "#c0cab8",
+                    "surface-container-high": "#dce9ff",
+                    "background": "#f8f9ff",
+                    "surface-variant": "#d3e4fe",
+                    "secondary": "#bb0021",
+                    "surface-tint": "#206d1b",
+                    "secondary-container": "#ea002c",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary-fixed": "#ffdad7",
+                    "primary": "#004302",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed-variant": "#930018",
+                    "outline": "#707a6b",
+                    "inverse-primary": "#8ad97a",
+                    "on-error": "#ffffff",
+                    "on-background": "#0b1c30",
+                    "primary-container": "#0b5d0b",
+                    "pending-soft": "#FFF4E8",
+                    "on-primary": "#ffffff",
+                    "medical-green-soft": "#E8F5E9",
+                    "surface": "#f8f9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "1440px",
+                    "gutter": "1.5rem",
+                    "margin-desktop": "2rem",
+                    "sidebar-width": "260px",
+                    "margin-mobile": "1rem",
+                    "topbar-height": "64px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "table-data": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "headline-md": ["Manrope"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #F8FAFC; font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-tab-indicator { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background-color: #ea002c; }
+        .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.5rem; }
+        .card-elevation { border: 1px solid #E2E8F0; background: #FFFFFF; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="text-on-background">
+<!-- Side Navigation Bar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-inverse-surface flex flex-col py-6">
+<div class="px-6 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">SDA Hospital</h1>
+<p class="font-body-sm text-body-sm text-surface-dim opacity-70">Kwadaso HMIS</p>
+</div>
+<nav class="flex-1 space-y-1">
+<div class="px-4 group cursor-pointer transition-colors duration-200 text-on-surface-variant hover:text-on-primary flex items-center gap-3 py-3">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</div>
+<!-- Reports Active State -->
+<div class="px-4 relative bg-primary text-on-primary flex items-center gap-3 py-3 cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-container"></div>
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-body-md text-body-md">Reports</span>
+</div>
+<div class="px-4 group cursor-pointer transition-colors duration-200 text-on-surface-variant hover:text-on-primary flex items-center gap-3 py-3">
+<span class="material-symbols-outlined">badge</span>
+<span class="font-body-md text-body-md">Staff</span>
+</div>
+<div class="px-4 group cursor-pointer transition-colors duration-200 text-on-surface-variant hover:text-on-primary flex items-center gap-3 py-3">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-body-md text-body-md">Departments</span>
+</div>
+<div class="px-4 group cursor-pointer transition-colors duration-200 text-on-surface-variant hover:text-on-primary flex items-center gap-3 py-3">
+<span class="material-symbols-outlined">history</span>
+<span class="font-body-md text-body-md">Audit Logs</span>
+</div>
+<div class="px-4 group cursor-pointer transition-colors duration-200 text-on-surface-variant hover:text-on-primary flex items-center gap-3 py-3">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</div>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary py-3 rounded-lg font-label-md text-label-md text-on-primary flex items-center justify-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Record
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[260px] min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="h-[64px] bg-surface flex justify-between items-center px-8 border-b border-border-subtle sticky top-0 z-10">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg font-body-md text-body-md focus:ring-2 focus:ring-primary" placeholder="Search medical reports..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-[18px]">emergency</span>
+                    Emergency Alert
+                </button>
+<div class="flex items-center gap-3">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-all">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-all">help_outline</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-border-subtle ml-2">
+<img class="h-full w-full object-cover" data-alt="Professional headshot of a hospital administrator in clinical attire, set against a clean medical office background with soft diffused lighting, maintaining a trustworthy and authoritative aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE7QxI63Fof_5xYBJlGFvB4R1SKJW99K1RzcNBHYsO7z1xgSNphSCvWroAMYE6NwfAgCF23KiGvDaLU533cpszKyonzgom8q_2fFRozZdQLcC-Jl-NpjWhg5WJktwENUkY-tFpgojLZgYFqsarK_TI0V4TRwkBRsgnA3e6ycSpFCtFMKtpxSAEYfB24eId-ldxTJvfTY9c72m0UCLGMAUeAqOyeDsWRXEV1zuFRkLXo2zfaXgLQEDnGNwKlZnxAH1jBEynzrhzARk"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Report Dashboard -->
+<div class="p-8">
+<div class="mb-8 flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-1">Immunization Coverage Report</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Real-time analysis of vaccine distribution and coverage gaps across SDA Hospital branches.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 border border-border-subtle bg-white px-4 py-2 rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                        Last 30 Days
+                    </button>
+<button class="flex items-center gap-2 border border-border-subtle bg-white px-4 py-2 rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        Export PDF
+                    </button>
+</div>
+</div>
+<!-- Bento Stats Grid -->
+<div class="bento-grid mb-8">
+<div class="col-span-3 card-elevation p-6 rounded-xl relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-2">Global Coverage</p>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-on-surface">87.4%</span>
+<span class="font-body-sm text-body-sm text-primary flex items-center font-bold">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> 2.1%
+                        </span>
+</div>
+<div class="mt-4 w-full bg-surface-container h-1.5 rounded-full">
+<div class="bg-primary h-full rounded-full" style="width: 87.4%"></div>
+</div>
+</div>
+<div class="col-span-3 card-elevation p-6 rounded-xl relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container"></div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-2">Administered Vaccines</p>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-on-surface">14,280</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">vs. 16,500 target</p>
+</div>
+<div class="col-span-3 card-elevation p-6 rounded-xl relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-container"></div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-2">Critical Gaps</p>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-on-surface">3</span>
+<span class="font-label-md text-label-md text-secondary ml-2 font-bold px-2 py-0.5 bg-emergency-soft rounded">High Risk</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Facilities below 75% coverage</p>
+</div>
+<div class="col-span-3 card-elevation p-6 rounded-xl bg-accent-blue">
+<p class="font-label-md text-label-md text-on-surface-variant mb-2">Stock Availability</p>
+<div class="flex items-center gap-4">
+<div class="flex-1">
+<div class="flex justify-between font-body-sm text-body-sm mb-1">
+<span>BCG</span>
+<span class="font-bold">92%</span>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm">
+<span>Measles</span>
+<span class="font-bold text-secondary">14%</span>
+</div>
+</div>
+<div class="h-12 w-12 rounded-full border-4 border-primary border-t-transparent animate-spin-slow"></div>
+</div>
+</div>
+</div>
+<!-- Visualization Row -->
+<div class="grid grid-cols-12 gap-6 mb-8">
+<!-- Coverage Gap Analysis Chart Placeholder -->
+<div class="col-span-8 card-elevation rounded-xl p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface">Coverage Gap Analysis</h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="font-label-md text-label-md">Actual</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-surface-container-highest"></div>
+<span class="font-label-md text-label-md">Target</span>
+</div>
+</div>
+</div>
+<div class="h-[300px] w-full relative flex items-end justify-between px-4 pb-8 border-b border-border-subtle">
+<!-- Chart Bar 1 -->
+<div class="group relative flex flex-col items-center w-12 h-full justify-end">
+<div class="w-8 bg-surface-container-highest rounded-t-sm absolute bottom-0 h-[90%]"></div>
+<div class="w-8 bg-primary rounded-t-sm absolute bottom-0 h-[82%] z-10 transition-all group-hover:h-[84%]"></div>
+<span class="absolute -bottom-6 font-body-sm text-body-sm text-on-surface-variant">0-1 yr</span>
+</div>
+<!-- Chart Bar 2 -->
+<div class="group relative flex flex-col items-center w-12 h-full justify-end">
+<div class="w-8 bg-surface-container-highest rounded-t-sm absolute bottom-0 h-[85%]"></div>
+<div class="w-8 bg-primary rounded-t-sm absolute bottom-0 h-[78%] z-10"></div>
+<span class="absolute -bottom-6 font-body-sm text-body-sm text-on-surface-variant">1-5 yr</span>
+</div>
+<!-- Chart Bar 3 -->
+<div class="group relative flex flex-col items-center w-12 h-full justify-end">
+<div class="w-8 bg-surface-container-highest rounded-t-sm absolute bottom-0 h-[70%]"></div>
+<div class="w-8 bg-secondary-container rounded-t-sm absolute bottom-0 h-[52%] z-10"></div>
+<span class="absolute -bottom-6 font-body-sm text-body-sm text-on-surface-variant">5-12 yr</span>
+</div>
+<!-- Chart Bar 4 -->
+<div class="group relative flex flex-col items-center w-12 h-full justify-end">
+<div class="w-8 bg-surface-container-highest rounded-t-sm absolute bottom-0 h-[95%]"></div>
+<div class="w-8 bg-primary rounded-t-sm absolute bottom-0 h-[91%] z-10"></div>
+<span class="absolute -bottom-6 font-body-sm text-body-sm text-on-surface-variant">Pregnant</span>
+</div>
+<!-- Chart Bar 5 -->
+<div class="group relative flex flex-col items-center w-12 h-full justify-end">
+<div class="w-8 bg-surface-container-highest rounded-t-sm absolute bottom-0 h-[80%]"></div>
+<div class="w-8 bg-primary rounded-t-sm absolute bottom-0 h-[72%] z-10"></div>
+<span class="absolute -bottom-6 font-body-sm text-body-sm text-on-surface-variant">Adults</span>
+</div>
+</div>
+</div>
+<!-- Age Group Distribution -->
+<div class="col-span-4 card-elevation rounded-xl p-6 flex flex-col">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Patient Demographics</h3>
+<div class="flex-1 flex flex-col justify-center space-y-6">
+<div class="space-y-2">
+<div class="flex justify-between font-label-md text-label-md">
+<span>Infants (0-12m)</span>
+<span>42%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[42%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-label-md text-label-md">
+<span>Children (1-5y)</span>
+<span>31%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[31%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between font-label-md text-label-md">
+<span>Adolescents</span>
+<span>18%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-outline w-[18%]"></div>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-border-subtle text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">Report ID: IMM-2024-X49</p>
+</div>
+</div>
+</div>
+<!-- Vaccine Table -->
+<div class="card-elevation rounded-xl overflow-hidden mb-8">
+<div class="p-6 border-b border-border-subtle bg-white">
+<h3 class="font-headline-md text-headline-md text-on-surface">Vaccines Administered vs Targets</h3>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue border-b border-border-subtle">
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface uppercase">Vaccine Name</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface uppercase text-center">Target Q3</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface uppercase text-center">Administered</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface uppercase text-center">Achieved %</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface uppercase">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle font-table-data text-table-data">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-bold text-on-surface">BCG (Anti-Tuberculosis)</td>
+<td class="px-6 py-4 text-center">4,200</td>
+<td class="px-6 py-4 text-center">3,850</td>
+<td class="px-6 py-4 text-center">
+<div class="flex items-center justify-center gap-2">
+<span class="text-primary font-bold">91.6%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-medical-green-soft text-primary rounded-full font-label-md text-[10px]">OPTIMAL</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-bold text-on-surface">Oral Polio Vaccine (OPV 1-3)</td>
+<td class="px-6 py-4 text-center">3,800</td>
+<td class="px-6 py-4 text-center">3,320</td>
+<td class="px-6 py-4 text-center">
+<span class="text-primary font-bold">87.3%</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-medical-green-soft text-primary rounded-full font-label-md text-[10px]">ON TRACK</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-bold text-on-surface">Pentavalent (DTP-HepB-Hib)</td>
+<td class="px-6 py-4 text-center">4,000</td>
+<td class="px-6 py-4 text-center">2,100</td>
+<td class="px-6 py-4 text-center">
+<span class="text-secondary font-bold">52.5%</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-emergency-soft text-secondary rounded-full font-label-md text-[10px]">CRITICAL GAP</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-bold text-on-surface">Measles-Rubella (MR)</td>
+<td class="px-6 py-4 text-center">3,500</td>
+<td class="px-6 py-4 text-center">2,980</td>
+<td class="px-6 py-4 text-center">
+<span class="text-primary font-bold">85.1%</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-medical-green-soft text-primary rounded-full font-label-md text-[10px]">ON TRACK</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-bold text-on-surface">Yellow Fever</td>
+<td class="px-6 py-4 text-center">3,200</td>
+<td class="px-6 py-4 text-center">2,500</td>
+<td class="px-6 py-4 text-center">
+<span class="text-on-tertiary-container font-bold">78.1%</span>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-pending-soft text-on-tertiary-container rounded-full font-label-md text-[10px]">OBSERVATION</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Facility Breakdown -->
+<div class="grid grid-cols-3 gap-6">
+<div class="card-elevation p-6 rounded-xl flex flex-col">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Kwadaso Main</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tertiary Care Center</p>
+</div>
+<span class="material-symbols-outlined text-primary">local_hospital</span>
+</div>
+<div class="mt-auto space-y-4">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md">Coverage</span>
+<span class="font-bold text-primary">94.2%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[94%]"></div>
+</div>
+<button class="w-full py-2 bg-surface-container-low hover:bg-surface-container font-label-md text-label-md rounded transition-all">Details</button>
+</div>
+</div>
+<div class="card-elevation p-6 rounded-xl flex flex-col">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Abuakwa Outreach</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Community Health Post</p>
+</div>
+<span class="material-symbols-outlined text-on-tertiary-container">outpatient</span>
+</div>
+<div class="mt-auto space-y-4">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md">Coverage</span>
+<span class="font-bold text-on-tertiary-container">72.8%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container w-[72%]"></div>
+</div>
+<button class="w-full py-2 bg-surface-container-low hover:bg-surface-container font-label-md text-label-md rounded transition-all">Details</button>
+</div>
+</div>
+<div class="card-elevation p-6 rounded-xl flex flex-col border-secondary">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Tanoso Clinic</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Satellite Facility</p>
+</div>
+<span class="material-symbols-outlined text-secondary">warning</span>
+</div>
+<div class="mt-auto space-y-4">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md">Coverage</span>
+<span class="font-bold text-secondary">58.4%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-[58%]"></div>
+</div>
+<button class="w-full py-2 bg-secondary text-on-secondary font-label-md text-label-md rounded transition-all">Urgent Review</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interactions and simple reactive effects
+        document.querySelectorAll('.card-elevation').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.borderColor = '#206d1b';
+                card.style.transform = 'translateY(-2px)';
+                card.style.transition = 'all 0.3s ease';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.borderColor = '#E2E8F0';
+                card.style.transform = 'translateY(0px)';
+            });
+        });
+
+        // Simple mock search behavior
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary');
+        });
+    </script>
+</body></html>

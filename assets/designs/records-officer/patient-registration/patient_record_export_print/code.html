@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Export Patient Record - KHMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-surface": "#213145",
+                    "border-subtle": "#E2E8F0",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-tertiary-container": "#ffb168",
+                    "on-primary-fixed-variant": "#005304",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#cbdbf5",
+                    "error": "#ba1a1a",
+                    "surface-bright": "#f8f9ff",
+                    "primary-fixed": "#a5f693",
+                    "on-primary-container": "#86d576",
+                    "emergency-soft": "#FDECEF",
+                    "emergency-dark": "#B80021",
+                    "tertiary": "#572e00",
+                    "primary-fixed-dim": "#8ad97a",
+                    "on-secondary-fixed": "#410005",
+                    "on-primary-fixed": "#002201",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "on-secondary": "#ffffff",
+                    "accent-blue": "#EAF3FA",
+                    "app-bg": "#F8FAFC",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "surface-container": "#e5eeff",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "tertiary-container": "#784200",
+                    "deep-forest": "#064906",
+                    "outline-variant": "#c0cab8",
+                    "surface-container-high": "#dce9ff",
+                    "background": "#f8f9ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "tertiary-fixed": "#ffdcc0",
+                    "on-surface-variant": "#40493c",
+                    "surface-container-low": "#eff4ff",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#ffdad7",
+                    "secondary-container": "#ea002c",
+                    "surface-variant": "#d3e4fe",
+                    "secondary": "#bb0021",
+                    "surface-tint": "#206d1b",
+                    "inverse-on-surface": "#eaf1ff",
+                    "outline": "#707a6b",
+                    "on-error": "#ffffff",
+                    "inverse-primary": "#8ad97a",
+                    "primary": "#004302",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed-variant": "#930018",
+                    "primary-container": "#0b5d0b",
+                    "pending-soft": "#FFF4E8",
+                    "on-primary": "#ffffff",
+                    "medical-green-soft": "#E8F5E9",
+                    "surface": "#f8f9ff",
+                    "on-background": "#0b1c30"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "topbar-height": "64px",
+                    "sidebar-width": "260px",
+                    "margin-mobile": "1rem",
+                    "gutter": "1.5rem",
+                    "container-max": "1440px",
+                    "margin-desktop": "2rem"
+            },
+            "fontFamily": {
+                    "headline-md": ["Manrope"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "table-data": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .bento-inner-shadow {
+            box-shadow: inset 0 0 0 1px rgba(226, 232, 240, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md antialiased overflow-hidden h-screen flex">
+<!-- SideNavBar (Suppressed as per rules for task-focused sub-pages, but here we include it to show context then blur/overlay it) -->
+<aside class="hidden md:flex flex-col h-full w-sidebar-width bg-surface-container-lowest border-r border-border-subtle z-10">
+<div class="p-6">
+<h1 class="font-headline-lg text-headline-lg font-black text-deep-forest">KHMS Admin</h1>
+<p class="font-label-md text-label-md text-on-surface-variant opacity-70 uppercase tracking-wider">Clinical Portal</p>
+</div>
+<nav class="flex-1 px-2 space-y-1">
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer bg-primary text-on-primary border-l-4 border-secondary transition-all">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined" data-icon="personal_injury">personal_injury</span>
+<span class="font-label-md text-label-md">Patients</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+<span class="font-label-md text-label-md">Departments</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+<span class="font-label-md text-label-md">Pharmacy</span>
+</div>
+</nav>
+<div class="p-4 border-t border-border-subtle">
+<button class="w-full bg-secondary text-on-secondary font-label-md py-3 rounded uppercase tracking-widest flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="report">report</span>
+                Emergency Alert
+            </button>
+</div>
+</aside>
+<!-- Main Content Area (Blurred for Modal Overlay) -->
+<main class="flex-1 flex flex-col overflow-hidden relative">
+<header class="h-topbar-height flex justify-between items-center px-gutter bg-surface-container-lowest border-b border-border-subtle">
+<div class="flex items-center gap-4">
+<div class="text-primary font-semibold border-b-2 border-primary py-4">Facility: St. Mary's General</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="settings">settings</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-border-subtle">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a female Chief Medical Officer in her late 40s wearing a white lab coat and a stethoscope. She is smiling confidently in a brightly lit modern hospital corridor. The lighting is crisp and clinical, emphasizing a high-trust healthcare environment with cool blue and sterile white tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7cKw0n6P4PyMCrtqJzCnNPA21vJmh079n3ipuf9hIhVjnncCCyPFo3zV3w6j9uPJc-r0GdOxXvPNuW95jeo9iG-F5BcKBx-OgVAoY68sIMXThgMA5_HWZI8menihP7uOG_b0YrgWz_YNr-QrIj77jBYKP9nFkOSJyExrrzL009ou0hhjG2kw34ojAMv-n-GwfJP6yXX8P51gHyv7BP2_f8IyVdexjjb_X_aFa4TFa1ikNFo-Q9huCgxi6vBGVgYI0J1inL5Jj5BU"/>
+</div>
+</div>
+</header>
+<section class="p-gutter overflow-y-auto bg-app-bg/50">
+<!-- Simulated Patient Details Page (Underlying Content) -->
+<div class="max-w-container-max mx-auto space-y-6">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Patient Record: Elias Thorne</h2>
+<p class="text-on-surface-variant">DOB: 12-May-1984 | ID: #KHM-8829-X</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 space-y-6">
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded shadow-sm">
+<h3 class="font-headline-md text-headline-md mb-4 border-b border-border-subtle pb-2">Clinical History</h3>
+<p class="text-body-md text-on-surface-variant">Chronic Hypertension diagnosed in 2018. Management via Lisinopril 20mg daily. Recent complaints of intermittent palpitations. Scheduled for EKG follow-up.</p>
+</div>
+</div>
+<div class="space-y-6">
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded shadow-sm">
+<h3 class="font-headline-md text-headline-md mb-4 border-b border-border-subtle pb-2">Active Medications</h3>
+<ul class="space-y-3">
+<li class="flex items-center justify-between">
+<span class="font-table-data">Lisinopril 20mg</span>
+<span class="text-body-sm bg-medical-green-soft text-deep-forest px-2 py-0.5 rounded">Active</span>
+</li>
+<li class="flex items-center justify-between">
+<span class="font-table-data">Metformin 500mg</span>
+<span class="text-body-sm bg-medical-green-soft text-deep-forest px-2 py-0.5 rounded">Active</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- MODAL OVERLAY: Patient Record Print / Export -->
+<div class="absolute inset-0 z-[100] flex items-center justify-center bg-inverse-surface/40 backdrop-blur-sm p-4 md:p-8" id="exportModal">
+<div class="bg-surface-container-lowest w-full max-w-3xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[921px]">
+<!-- Modal Header -->
+<div class="p-6 border-b border-border-subtle flex justify-between items-center bg-white">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="print">print</span>
+<div>
+<h2 class="font-headline-lg text-headline-lg leading-tight">Export Patient Data</h2>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-tight">Record: Elias Thorne (#KHM-8829-X)</p>
+</div>
+</div>
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-6 md:p-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Left Column: Export Targets -->
+<div class="space-y-6">
+<h4 class="font-label-md text-label-md text-on-surface-variant uppercase border-b border-border-subtle pb-2">Select Export Mode</h4>
+<div class="space-y-3">
+<!-- Option 1 -->
+<label class="group relative flex items-start gap-4 p-4 border border-border-subtle rounded-lg cursor-pointer hover:border-primary hover:bg-medical-green-soft/30 transition-all">
+<input checked="" class="mt-1 text-primary focus:ring-primary h-5 w-5" name="export_type" type="radio"/>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<span class="font-headline-md text-headline-md text-on-surface">Clinical Summary</span>
+<span class="text-[10px] font-bold bg-primary-fixed text-primary px-2 py-0.5 rounded uppercase">PDF</span>
+</div>
+<p class="text-body-sm text-on-surface-variant">Consolidated overview of current health status, medications, and recent lab results.</p>
+</div>
+</label>
+<!-- Option 2 -->
+<label class="group relative flex items-start gap-4 p-4 border border-border-subtle rounded-lg cursor-pointer hover:border-primary hover:bg-medical-green-soft/30 transition-all">
+<input class="mt-1 text-primary focus:ring-primary h-5 w-5" name="export_type" type="radio"/>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<span class="font-headline-md text-headline-md text-on-surface">Encounter Note</span>
+<span class="text-[10px] font-bold bg-primary-fixed text-primary px-2 py-0.5 rounded uppercase">PRINT</span>
+</div>
+<p class="text-body-sm text-on-surface-variant">Detailed narrative from a specific visit, including SOAP notes and vitals.</p>
+</div>
+</label>
+<!-- Option 3 -->
+<label class="group relative flex items-start gap-4 p-4 border border-border-subtle rounded-lg cursor-pointer hover:border-primary hover:bg-medical-green-soft/30 transition-all">
+<input class="mt-1 text-primary focus:ring-primary h-5 w-5" name="export_type" type="radio"/>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<span class="font-headline-md text-headline-md text-on-surface">Full Audit Report</span>
+<span class="text-[10px] font-bold bg-surface-container-high text-on-surface px-2 py-0.5 rounded uppercase">CSV / PDF</span>
+</div>
+<p class="text-body-sm text-on-surface-variant">Raw longitudinal data suitable for research or external health system transfer.</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Right Column: Section Selection -->
+<div class="space-y-6">
+<h4 class="font-label-md text-label-md text-on-surface-variant uppercase border-b border-border-subtle pb-2">Included Sections</h4>
+<div class="bg-surface-container-low p-4 rounded-lg space-y-4">
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input checked="" class="rounded border-outline text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Medication List &amp; Dosages</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input checked="" class="rounded border-outline text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Lab Results &amp; Pathology</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input checked="" class="rounded border-outline text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Clinical History &amp; Allergies</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input checked="" class="rounded border-outline text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Immunization Records</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center">
+<input class="rounded border-outline text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+</div>
+<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Billing &amp; Claims History</span>
+</label>
+<div class="pt-2">
+<div class="flex items-center gap-2 text-primary cursor-pointer hover:underline text-body-sm">
+<span class="material-symbols-outlined text-sm" data-icon="settings">settings</span>
+                                        Customize Detailed Formatting
+                                    </div>
+</div>
+</div>
+<!-- Preview Placeholder -->
+<div class="border border-dashed border-outline-variant rounded-lg p-4 flex flex-col items-center justify-center bg-white h-32 text-center">
+<span class="material-symbols-outlined text-outline-variant text-4xl mb-2" data-icon="description">description</span>
+<p class="text-body-sm text-on-surface-variant italic">Dynamic preview generated based on selections...</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="p-6 border-t border-border-subtle bg-surface-bright flex flex-col md:flex-row gap-4 items-center justify-between">
+<div class="flex items-center gap-2 text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-pending-soft bg-tertiary-container rounded-full p-1" data-icon="lock" style="font-size: 16px;">lock</span>
+                        HIPAA Compliant Encrypted Export
+                    </div>
+<div class="flex gap-3 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-6 py-3 border border-primary text-primary font-headline-md hover:bg-medical-green-soft transition-colors rounded">
+                            Cancel
+                        </button>
+<button class="flex-1 md:flex-none px-10 py-3 bg-primary text-on-primary font-headline-md hover:bg-primary-container transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 rounded">
+<span class="material-symbols-outlined" data-icon="file_download">file_download</span>
+                            Execute Export
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interaction for the close button and radio buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if(btn.querySelector('[data-icon="close"]')) {
+                    document.getElementById('exportModal').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('exportModal').style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+
+        // Toggle hover effect on selection cards
+        const radioCards = document.querySelectorAll('label[class*="border-border-subtle"]');
+        radioCards.forEach(card => {
+            const input = card.querySelector('input[type="radio"]');
+            input.addEventListener('change', () => {
+                radioCards.forEach(c => c.classList.remove('border-primary', 'bg-medical-green-soft/30'));
+                if(input.checked) {
+                    card.classList.add('border-primary', 'bg-medical-green-soft/30');
+                }
+            });
+        });
+    </script>
+</body></html>
