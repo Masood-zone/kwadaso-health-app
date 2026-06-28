@@ -1,7 +1,16 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { HelpCircle, LayoutDashboard, ShieldX, UserCircle } from "lucide-react"
 
+import { sectionMetadata } from "@/lib/metadata"
 import { Button } from "@/components/ui/button"
+
+export const metadata: Metadata = sectionMetadata({
+  title: "Unauthorized Access",
+  description:
+    "Unauthorized access notice for protected Kwadaso HealthLink sections.",
+  path: "/unauthorized",
+})
 
 export default function UnauthorizedPage() {
   return (

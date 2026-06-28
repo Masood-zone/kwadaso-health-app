@@ -1,9 +1,18 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { ShieldCheck } from "lucide-react"
 
+import { sectionMetadata } from "@/lib/metadata"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+
+export const metadata: Metadata = sectionMetadata({
+  title: "Two-Factor Verification",
+  description:
+    "Two-factor verification screen for Kwadaso HealthLink staff accounts.",
+  path: "/two-factor-verification",
+})
 
 export default function TwoFactorVerificationPage() {
   return (

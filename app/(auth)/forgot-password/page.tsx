@@ -1,9 +1,18 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { Mail } from "lucide-react"
 
+import { sectionMetadata } from "@/lib/metadata"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+
+export const metadata: Metadata = sectionMetadata({
+  title: "Password Recovery",
+  description:
+    "Password recovery page for authorized Kwadaso HealthLink staff.",
+  path: "/forgot-password",
+})
 
 export default function ForgotPasswordPage() {
   return (

@@ -1,7 +1,15 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowLeft, Home, SearchX } from "lucide-react"
 
+import { sectionMetadata } from "@/lib/metadata"
 import { Button } from "@/components/ui/button"
+
+export const metadata: Metadata = sectionMetadata({
+  title: "Page Not Found",
+  description: "The requested Kwadaso HealthLink page could not be found.",
+  path: "/",
+})
 
 export default function NotFound() {
   return (

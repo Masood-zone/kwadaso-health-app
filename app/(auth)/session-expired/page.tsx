@@ -1,8 +1,17 @@
+import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { Lock, LogIn, Shield, TimerOff } from "lucide-react"
 
+import { sectionMetadata } from "@/lib/metadata"
 import { Button } from "@/components/ui/button"
+
+export const metadata: Metadata = sectionMetadata({
+  title: "Session Expired",
+  description:
+    "Session timeout screen for secure Kwadaso HealthLink staff access.",
+  path: "/session-expired",
+})
 
 export default function SessionExpiredPage() {
   return (

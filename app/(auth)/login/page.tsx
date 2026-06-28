@@ -1,8 +1,17 @@
+import type { Metadata } from "next"
 import Image from "next/image"
 import { Suspense } from "react"
 import { ShieldCheck, Zap } from "lucide-react"
 
+import { sectionMetadata } from "@/lib/metadata"
 import { LoginForm } from "@/components/auth/login-form"
+
+export const metadata: Metadata = sectionMetadata({
+  title: "Staff Login",
+  description:
+    "Secure staff login for the Kwadaso HealthLink hospital management portal.",
+  path: "/login",
+})
 
 export default function LoginPage() {
   return (
