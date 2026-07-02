@@ -71,7 +71,7 @@ export default function LoginPage() {
               priority
             />
             <h1 className="font-heading text-xl font-semibold text-primary">
-              KHMS HealthLink Platform
+              KHIP HealthLink Platform
             </h1>
           </div>
 
