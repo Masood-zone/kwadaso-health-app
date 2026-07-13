@@ -11,7 +11,9 @@
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "seed": "tsx prisma/seed-admins.ts"
+    "seed": "tsx prisma/seed-admins.ts",
+    "seed:medications": "tsx prisma/seed-medications.ts",
+    "seed:lab-tests": "tsx prisma/seed-lab-tests.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -50,6 +52,7 @@
     "prettier-plugin-tailwindcss": "^0.8.0",
     "prisma": "^7.8.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.0",
     "typescript": "^5",
     "vitest": "^4.1.10"
   }

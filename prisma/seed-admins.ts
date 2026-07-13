@@ -6,6 +6,8 @@ import { prisma } from "../lib/prisma"
 import { ensureSystemRolesAndPermissions } from "../lib/super-admin"
 import { DepartmentType, FacilityType } from "../lib/generated/prisma/enums"
 import type { StaffRole } from "../types"
+import { ghanaMedicationCatalog } from "./data/ghana-medications"
+import { seedGhanaLabTests } from "./seeders/ghana-lab-tests"
 
 type StaffSeed = {
   staffId: string
@@ -293,6 +295,16 @@ async function upsertStaff(
 }
 
 async function seedPharmacy(facilityId: string, performedById: string) {
+  for (const medication of ghanaMedicationCatalog) {
+    await prisma.medication.upsert({
+      where: {
+        facilityId_code: { facilityId, code: medication.code },
+      },
+      update: { ...medication, isActive: true },
+      create: { facilityId, ...medication, isActive: true },
+    })
+  }
+
   for (const item of medications) {
     const medication = await prisma.medication.upsert({
       where: { facilityId_code: { facilityId, code: item.code } },
@@ -568,15 +580,16 @@ async function seedPharmacyDemo(
     }),
   ])
 
-  const primaryAmoxicillinStock = await prisma.medicationStock.findUniqueOrThrow({
-    where: {
-      facilityId_medicationId_batchNumber: {
-        facilityId,
-        medicationId: amoxicillin.id,
-        batchNumber: "AMO-KWA-001",
+  const primaryAmoxicillinStock =
+    await prisma.medicationStock.findUniqueOrThrow({
+      where: {
+        facilityId_medicationId_batchNumber: {
+          facilityId,
+          medicationId: amoxicillin.id,
+          batchNumber: "AMO-KWA-001",
+        },
       },
-    },
-  })
+    })
 
   const lowStock = await prisma.medicationStock.upsert({
     where: {
@@ -586,7 +599,11 @@ async function seedPharmacyDemo(
         batchNumber: "AMO-KWA-LOW-001",
       },
     },
-    update: { expiryDate: new Date("2027-03-31"), unitCost: 0.65, sellingPrice: 1.2 },
+    update: {
+      expiryDate: new Date("2027-03-31"),
+      unitCost: 0.65,
+      sellingPrice: 1.2,
+    },
     create: {
       facilityId,
       medicationId: amoxicillin.id,
@@ -605,7 +622,11 @@ async function seedPharmacyDemo(
         batchNumber: "PAR-KWA-EXP-001",
       },
     },
-    update: { expiryDate: new Date("2025-12-31"), unitCost: 0.2, sellingPrice: 0.45 },
+    update: {
+      expiryDate: new Date("2025-12-31"),
+      unitCost: 0.2,
+      sellingPrice: 0.45,
+    },
     create: {
       facilityId,
       medicationId: paracetamol.id,
@@ -621,44 +642,174 @@ async function seedPharmacyDemo(
     [lowStock, amoxicillin, 12, "SEED-AMO-LOW"],
     [expiredStock, paracetamol, 18, "SEED-PAR-EXPIRED"],
   ] as const) {
-    const movement = await prisma.stockMovement.findFirst({ where: { stockId: stock.id, reference } })
+    const movement = await prisma.stockMovement.findFirst({
+      where: { stockId: stock.id, reference },
+    })
     if (!movement) {
-      await prisma.stockMovement.create({ data: { stockId: stock.id, medicationId: medication.id, type: "OPENING_BALANCE", quantity, reason: "KHIP pharmacy demonstration batch", reference, performedById: pharmacistId } })
+      await prisma.stockMovement.create({
+        data: {
+          stockId: stock.id,
+          medicationId: medication.id,
+          type: "OPENING_BALANCE",
+          quantity,
+          reason: "KHIP pharmacy demonstration batch",
+          reference,
+          performedById: pharmacistId,
+        },
+      })
     }
   }
 
   const issued = await prisma.prescription.upsert({
     where: { prescriptionNo: "RX-SDA-PH-ISSUED" },
-    update: { patientId: patientOne.id, prescribedById, status: "ISSUED", issuedAt: new Date() },
-    create: { prescriptionNo: "RX-SDA-PH-ISSUED", patientId: patientOne.id, prescribedById, status: "ISSUED", issuedAt: new Date(), notes: "Demo prescription awaiting pharmacy" },
+    update: {
+      patientId: patientOne.id,
+      prescribedById,
+      status: "ISSUED",
+      issuedAt: new Date(),
+    },
+    create: {
+      prescriptionNo: "RX-SDA-PH-ISSUED",
+      patientId: patientOne.id,
+      prescribedById,
+      status: "ISSUED",
+      issuedAt: new Date(),
+      notes: "Demo prescription awaiting pharmacy",
+    },
   })
-  const issuedItem = await prisma.prescriptionItem.findFirst({ where: { prescriptionId: issued.id, medicationId: paracetamol.id } })
-  if (!issuedItem) await prisma.prescriptionItem.create({ data: { prescriptionId: issued.id, medicationId: paracetamol.id, medicineName: paracetamol.name, dosage: "1 tablet", frequency: "Three times daily", duration: "5 days", quantity: 15, instructions: "Take after food" } })
+  const issuedItem = await prisma.prescriptionItem.findFirst({
+    where: { prescriptionId: issued.id, medicationId: paracetamol.id },
+  })
+  if (!issuedItem)
+    await prisma.prescriptionItem.create({
+      data: {
+        prescriptionId: issued.id,
+        medicationId: paracetamol.id,
+        medicineName: paracetamol.name,
+        dosage: "1 tablet",
+        frequency: "Three times daily",
+        duration: "5 days",
+        quantity: 15,
+        instructions: "Take after food",
+      },
+    })
 
   const partial = await prisma.prescription.upsert({
     where: { prescriptionNo: "RX-SDA-PH-PARTIAL" },
-    update: { patientId: patientTwo.id, prescribedById, status: "PARTIALLY_DISPENSED", issuedAt: new Date() },
-    create: { prescriptionNo: "RX-SDA-PH-PARTIAL", patientId: patientTwo.id, prescribedById, status: "PARTIALLY_DISPENSED", issuedAt: new Date(), notes: "Demo cumulative partial fill" },
+    update: {
+      patientId: patientTwo.id,
+      prescribedById,
+      status: "PARTIALLY_DISPENSED",
+      issuedAt: new Date(),
+    },
+    create: {
+      prescriptionNo: "RX-SDA-PH-PARTIAL",
+      patientId: patientTwo.id,
+      prescribedById,
+      status: "PARTIALLY_DISPENSED",
+      issuedAt: new Date(),
+      notes: "Demo cumulative partial fill",
+    },
   })
-  let partialItem = await prisma.prescriptionItem.findFirst({ where: { prescriptionId: partial.id, medicationId: amoxicillin.id } })
-  partialItem ??= await prisma.prescriptionItem.create({ data: { prescriptionId: partial.id, medicationId: amoxicillin.id, medicineName: amoxicillin.name, dosage: "1 capsule", frequency: "Three times daily", duration: "7 days", quantity: 21, instructions: "Complete the course" } })
-  const existingDispensing = await prisma.dispensing.findUnique({ where: { dispenseNo: "DSP-SEED-PARTIAL-001" } })
+  let partialItem = await prisma.prescriptionItem.findFirst({
+    where: { prescriptionId: partial.id, medicationId: amoxicillin.id },
+  })
+  partialItem ??= await prisma.prescriptionItem.create({
+    data: {
+      prescriptionId: partial.id,
+      medicationId: amoxicillin.id,
+      medicineName: amoxicillin.name,
+      dosage: "1 capsule",
+      frequency: "Three times daily",
+      duration: "7 days",
+      quantity: 21,
+      instructions: "Complete the course",
+    },
+  })
+  const existingDispensing = await prisma.dispensing.findUnique({
+    where: { dispenseNo: "DSP-SEED-PARTIAL-001" },
+  })
   if (!existingDispensing) {
     await prisma.$transaction(async (tx) => {
-      const session = await tx.dispensing.create({ data: { dispenseNo: "DSP-SEED-PARTIAL-001", prescriptionId: partial.id, patientId: patientTwo.id, status: "PARTIAL", dispensedById: pharmacistId, dispensedAt: new Date(), partialDispenseReason: "Only a starter quantity was available", counsellingNotes: "Patient advised to return for the balance" } })
-      await tx.dispenseItem.create({ data: { dispensingId: session.id, prescriptionItemId: partialItem.id, medicationId: amoxicillin.id, stockId: primaryAmoxicillinStock.id, medicineName: amoxicillin.name, quantityDispensed: 9 } })
-      await tx.medicationStock.update({ where: { id: primaryAmoxicillinStock.id }, data: { quantityOnHand: { decrement: 9 } } })
-      await tx.stockMovement.create({ data: { stockId: primaryAmoxicillinStock.id, medicationId: amoxicillin.id, type: "DISPENSE", quantity: 9, reason: "Seeded representative partial dispensing", reference: session.dispenseNo, performedById: pharmacistId } })
+      const session = await tx.dispensing.create({
+        data: {
+          dispenseNo: "DSP-SEED-PARTIAL-001",
+          prescriptionId: partial.id,
+          patientId: patientTwo.id,
+          status: "PARTIAL",
+          dispensedById: pharmacistId,
+          dispensedAt: new Date(),
+          partialDispenseReason: "Only a starter quantity was available",
+          counsellingNotes: "Patient advised to return for the balance",
+        },
+      })
+      await tx.dispenseItem.create({
+        data: {
+          dispensingId: session.id,
+          prescriptionItemId: partialItem.id,
+          medicationId: amoxicillin.id,
+          stockId: primaryAmoxicillinStock.id,
+          medicineName: amoxicillin.name,
+          quantityDispensed: 9,
+        },
+      })
+      await tx.medicationStock.update({
+        where: { id: primaryAmoxicillinStock.id },
+        data: { quantityOnHand: { decrement: 9 } },
+      })
+      await tx.stockMovement.create({
+        data: {
+          stockId: primaryAmoxicillinStock.id,
+          medicationId: amoxicillin.id,
+          type: "DISPENSE",
+          quantity: 9,
+          reason: "Seeded representative partial dispensing",
+          reference: session.dispenseNo,
+          performedById: pharmacistId,
+        },
+      })
     })
   }
 
   await prisma.pharmacyReorder.upsert({
     where: { reference: "REORDER-SEED-001" },
     update: { facilityId, medicationId: amoxicillin.id, stockId: lowStock.id },
-    create: { reference: "REORDER-SEED-001", facilityId, medicationId: amoxicillin.id, stockId: lowStock.id, requestedQuantity: 300, status: "REQUESTED", notes: "Representative low-stock reorder", createdById: pharmacistId },
+    create: {
+      reference: "REORDER-SEED-001",
+      facilityId,
+      medicationId: amoxicillin.id,
+      stockId: lowStock.id,
+      requestedQuantity: 300,
+      status: "REQUESTED",
+      notes: "Representative low-stock reorder",
+      createdById: pharmacistId,
+    },
   })
-  const notification = await prisma.notification.findFirst({ where: { facilityId, entityType: "MedicationStock", entityId: lowStock.id, title: "Low stock requires reorder" } })
-  if (!notification) await prisma.notification.create({ data: { recipientId: pharmacistId, facilityId, createdById: pharmacistId, targetRole: "PHARMACIST", type: "STOCK", priority: "HIGH", status: "UNREAD", title: "Low stock requires reorder", body: `${amoxicillin.name} batch ${lowStock.batchNumber} is below its reorder level.`, actionUrl: "/pharmacy/low-stock", entityType: "MedicationStock", entityId: lowStock.id } })
+  const notification = await prisma.notification.findFirst({
+    where: {
+      facilityId,
+      entityType: "MedicationStock",
+      entityId: lowStock.id,
+      title: "Low stock requires reorder",
+    },
+  })
+  if (!notification)
+    await prisma.notification.create({
+      data: {
+        recipientId: pharmacistId,
+        facilityId,
+        createdById: pharmacistId,
+        targetRole: "PHARMACIST",
+        type: "STOCK",
+        priority: "HIGH",
+        status: "UNREAD",
+        title: "Low stock requires reorder",
+        body: `${amoxicillin.name} batch ${lowStock.batchNumber} is below its reorder level.`,
+        actionUrl: "/pharmacy/low-stock",
+        entityType: "MedicationStock",
+        entityId: lowStock.id,
+      },
+    })
 }
 
 async function ensureQueueEntry(data: {
@@ -720,6 +871,10 @@ async function seedAdmins() {
   await seedPharmacy(
     facility.id,
     users.get("PHARMACIST")?.id ?? users.get("SUPER_ADMIN")!.id
+  )
+  const labSeed = await seedGhanaLabTests(facility.id)
+  console.log(
+    `Seeded ${labSeed.totalTests} laboratory catalog tests (${labSeed.activeTests} active).`
   )
   await seedPatientFlow(
     facility.id,
