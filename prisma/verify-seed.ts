@@ -4,30 +4,37 @@ import { StaffRole } from "../lib/generated/prisma/enums"
 import { prisma } from "../lib/prisma"
 
 async function verifySeed() {
-  const [users, patients, departments, medications, labTests, roles, permissions] =
-    await Promise.all([
-      prisma.user.findMany({
-        select: {
-          staffId: true,
-          email: true,
-          defaultRole: true,
-          status: true,
-          roles: { select: { role: { select: { name: true } } } },
-        },
-        orderBy: { defaultRole: "asc" },
-      }),
-      prisma.patient.findMany({
-        select: { patientNo: true },
-        orderBy: { patientNo: "asc" },
-      }),
-      prisma.department.count(),
-      prisma.medication.count(),
-      prisma.labTestCatalog.count(),
-      prisma.role.findMany({
-        select: { name: true, _count: { select: { permissions: true } } },
-      }),
-      prisma.permission.count(),
-    ])
+  const [
+    users,
+    patients,
+    departments,
+    medications,
+    labTests,
+    roles,
+    permissions,
+  ] = await Promise.all([
+    prisma.user.findMany({
+      select: {
+        staffId: true,
+        email: true,
+        defaultRole: true,
+        status: true,
+        roles: { select: { role: { select: { name: true } } } },
+      },
+      orderBy: { defaultRole: "asc" },
+    }),
+    prisma.patient.findMany({
+      select: { patientNo: true },
+      orderBy: { patientNo: "asc" },
+    }),
+    prisma.department.count(),
+    prisma.medication.count(),
+    prisma.labTestCatalog.count(),
+    prisma.role.findMany({
+      select: { name: true, _count: { select: { permissions: true } } },
+    }),
+    prisma.permission.count(),
+  ])
 
   const missingRoles = Object.values(StaffRole).filter(
     (role) => !users.some((user) => user.defaultRole === role)
@@ -35,7 +42,9 @@ async function verifySeed() {
   const invalidUsers = users.filter(
     (user) =>
       user.status !== "ACTIVE" ||
-      !user.roles.some((assignment) => assignment.role.name === user.defaultRole) ||
+      !user.roles.some(
+        (assignment) => assignment.role.name === user.defaultRole
+      ) ||
       !/^KHS-[A-Z]+-\d{3}$/.test(user.staffId)
   )
   const invalidPatients = patients.filter(
@@ -57,7 +66,9 @@ async function verifySeed() {
           missingRoles,
           invalidUsers: invalidUsers.map((user) => user.email),
           invalidPatients: invalidPatients.map((patient) => patient.patientNo),
-          rolesWithoutPermissions: rolesWithoutPermissions.map((role) => role.name),
+          rolesWithoutPermissions: rolesWithoutPermissions.map(
+            (role) => role.name
+          ),
         },
         null,
         2

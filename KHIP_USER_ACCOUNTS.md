@@ -44,10 +44,10 @@ ChangeMe123!
 
 | Role | Name | Email | Staff ID | Department | Dashboard |
 |------|------|-------|----------|------------|-----------|
-| Municipal Health Director | Nana Owusu | `director@kwadaso.health` | KHS-MHD-001 | Public Health | `/unauthorized` |
-| M&E Officer | Yaw Asare | `monitoring@kwadaso.health` | KHS-ME-001 | Public Health | `/unauthorized` |
+| Municipal Health Director | Nana Owusu | `director@kwadaso.health` | KHS-MHD-001 | Public Health | `/oversight` |
+| M&E Officer | Yaw Asare | `monitoring@kwadaso.health` | KHS-ME-001 | Public Health | `/oversight` |
 
-**Access:** Cross-facility oversight and reporting (currently read-only/limited access).
+**Access:** Protected WIP landing for the planned read-only cross-facility oversight, analytics, and HMIS reporting module.
 
 ---
 
