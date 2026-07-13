@@ -68,6 +68,7 @@ describe("pharmacy dispensing route", () => {
       dispensing: { create: vi.fn().mockResolvedValue({ id: "dispensing-1", dispenseNo: "DSP-TEST-001", status: "COMPLETED" }), findUniqueOrThrow: vi.fn().mockResolvedValue({ id: "dispensing-1", items: [] }) },
       medicationStock: { findFirst: vi.fn().mockResolvedValue({ id: "stock-1", medicationId: "med-1", expiryDate: new Date("2027-01-01"), medication: { name: "Paracetamol" } }), updateMany: vi.fn().mockResolvedValue({ count: 1 }), findUniqueOrThrow: vi.fn().mockResolvedValue({ id: "stock-1", facilityId: "facility-1", quantityOnHand: 15, medication: { name: "Paracetamol", reorderLevel: 5 } }) },
       dispenseItem: { create: vi.fn() }, stockMovement: { create: vi.fn() }, prescription: { update: vi.fn() }, encounter: { updateMany: vi.fn().mockResolvedValue({ count: 1 }) }, patientQueue: { updateMany: vi.fn() },
+      notification: { findFirst: vi.fn().mockResolvedValue(null), create: vi.fn().mockResolvedValue({ id: "billing-notification-1" }) },
     }
     mocks.transaction.mockImplementation(async (callback) => callback(tx))
     const response = await POST(request(payload()), { params: Promise.resolve({ id: "rx-1" }) })
@@ -76,6 +77,7 @@ describe("pharmacy dispensing route", () => {
     expect(tx.stockMovement.create).toHaveBeenCalledWith({ data: expect.objectContaining({ type: "DISPENSE", quantity: 5, reference: "DSP-TEST-001" }) })
     expect(tx.prescription.update).toHaveBeenCalledWith({ where: { id: "rx-1" }, data: { status: "DISPENSED" } })
     expect(tx.encounter.updateMany).toHaveBeenCalledWith({ where: { id: "encounter-1", status: "AWAITING_PHARMACY" }, data: { status: "COMPLETED", completedAt: expect.any(Date) } })
+    expect(tx.notification.create).toHaveBeenCalledWith(expect.objectContaining({ data: expect.objectContaining({ targetRole: "BILLING_OFFICER", type: "BILLING", entityType: "Dispensing" }) }))
     expect(mocks.audit).toHaveBeenCalled()
   })
 })

@@ -6,6 +6,7 @@ import { ok, withClinician } from "@/lib/clinician-route"
 import { prescriptionSchema } from "@/lib/clinician-schemas"
 import { AuditAction } from "@/lib/generated/prisma/enums"
 import { prisma } from "@/lib/prisma"
+import { notifyBillingService } from "@/lib/billing"
 
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   return withClinician(request, async (actor) => {
@@ -25,6 +26,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
         await tx.encounter.update({ where: { id }, data: { status: "AWAITING_PHARMACY" } })
         if (checked.encounter.queueId) await tx.patientQueue.update({ where: { id: checked.encounter.queueId }, data: { status: "AWAITING_PHARMACY" } })
         await tx.notification.create({ data: { facilityId: actor.facilityId, createdById: actor.id, targetRole: "PHARMACIST", type: "MESSAGE", title: `Prescription ${created.prescriptionNo} ready`, actionUrl: `/pharmacy/prescriptions/${created.id}`, entityType: "Prescription", entityId: created.id } })
+        await notifyBillingService(tx, { facilityId: actor.facilityId, createdById: actor.id, entityType: "Prescription", entityId: created.id, title: "Prescription available for billing review", body: `${created.prescriptionNo} contains ${created.items.length} medication item${created.items.length === 1 ? "" : "s"}.` })
       }
       await writeClinicianAuditLog({ client: tx, request, actor, action: AuditAction.CREATE, entityType: "Prescription", entityId: created.id, description: `${created.status === "ISSUED" ? "Issued" : "Drafted"} prescription ${created.prescriptionNo}`, after: { encounterId: id, status: created.status, itemCount: created.items.length } })
       return created

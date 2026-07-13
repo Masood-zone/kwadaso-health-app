@@ -4,6 +4,7 @@ import { ensurePharmacyPrescription, generateDispenseNo, isExpired, pharmacyDisp
 import { dispensingCreateSchema } from "@/lib/pharmacy-schemas"
 import { AuditAction } from "@/lib/generated/prisma/enums"
 import { prisma } from "@/lib/prisma"
+import { notifyBillingService } from "@/lib/billing"
 
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   return withPharmacy(request, async (actor) => {
@@ -45,6 +46,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
         remainingStock.push({ stockId: stock.id, quantityOnHand: updatedStock.quantityOnHand })
       }
       await tx.prescription.update({ where: { id: prescription.id }, data: { status: completed ? "DISPENSED" : "PARTIALLY_DISPENSED" } })
+      await notifyBillingService(tx, { facilityId: actor.facilityId, createdById: actor.id, entityType: "Dispensing", entityId: session.id, title: "Dispensed medication ready for billing", body: `${session.dispenseNo} contains ${parsed.data.items.length} dispensed item${parsed.data.items.length === 1 ? "" : "s"}.` })
       if (completed && prescription.encounterId) {
         const encounter = await tx.encounter.updateMany({ where: { id: prescription.encounterId, status: "AWAITING_PHARMACY" }, data: { status: "COMPLETED", completedAt: new Date() } })
         if (encounter.count && prescription.encounter?.queueId) await tx.patientQueue.updateMany({ where: { id: prescription.encounter.queueId, status: "AWAITING_PHARMACY" }, data: { status: "COMPLETED", completedAt: new Date() } })
@@ -57,4 +59,3 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     return pharmacyOk(result, "Medication dispensed successfully.", 201)
   })
 }
-

@@ -120,7 +120,7 @@ PostgreSQL Database
 | `NURSE` | `/nurse/dashboard` | Triage, vital signs capture, nursing notes, immunizations |
 | `LAB_TECHNICIAN` | `/unauthorized` | Lab requests, sample tracking, result entry (UI in progress) |
 | `PHARMACIST` | `/unauthorized` | Prescriptions, dispensing, stock management (UI in progress) |
-| `BILLING_OFFICER` | `/unauthorized` | Invoicing, payment processing (UI in progress) |
+| `BILLING_OFFICER` | `/billing` | Patient billing, invoices, collections, receipts, balances, NHIS/waivers, reports, and billing notifications |
 
 ### Permission Model
 

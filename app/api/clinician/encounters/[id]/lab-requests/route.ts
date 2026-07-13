@@ -6,6 +6,7 @@ import { ok, withClinician } from "@/lib/clinician-route"
 import { labRequestSchema } from "@/lib/clinician-schemas"
 import { AuditAction } from "@/lib/generated/prisma/enums"
 import { prisma } from "@/lib/prisma"
+import { notifyBillingService } from "@/lib/billing"
 
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   return withClinician(request, async (actor) => {
@@ -22,10 +23,10 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
       await tx.encounter.update({ where: { id }, data: { status: "AWAITING_LAB" } })
       if (checked.encounter.queueId) await tx.patientQueue.update({ where: { id: checked.encounter.queueId }, data: { status: "AWAITING_LAB" } })
       await tx.notification.create({ data: { facilityId: actor.facilityId, createdById: actor.id, targetRole: "LAB_TECHNICIAN", type: "LAB_RESULT", priority: parsed.data.priority === "STAT" ? "URGENT" : "NORMAL", title: `New lab request ${created.requestNo}`, body: created.clinicalNotes, actionUrl: `/laboratory/requests/${created.id}`, entityType: "LabRequest", entityId: created.id } })
+      await notifyBillingService(tx, { facilityId: actor.facilityId, createdById: actor.id, entityType: "LabRequest", entityId: created.id, title: `Laboratory services ready for billing`, body: `${created.requestNo} contains ${created.tests.length} test${created.tests.length === 1 ? "" : "s"} for billing review.` })
       await writeClinicianAuditLog({ client: tx, request, actor, action: AuditAction.CREATE, entityType: "LabRequest", entityId: created.id, description: `Created lab request ${created.requestNo}`, after: { encounterId: id, priority: created.priority, testCount: created.tests.length } })
       return created
     })
     return ok(serializeLabRequest(record))
   })
 }
-

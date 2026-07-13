@@ -112,6 +112,17 @@ const staffMembers = [
     role: "PHARMACIST",
     departmentCode: "PHARM",
   },
+  {
+    staffId: "KHS-BO-001",
+    firstName: "Daniel",
+    lastName: "Mensah",
+    name: "Daniel Mensah",
+    email: "billing@kwadaso.health",
+    password: DEFAULT_PASSWORD,
+    jobTitle: "Billing and Accounts Officer",
+    role: "BILLING_OFFICER",
+    departmentCode: "BILL",
+  },
 ] as const satisfies readonly StaffSeed[]
 
 const medications = [
@@ -383,7 +394,8 @@ async function seedPatientFlow(
   facilityId: string,
   departmentMap: Map<string, { id: string }>,
   nurseId: string,
-  adminId: string
+  adminId: string,
+  billingOfficerId: string
 ) {
   const triageId = departmentMap.get("TRIAGE")!.id
   const consultationId = departmentMap.get("CONSULT")!.id
@@ -514,7 +526,7 @@ async function seedPatientFlow(
     })
   }
 
-  await prisma.invoice.upsert({
+  const invoice = await prisma.invoice.upsert({
     where: { invoiceNo: "INV-SDA-0001" },
     update: {
       patientId: patient.id,
@@ -526,7 +538,7 @@ async function seedPatientFlow(
       amountPaid: 80,
       balanceDue: 40,
       issuedAt: new Date(),
-      createdById: adminId,
+      createdById: billingOfficerId,
     },
     create: {
       invoiceNo: "INV-SDA-0001",
@@ -539,9 +551,80 @@ async function seedPatientFlow(
       amountPaid: 80,
       balanceDue: 40,
       issuedAt: new Date(),
-      createdById: adminId,
+      createdById: billingOfficerId,
     },
   })
+
+  await prisma.invoiceItem.upsert({
+    where: { sourceKey: `ENCOUNTER:${encounter.id}` },
+    update: {
+      invoiceId: invoice.id,
+      description: "General consultation",
+      itemType: "CONSULTATION",
+      quantity: 1,
+      unitPrice: 120,
+      totalPrice: 120,
+      referenceId: encounter.id,
+    },
+    create: {
+      invoiceId: invoice.id,
+      description: "General consultation",
+      itemType: "CONSULTATION",
+      quantity: 1,
+      unitPrice: 120,
+      totalPrice: 120,
+      referenceId: encounter.id,
+      sourceKey: `ENCOUNTER:${encounter.id}`,
+    },
+  })
+
+  await prisma.payment.upsert({
+    where: { receiptNo: "RCT-SDA-0001" },
+    update: {
+      invoiceId: invoice.id,
+      method: "CASH",
+      status: "SUCCESSFUL",
+      amount: 80,
+      receivedById: billingOfficerId,
+      paidAt: new Date(),
+    },
+    create: {
+      receiptNo: "RCT-SDA-0001",
+      invoiceId: invoice.id,
+      method: "CASH",
+      status: "SUCCESSFUL",
+      amount: 80,
+      notes: "Representative partial payment",
+      receivedById: billingOfficerId,
+      paidAt: new Date(),
+    },
+  })
+
+  const billingNotification = await prisma.notification.findFirst({
+    where: {
+      facilityId,
+      targetRole: "BILLING_OFFICER",
+      entityType: "Invoice",
+      entityId: invoice.id,
+    },
+  })
+  if (!billingNotification) {
+    await prisma.notification.create({
+      data: {
+        recipientId: billingOfficerId,
+        facilityId,
+        createdById: adminId,
+        targetRole: "BILLING_OFFICER",
+        type: "BILLING",
+        priority: "HIGH",
+        title: "Outstanding patient balance",
+        body: `${patient.patientNo} has an outstanding balance of GH₵40.00.`,
+        actionUrl: `/billing/invoices/${invoice.id}`,
+        entityType: "Invoice",
+        entityId: invoice.id,
+      },
+    })
+  }
 
   const existingAudit = await prisma.auditLog.findFirst({
     where: {
@@ -880,7 +963,8 @@ async function seedAdmins() {
     facility.id,
     departmentMap,
     users.get("NURSE")!.id,
-    users.get("HOSPITAL_ADMIN")!.id
+    users.get("HOSPITAL_ADMIN")!.id,
+    users.get("BILLING_OFFICER")!.id
   )
   await seedPharmacyDemo(
     facility.id,

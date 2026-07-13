@@ -9,6 +9,7 @@ import {
 } from "@/lib/records-officer"
 import { prisma } from "@/lib/prisma"
 import type { ApiResponse } from "@/types"
+import { notifyBillingService } from "@/lib/billing"
 
 const appointmentSchema = z.object({
   patientId: z.string().trim().min(1),
@@ -121,6 +122,7 @@ export async function POST(request: NextRequest) {
     description: `Booked appointment ${appointment.appointmentNo}`,
     after: { appointmentNo: appointment.appointmentNo, patientId: appointment.patientId },
   })
+  await notifyBillingService(prisma, { facilityId: actor!.facilityId, createdById: actor!.id, entityType: "Appointment", entityId: appointment.id, title: "Appointment available for billing review", body: `${appointment.appointmentNo} was booked for ${appointment.patient.patientNo}.` })
 
   return Response.json(
     { success: true, data: serializeRecordsAppointment(appointment) } satisfies ApiResponse,
