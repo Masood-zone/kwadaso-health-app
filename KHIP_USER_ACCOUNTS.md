@@ -2,7 +2,7 @@
 
 **Kwadaso HealthLink Integrated Platform**
 
-This document lists all demo user accounts for testing the KHIP system.
+This document lists all demo user accounts and provides a complete walkthrough of the patient journey from registration to discharge.
 
 ---
 
@@ -113,6 +113,477 @@ ChangeMe123!
 
 ---
 
+## Complete Patient Journey Walkthrough
+
+This section walks you through the entire patient flow from arrival to discharge, showing exactly what each role does and how the system connects everything.
+
+---
+
+### Step 1: Hospital Admin — Setup & Preparation
+
+**Login:** `hospitaladmin@kwadaso.health`
+
+Before patients arrive, the Hospital Admin ensures the system is ready.
+
+#### What to Do:
+
+1. **Log in** to the Hospital Admin dashboard
+2. **Review Departments** — Confirm these departments exist:
+   - Administration
+   - Records Office
+   - Triage
+   - General Consultation
+   - Laboratory
+   - Pharmacy
+   - Billing
+3. **Review Staff** — Confirm staff accounts are active for each department
+4. **Check Settings** — Verify hospital name, contact info, and configuration
+
+#### What You'll See:
+- Dashboard with operational metrics
+- Department workload summaries
+- Staff activity overview
+- Active queue statistics
+
+---
+
+### Step 2: Records Officer — Patient Registration
+
+**Login:** `recordofficer@kwadaso.health`
+
+When a patient arrives at the hospital, the Records Officer creates their permanent record.
+
+#### What to Do:
+
+1. **Log in** to the Records Officer dashboard
+2. **Navigate to Register** — Click "Register" in the sidebar
+3. **Fill in Patient Information:**
+   - First Name: `Akua`
+   - Last Name: `Mensah`
+   - Gender: `Female`
+   - Date of Birth: `15/03/1990` (or estimated age: `34`)
+   - Phone: `0240000001`
+   - Community: `Kwadaso`
+   - Address: `House 12, Kwadaso Estate`
+   - NHIS Number: `NHIS-12345678` (optional)
+   - Emergency Contact: `Kofi Mensah / 0240000002`
+   - Blood Group: `O Positive` (if known)
+4. **Click Save** — System generates patient number `SDA-P-0001`
+
+#### What Happens in the System:
+```
+Patient record created → Status: ACTIVE
+Patient linked to facility: SDA Hospital Kwadaso
+Registered by: Records Officer
+```
+
+---
+
+### Step 3: Records Officer — Appointment & Check-In
+
+**Still logged in as:** `recordofficer@kwadaso.health`
+
+Now create an appointment or check the patient in as a walk-in.
+
+#### Option A: Book an Appointment
+
+1. **Navigate to Appointments** — Click "Appointments" in the sidebar
+2. **Click "New Appointment"**
+3. **Fill in:**
+   - Patient: `Akua Mensah (SDA-P-0001)`
+   - Department: `General Consultation`
+   - Clinician: `Dr Kwame Miller`
+   - Date/Time: `Today, 10:00 AM`
+   - Reason: `Fever and headache for 3 days`
+4. **Click Save** — Appointment created with status `SCHEDULED`
+
+#### Option B: Walk-In Check-In
+
+1. **Navigate to Check-In** — Click "Check-In" in the sidebar
+2. **Search for Patient** — Enter `Akua Mensah` or `SDA-P-0001`
+3. **Click Check-In**
+4. **System creates queue entry:**
+   - Queue Number: `TR-001`
+   - Status: `WAITING`
+   - Priority: `ROUTINE`
+   - Department: `Triage`
+
+#### What Happens in the System:
+```
+Appointment created → Status: CHECKED_IN
+Queue entry created → Status: WAITING
+Queue number generated: TR-001
+Patient now appears in Triage Queue
+```
+
+---
+
+### Step 4: Nurse — Triage & Vital Signs
+
+**Login:** `nurse@kwadaso.health`
+
+The nurse sees the patient waiting in the triage queue.
+
+#### What to Do:
+
+1. **Log in** to the Nurse dashboard
+2. **Navigate to Triage Queue** — Click "Triage Queue" in the sidebar
+3. **Find the Patient** — Look for `TR-001 - Akua Mensah` with status `WAITING`
+
+#### 4a. Start Triage
+
+1. **Click "Start"** on the queue entry
+2. **Status changes:** `WAITING` → `IN_TRIAGE`
+3. The nurse is now actively assessing the patient
+
+#### 4b. Capture Vital Signs
+
+1. **Click "Vitals"** button on the queue entry
+2. **Fill in Vital Signs:**
+   - Temperature: `38.4` °C
+   - Systolic BP: `128` mmHg
+   - Diastolic BP: `82` mmHg
+   - Pulse Rate: `96` bpm
+   - Respiratory Rate: `21` breaths/min
+   - Oxygen Saturation: `98` %
+   - Weight: `65` kg
+   - Height: `160` cm
+   - Pain Score: `6` / 10
+   - Triage Priority: `URGENT`
+   - Nursing Notes: `Patient reports fever for 3 days with frontal headache. Mild dehydration observed.`
+3. **System calculates BMI:** `25.4`
+
+#### 4c. Send to Clinician
+
+1. **Click "Save & Send To Clinician"**
+2. **Status changes:** `IN_TRIAGE` → `WITH_CLINICIAN`
+3. `calledAt` timestamp is set
+
+#### What Happens in the System:
+```
+Vital signs recorded → Linked to patient
+Queue priority updated → URGENT
+Queue status updated → WITH_CLINICIAN
+Patient now appears in Clinician Queue
+```
+
+---
+
+### Step 5: Doctor/PA — Clinical Consultation
+
+**Login:** `doctor@kwadaso.health`
+
+The doctor sees the patient in the consultation queue.
+
+#### What to Do:
+
+1. **Log in** to the Clinician dashboard
+2. **Navigate to Consultation Queue** — Click "Consultation Queue"
+3. **Find the Patient** — Look for `TR-001 - Akua Mensah` with status `WITH_CLINICIAN`
+
+#### 5a. Start Consultation
+
+1. **Click on the patient** to open the encounter workspace
+2. **Create Encounter:**
+   - Chief Complaint: `Fever and headache for 3 days`
+   - Visit Type: `OPD`
+3. **System creates encounter** with status `DRAFT`
+
+#### 5b. Write SOAP Notes
+
+1. **Navigate to Clinical Notes**
+2. **Fill in SOAP format:**
+   - **Subjective:** `Patient is a 34-year-old female presenting with 3-day history of fever and frontal headache. Reports body aches and mild loss of appetite. No cough, no vomiting.`
+   - **Objective:** `Temp 38.4°C, BP 128/82, HR 96, RR 21, SpO2 98%. Patient appears flushed but alert. Throat slightly erythematous. No meningeal signs.`
+   - **Assessment:** `Likely viral Upper Respiratory Tract Infection. Malaria to be ruled out.`
+   - **Plan:** `1. Paracetamol 500mg TDS x 5 days\n2. Rest and increased fluid intake\n3. Return if symptoms worsen or persist beyond 5 days`
+3. **Sign the note** — Click "Sign Note"
+
+#### 5c. Record Diagnosis
+
+1. **Navigate to Diagnoses**
+2. **Add Diagnosis:**
+   - Name: `Acute Upper Respiratory Tract Infection`
+   - ICD-10 Code: `J06.9`
+   - Mark as: `Primary`
+   - Notes: `Viral etiology suspected`
+3. **Click Save**
+
+#### 5d. Order Lab Tests
+
+1. **Navigate to Lab Requests**
+2. **Click "Order Labs"**
+3. **Select Tests:**
+   - Malaria RDT
+   - Full Blood Count
+4. **Add Clinical Notes:** `Rule out malaria and assess for infection`
+5. **Priority:** `ROUTINE`
+6. **Click Submit**
+
+#### 5e. Prescribe Medication
+
+1. **Navigate to Prescriptions**
+2. **Click "Create Prescription"**
+3. **Add Medications:**
+   - Paracetamol 500mg — 1 tablet TDS x 5 days (Quantity: 15)
+   - ORS Sachets — 1 sachet TDS x 3 days (Quantity: 9)
+4. **Add Notes:** `Take after meals. Complete full course.`
+5. **Click Submit**
+
+#### 5f. Complete Encounter
+
+1. **Review everything:** SOAP note signed, diagnosis recorded, labs ordered, prescription issued
+2. **Click "Complete Encounter"**
+3. **Status changes:**
+   - Encounter: `COMPLETED`
+   - Queue: `COMPLETED`
+
+#### What Happens in the System:
+```
+Encounter created → Linked to patient, queue, clinician
+SOAP note signed → Clinical record stored
+Diagnosis recorded → Primary diagnosis flagged
+Lab request created → Status: REQUESTED → Queue: AWAITING_LAB
+Prescription created → Status: ISSUED → Queue: AWAITING_PHARMACY
+Encounter completed → All records linked and stored
+```
+
+---
+
+### Step 6: Lab Technician — Process Lab Tests
+
+**Login:** `laboratory@kwadaso.health`
+
+The lab technician sees the lab request in the queue.
+
+#### What to Do:
+
+1. **Log in** to the Laboratory dashboard
+2. **Navigate to Lab Requests** — Click "Requests"
+3. **Find the Request** — Look for the request from Dr Kwame Miller for Akua Mensah
+
+#### 6a. Collect Sample
+
+1. **Click on the request** to open details
+2. **Click "Collect Sample"**
+3. **Sample Type:** `Blood`
+4. **Status changes:** `REQUESTED` → `SAMPLE_COLLECTED`
+5. **Record collection time** and collector
+
+#### 6b. Process Tests
+
+1. **Navigate to Result Entry**
+2. **Enter Results:**
+   - Malaria RDT: `Positive` (Abnormal)
+   - Full Blood Count:
+     - WBC: `12,500 /µL` (High)
+     - RBC: `4.2 x 10^6 /µL` (Normal)
+     - Hemoglobin: `12.8 g/dL` (Normal)
+     - Platelets: `180,000 /µL` (Normal)
+3. **Status changes:** `SAMPLE_COLLECTED` → `PROCESSING` → `COMPLETED`
+
+#### 6c. Validate Results
+
+1. **Click "Validate"** on each result
+2. **Status changes:** `ENTERED` → `VALIDATED`
+3. **Release to Clinician**
+4. **Status changes:** `VALIDATED` → `RELEASED`
+
+#### What Happens in the System:
+```
+Sample collected → Tracking recorded
+Results entered → Linked to lab request
+Results validated → Quality check complete
+Results released → Doctor can view
+Queue status → WITH_CLINICIAN (doctor reviews results)
+```
+
+---
+
+### Step 7: Pharmacist — Dispense Medication
+
+**Login:** `pharmacist@kwadaso.health`
+
+The pharmacist sees the prescription in the queue.
+
+#### What to Do:
+
+1. **Log in** to the Pharmacy dashboard
+2. **Navigate to Prescriptions** — Click "Prescriptions"
+3. **Find the Prescription** — Look for the prescription from Dr Kwame Miller for Akua Mensah
+
+#### 7a. Verify and Dispense
+
+1. **Click on the prescription** to open details
+2. **Review medication list:**
+   - Paracetamol 500mg x 15 tablets
+   - ORS Sachets x 9 sachets
+3. **Check stock availability** — Confirm items are in stock
+4. **Click "Dispense"**
+5. **For each item:**
+   - Paracetamol: Quantity dispensed = 15
+   - ORS: Quantity dispensed = 9
+6. **Add Counselling Notes:** `Take paracetamol after meals. Mix ORS in clean water. Drink plenty of fluids. Rest.`
+
+#### 7b. Confirm Dispensing
+
+1. **Click "Complete Dispensing"**
+2. **Status changes:** `PENDING` → `COMPLETED`
+3. **Stock is updated:**
+   - Paracetamol: 1200 - 15 = 1185 remaining
+   - ORS: 90 - 9 = 81 remaining
+4. **Stock movement recorded** for audit trail
+
+#### What Happens in the System:
+```
+Prescription verified → Stock checked
+Medications dispensed → Stock deducted
+Dispensing recorded → Linked to prescription
+Stock movement logged → Audit trail complete
+Queue status → COMPLETED
+```
+
+---
+
+### Step 8: Billing Officer — Invoice & Payment
+
+**Login:** `billing@kwadaso.health`
+
+The billing officer creates an invoice for the patient's visit.
+
+#### What to Do:
+
+1. **Log in** to the Billing dashboard
+2. **Navigate to Invoices** — Click "Invoices"
+3. **Click "Create Invoice"**
+
+#### 8a. Create Invoice
+
+1. **Select Patient:** `Akua Mensah (SDA-P-0001)`
+2. **Link Encounter:** Select today's encounter
+3. **Add Invoice Items:**
+   - Consultation Fee: GHS 50.00
+   - Malaria RDT: GHS 20.00
+   - Full Blood Count: GHS 40.00
+   - Paracetamol 500mg x 15: GHS 7.50
+   - ORS Sachets x 9: GHS 10.80
+4. **Subtotal:** GHS 128.30
+5. **Tax (0%):** GHS 0.00
+6. **Total:** GHS 128.30
+7. **Click "Issue Invoice"**
+8. **Status:** `ISSUED`
+
+#### 8b. Process Payment
+
+1. **Click on the invoice** to open details
+2. **Click "Record Payment"**
+3. **Payment Details:**
+   - Amount: `128.30`
+   - Method: `CASH`
+   - Reference: (optional)
+4. **Click "Submit Payment"**
+5. **Payment recorded:**
+   - Receipt Number: `RCP-001`
+   - Status: `SUCCESSFUL`
+
+#### 8c. Update Invoice Status
+
+1. **Invoice automatically updates:**
+   - Amount Paid: GHS 128.30
+   - Balance Due: GHS 0.00
+   - Status: `PAID`
+
+#### 8d. Print Receipt
+
+1. **Click "Print Receipt"**
+2. **Receipt shows:**
+   - Patient name and number
+   - Itemized charges
+   - Payment method
+   - Receipt number
+   - Date and time
+
+#### What Happens in the System:
+```
+Invoice created → Linked to patient and encounter
+Items added → Linked to services provided
+Payment recorded → Receipt generated
+Invoice status → PAID
+Balance → GHS 0.00
+```
+
+---
+
+### Step 9: Discharge — Patient Leaves
+
+**System automatically handles discharge when all steps are complete.**
+
+#### Discharge Criteria:
+
+- [x] Patient registered
+- [x] Triage completed (vitals captured)
+- [x] Consultation completed (SOAP note signed, diagnosis recorded)
+- [x] Lab tests processed (results released)
+- [x] Medications dispensed (stock updated)
+- [x] Invoice paid (balance = 0)
+
+#### What Happens:
+
+1. **Queue status:** `COMPLETED`
+2. **Encounter status:** `COMPLETED`
+3. **Patient record:** All data permanently stored
+4. **Patient can leave** the hospital
+
+#### For Future Visits:
+
+- Patient's record is searchable by name or patient number
+- All previous encounters, vitals, lab results, and prescriptions are available
+- New visit can reference past medical history
+
+---
+
+## Visual Flow Summary
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           KHIP Patient Journey                                  │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐  │
+│  │  HOSPITAL    │    │   RECORDS    │    │    NURSE     │    │    DOCTOR    │  │
+│  │    ADMIN     │    │   OFFICER    │    │              │    │              │  │
+│  └──────┬───────┘    └──────┬───────┘    └──────┬───────┘    └──────┬───────┘  │
+│         │                   │                   │                   │          │
+│    Setup System      Register Patient    Start Triage      Create Encounter   │
+│    Check Staff       Book Appointment    Capture Vitals    Write SOAP Notes   │
+│    Verify Depts      Check-In Patient    Send to Clinician Order Labs        │
+│                                        │                   Prescribe Meds    │
+│                                        │                   Complete Visit     │
+│                                        │                                     │
+│                                        ▼                                     │
+│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐                     │
+│  │   BILLING    │    │  PHARMACIST  │    │     LAB      │                     │
+│  │   OFFICER    │    │              │    │  TECHNICIAN  │                     │
+│  └──────┬───────┘    └──────┬───────┘    └──────┬───────┘                     │
+│         │                   │                   │                              │
+│    Create Invoice      Dispense Meds      Collect Sample                      │
+│    Process Payment     Update Stock       Enter Results                       │
+│    Print Receipt       Record Movement    Validate & Release                  │
+│         │                   │                   │                              │
+│         └───────────────────┴───────────────────┘                              │
+│                                 │                                              │
+│                                 ▼                                              │
+│                        ┌──────────────┐                                        │
+│                        │   DISCHARGE  │                                        │
+│                        │   Patient    │                                        │
+│                        │   Leaves     │                                        │
+│                        └──────────────┘                                        │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ## Quick Reference by Role
 
 ### Login Testing Checklist
@@ -165,24 +636,6 @@ Use this checklist to test each role's access:
 
 ---
 
-## Patient Flow Summary
-
-```
-Records Officer → Nurse → Doctor/PA → Lab/Pharmacy → Billing → Discharge
-     ↓               ↓         ↓           ↓            ↓
- Registration    Triage   Consultation  Processing   Payment
-```
-
-1. **Records Officer** registers patient and creates queue entry
-2. **Nurse** captures vitals and sends to clinician
-3. **Doctor/PA** creates encounter, orders labs/prescriptions
-4. **Lab Technician** processes lab tests and returns results
-5. **Pharmacist** dispenses medications
-6. **Billing Officer** creates invoice and processes payment
-7. **Patient** is discharged
-
----
-
-*Document Version: 1.0*
+*Document Version: 2.0*
 *Last Updated: July 2026*
 *KHIP — Kwadaso HealthLink Integrated Platform*
