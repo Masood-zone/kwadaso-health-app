@@ -189,6 +189,7 @@ enum PrescriptionStatus {
   ISSUED
   PARTIALLY_DISPENSED
   DISPENSED
+  EXTERNALLY_RELEASED
   CANCELLED
 }
 
@@ -353,46 +354,47 @@ model User {
   facility   Facility    @relation("FacilityStaff", fields: [facilityId], references: [id])
   department Department? @relation("DepartmentStaff", fields: [departmentId], references: [id], onDelete: SetNull)
 
-  roles                       UserRole[]
-  sessions                    UserSession[]
-  authSessions                Session[]
-  appointmentsAsClinician     Appointment[]        @relation("AppointmentClinician")
-  createdAppointments         Appointment[]        @relation("AppointmentCreatedBy")
-  updatedAppointments         Appointment[]        @relation("AppointmentUpdatedBy")
-  encountersAsClinician       Encounter[]          @relation("EncounterClinician")
-  registeredPatients          Patient[]            @relation("PatientRegisteredBy")
-  recordedAllergies           PatientAllergy[]     @relation("AllergyRecordedBy")
-  recordedChronicConditions   ChronicCondition[]   @relation("ChronicConditionRecordedBy")
-  recordedMedicationHistories MedicationHistory[]  @relation("MedicationHistoryRecordedBy")
-  uploadedPatientDocuments    PatientDocument[]    @relation("PatientDocumentUploadedBy")
-  administeredImmunizations   ImmunizationRecord[] @relation("ImmunizationAdministeredBy")
-  capturedVitalSigns          VitalSigns[]         @relation("VitalSignsCapturedBy")
-  authoredClinicalNotes       ClinicalNote[]       @relation("ClinicalNoteAuthoredBy")
-  diagnosesMade               Diagnosis[]          @relation("DiagnosisDiagnosedBy")
-  requestedLabRequests        LabRequest[]         @relation("LabRequestRequestedBy")
-  collectedLabSamples         LabSample[]          @relation("LabSampleCollectedBy")
-  receivedLabSamples          LabSample[]          @relation("LabSampleReceivedBy")
-  enteredLabResults           LabResult[]          @relation("LabResultEnteredBy")
-  validatedLabResults         LabResult[]          @relation("LabResultValidatedBy")
-  prescriptionsPrescribed     Prescription[]       @relation("PrescriptionPrescribedBy")
-  prescriptionsCancelled      Prescription[]       @relation("PrescriptionCancelledBy")
-  stockMovementsPerformed     StockMovement[]      @relation("StockMovementPerformedBy")
-  dispensingsPerformed        Dispensing[]         @relation("DispensingDispensedBy")
-  dispensingsCancelled        Dispensing[]         @relation("DispensingCancelledBy")
-  pharmacyReordersCreated     PharmacyReorder[]    @relation("PharmacyReorderCreatedBy")
-  createdInvoices             Invoice[]            @relation("InvoiceCreatedBy")
-  receivedPayments            Payment[]            @relation("PaymentReceivedBy")
-  referralsMade               Referral[]           @relation("ReferralReferredBy")
-  referralsReceived           Referral[]           @relation("ReferralReceivedBy")
-  assignedQueueEntries        PatientQueue[]       @relation("QueueAssignedTo")
-  messageParticipants         MessageParticipant[]
-  createdMessageThreads       MessageThread[]      @relation("MessageThreadCreatedBy")
-  sentMessages                Message[]            @relation("SentMessages")
-  notifications               Notification[]       @relation("UserNotifications")
-  createdNotifications        Notification[]       @relation("NotificationCreatedBy")
-  auditLogs                   AuditLog[]           @relation("AuditActor")
-  generatedReports            ReportExport[]       @relation("ReportGeneratedBy")
-  updatedSystemSettings       SystemSetting[]      @relation("SystemSettingUpdatedBy")
+  roles                           UserRole[]
+  sessions                        UserSession[]
+  authSessions                    Session[]
+  appointmentsAsClinician         Appointment[]        @relation("AppointmentClinician")
+  createdAppointments             Appointment[]        @relation("AppointmentCreatedBy")
+  updatedAppointments             Appointment[]        @relation("AppointmentUpdatedBy")
+  encountersAsClinician           Encounter[]          @relation("EncounterClinician")
+  registeredPatients              Patient[]            @relation("PatientRegisteredBy")
+  recordedAllergies               PatientAllergy[]     @relation("AllergyRecordedBy")
+  recordedChronicConditions       ChronicCondition[]   @relation("ChronicConditionRecordedBy")
+  recordedMedicationHistories     MedicationHistory[]  @relation("MedicationHistoryRecordedBy")
+  uploadedPatientDocuments        PatientDocument[]    @relation("PatientDocumentUploadedBy")
+  administeredImmunizations       ImmunizationRecord[] @relation("ImmunizationAdministeredBy")
+  capturedVitalSigns              VitalSigns[]         @relation("VitalSignsCapturedBy")
+  authoredClinicalNotes           ClinicalNote[]       @relation("ClinicalNoteAuthoredBy")
+  diagnosesMade                   Diagnosis[]          @relation("DiagnosisDiagnosedBy")
+  requestedLabRequests            LabRequest[]         @relation("LabRequestRequestedBy")
+  collectedLabSamples             LabSample[]          @relation("LabSampleCollectedBy")
+  receivedLabSamples              LabSample[]          @relation("LabSampleReceivedBy")
+  enteredLabResults               LabResult[]          @relation("LabResultEnteredBy")
+  validatedLabResults             LabResult[]          @relation("LabResultValidatedBy")
+  prescriptionsPrescribed         Prescription[]       @relation("PrescriptionPrescribedBy")
+  prescriptionsCancelled          Prescription[]       @relation("PrescriptionCancelledBy")
+  prescriptionsExternallyReleased Prescription[]       @relation("PrescriptionExternallyReleasedBy")
+  stockMovementsPerformed         StockMovement[]      @relation("StockMovementPerformedBy")
+  dispensingsPerformed            Dispensing[]         @relation("DispensingDispensedBy")
+  dispensingsCancelled            Dispensing[]         @relation("DispensingCancelledBy")
+  pharmacyReordersCreated         PharmacyReorder[]    @relation("PharmacyReorderCreatedBy")
+  createdInvoices                 Invoice[]            @relation("InvoiceCreatedBy")
+  receivedPayments                Payment[]            @relation("PaymentReceivedBy")
+  referralsMade                   Referral[]           @relation("ReferralReferredBy")
+  referralsReceived               Referral[]           @relation("ReferralReceivedBy")
+  assignedQueueEntries            PatientQueue[]       @relation("QueueAssignedTo")
+  messageParticipants             MessageParticipant[]
+  createdMessageThreads           MessageThread[]      @relation("MessageThreadCreatedBy")
+  sentMessages                    Message[]            @relation("SentMessages")
+  notifications                   Notification[]       @relation("UserNotifications")
+  createdNotifications            Notification[]       @relation("NotificationCreatedBy")
+  auditLogs                       AuditLog[]           @relation("AuditActor")
+  generatedReports                ReportExport[]       @relation("ReportGeneratedBy")
+  updatedSystemSettings           SystemSetting[]      @relation("SystemSettingUpdatedBy")
 
   name          String
   emailVerified Boolean   @default(false)
@@ -1115,31 +1117,36 @@ model Medication {
 }
 
 model Prescription {
-  id                 String             @id @default(cuid())
-  prescriptionNo     String             @unique
-  patientId          String
-  encounterId        String?
-  prescribedById     String?
-  status             PrescriptionStatus @default(DRAFT)
-  notes              String?
-  issuedAt           DateTime?
-  cancellationReason String?
-  cancelledAt        DateTime?
-  cancelledById      String?
-  createdAt          DateTime           @default(now())
-  updatedAt          DateTime           @updatedAt
+  id                     String             @id @default(cuid())
+  prescriptionNo         String             @unique
+  patientId              String
+  encounterId            String?
+  prescribedById         String?
+  status                 PrescriptionStatus @default(DRAFT)
+  notes                  String?
+  issuedAt               DateTime?
+  cancellationReason     String?
+  cancelledAt            DateTime?
+  cancelledById          String?
+  externalReleaseReason  String?
+  externallyReleasedAt   DateTime?
+  externallyReleasedById String?
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
 
-  patient      Patient            @relation(fields: [patientId], references: [id], onDelete: Cascade)
-  encounter    Encounter?         @relation(fields: [encounterId], references: [id], onDelete: SetNull)
-  prescribedBy User?              @relation("PrescriptionPrescribedBy", fields: [prescribedById], references: [id], onDelete: SetNull)
-  cancelledBy  User?              @relation("PrescriptionCancelledBy", fields: [cancelledById], references: [id], onDelete: SetNull)
-  items        PrescriptionItem[]
-  dispensings  Dispensing[]
+  patient              Patient            @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  encounter            Encounter?         @relation(fields: [encounterId], references: [id], onDelete: SetNull)
+  prescribedBy         User?              @relation("PrescriptionPrescribedBy", fields: [prescribedById], references: [id], onDelete: SetNull)
+  cancelledBy          User?              @relation("PrescriptionCancelledBy", fields: [cancelledById], references: [id], onDelete: SetNull)
+  externallyReleasedBy User?              @relation("PrescriptionExternallyReleasedBy", fields: [externallyReleasedById], references: [id], onDelete: SetNull)
+  items                PrescriptionItem[]
+  dispensings          Dispensing[]
 
   @@index([patientId])
   @@index([encounterId])
   @@index([prescribedById])
   @@index([cancelledById])
+  @@index([externallyReleasedById])
   @@index([status])
   @@index([issuedAt])
 }

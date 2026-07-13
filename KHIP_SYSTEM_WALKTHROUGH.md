@@ -601,6 +601,13 @@ Prescription: DRAFT → ISSUED → PARTIALLY_DISPENSED → DISPENSED
 Dispensing:   PENDING → PARTIAL → COMPLETED
 ```
 
+When this facility cannot supply the remaining medicine, the pharmacist can
+move an `ISSUED` or `PARTIALLY_DISPENSED` prescription to
+`EXTERNALLY_RELEASED`. This records who handed the remainder back to the
+patient, when it happened, and why. It completes the pharmacy queue and
+encounter without creating a false dispensing record, reducing facility stock,
+or creating a stock movement. Medicines already dispensed remain immutable.
+
 #### Dispensing Process
 
 1. Pharmacist receives the prescription
@@ -669,6 +676,12 @@ Billing generates invoices for services rendered and processes payments.
 ```
 DRAFT → ISSUED → PARTIALLY_PAID → PAID
 ```
+
+> **Current enforcement:** Pharmacy can read the latest invoice status, but it
+> cannot confirm payment and billing does not block dispensing, external
+> prescription release, encounter completion, or queue completion. A strict
+> financial-clearance gate is not yet implemented because NHIS, waiver,
+> emergency, credit, and approved-discharge exceptions must be defined first.
 
 | Status | Meaning |
 |--------|---------|

@@ -7,9 +7,19 @@ import type {
   StockMovementType,
 } from "@/lib/generated/prisma/enums"
 
-export type PharmacyPage<T> = { items: T[]; total: number; page: number; pageSize: number }
+export type PharmacyPage<T> = {
+  items: T[]
+  total: number
+  page: number
+  pageSize: number
+}
 
-export type PharmacyMetric = { label: string; value: number | string; detail: string; tone: "green" | "orange" | "red" | "blue" }
+export type PharmacyMetric = {
+  label: string
+  value: number | string
+  detail: string
+  tone: "green" | "orange" | "red" | "blue"
+}
 export type PharmacyDashboardSummary = {
   metrics: PharmacyMetric[]
   recentDispensing: DispensingListItem[]
@@ -43,7 +53,12 @@ export type PrescriptionQueueItem = {
 }
 
 export type PharmacySafetyWarning = {
-  type: "ALLERGY" | "DUPLICATE_MEDICATION" | "LOW_STOCK" | "EXPIRED_STOCK" | "INSUFFICIENT_STOCK"
+  type:
+    | "ALLERGY"
+    | "DUPLICATE_MEDICATION"
+    | "LOW_STOCK"
+    | "EXPIRED_STOCK"
+    | "INSUFFICIENT_STOCK"
   level: "warning" | "block"
   prescriptionItemId?: string
   medicationId?: string | null
@@ -60,9 +75,21 @@ export type PrescriptionDetail = PrescriptionQueueItem & {
     gender: string
     allergies: { allergen: string; severity: string; reaction: string | null }[]
     chronicConditions: { name: string; status: string | null }[]
-    medicationHistory: { medicationName: string; dosage: string | null; frequency: string | null; startDate: string | null; endDate: string | null }[]
+    medicationHistory: {
+      medicationName: string
+      dosage: string | null
+      frequency: string | null
+      startDate: string | null
+      endDate: string | null
+    }[]
   }
-  encounter: { id: string; encounterNo: string; chiefComplaint: string | null; departmentName: string; diagnoses: string[] } | null
+  encounter: {
+    id: string
+    encounterNo: string
+    chiefComplaint: string | null
+    departmentName: string
+    diagnoses: string[]
+  } | null
   items: Array<{
     id: string
     medicationId: string | null
@@ -73,13 +100,28 @@ export type PrescriptionDetail = PrescriptionQueueItem & {
     quantity: number | null
     instructions: string | null
     dispensedQuantity: number
+    externallyReleasedQuantity: number
     remainingQuantity: number
-    batches: Array<{ id: string; batchNumber: string | null; expiryDate: string | null; quantityOnHand: number; sellingPrice: number | null }>
+    batches: Array<{
+      id: string
+      batchNumber: string | null
+      expiryDate: string | null
+      quantityOnHand: number
+      sellingPrice: number | null
+    }>
   }>
   warnings: PharmacySafetyWarning[]
   dispensings: DispensingListItem[]
   cancellationReason: string | null
-  timeline: Array<{ label: string; at: string; detail?: string | null; tone: string }>
+  externalReleaseReason: string | null
+  externallyReleasedAt: string | null
+  externallyReleasedByName: string | null
+  timeline: Array<{
+    label: string
+    at: string
+    detail?: string | null
+    tone: string
+  }>
 }
 
 export type DispenseItemPayload = {
@@ -95,10 +137,19 @@ export type DispensingCreatePayload = {
   notes?: string | null
   counsellingNotes?: string | null
   partialDispenseReason?: string | null
-  safetyOverrides?: Array<{ type: "ALLERGY" | "DUPLICATE_MEDICATION"; prescriptionItemId?: string; reason: string }>
+  safetyOverrides?: Array<{
+    type: "ALLERGY" | "DUPLICATE_MEDICATION"
+    prescriptionItemId?: string
+    reason: string
+  }>
 }
 
-export type DispensingUpdatePayload = { notes?: string | null; counsellingNotes?: string | null; cancel?: boolean; cancellationReason?: string | null }
+export type DispensingUpdatePayload = {
+  notes?: string | null
+  counsellingNotes?: string | null
+  cancel?: boolean
+  cancellationReason?: string | null
+}
 
 export type DispensingListItem = {
   id: string
@@ -127,7 +178,10 @@ export type MedicationCatalogItem = {
   stockQuantity: number
 }
 
-export type MedicationCreatePayload = Omit<MedicationCatalogItem, "id" | "stockQuantity"> 
+export type MedicationCreatePayload = Omit<
+  MedicationCatalogItem,
+  "id" | "stockQuantity"
+>
 export type MedicationUpdatePayload = Partial<MedicationCreatePayload>
 
 export type MedicationStockItem = {
@@ -145,9 +199,28 @@ export type MedicationStockItem = {
   stockStatus: "AVAILABLE" | "LOW" | "EXPIRED" | "OUT"
 }
 
-export type StockCreatePayload = { medicationId: string; batchNumber?: string | null; expiryDate?: string | null; quantityOnHand: number; unitCost?: number | null; sellingPrice?: number | null; reference?: string | null }
-export type StockUpdatePayload = { batchNumber?: string | null; expiryDate?: string | null; unitCost?: number | null; sellingPrice?: number | null }
-export type StockMovementPayload = { type: StockMovementType; quantity: number; reason: string; reference?: string | null; reversalOfMovementId?: string | null }
+export type StockCreatePayload = {
+  medicationId: string
+  batchNumber?: string | null
+  expiryDate?: string | null
+  quantityOnHand: number
+  unitCost?: number | null
+  sellingPrice?: number | null
+  reference?: string | null
+}
+export type StockUpdatePayload = {
+  batchNumber?: string | null
+  expiryDate?: string | null
+  unitCost?: number | null
+  sellingPrice?: number | null
+}
+export type StockMovementPayload = {
+  type: StockMovementType
+  quantity: number
+  reason: string
+  reference?: string | null
+  reversalOfMovementId?: string | null
+}
 
 export type StockMovementItem = {
   id: string
@@ -177,6 +250,25 @@ export type PharmacyReorderItem = {
   createdAt: string
 }
 
-export type PharmacyReportFilters = { type?: string; dateFrom?: string; dateTo?: string; medicationId?: string; category?: string; movementType?: StockMovementType; pharmacistId?: string }
-export type PharmacyNotificationItem = { id: string; type: NotificationType; status: NotificationStatus; priority: string; title: string; body: string | null; actionUrl: string | null; entityType: string | null; entityId: string | null; readAt: string | null; createdAt: string }
-
+export type PharmacyReportFilters = {
+  type?: string
+  dateFrom?: string
+  dateTo?: string
+  medicationId?: string
+  category?: string
+  movementType?: StockMovementType
+  pharmacistId?: string
+}
+export type PharmacyNotificationItem = {
+  id: string
+  type: NotificationType
+  status: NotificationStatus
+  priority: string
+  title: string
+  body: string | null
+  actionUrl: string | null
+  entityType: string | null
+  entityId: string | null
+  readAt: string | null
+  createdAt: string
+}
