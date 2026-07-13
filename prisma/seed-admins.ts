@@ -347,7 +347,7 @@ async function seedPharmacy(facilityId: string, performedById: string) {
           medicationId: medication.id,
           type: "OPENING_BALANCE",
           quantity: item.quantityOnHand,
-          reason: "Initial KHMS pharmacy seed stock",
+          reason: "Initial KHIP pharmacy seed stock",
           reference: `SEED-${item.batchNumber}`,
           performedById,
         },
@@ -612,7 +612,7 @@ async function seedAdmins() {
 
 seedAdmins()
   .catch((error) => {
-    console.error("Failed to seed KHMS data", error)
+    console.error("Failed to seed KHIP data", error)
     process.exitCode = 1
   })
   .finally(async () => {

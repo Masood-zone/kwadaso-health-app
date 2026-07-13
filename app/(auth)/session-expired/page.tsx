@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 export const metadata: Metadata = sectionMetadata({
   title: "Session Expired",
   description:
-    "Session timeout screen for secure Kwadaso HealthLink staff access.",
+    "Session timeout screen for secure KHIP staff access.",
   path: "/session-expired",
 })
 
@@ -30,9 +30,9 @@ export default function SessionExpiredPage() {
               priority
             />
             <h1 className="font-heading text-4xl font-bold text-primary">
-              KHMS
+              KHIP
             </h1>
-            <p className="khms-label mt-1">Kwadaso HealthLink</p>
+            <p className="khms-label mt-1">Kwadaso HealthLink Integrated Platform</p>
           </div>
 
           <div className="mb-8">

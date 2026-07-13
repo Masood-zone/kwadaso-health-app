@@ -9,7 +9,7 @@ import { LoginForm } from "@/components/auth/login-form"
 export const metadata: Metadata = sectionMetadata({
   title: "Staff Login",
   description:
-    "Secure staff login for the Kwadaso HealthLink hospital management portal.",
+    "Secure staff login for the KHIP hospital management portal.",
   path: "/login",
 })
 
@@ -37,7 +37,7 @@ export default function LoginPage() {
             <span className="text-primary-fixed">Management Excellence</span>
           </h1>
           <p className="mt-6 max-w-md text-base leading-7 text-primary-fixed-dim">
-            Access the KHIP Kwadaso portal to manage patient records, clinical
+            Access the KHIP portal to manage patient records, clinical
             operations, pharmacy, billing, reporting, and hospital workflows.
           </p>
           <div className="mt-8 grid grid-cols-2 gap-6">
@@ -71,7 +71,7 @@ export default function LoginPage() {
               priority
             />
             <h1 className="font-heading text-xl font-semibold text-primary">
-              KHIP HealthLink Platform
+              KHIP
             </h1>
           </div>
 
@@ -90,7 +90,7 @@ export default function LoginPage() {
 
           <div className="mt-12 border-t border-border-subtle pt-8 text-center">
             <p className="text-[10px] font-medium tracking-[0.2em] text-muted-foreground uppercase">
-              2026 Hospital Kwadaso - HealthLink
+              2026 Hospital Kwadaso - KHIP
             </p>
           </div>
         </div>

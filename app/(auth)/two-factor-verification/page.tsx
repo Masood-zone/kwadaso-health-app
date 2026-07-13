@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 export const metadata: Metadata = sectionMetadata({
   title: "Two-Factor Verification",
   description:
-    "Two-factor verification screen for Kwadaso HealthLink staff accounts.",
+    "Two-factor verification screen for KHIP staff accounts.",
   path: "/two-factor-verification",
 })
 

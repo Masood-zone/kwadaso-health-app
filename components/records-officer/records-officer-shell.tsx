@@ -50,7 +50,7 @@ export function RecordsOfficerShell({
             <MaterialSymbol icon="local_hospital" filled className="text-[24px]" />
           </div>
           <div className="min-w-0">
-            <p className="font-heading text-lg leading-6 font-bold text-white">KHMS</p>
+            <p className="font-heading text-lg leading-6 font-bold text-white">KHIP</p>
             <p className="truncate text-[10px] leading-4 tracking-wider text-white/60 uppercase">
               Records Office
             </p>

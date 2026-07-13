@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 
 export const metadata: Metadata = sectionMetadata({
   title: "Reset Password",
-  description: "Password reset page for authorized Kwadaso HealthLink staff.",
+  description: "Password reset page for authorized KHIP staff.",
   path: "/reset-password",
 })
 

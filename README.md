@@ -311,7 +311,7 @@ The app will be available at [http://localhost:3000](http://localhost:3000).
 
 ## Design System
 
-KHIP uses a Material Design 3 inspired token system with a custom **KHMS** layer:
+KHIP uses a Material Design 3 inspired token system with a custom **KHIP** layer:
 
 - **Primary palette**: Deep forest green (`#004302`) with green containers
 - **Emergency/Accent**: Red tones for alerts and urgent states

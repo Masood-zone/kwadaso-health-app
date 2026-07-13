@@ -17,7 +17,7 @@ export default function Loading() {
           />
         </div>
         <h1 className="font-heading text-4xl font-bold text-primary">
-          KHMS - Kwadaso HealthLink Integrated Platform
+          KHIP - Kwadaso HealthLink Integrated Platform
         </h1>
         <p className="mt-3 flex items-center justify-center gap-2 text-base text-muted-foreground">
           <ShieldCheck className="size-4" />

@@ -1,5 +1,5 @@
 ---
-name: KHMS — Kwadaso HealthLink Integrated Platform
+name: KHIP — Kwadaso HealthLink Integrated Platform
 colors:
   surface: '#f8f9ff'
   surface-dim: '#cbdbf5'

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 export const metadata: Metadata = sectionMetadata({
   title: "Unauthorized Access",
   description:
-    "Unauthorized access notice for protected Kwadaso HealthLink sections.",
+    "Unauthorized access notice for protected KHIP sections.",
   path: "/unauthorized",
 })
 
@@ -18,10 +18,10 @@ export default function UnauthorizedPage() {
       <header className="flex h-[var(--topbar-height)] items-center justify-between border-b border-border-subtle bg-surface px-4 md:px-8">
         <div className="flex items-center gap-4">
           <div className="font-heading text-3xl font-bold text-primary">
-            KHMS
+            KHIP
           </div>
           <span className="hidden font-heading text-xl text-primary/60 sm:block">
-            | Kwadaso HealthLink
+            | Kwadaso HealthLink Integrated Platform
           </span>
         </div>
         <div className="flex items-center gap-2">
@@ -67,7 +67,7 @@ export default function UnauthorizedPage() {
           <div className="mt-6 flex items-center justify-between px-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
               <span className="size-2 rounded-full bg-secondary" />
-              System ID: KHMS-SEC-403
+              System ID: KHIP-SEC-403
             </span>
             <span>Attempt logged</span>
           </div>

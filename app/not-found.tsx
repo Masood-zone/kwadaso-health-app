@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 
 export const metadata: Metadata = sectionMetadata({
   title: "Page Not Found",
-  description: "The requested Kwadaso HealthLink page could not be found.",
+  description: "The requested KHIP page could not be found.",
   path: "/",
 })
 
@@ -20,9 +20,9 @@ export default function NotFound() {
             <SearchX className="size-5" />
           </div>
           <div>
-            <p className="font-heading text-lg font-bold text-primary">KHMS</p>
+            <p className="font-heading text-lg font-bold text-primary">KHIP</p>
             <p className="text-xs text-muted-foreground">
-              Kwadaso HealthLink
+              Kwadaso HealthLink Integrated Platform
             </p>
           </div>
         </Link>
@@ -37,7 +37,7 @@ export default function NotFound() {
             </div>
             <p className="khms-label text-primary">404 / Page Not Found</p>
             <h1 className="mt-3 font-heading text-3xl font-semibold">
-              This KHMS page is unavailable
+              This KHIP page is unavailable
             </h1>
             <p className="mx-auto mt-4 max-w-md text-base leading-7 text-muted-foreground">
               The page may have moved, the module may not be enabled yet, or the
