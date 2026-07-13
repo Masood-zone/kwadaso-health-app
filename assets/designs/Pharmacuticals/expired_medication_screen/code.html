@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Expired Medication Management | Pharmacy Inventory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "accent-blue": "#EAF3FA",
+                    "emergency-dark": "#B80021",
+                    "surface": "#f8f9ff",
+                    "on-secondary-container": "#fffbff",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#930018",
+                    "surface-dim": "#cbdbf5",
+                    "emergency-soft": "#FDECEF",
+                    "surface-variant": "#d3e4fe",
+                    "on-tertiary-fixed": "#2d1600",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "primary-container": "#0b5d0b",
+                    "on-background": "#0b1c30",
+                    "secondary-fixed": "#ffdad7",
+                    "primary": "#004302",
+                    "on-tertiary-container": "#ffb168",
+                    "secondary-container": "#ea002c",
+                    "outline": "#707a6b",
+                    "surface-container-high": "#dce9ff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#f8f9ff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#410005",
+                    "background": "#f8f9ff",
+                    "secondary": "#bb0021",
+                    "primary-fixed-dim": "#8ad97a",
+                    "surface-container-low": "#eff4ff",
+                    "tertiary": "#572e00",
+                    "medical-green-soft": "#E8F5E9",
+                    "on-primary-fixed-variant": "#005304",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "inverse-primary": "#8ad97a",
+                    "on-error-container": "#93000a",
+                    "app-bg": "#F8FAFC",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "primary-fixed": "#a5f693",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "inverse-surface": "#213145",
+                    "deep-forest": "#064906",
+                    "outline-variant": "#c0cab8",
+                    "tertiary-fixed": "#ffdcc0",
+                    "surface-container": "#e5eeff",
+                    "on-primary-fixed": "#002201",
+                    "pending-soft": "#FFF4E8",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-primary-container": "#86d576",
+                    "tertiary-container": "#784200",
+                    "border-subtle": "#E2E8F0",
+                    "surface-tint": "#206d1b",
+                    "on-surface-variant": "#40493c",
+                    "error": "#ba1a1a",
+                    "on-surface": "#0b1c30"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "display-lg": ["Manrope"],
+                    "table-data": ["Inter"]
+            }
+          },
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #f8f9ff;
+            color: #0b1c30;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-md antialiased overflow-x-hidden">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Shared TopAppBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-outline-variant px-10 py-3 bg-surface-container-lowest">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-on-surface text-lg font-bold leading-tight tracking-[-0.015em] font-headline-md">Pharmacy Inventory</h2>
+</div>
+<nav class="flex items-center gap-9">
+<a class="text-on-surface text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold leading-normal border-b-2 border-primary" href="#">Inventory</a>
+<a class="text-on-surface text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<label class="flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded h-full">
+<div class="text-primary flex border-none bg-surface-container-low items-center justify-center pl-4 rounded-l border-r-0" data-icon="search" data-size="24px" data-weight="regular">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-on-surface focus:outline-0 focus:ring-0 border-none bg-surface-container-low focus:border-none h-full placeholder:text-outline px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search batch or drug..." value=""/>
+</div>
+</label>
+<div class="flex gap-2">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 bg-surface-container-low text-on-surface gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-surface-container transition-colors">
+<div class="text-on-surface" data-icon="notifications" data-size="20px" data-weight="regular">
+<span class="material-symbols-outlined">notifications</span>
+</div>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 bg-surface-container-low text-on-surface gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-surface-container transition-colors">
+<div class="text-on-surface" data-icon="account_circle" data-size="20px" data-weight="regular">
+<span class="material-symbols-outlined">account_circle</span>
+</div>
+</button>
+</div>
+</div>
+</header>
+<main class="px-4 md:px-10 lg:px-40 py-8 flex flex-col gap-6">
+<!-- Header Section -->
+<div class="flex flex-wrap justify-between items-end gap-4">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">error</span>
+<span class="text-xs font-bold uppercase tracking-wider font-label-md">High Priority Action Required</span>
+</div>
+<h1 class="text-on-surface text-display-lg font-black leading-tight tracking-[-0.033em]">Expired Medications</h1>
+<p class="text-outline text-base font-normal leading-normal max-w-2xl">
+                            The following pharmaceutical batches have reached or exceeded their expiry dates. Immediate disposal logging is required for compliance and safety standards.
+                        </p>
+</div>
+<div class="flex gap-3">
+<button class="flex min-w-[120px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 px-4 bg-surface-container-lowest text-on-surface border border-outline-variant text-sm font-bold leading-normal hover:bg-surface transition-all">
+<span class="material-symbols-outlined mr-2">download</span>
+<span>Export CSV</span>
+</button>
+<button class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 px-4 bg-secondary text-on-secondary text-sm font-bold leading-normal hover:bg-emergency-dark shadow-sm transition-all">
+<span class="material-symbols-outlined mr-2">delete_sweep</span>
+<span>Bulk Disposal</span>
+</button>
+</div>
+</div>
+<!-- Stats Overview -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-emergency-soft border border-secondary-fixed">
+<div class="flex justify-between items-start">
+<p class="text-on-secondary-fixed-variant text-sm font-bold uppercase tracking-wide">Critical Batches</p>
+<span class="material-symbols-outlined text-secondary">calendar_today</span>
+</div>
+<div class="flex items-baseline gap-2">
+<p class="text-secondary tracking-tight text-3xl font-black">28</p>
+<p class="text-secondary text-sm font-medium leading-normal">+4 since yesterday</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-pending-soft border border-tertiary-fixed">
+<div class="flex justify-between items-start">
+<p class="text-on-tertiary-fixed-variant text-sm font-bold uppercase tracking-wide">Pending Disposal</p>
+<span class="material-symbols-outlined text-tertiary">hourglass_empty</span>
+</div>
+<div class="flex items-baseline gap-2">
+<p class="text-tertiary tracking-tight text-3xl font-black">12</p>
+<p class="text-tertiary text-sm font-medium leading-normal">Requires Witness</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-medical-green-soft border border-primary-fixed">
+<div class="flex justify-between items-start">
+<p class="text-on-primary-fixed-variant text-sm font-bold uppercase tracking-wide">Safely Cleared</p>
+<span class="material-symbols-outlined text-primary">verified</span>
+</div>
+<div class="flex items-baseline gap-2">
+<p class="text-primary tracking-tight text-3xl font-black">156</p>
+<p class="text-primary text-sm font-medium leading-normal">This Month</p>
+</div>
+</div>
+</div>
+<!-- Inventory Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-white">
+<h2 class="text-on-surface text-headline-md font-bold">Expiration Registry</h2>
+<div class="flex gap-2">
+<select class="rounded border-outline-variant text-sm bg-surface-container-low focus:ring-primary focus:border-primary">
+<option>Sort by Date</option>
+<option>Sort by Quantity</option>
+<option>Priority High</option>
+</select>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-md uppercase text-xs">
+<th class="px-6 py-4">Medication Details</th>
+<th class="px-6 py-4">Batch Identification</th>
+<th class="px-6 py-4">Expiry Timeline</th>
+<th class="px-6 py-4">Quantity</th>
+<th class="px-6 py-4">Disposal Status</th>
+<th class="px-6 py-4 text-right">Operations</th>
+</tr>
+</thead>
+<tbody class="text-table-data">
+<!-- Row 1 -->
+<tr class="border-t border-outline-variant hover:bg-surface transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-emergency-soft flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">pill</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Amoxicillin 500mg</p>
+<p class="text-xs text-outline">Antibiotic • Tablet</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<code class="text-xs font-mono bg-surface-container p-1 rounded">BCH-8821-X</code>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-secondary font-bold">2023-10-15</span>
+<span class="text-[10px] uppercase font-bold text-secondary">Expired 4 months ago</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="font-bold text-on-surface">120 Units</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-bold bg-pending-soft text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+                                            Pending
+                                        </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-primary font-bold hover:underline underline-offset-4 flex items-center justify-end gap-1 ml-auto" onclick="logDisposal('Amoxicillin 500mg')">
+                                            Log Disposal
+                                            <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-t border-outline-variant hover:bg-surface transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-emergency-soft flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">vaccines</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Insulin Glargine</p>
+<p class="text-xs text-outline">Hormonal • Injectable</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<code class="text-xs font-mono bg-surface-container p-1 rounded">VLS-0022-P</code>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-secondary font-bold">2024-01-10</span>
+<span class="text-[10px] uppercase font-bold text-secondary">Expired last month</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="font-bold text-on-surface">45 Units</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-bold bg-pending-soft text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+                                            Pending
+                                        </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-primary font-bold hover:underline underline-offset-4 flex items-center justify-end gap-1 ml-auto">
+                                            Log Disposal
+                                            <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 (Completed) -->
+<tr class="border-t border-outline-variant hover:bg-surface transition-colors bg-surface-container-low/30">
+<td class="px-6 py-5 opacity-60">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-medical-green-soft flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">medication</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Metformin 850mg</p>
+<p class="text-xs text-outline">Antidiabetic • Tablet</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 opacity-60">
+<code class="text-xs font-mono bg-surface-container p-1 rounded">BCH-1099-M</code>
+</td>
+<td class="px-6 py-5 opacity-60">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">2023-09-20</span>
+</div>
+</td>
+<td class="px-6 py-5 opacity-60">
+<span class="font-bold text-on-surface">200 Units</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-bold bg-medical-green-soft text-primary">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                            Completed
+                                        </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-outline font-bold hover:text-on-surface flex items-center justify-end gap-1 ml-auto transition-colors">
+                                            View Audit Log
+                                            <span class="material-symbols-outlined text-sm">history</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-t border-outline-variant hover:bg-surface transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-emergency-soft flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">fluid_med</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Atorvastatin 20mg</p>
+<p class="text-xs text-outline">Lipid-lowering • Tablet</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<code class="text-xs font-mono bg-surface-container p-1 rounded">BCH-0054-A</code>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-secondary font-bold">2023-12-01</span>
+<span class="text-[10px] uppercase font-bold text-secondary">Expired 2 months ago</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="font-bold text-on-surface">80 Units</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-bold bg-pending-soft text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+                                            Pending
+                                        </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-primary font-bold hover:underline underline-offset-4 flex items-center justify-end gap-1 ml-auto">
+                                            Log Disposal
+                                            <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-outline-variant bg-surface-container-low flex items-center justify-between">
+<span class="text-xs text-outline font-medium">Showing 4 of 28 expired entries</span>
+<div class="flex gap-1">
+<button class="p-1.5 rounded border border-outline-variant bg-white disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="px-3 py-1 rounded border border-primary bg-primary text-on-primary text-xs font-bold">1</button>
+<button class="px-3 py-1 rounded border border-outline-variant bg-white text-xs font-medium">2</button>
+<button class="px-3 py-1 rounded border border-outline-variant bg-white text-xs font-medium">3</button>
+<button class="p-1.5 rounded border border-outline-variant bg-white">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Guidance Info -->
+<div class="flex flex-col md:flex-row gap-6 mt-4">
+<div class="flex-1 bg-surface-container-high rounded-xl p-6 flex gap-4">
+<div class="bg-primary-container p-3 rounded-lg h-fit text-on-primary-container">
+<span class="material-symbols-outlined">info</span>
+</div>
+<div>
+<h3 class="text-on-surface font-bold mb-1">Disposal Protocol</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                                All expired medications must be destroyed according to WHO guidelines and local environmental regulations. Ensure a secondary pharmacist witnesses the disposal and signs the digital log.
+                            </p>
+</div>
+</div>
+<div class="w-full md:w-80 h-auto bg-white rounded-xl border border-outline-variant p-6 relative overflow-hidden group">
+<div class="relative z-10">
+<h3 class="text-on-surface font-bold text-sm mb-3">Recent Disposal Photo</h3>
+<div class="aspect-video bg-surface-container rounded overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A clean, clinical close-up of a professional pharmacy disposal container with a secure red lid. The background is a crisp, bright hospital pharmacy with stainless steel surfaces and soft overhead fluorescent lighting. A pharmacist in white gloves is visible in the periphery, emphasizing medical safety and controlled environments." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABgfgm2vgUnMvbTX498Y79UeCZHxiMkGeum5nFMfaHzVm29YlaXXwey5dgTP0w6RoG_k4ebA8JQvzj6HDEnqw5EYozD59ZyOwuFaXli0sGc4rabmccflpjA3rd-OQdyslp5daGrZLyU7JIU4gAMZo7Oq8c_BgvtE39h1gg5AmFw597pNZMeX-EAI7_B6LR1gdae4JXUUjxxA6idoHeaoYYZ-DCw0kz72tZkW5clagVbO-1m3a5s4o2"/>
+</div>
+<p class="text-[10px] text-outline mt-2 italic">Logged: Today, 09:42 AM by Dr. Sarah Chen</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined !text-7xl">medical_services</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Footer for Focused Action -->
+<footer class="sticky bottom-0 bg-white border-t border-outline-variant p-4 md:px-10 flex justify-between items-center shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+<div class="flex gap-4 items-center">
+<div class="size-2 rounded-full bg-secondary animate-pulse"></div>
+<span class="text-sm font-medium text-on-surface-variant">4 Critical expired batches identified in last 24h</span>
+</div>
+<button class="flex items-center gap-2 px-6 py-2.5 bg-on-background text-on-primary rounded font-bold text-sm hover:bg-black transition-colors">
+<span class="material-symbols-outlined">report_problem</span>
+                    Generate Compliance Audit
+                </button>
+</footer>
+</div>
+</div>
+<!-- Modal Mockup (Hidden) -->
+<div class="fixed inset-0 bg-on-background/60 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300" id="disposal-modal">
+<div class="bg-white w-full max-w-md rounded-xl shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center">
+<h3 class="text-headline-md font-bold text-on-surface">Log Disposal</h3>
+<button class="text-outline hover:text-on-surface" onclick="closeModal()"><span class="material-symbols-outlined">close</span></button>
+</div>
+<div class="p-6 flex flex-col gap-4">
+<div class="bg-emergency-soft p-4 rounded border border-secondary-fixed">
+<p class="text-xs font-bold text-on-secondary-fixed-variant uppercase mb-1">Medication</p>
+<p class="font-bold text-secondary text-lg" id="modal-drug-name">Amoxicillin 500mg</p>
+</div>
+<div class="space-y-4">
+<label class="block">
+<span class="text-xs font-bold text-outline uppercase">Disposal Method</span>
+<select class="mt-1 block w-full rounded border-outline-variant text-sm focus:ring-primary focus:border-primary">
+<option>Chemical Neutralization</option>
+<option>Incineration</option>
+<option>Secure Landfill</option>
+</select>
+</label>
+<label class="block">
+<span class="text-xs font-bold text-outline uppercase">Witness Credentials</span>
+<input class="mt-1 block w-full rounded border-outline-variant text-sm focus:ring-primary focus:border-primary" placeholder="Enter witness ID or scan badge" type="text"/>
+</label>
+<div class="flex items-center gap-2 py-2">
+<input class="rounded text-primary focus:ring-primary" id="confirm-safety" type="checkbox"/>
+<label class="text-xs text-on-surface-variant leading-none" for="confirm-safety">I confirm all safety protocols were followed during this disposal.</label>
+</div>
+</div>
+</div>
+<div class="p-6 bg-surface-container-low flex gap-3">
+<button class="flex-1 py-2 text-sm font-bold border border-outline-variant rounded hover:bg-white transition-colors" onclick="closeModal()">Cancel</button>
+<button class="flex-1 py-2 text-sm font-bold bg-primary text-on-primary rounded hover:bg-deep-forest transition-all" onclick="closeModal()">Submit Entry</button>
+</div>
+</div>
+</div>
+<script>
+        function logDisposal(drugName) {
+            const modal = document.getElementById('disposal-modal');
+            const drugLabel = document.getElementById('modal-drug-name');
+            drugLabel.innerText = drugName;
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('disposal-modal');
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Add some interaction to rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                // Subtle lift or highlighting can be added here
+            });
+        });
+    </script>
+</body></html>

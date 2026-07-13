@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clinical Review - KHMS EHR</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "border-subtle": "#E2E8F0",
+                    "on-primary-container": "#86d576",
+                    "primary-fixed": "#a5f693",
+                    "on-secondary-container": "#fffbff",
+                    "tertiary-fixed": "#ffdcc0",
+                    "pending-soft": "#FFF4E8",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#8ad97a",
+                    "on-primary-fixed": "#002201",
+                    "inverse-surface": "#213145",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-variant": "#d3e4fe",
+                    "on-primary-fixed-variant": "#005304",
+                    "secondary-fixed": "#ffdad7",
+                    "error": "#ba1a1a",
+                    "medical-green-soft": "#E8F5E9",
+                    "secondary": "#bb0021",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "on-tertiary-container": "#ffb168",
+                    "tertiary": "#572e00",
+                    "primary": "#004302",
+                    "surface-container-high": "#dce9ff",
+                    "surface": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "emergency-dark": "#B80021",
+                    "secondary-container": "#ea002c",
+                    "on-secondary-fixed": "#410005",
+                    "on-surface": "#0b1c30",
+                    "background": "#f8f9ff",
+                    "on-tertiary-fixed": "#2d1600",
+                    "emergency-soft": "#FDECEF",
+                    "surface-tint": "#206d1b",
+                    "outline-variant": "#c0cab8",
+                    "app-bg": "#F8FAFC",
+                    "on-background": "#0b1c30",
+                    "surface-container-low": "#eff4ff",
+                    "accent-blue": "#EAF3FA",
+                    "tertiary-container": "#784200",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#930018",
+                    "deep-forest": "#064906",
+                    "surface-container": "#e5eeff",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "surface-bright": "#f8f9ff",
+                    "inverse-primary": "#8ad97a",
+                    "outline": "#707a6b",
+                    "on-surface-variant": "#40493c",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-dim": "#cbdbf5",
+                    "primary-container": "#0b5d0b",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#6b3b00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "1.5rem",
+                    "sidebar-width": "260px",
+                    "container-max": "1440px",
+                    "topbar-height": "64px",
+                    "margin-mobile": "1rem",
+                    "margin-desktop": "2rem"
+            },
+            "fontFamily": {
+                    "display-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "table-data": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #F8FAFC; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-indicator { width: 4px; height: 100%; position: absolute; left: 0; background-color: #ea002c; }
+        .scroll-hide::-webkit-scrollbar { display: none; }
+        .clinical-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .clinical-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08); }
+    </style>
+</head>
+<body class="font-body-md text-on-surface select-none">
+<!-- Fixed Sidebar -->
+<nav class="fixed left-0 top-0 h-screen w-[260px] bg-deep-forest border-r border-outline-variant flex flex-col py-6 z-50">
+<div class="px-6 mb-10 flex items-center gap-3">
+<div class="w-10 h-10 bg-on-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-deep-forest text-2xl" style="font-variation-settings: 'FILL' 1;">local_hospital</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary leading-tight">SDA Hospital</h1>
+<p class="text-xs text-on-primary/60">Kwadaso Branch</p>
+</div>
+</div>
+<div class="flex-1 space-y-1 px-3 overflow-y-auto scroll-hide">
+<!-- Dashboard (Inactive) -->
+<a class="group flex items-center gap-3 px-3 py-3 rounded text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Patient Records (Active Context) -->
+<a class="group relative flex items-center gap-3 px-3 py-3 rounded bg-primary-container text-on-primary-container border-l-4 border-on-secondary-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person_search</span>
+<span class="font-body-md text-body-md">Patient Records</span>
+</a>
+<a class="group flex items-center gap-3 px-3 py-3 rounded text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">clinical_notes</span>
+<span class="font-body-md text-body-md">Clinical Encounters</span>
+</a>
+<a class="group flex items-center gap-3 px-3 py-3 rounded text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-body-md text-body-md">Laboratory</span>
+</a>
+<a class="group flex items-center gap-3 px-3 py-3 rounded text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">medication</span>
+<span class="font-body-md text-body-md">Pharmacy</span>
+</a>
+<a class="group flex items-center gap-3 px-3 py-3 rounded text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md text-body-md">Billing</span>
+</a>
+</div>
+<div class="mt-auto px-3 border-t border-on-primary/10 pt-4">
+<a class="group flex items-center gap-3 px-3 py-3 rounded text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<button class="w-full mt-4 bg-on-secondary-container text-primary font-bold py-3 rounded shadow-sm active:opacity-80 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Encounter
+            </button>
+</div>
+</nav>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface border-b border-border-subtle flex justify-between items-center px-8 z-40">
+<div class="flex items-center gap-6">
+<span class="font-headline-md text-headline-md font-black text-primary">KHMS EHR</span>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container-low border border-border-subtle rounded-lg text-sm w-80 focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none" placeholder="Search patients, results, or IDs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full border-2 border-surface"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-border-subtle mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-sm font-bold text-on-surface leading-none">Dr. Araba Mensah</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider font-bold">Chief Registrar</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-medical-green-soft object-cover" data-alt="A professional headshot of a female doctor in her 40s wearing a white clinical coat and a stethoscope, set against a clean, softly lit hospital corridor. The lighting is bright and modern, conforming to the clinical-high-efficiency UI aesthetic with clear, sharp details. Her expression is calm and authoritative, reflecting the trustworthy calm of the corporate modern brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArItQxb1ONqenZESXOkZGVGup5Wg6YCa8_iUk176QFMS2_mN6v6ggz2f1s_8M_jduZeG3aeqUa8Y7shAZA2_HAwmyNVO9qr21ZY3gE-778zkBZWrhzDf0FKZC5NaNOfXsofr6gwcnLMvXM80we9GKdfCR-veoWfTZnItyMTuXVjDAeg4cQFZs_ohancoFpMK5XcGbbNxHAE6JgcMNN93S8fG_8du9HrHvQgzs2e2JoKnL5o6ze7dZS81F0oc7dyFyrcpEhcdNvCRo"/>
+</div>
+</div>
+</header>
+<!-- Patient Context Bar -->
+<div class="fixed top-[64px] right-0 w-[calc(100%-260px)] h-12 bg-accent-blue border-b border-outline-variant flex items-center justify-between px-8 py-2 z-30">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-deep-forest" style="font-variation-settings: 'FILL' 1;">clinical_notes</span>
+<h2 class="font-headline-sm text-headline-sm font-semibold text-deep-forest">Patient Context: John Doe</h2>
+<div class="flex items-center gap-2 ml-4 px-2 py-0.5 bg-white/60 rounded border border-outline-variant text-[11px] font-bold text-on-surface-variant uppercase">
+<span>ID: KHMS-2024-9981</span>
+<span class="h-3 w-[1px] bg-outline-variant"></span>
+<span>Male, 45 yrs</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1.5 px-3 py-1 bg-emergency-soft text-secondary rounded-full font-bold text-xs">
+<span class="material-symbols-outlined text-sm">warning</span>
+                Critical Alerts (2)
+            </span>
+<button class="px-4 py-1 text-primary text-xs font-bold border border-primary rounded hover:bg-medical-green-soft transition-colors">Check-out</button>
+</div>
+</div>
+<!-- Main Content Area -->
+<main class="pt-[112px] pl-[260px] min-h-screen">
+<div class="max-w-container-max mx-auto p-8">
+<div class="mb-8 flex items-end justify-between">
+<div>
+<h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">Clinical Review</h3>
+<p class="text-on-surface-variant mt-1">Reviewing latest diagnostic results and treatment plans for session #2209-A.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary rounded font-bold transition-all hover:shadow-md active:scale-95">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                        Approve &amp; Sign
+                    </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-white border border-border-subtle text-on-surface font-bold rounded transition-all hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-sm">history</span>
+                        View History
+                    </button>
+</div>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Recent Lab Results Section -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<section class="bg-white rounded-xl border border-border-subtle p-6 clinical-card">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-headline-md text-headline-md font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">biotech</span>
+                                Recent Lab Results
+                            </h4>
+<span class="text-xs font-bold text-on-surface-variant">Last updated: 14:20 PM</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue/50 text-on-surface-variant uppercase text-[10px] tracking-widest font-bold">
+<th class="px-4 py-3 first:rounded-l last:rounded-r">Test Name</th>
+<th class="px-4 py-3">Value</th>
+<th class="px-4 py-3">Ref. Range</th>
+<th class="px-4 py-3">Status</th>
+<th class="px-4 py-3 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="text-table-data">
+<tr class="border-b border-border-subtle hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-4 font-bold">Hemoglobin (Hgb)</td>
+<td class="px-4 py-4 text-emergency-dark font-bold">8.4 g/dL</td>
+<td class="px-4 py-4">13.5 - 17.5</td>
+<td class="px-4 py-4">
+<span class="px-2.5 py-1 bg-emergency-soft text-secondary rounded-full text-[10px] font-bold uppercase">Critical</span>
+</td>
+<td class="px-4 py-4 text-right">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">analytics</button>
+</td>
+</tr>
+<tr class="border-b border-border-subtle hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-4 font-bold">Potassium (K+)</td>
+<td class="px-4 py-4 text-deep-forest font-bold">4.2 mEq/L</td>
+<td class="px-4 py-4">3.5 - 5.0</td>
+<td class="px-4 py-4">
+<span class="px-2.5 py-1 bg-medical-green-soft text-deep-forest rounded-full text-[10px] font-bold uppercase">Normal</span>
+</td>
+<td class="px-4 py-4 text-right">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">analytics</button>
+</td>
+</tr>
+<tr class="border-b border-border-subtle hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-4 font-bold">Blood Glucose (Fasting)</td>
+<td class="px-4 py-4 text-on-tertiary-container font-bold">145 mg/dL</td>
+<td class="px-4 py-4">70 - 100</td>
+<td class="px-4 py-4">
+<span class="px-2.5 py-1 bg-pending-soft text-on-tertiary-fixed-variant rounded-full text-[10px] font-bold uppercase">Abnormal</span>
+</td>
+<td class="px-4 py-4 text-right">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">analytics</button>
+</td>
+</tr>
+<tr class="border-b border-border-subtle hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-4 font-bold">Creatinine</td>
+<td class="px-4 py-4 text-deep-forest font-bold">0.9 mg/dL</td>
+<td class="px-4 py-4">0.7 - 1.3</td>
+<td class="px-4 py-4">
+<span class="px-2.5 py-1 bg-medical-green-soft text-deep-forest rounded-full text-[10px] font-bold uppercase">Normal</span>
+</td>
+<td class="px-4 py-4 text-right">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">analytics</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-4 pt-4 border-t border-border-subtle">
+<button class="text-primary text-xs font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+                                Open Full Lab Module
+                            </button>
+</div>
+</section>
+<!-- Treatment Notes Section -->
+<section class="bg-white rounded-xl border border-border-subtle p-6 clinical-card">
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-headline-md text-headline-md font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">edit_note</span>
+                                Treatment Notes Adjustment
+                            </h4>
+<div class="flex gap-2">
+<button class="p-1.5 rounded hover:bg-surface-container-low text-on-surface-variant transition-colors" title="Voice to Text">
+<span class="material-symbols-outlined text-xl">mic</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container-low text-on-surface-variant transition-colors" title="Attach Document">
+<span class="material-symbols-outlined text-xl">attach_file</span>
+</button>
+</div>
+</div>
+<div class="relative group">
+<textarea class="w-full bg-app-bg border border-border-subtle rounded-lg p-4 text-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none resize-none" placeholder="Enter clinical observations, adjusted dosage, and follow-up plan..." rows="5">Patient presenting with signs of microcytic anemia. Lab results confirm hemoglobin at 8.4 g/dL. Recommend 200mg Ferrous Sulfate daily. Patient advised to follow up in 2 weeks for CBC re-evaluation.</textarea>
+<div class="absolute bottom-3 right-3 text-[10px] text-on-surface-variant font-bold pointer-events-none opacity-0 group-focus-within:opacity-100 transition-opacity">
+                                Auto-saving...
+                            </div>
+</div>
+<div class="mt-4 flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant text-[10px] font-bold rounded uppercase cursor-pointer hover:bg-primary hover:text-white transition-all">#Anemia_Workup</span>
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant text-[10px] font-bold rounded uppercase cursor-pointer hover:bg-primary hover:text-white transition-all">#Follow_Up_Required</span>
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant text-[10px] font-bold rounded uppercase cursor-pointer hover:bg-primary hover:text-white transition-all">#Medication_Adjustment</span>
+</div>
+</section>
+</div>
+<!-- Right Sidebar: Diagnosis and Vitals -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<!-- Diagnosis Update -->
+<section class="bg-white rounded-xl border border-border-subtle p-6 clinical-card overflow-hidden relative">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<h4 class="font-headline-md text-headline-md font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">stethoscope</span>
+                            Diagnosis Update
+                        </h4>
+<div class="space-y-4">
+<div class="space-y-1">
+<label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Primary Diagnosis</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border border-border-subtle rounded py-2 px-3 text-sm font-bold text-on-surface focus:border-primary outline-none" type="text" value="Iron Deficiency Anemia (D50.9)"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary text-sm">verified</span>
+</div>
+</div>
+<div class="space-y-1">
+<label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Secondary/Comorbidities</label>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between p-2 bg-app-bg border border-border-subtle rounded group">
+<span class="text-xs">Essential Hypertension (I10)</span>
+<button class="material-symbols-outlined text-xs text-secondary opacity-0 group-hover:opacity-100 transition-opacity">close</button>
+</div>
+<div class="flex items-center justify-between p-2 bg-app-bg border border-border-subtle rounded group">
+<span class="text-xs">Type 2 Diabetes Mellitus (E11.9)</span>
+<button class="material-symbols-outlined text-xs text-secondary opacity-0 group-hover:opacity-100 transition-opacity">close</button>
+</div>
+<button class="flex items-center gap-2 px-2 py-1.5 border-2 border-dashed border-border-subtle rounded text-on-surface-variant text-xs hover:border-primary hover:text-primary transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                                        Add Diagnosis Code
+                                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Latest Vitals Snap -->
+<section class="bg-white rounded-xl border border-border-subtle overflow-hidden clinical-card">
+<div class="bg-surface-container-high px-6 py-3 border-b border-border-subtle flex justify-between items-center">
+<h4 class="font-label-md text-label-md font-bold uppercase tracking-wider text-on-surface">Patient Vitals</h4>
+<span class="text-[10px] text-on-surface-variant">Today, 08:30 AM</span>
+</div>
+<div class="grid grid-cols-2">
+<div class="p-4 border-r border-b border-border-subtle flex flex-col items-center">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Blood Pressure</span>
+<span class="text-headline-md font-black text-secondary">138/92</span>
+<span class="text-[10px] text-secondary font-bold">Stage 1 Hypert.</span>
+</div>
+<div class="p-4 border-b border-border-subtle flex flex-col items-center">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Heart Rate</span>
+<span class="text-headline-md font-black text-deep-forest">72 <span class="text-xs font-normal">bpm</span></span>
+<span class="text-[10px] text-deep-forest font-bold">Steady</span>
+</div>
+<div class="p-4 border-r border-border-subtle flex flex-col items-center">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Oxygen (SpO2)</span>
+<span class="text-headline-md font-black text-deep-forest">98 <span class="text-xs font-normal">%</span></span>
+<span class="text-[10px] text-deep-forest font-bold">Optimal</span>
+</div>
+<div class="p-4 flex flex-col items-center">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Temperature</span>
+<span class="text-headline-md font-black text-deep-forest">36.7 <span class="text-xs font-normal">°C</span></span>
+<span class="text-[10px] text-deep-forest font-bold">Normal</span>
+</div>
+</div>
+<div class="p-4 bg-app-bg text-center">
+<button class="text-[10px] font-bold text-primary uppercase hover:underline">View Vital Trends (Last 7 Days)</button>
+</div>
+</section>
+<!-- Radiology Link -->
+<div class="bg-primary/5 border border-primary/20 rounded-xl p-6 flex items-center gap-4 cursor-pointer hover:bg-primary/10 transition-colors">
+<div class="w-12 h-12 rounded bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-3xl">image</span>
+</div>
+<div>
+<h5 class="font-bold text-sm text-on-surface">Radiology PACS</h5>
+<p class="text-xs text-on-surface-variant">Chest X-Ray available for review</p>
+</div>
+<span class="material-symbols-outlined ml-auto text-primary">arrow_forward_ios</span>
+</div>
+</div>
+</div>
+<!-- Bottom Action Banner (Floating effect) -->
+<div class="fixed bottom-8 right-8 left-[calc(260px+2rem)] pointer-events-none">
+<div class="bg-white/80 backdrop-blur-md border border-border-subtle shadow-lg rounded-full px-8 py-4 flex items-center justify-between pointer-events-auto">
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-white object-cover" data-alt="A focused digital photo of a young male surgical assistant with short hair and glasses, wearing blue medical scrubs. He is in a brightly lit lab setting, looking professionally at a digital tablet. The scene uses cool, clinical tones and sharp, high-contrast focus to emphasize medical efficiency and trust, aligned with a corporate modern healthcare UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiSXfF0bbAuI-dI1YUP-yn_TXhztFQ9Sb-DxYIMQ6FGVncpLuL-TxlY4bKS-JnfyR1pnwPf257K3nCqg2inzTjvJLoRQqY3Kr_vx09DGXrgsbohO04OjqzCPhXucBFGCuJIhL8vcweVqnA7VVR0fjCqqXXGjqVdYzpP2pbYZ0QaAPcUWorLyv6tty17_aVr6bMAljHjZN19yrfrOH5jaMt7Hd6sVcp97kXhbmJe1EDmUOlQeYg1ws_oT3HKFtjKCDIjcZjFyIObGM"/>
+<img class="w-8 h-8 rounded-full border-2 border-white object-cover" data-alt="A portrait of an experienced male nurse in his 50s, smiling warmly while wearing a teal hospital uniform and a name badge. The background is a clean, modern clinic lobby with soft natural lighting. The visual style is crisp and professional, using a neutral color palette with deep green accents to reflect a calm, authoritative healthcare brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDloOdNtYYajdZTYq_CB9a5DjqY6PSOcwa2EmmZW9tWZKboDeCGAb88ZFdW-72mDAvrmY5Xrw9_AOEPi-hgCAUiYEYfQmc9WQPkAUVbt4H9KI4Y2Cl3x90DsDRxcqFzygPhBRWCvUky5D9Y-TW6LOh3ibwRbyuOUJvvkuo903RuEvRMM5D1bfaJQHvp23yIyoZLxg5aMX0HOmntK6zFU3pVQ9MAQx6dqlhBX3LBBVeL0I99HgZxA6pHEGynv8Ftnnz1vvLCmolnElM"/>
+</div>
+<p class="text-xs font-bold text-on-surface">2 Staff members currently reviewing this chart</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-6 py-2 bg-secondary text-on-primary rounded-full text-sm font-bold active:scale-95 transition-all">Flag Emergency</button>
+<button class="px-6 py-2 bg-primary text-on-primary rounded-full text-sm font-bold active:scale-95 transition-all">Finalize Session</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interactions for clinical density
+        document.querySelectorAll('input, textarea').forEach(el => {
+            el.addEventListener('focus', () => {
+                el.parentElement.classList.add('ring-2', 'ring-primary/10');
+            });
+            el.addEventListener('blur', () => {
+                el.parentElement.classList.remove('ring-2', 'ring-primary/10');
+            });
+        });
+
+        // Toggle alert visibility logic
+        const alertBtn = document.querySelector('.flex.items-center.gap-1.5.px-3.py-1.bg-emergency-soft');
+        if(alertBtn) {
+            alertBtn.addEventListener('click', () => {
+                alert('Critical Alerts:\n1. Hb level significantly below threshold (8.4 g/dL).\n2. BP Stage 1 Hypertension detected.');
+            });
+        }
+    </script>
+</body></html>

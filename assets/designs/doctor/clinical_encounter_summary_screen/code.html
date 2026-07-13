@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "border-subtle": "#E2E8F0",
+                        "on-primary-container": "#86d576",
+                        "primary-fixed": "#a5f693",
+                        "on-secondary-container": "#fffbff",
+                        "tertiary-fixed": "#ffdcc0",
+                        "pending-soft": "#FFF4E8",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#8ad97a",
+                        "on-primary-fixed": "#002201",
+                        "inverse-surface": "#213145",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-fixed-variant": "#005304",
+                        "secondary-fixed": "#ffdad7",
+                        "error": "#ba1a1a",
+                        "medical-green-soft": "#E8F5E9",
+                        "secondary": "#bb0021",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "on-tertiary-container": "#ffb168",
+                        "tertiary": "#572e00",
+                        "primary": "#004302",
+                        "surface-container-high": "#dce9ff",
+                        "surface": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "emergency-dark": "#B80021",
+                        "secondary-container": "#ea002c",
+                        "on-secondary-fixed": "#410005",
+                        "on-surface": "#0b1c30",
+                        "background": "#f8f9ff",
+                        "on-tertiary-fixed": "#2d1600",
+                        "emergency-soft": "#FDECEF",
+                        "surface-tint": "#206d1b",
+                        "outline-variant": "#c0cab8",
+                        "app-bg": "#F8FAFC",
+                        "on-background": "#0b1c30",
+                        "surface-container-low": "#eff4ff",
+                        "accent-blue": "#EAF3FA",
+                        "tertiary-container": "#784200",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#930018",
+                        "deep-forest": "#064906",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "surface-bright": "#f8f9ff",
+                        "inverse-primary": "#8ad97a",
+                        "outline": "#707a6b",
+                        "on-surface-variant": "#40493c",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-dim": "#cbdbf5",
+                        "primary-container": "#0b5d0b",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#6b3b00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "1.5rem",
+                        "sidebar-width": "260px",
+                        "container-max": "1440px",
+                        "topbar-height": "64px",
+                        "margin-mobile": "1rem",
+                        "margin-desktop": "2rem"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "table-data": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .report-grain {
+            background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+            opacity: 0.03;
+        }
+    </style>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md overflow-hidden">
+<!-- SIDEBAR (JSON Defined) -->
+<aside class="fixed left-0 top-0 h-screen w-[260px] bg-deep-forest dark:bg-deep-forest text-primary-fixed dark:text-primary-fixed-dim shadow-sm flex flex-col py-6 border-r border-outline-variant z-50">
+<div class="px-6 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">SDA Hospital</h1>
+<p class="text-body-sm opacity-80 text-on-primary">Kwadaso Branch</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Active Tab: Clinical Encounters -->
+<a class="flex items-center gap-3 px-6 py-3 transition-colors bg-primary-container text-on-primary-container border-l-4 border-on-secondary-container" href="#">
+<span class="material-symbols-outlined">clinical_notes</span>
+<span class="font-body-md text-body-md">Clinical Encounters</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-body-md text-body-md">Patient Records</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-body-md text-body-md">Laboratory</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">medication</span>
+<span class="font-body-md text-body-md">Pharmacy</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md text-body-md">Billing</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-2.5 bg-primary-fixed text-primary font-bold rounded-lg hover:bg-primary-fixed-dim transition-all">
+                New Encounter
+            </button>
+</div>
+</aside>
+<!-- MAIN CONTENT AREA -->
+<main class="ml-[260px] flex flex-col h-screen relative">
+<!-- TOP NAV BAR (JSON Defined) -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface dark:bg-on-surface border-b border-border-subtle flex justify-between items-center px-8 z-40">
+<div class="flex items-center gap-4">
+<div class="font-headline-md text-headline-md font-black text-primary">KHMS EHR</div>
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="pl-10 pr-4 py-1.5 w-full bg-surface-container-low border border-outline-variant rounded-full text-label-md focus:ring-primary focus:border-primary" placeholder="Global Patient Search" type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="p-1 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-1 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-border-subtle"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-label-md text-label-md text-primary font-bold">Dr. Kwame Mensah</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Internal Medicine</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-primary-fixed" data-alt="A professional headshot of a clinical doctor in a white lab coat, clean studio lighting with a soft blue background, representing trustworthiness and healthcare expertise. The doctor has a warm, professional expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC3zMfOZoY99xFdwxYoYsgxbta5jR1LqDdPXoeJlOM6t7nklCmhce0VlsfzT3Ar_yeXUTVBVW6QVbd89GZmDTTI4TJEWgD9prwyUQPVpqVBIrcpnYYnLT2m0bJ2D2WKzZLUZ4cxUymkxlFKa5T0I6iMGSHc6PfqkJGsFllwMfUt2Db04pv59j6znYsxOgTwIi9l3tmlJLIRsQzUroAmTe4AGHYA7U6hS7wnNEKSlWSBINV2xn76vFq2q6Bx1MJNz0Qpy6x3Kxmgkg"/>
+</div>
+<button class="px-4 py-1.5 bg-secondary text-on-secondary text-label-md font-bold rounded-lg hover:bg-secondary-container transition-all">
+                    Check-out
+                </button>
+</div>
+</header>
+<!-- TOP APP BAR (JSON Context) -->
+<section class="fixed top-[64px] right-0 w-[calc(100%-260px)] h-12 bg-accent-blue dark:bg-surface-container-high border-b border-outline-variant flex items-center justify-between px-8 z-30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-deep-forest">clinical_notes</span>
+<h2 class="font-headline-sm text-headline-sm text-deep-forest font-semibold">Patient Context: John Doe</h2>
+<span class="mx-2 text-outline-variant">|</span>
+<span class="text-body-sm font-medium px-2 py-0.5 rounded bg-white border border-outline-variant">MRN: KH-0982-24</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1 text-emergency-dark bg-emergency-soft px-3 py-0.5 rounded-full text-label-md font-bold">
+<span class="material-symbols-outlined text-sm">priority_high</span>
+                    Critical Alerts (2)
+                </span>
+<button class="text-label-md font-bold text-primary hover:underline">View Medical History</button>
+</div>
+</section>
+<!-- ENCOUNTER SUMMARY CONTENT -->
+<div class="mt-[112px] p-8 overflow-y-auto flex-1 pb-24">
+<div class="max-w-5xl mx-auto space-y-6">
+<!-- Clinical Header Card -->
+<div class="bg-white border border-border-subtle p-8 rounded-xl shadow-sm relative overflow-hidden">
+<div class="absolute inset-0 report-grain pointer-events-none"></div>
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="text-display-lg font-display-lg text-on-surface">Clinical Encounter Summary</h3>
+<p class="text-on-surface-variant mt-1">Generated on: <span class="font-semibold">October 24, 2023 - 14:35 GMT</span></p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-primary text-primary font-bold rounded-lg hover:bg-medical-green-soft transition-all">
+<span class="material-symbols-outlined text-lg">print</span>
+                                Print Report
+                            </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary-container transition-all">
+<span class="material-symbols-outlined text-lg">task_alt</span>
+                                Finalize & Sign
+                            </button>
+</div>
+</div>
+<div class="grid grid-cols-4 gap-8 border-y border-border-subtle py-6">
+<div>
+<p class="text-label-md text-on-surface-variant mb-1">VISIT TYPE</p>
+<p class="font-semibold text-primary">In-Person Consultation</p>
+</div>
+<div>
+<p class="text-label-md text-on-surface-variant mb-1">ENCOUNTER ID</p>
+<p class="font-semibold">#ENC-88392-X</p>
+</div>
+<div>
+<p class="text-label-md text-on-surface-variant mb-1">CHIEF COMPLAINT</p>
+<p class="font-semibold text-emergency-dark">Chest Pain & Hypertension</p>
+</div>
+<div>
+<p class="text-label-md text-on-surface-variant mb-1">ATTENDING</p>
+<p class="font-semibold">Dr. Kwame Mensah</p>
+</div>
+</div>
+<!-- Final Summary Text -->
+<div class="mt-8">
+<div class="flex items-center gap-2 mb-4">
+<span class="w-1.5 h-6 bg-primary rounded-full"></span>
+<h4 class="font-headline-md text-headline-md text-on-surface">Clinical Assessment & Summary</h4>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg text-body-lg text-on-surface leading-relaxed border-l-4 border-primary">
+                            Patient presented with recurrent retrosternal chest pain radiating to the left arm, lasting approximately 15 minutes, aggravated by physical exertion. Blood pressure readings upon admission were elevated (165/105 mmHg). Clinical examination reveals a Grade II hypertensive retinopathy and mild pedal edema. Differential diagnosis includes Angina Pectoris and Hypertensive Heart Disease. Stabilized in-clinic with sublingual nitroglycerin. Plan includes urgent cardiological intervention, blood work, and strict medication adherence.
+                        </div>
+</div>
+</div>
+<!-- Bento Grid for Details -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Prescription List -->
+<div class="lg:col-span-2 bg-white border border-border-subtle rounded-xl p-6 shadow-sm">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">medication</span>
+<h4 class="font-headline-md text-headline-md">Prescriptions</h4>
+</div>
+<span class="text-label-md px-2 py-1 bg-medical-green-soft text-primary rounded font-bold">3 Items</span>
+</div>
+<div class="space-y-3">
+<div class="p-4 border border-border-subtle rounded-lg flex justify-between items-center hover:bg-slate-50 transition-all">
+<div>
+<p class="font-bold text-on-surface">Lisinopril 10mg Tablets</p>
+<p class="text-body-sm text-on-surface-variant">Take 1 tablet daily in the morning</p>
+</div>
+<div class="text-right">
+<p class="font-semibold text-on-surface">Qty: 30</p>
+<p class="text-[10px] text-on-surface-variant uppercase">Oral Administration</p>
+</div>
+</div>
+<div class="p-4 border border-border-subtle rounded-lg flex justify-between items-center hover:bg-slate-50 transition-all">
+<div>
+<p class="font-bold text-on-surface">Aspirin 81mg (Low Dose)</p>
+<p class="text-body-sm text-on-surface-variant">Take 1 tablet daily with food</p>
+</div>
+<div class="text-right">
+<p class="font-semibold text-on-surface">Qty: 60</p>
+<p class="text-[10px] text-on-surface-variant uppercase">Anticoagulant</p>
+</div>
+</div>
+<div class="p-4 border border-border-subtle rounded-lg flex justify-between items-center hover:bg-slate-50 transition-all">
+<div>
+<p class="font-bold text-on-surface">Nitroglycerin 0.4mg</p>
+<p class="text-body-sm text-on-surface-variant">Sublingual as needed for chest pain</p>
+</div>
+<div class="text-right">
+<p class="font-semibold text-on-surface">Qty: 10</p>
+<p class="text-[10px] text-on-surface-variant uppercase">Emergency Use Only</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Lab Orders -->
+<div class="bg-white border border-border-subtle rounded-xl p-6 shadow-sm">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">biotech</span>
+<h4 class="font-headline-md text-headline-md">Lab Orders</h4>
+</div>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<div class="w-2 h-2 rounded-full bg-emergency-dark mt-2"></div>
+<div>
+<p class="font-bold text-on-surface">Lipid Profile</p>
+<p class="text-body-sm text-on-surface-variant">Stat - Required for Cardiology</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-2 h-2 rounded-full bg-primary mt-2"></div>
+<div>
+<p class="font-bold text-on-surface">ECG (12-Lead)</p>
+<p class="text-body-sm text-on-surface-variant">Immediate assessment of rhythm</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-2 h-2 rounded-full bg-primary mt-2"></div>
+<div>
+<p class="font-bold text-on-surface">Serum Creatinine</p>
+<p class="text-body-sm text-on-surface-variant">Renal function baseline</p>
+</div>
+</li>
+</ul>
+<div class="mt-8 p-4 bg-accent-blue rounded-lg">
+<p class="text-label-md font-bold text-on-surface-variant mb-2">COLLECTION INSTRUCTIONS</p>
+<p class="text-body-sm text-on-surface italic">Patient must fast for 12 hours prior to lipid profile collection.</p>
+</div>
+</div>
+<!-- Referral Notes -->
+<div class="lg:col-span-3 bg-white border border-border-subtle rounded-xl p-6 shadow-sm flex flex-col md:flex-row gap-8">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">outgoing_mail</span>
+<h4 class="font-headline-md text-headline-md">Referral Notes</h4>
+</div>
+<div class="border border-border-subtle rounded-lg overflow-hidden">
+<div class="bg-surface-container p-3 flex justify-between border-b border-border-subtle">
+<span class="font-bold text-label-md">Department: Cardiology</span>
+<span class="text-emergency-dark font-bold text-label-md">Priority: URGENT</span>
+</div>
+<div class="p-4 text-body-md text-on-surface">
+                                    "Please evaluate Mr. Doe for suspected Angina Pectoris. Patient has history of hypertension and recent onset of exertional chest pain. Requesting Stress Echo and possible angiogram if indicated. Full encounter notes and recent labs are attached to this electronic referral."
+                                </div>
+</div>
+</div>
+<div class="w-full md:w-64 space-y-4">
+<div class="p-4 bg-pending-soft border border-tertiary-fixed rounded-lg">
+<p class="text-label-md font-bold text-tertiary mb-1">Follow-up Appointment</p>
+<p class="text-body-sm">Oct 31, 2023 - 09:00 AM</p>
+<p class="text-body-sm font-semibold">Clinic Room 4B</p>
+</div>
+<div class="p-4 bg-medical-green-soft border border-outline-variant rounded-lg">
+<p class="text-label-md font-bold text-primary mb-1">Referral ID</p>
+<p class="text-body-sm font-mono">REF-KH-2201-99</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Status Strip -->
+<div class="flex justify-between items-center py-6 border-t border-border-subtle">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">history</span>
+<span class="text-body-sm italic">Last saved 2 minutes ago</span>
+</div>
+<div class="h-4 w-[1px] bg-border-subtle"></div>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-sm font-bold">Autosave Enabled</span>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2.5 border border-error text-error font-bold rounded-lg hover:bg-error-container transition-all">
+                            Discard Encounter
+                        </button>
+<button class="px-8 py-2.5 bg-primary text-on-primary font-bold rounded-lg shadow-lg hover:shadow-xl transition-all flex items-center gap-2">
+                            Final Review & Close
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Float Action Button (Suppressed on Review as per mandate, but included if user wants "Add note" context) -->
+<!-- Suppression check: This is a "Review/Details" screen, hiding FAB to prioritize content canvas. -->
+</main>
+<!-- Overlay Micro-interactions -->
+<script>
+        // Simple scale and hover feedback scripts
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+        });
+
+        // Simulating the clinical "Trustworthy Calm" with a subtle fade in
+        window.addEventListener('DOMContentLoaded', () => {
+            const main = document.querySelector('main');
+            main.style.opacity = '0';
+            main.style.transition = 'opacity 0.6s ease-out';
+            setTimeout(() => main.style.opacity = '1', 100);
+        });
+    </script>
+</body></html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHMS EHR - Follow-Up Planning</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "border-subtle": "#E2E8F0",
+                        "on-primary-container": "#86d576",
+                        "primary-fixed": "#a5f693",
+                        "on-secondary-container": "#fffbff",
+                        "tertiary-fixed": "#ffdcc0",
+                        "pending-soft": "#FFF4E8",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#8ad97a",
+                        "on-primary-fixed": "#002201",
+                        "inverse-surface": "#213145",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-fixed-variant": "#005304",
+                        "secondary-fixed": "#ffdad7",
+                        "error": "#ba1a1a",
+                        "medical-green-soft": "#E8F5E9",
+                        "secondary": "#bb0021",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "on-tertiary-container": "#ffb168",
+                        "tertiary": "#572e00",
+                        "primary": "#004302",
+                        "surface-container-high": "#dce9ff",
+                        "surface": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "emergency-dark": "#B80021",
+                        "secondary-container": "#ea002c",
+                        "on-secondary-fixed": "#410005",
+                        "on-surface": "#0b1c30",
+                        "background": "#f8f9ff",
+                        "on-tertiary-fixed": "#2d1600",
+                        "emergency-soft": "#FDECEF",
+                        "surface-tint": "#206d1b",
+                        "outline-variant": "#c0cab8",
+                        "app-bg": "#F8FAFC",
+                        "on-background": "#0b1c30",
+                        "surface-container-low": "#eff4ff",
+                        "accent-blue": "#EAF3FA",
+                        "tertiary-container": "#784200",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#930018",
+                        "deep-forest": "#064906",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "surface-bright": "#f8f9ff",
+                        "inverse-primary": "#8ad97a",
+                        "outline": "#707a6b",
+                        "on-surface-variant": "#40493c",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-dim": "#cbdbf5",
+                        "primary-container": "#0b5d0b",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#6b3b00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "1.5rem",
+                        "sidebar-width": "260px",
+                        "container-max": "1440px",
+                        "topbar-height": "64px",
+                        "margin-mobile": "1rem",
+                        "margin-desktop": "2rem"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "table-data": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-[260px] bg-deep-forest border-r border-outline-variant flex flex-col py-6 z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center overflow-hidden">
+<img class="w-8 h-8" data-alt="A clinical, professional vector logo for a healthcare facility featuring a clean medical cross integrated with a modern hospital silhouette. The design is rendered in a deep forest green and pristine white color palette, conveying trust, stability, and high-efficiency clinical care." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhHmBqSEgwSjAKBOmcDhzArJGo3EzOAC0AzcMcr9cz7Yb9B8Bxltm5MFUK2gavuvEVZsV_BpbhH016IAWoy8ZLZPI4gTt6Ns0UkjLiZNJyWFZPYooVQYy8c7-Mf3P1Ir4PjX2Pe3EbC4UQb6deeBTROZQw9bSdIsoMw_yGK92Y-G5iGGKP6OVxD7_AEGupfPpAyS_hazelpn1ULJ4oaknIUur6M2V0dPTkJykFDchfIZA6MVfVMcCWYJiprVnv4hTnSGkvb-wHELI"/>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary leading-tight">SDA Hospital</h1>
+<p class="font-body-sm text-body-sm text-on-primary/60">Kwadaso Branch</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1 custom-scrollbar overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-body-md text-body-md">Patient Records</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary-container text-on-primary-container border-l-4 border-on-secondary-container transition-colors duration-200 rounded-r-lg group" href="#">
+<span class="material-symbols-outlined">clinical_notes</span>
+<span class="font-body-md text-body-md">Clinical Encounters</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-body-md text-body-md">Laboratory</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">medication</span>
+<span class="font-body-md text-body-md">Pharmacy</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md text-body-md">Billing</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full py-3 px-4 bg-primary-fixed text-on-primary-fixed font-label-md text-label-md rounded-xl flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Encounter
+            </button>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface border-b border-border-subtle flex justify-between items-center px-8 z-40">
+<div class="flex items-center gap-6">
+<span class="font-headline-md text-headline-md font-black text-primary">KHMS EHR</span>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full w-80 text-body-md focus:ring-2 focus:ring-primary" placeholder="Search patients, files..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-border-subtle mx-2"></div>
+<div class="flex items-center gap-3 group cursor-pointer">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface">Dr. Kwame Mensah</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Internal Medicine</p>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a smiling medical professional in their late 40s, wearing a clean white clinical coat and a stethoscope. The background is a blurred high-tech hospital corridor with soft, cool lighting, emphasizing a modern, trustworthy, and expert healthcare environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv48BL1tW9LVl2anpuaAYA0v_X-zAd4B9zkSVAnr89GhqPcVvYi88xIM-n9dMZJTS6a-UiQo-BMO23HH9SWP7aeVYr5Xo16OwmxW13k8tsMcMWdK3r9k5Ych34GTWQWV40je0YDqkNhPaRrdJiQTYAtU8gHUw9LOz1wwiAXfTXEit9VsT4w-PzmiRysQVTEKXznHI1gXWV5gh1u7Z55tGXYa1VLTNnl--HK2myzyvVVTVvjG28tnIvmTX0aqFU4lWZ4VyTZ-bcX3s"/>
+</div>
+</div>
+</div>
+</header>
+<!-- TopAppBar (Context Header) -->
+<div class="fixed top-[64px] right-0 w-[calc(100%-260px)] h-12 bg-accent-blue border-b border-outline-variant flex items-center justify-between px-8 z-30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-deep-forest">clinical_notes</span>
+<h2 class="font-headline-sm text-headline-sm text-deep-forest">Patient Context: John Doe</h2>
+<span class="mx-2 text-outline-variant">|</span>
+<span class="bg-medical-green-soft text-primary px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wide">In-Progress</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1.5 text-secondary font-semibold text-sm">
+<span class="material-symbols-outlined text-sm">warning</span>
+                Critical Alerts (2)
+            </span>
+<button class="px-4 py-1.5 bg-primary text-white rounded-lg text-sm font-bold hover:bg-deep-forest transition-colors">
+                Check-out
+            </button>
+</div>
+</div>
+<!-- Main Content Canvas -->
+<main class="pt-[112px] pl-[260px] min-h-screen">
+<div class="max-w-[1200px] mx-auto p-8">
+<div class="mb-8">
+<h3 class="font-headline-lg text-headline-lg text-on-surface">Discharge & Follow-Up Planning</h3>
+<p class="text-on-surface-variant">Finalize the patient's visit and schedule subsequent care pathways.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Summary Card -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<div class="bg-white border border-border-subtle rounded-xl p-6 shadow-sm overflow-hidden relative">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+<h4 class="font-headline-md text-headline-md mb-4 text-primary">Encounter Summary</h4>
+<div class="space-y-4">
+<div class="flex justify-between items-start border-b border-slate-50 pb-3">
+<span class="text-on-surface-variant font-medium">Chief Complaint</span>
+<span class="text-on-surface font-semibold text-right">Acute Hypertension</span>
+</div>
+<div class="flex justify-between items-start border-b border-slate-50 pb-3">
+<span class="text-on-surface-variant font-medium">Primary Diagnosis</span>
+<span class="text-on-surface font-semibold text-right">Essential (primary) hypertension</span>
+</div>
+<div class="flex justify-between items-start border-b border-slate-50 pb-3">
+<span class="text-on-surface-variant font-medium">Stability Status</span>
+<span class="bg-medical-green-soft text-deep-forest px-2 py-1 rounded text-xs font-bold">STABLE</span>
+</div>
+<div class="pt-2">
+<p class="text-xs text-on-surface-variant uppercase font-bold mb-2 tracking-widest">Recent Vitals</p>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-surface p-3 rounded-lg border border-border-subtle">
+<p class="text-[10px] text-on-surface-variant font-bold uppercase">BP</p>
+<p class="text-headline-md text-on-surface">142/90</p>
+</div>
+<div class="bg-surface p-3 rounded-lg border border-border-subtle">
+<p class="text-[10px] text-on-surface-variant font-bold uppercase">HR</p>
+<p class="text-headline-md text-on-surface">78 bpm</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Task Status -->
+<div class="bg-surface-container-low rounded-xl p-6 border border-border-subtle">
+<h4 class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant mb-4">Post-Visit Checklist</h4>
+<ul class="space-y-3">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-md text-on-surface">E-Prescription Sent</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-md text-on-surface">Laboratory Orders Finalized</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">radio_button_unchecked</span>
+<span class="text-body-md text-on-surface-variant">Patient Education Delivered</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">radio_button_unchecked</span>
+<span class="text-body-md text-on-surface-variant">Discharge Instructions Signed</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Planning Form Card -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-white border border-border-subtle rounded-xl p-8 shadow-sm">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-12 h-12 bg-primary-container/20 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">event_upcoming</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Follow-Up Schedule</h4>
+<p class="text-on-surface-variant">Set the next clinical touchpoint for this patient.</p>
+</div>
+</div>
+<form class="space-y-8" id="followUpForm">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Date Picker -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" for="follow_up_date">Follow-up Date <span class="text-error">*</span></label>
+<div class="relative">
+<input class="w-full px-4 py-3 bg-white border border-border-subtle rounded-lg text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none" id="follow_up_date" name="follow_up_date" required="" type="date"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">calendar_month</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">Recommended: Within 14 days based on condition status.</p>
+</div>
+<!-- Reason Dropdown -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" for="next_visit_reason">Next Visit Reason <span class="text-error">*</span></label>
+<div class="relative">
+<select class="w-full px-4 py-3 bg-white border border-border-subtle rounded-lg text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none cursor-pointer" id="next_visit_reason" name="next_visit_reason">
+<option disabled="" selected="" value="">Select reason...</option>
+<option value="bp_review">BP Review & Titration</option>
+<option value="lab_results">Laboratory Results Review</option>
+<option value="routine">Routine Chronic Care</option>
+<option value="post_op">Post-operative Checkup</option>
+<option value="specialist">Specialist Referral Follow-up</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Additional Notes -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" for="notes">Instructions for Patient</label>
+<textarea class="w-full px-4 py-3 bg-white border border-border-subtle rounded-lg text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none resize-none" id="notes" placeholder="Enter specific instructions or requirements for the next visit..." rows="4"></textarea>
+</div>
+<!-- Action Buttons -->
+<div class="pt-6 border-t border-border-subtle flex flex-wrap gap-4 items-center justify-between">
+<div class="flex gap-4">
+<button class="px-6 py-3 bg-primary text-on-primary font-bold rounded-lg flex items-center gap-2 hover:bg-deep-forest active:scale-95 transition-all shadow-md" id="generateLink" type="button">
+<span class="material-symbols-outlined">link</span>
+                                        Create Appointment Link
+                                    </button>
+<button class="px-6 py-3 border border-primary text-primary font-bold rounded-lg hover:bg-medical-green-soft active:scale-95 transition-all" type="button">
+                                        Print Discharge Note
+                                    </button>
+</div>
+<button class="px-8 py-3 bg-secondary text-on-secondary font-bold rounded-lg hover:bg-emergency-dark active:scale-95 transition-all shadow-lg flex items-center gap-2" type="submit">
+                                    Complete Encounter
+                                    <span class="material-symbols-outlined">done_all</span>
+</button>
+</div>
+</form>
+<!-- Toast Notification Container (JS Managed) -->
+<div class="fixed bottom-8 right-8 bg-inverse-surface text-inverse-on-surface px-6 py-4 rounded-xl shadow-2xl translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-4 z-[100]" id="toast">
+<div class="w-8 h-8 bg-primary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container text-xl">link</span>
+</div>
+<div>
+<p class="font-bold text-sm">Appointment Link Created</p>
+<p class="text-xs text-inverse-on-surface/70">Copied to clipboard and sent to patient's SMS.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interactions and Toast logic
+        const generateBtn = document.getElementById('generateLink');
+        const toast = document.getElementById('toast');
+        const followUpForm = document.getElementById('followUpForm');
+
+        generateBtn.addEventListener('click', () => {
+            // Simulate creation logic
+            generateBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Creating...';
+            generateBtn.classList.add('opacity-80', 'cursor-not-allowed');
+            
+            setTimeout(() => {
+                generateBtn.innerHTML = '<span class="material-symbols-outlined">check</span> Link Created';
+                generateBtn.classList.replace('bg-primary', 'bg-deep-forest');
+                
+                // Show toast
+                toast.classList.remove('translate-y-24', 'opacity-0');
+                
+                setTimeout(() => {
+                    toast.classList.add('translate-y-24', 'opacity-0');
+                }, 4000);
+            }, 1200);
+        });
+
+        followUpForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // In a real app, this would handle data persistence
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Processing...';
+            
+            setTimeout(() => {
+                alert('Encounter successfully closed. Returning to Patient Dashboard.');
+                window.location.reload();
+            }, 1500);
+        });
+
+        // Set default date to 1 week from now
+        const followUpDateInput = document.getElementById('follow_up_date');
+        const nextWeek = new Date();
+        nextWeek.setDate(nextWeek.getDate() + 7);
+        followUpDateInput.value = nextWeek.toISOString().split('T')[0];
+    </script>
+</body></html>

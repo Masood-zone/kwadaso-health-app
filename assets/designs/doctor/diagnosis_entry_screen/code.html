@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Diagnosis Entry - KHMS EHR</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "border-subtle": "#E2E8F0",
+                    "on-primary-container": "#86d576",
+                    "primary-fixed": "#a5f693",
+                    "on-secondary-container": "#fffbff",
+                    "tertiary-fixed": "#ffdcc0",
+                    "pending-soft": "#FFF4E8",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#8ad97a",
+                    "on-primary-fixed": "#002201",
+                    "inverse-surface": "#213145",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-variant": "#d3e4fe",
+                    "on-primary-fixed-variant": "#005304",
+                    "secondary-fixed": "#ffdad7",
+                    "error": "#ba1a1a",
+                    "medical-green-soft": "#E8F5E9",
+                    "secondary": "#bb0021",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "on-tertiary-container": "#ffb168",
+                    "tertiary": "#572e00",
+                    "primary": "#004302",
+                    "surface-container-high": "#dce9ff",
+                    "surface": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "emergency-dark": "#B80021",
+                    "secondary-container": "#ea002c",
+                    "on-secondary-fixed": "#410005",
+                    "on-surface": "#0b1c30",
+                    "background": "#f8f9ff",
+                    "on-tertiary-fixed": "#2d1600",
+                    "emergency-soft": "#FDECEF",
+                    "surface-tint": "#206d1b",
+                    "outline-variant": "#c0cab8",
+                    "app-bg": "#F8FAFC",
+                    "on-background": "#0b1c30",
+                    "surface-container-low": "#eff4ff",
+                    "accent-blue": "#EAF3FA",
+                    "tertiary-container": "#784200",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#930018",
+                    "deep-forest": "#064906",
+                    "surface-container": "#e5eeff",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "surface-bright": "#f8f9ff",
+                    "inverse-primary": "#8ad97a",
+                    "outline": "#707a6b",
+                    "on-surface-variant": "#40493c",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-dim": "#cbdbf5",
+                    "primary-container": "#0b5d0b",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#6b3b00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "1.5rem",
+                    "sidebar-width": "260px",
+                    "container-max": "1440px",
+                    "topbar-height": "64px",
+                    "margin-mobile": "1rem",
+                    "margin-desktop": "2rem"
+            },
+            "fontFamily": {
+                    "display-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "table-data": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "body-md": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .bento-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .bento-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed overflow-hidden">
+<!-- SIDE NAV BAR -->
+<aside class="fixed left-0 top-0 h-screen w-[260px] bg-deep-forest border-r border-outline-variant flex flex-col py-6 z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-on-primary flex items-center justify-center text-deep-forest shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_hospital</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary leading-tight">SDA Hospital</h1>
+<p class="text-[10px] text-on-primary/60 tracking-widest uppercase">Kwadaso Branch</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1 px-3 overflow-y-auto custom-scrollbar">
+<!-- Navigation Items Mapping -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-body-md text-body-md">Patient Records</span>
+</a>
+<!-- Active State Logic: Mapping Clinical Encounters for Diagnosis Screen -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary-container text-on-primary-container border-l-4 border-on-secondary-container transition-colors duration-200 cursor-pointer shadow-inner" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">clinical_notes</span>
+<span class="font-body-md text-body-md font-semibold">Clinical Encounters</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-body-md text-body-md">Laboratory</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined">medication</span>
+<span class="font-body-md text-body-md">Pharmacy</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md text-body-md">Billing</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="px-3 mt-auto">
+<button class="w-full bg-primary-fixed text-on-primary-fixed font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-primary-fixed-dim transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined">add_circle</span>
+<span>New Encounter</span>
+</button>
+</div>
+</aside>
+<!-- TOP NAV BAR -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface border-b border-border-subtle flex justify-between items-center px-8 z-40">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-border-subtle rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-body-md transition-all" placeholder="Global search for patients or records..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 border-r border-border-subtle pr-6">
+<button class="text-on-surface-variant hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full border-2 border-surface"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="flex items-center gap-3 group cursor-pointer">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface leading-none">Dr. Kwame Mensah</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Clinical Lead</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest border border-border-subtle overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional close-up portrait of a Ghanaian male doctor in his 40s wearing a clean white clinical coat and a stethoscope. The lighting is soft and professional, reflecting a clean hospital environment with neutral white and grey tones. He has a warm, trustworthy expression suitable for a high-end medical software interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXCVDBCgezMRGltROJ5c5doJHPp8hRDAyGTHZjCcTCijO9nuILaRxU5RfkcFgUA27AuKCpMLz9UUwPIDRXuUqoi7zkg7Hkx1uMNRAElVVuND484MwvBEgezbiyLCfMCKuhELXgHNKlVCE8gOI-4MmylL_2R54vgqzsuXnzfrw7lRFkZKRPgkSv4NjEjm_hlzOpwUf73G-7tfnR3ihJcp9yfCBJRKe1xCGRDmBegNiafJcUSfEai0p95mcuyrvrvSaSFvCFYtJ5YmE"/>
+</div>
+<button class="bg-secondary px-3 py-1.5 rounded-lg text-white font-label-md text-label-md hover:bg-emergency-dark active:scale-95 transition-all">Check-out</button>
+</div>
+</div>
+</header>
+<!-- TOP APP BAR (PATIENT CONTEXT) -->
+<div class="fixed top-[64px] right-0 w-[calc(100%-260px)] h-12 bg-accent-blue border-b border-outline-variant flex items-center justify-between px-8 py-2 z-30">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">clinical_notes</span>
+<h2 class="font-headline-sm text-headline-sm text-deep-forest font-semibold">Patient Context: John Doe</h2>
+<div class="flex gap-2 ml-4">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] font-bold uppercase">ID: KH-99201</span>
+<span class="bg-emergency-soft text-emergency-dark px-2 py-0.5 rounded text-[10px] font-bold uppercase">Critical Alerts (2)</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-label-md">Last Vitals: 15m ago</span>
+</div>
+</div>
+</div>
+<!-- MAIN CONTENT CANVAS -->
+<main class="fixed top-[112px] right-0 w-[calc(100%-260px)] h-[calc(100vh-112px)] overflow-y-auto p-8 custom-scrollbar">
+<div class="max-w-[1200px] mx-auto space-y-8">
+<!-- HEADER SECTION -->
+<section class="flex items-end justify-between">
+<div>
+<nav class="flex gap-2 text-label-md text-on-surface-variant mb-2">
+<span class="hover:text-primary cursor-pointer">Encounter #4421</span>
+<span>/</span>
+<span class="text-primary font-bold">Diagnosis Entry</span>
+</nav>
+<h3 class="font-display-lg text-display-lg text-on-surface">Clinical Coding &amp; Diagnosis</h3>
+<p class="text-body-md text-on-surface-variant max-w-2xl mt-2">Enter clinical findings and map them to the official ICD-10 registry for accurate medical records and billing automation.</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-white border border-border-subtle text-on-surface-variant font-semibold px-4 py-2.5 rounded-xl flex items-center gap-2 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">print</span>
+                        Print Summary
+                    </button>
+<button class="bg-primary text-on-primary font-bold px-6 py-2.5 rounded-xl shadow-sm hover:opacity-90 transition-all active:scale-95">
+                        Save Encounter
+                    </button>
+</div>
+</section>
+<!-- ASYMMETRIC BENTO GRID LAYOUT -->
+<div class="grid grid-cols-12 gap-6">
+<!-- PRIMARY ENTRY SECTION (Left - 8 columns) -->
+<div class="col-span-8 space-y-6">
+<!-- ICD-10 SEARCH BOX -->
+<div class="bg-white rounded-xl border border-border-subtle p-6 shadow-sm">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-3 uppercase tracking-wider">ICD-10 Search Tool</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary text-2xl">search</span>
+<input class="w-full pl-12 pr-4 py-4 bg-accent-blue/30 border border-border-subtle rounded-xl text-body-lg focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none font-medium" id="icd-search" placeholder="ICD-10 Search (e.g. I10 Hypertension)" type="text"/>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+<span class="bg-on-surface-variant/10 text-on-surface-variant text-[10px] px-1.5 py-0.5 rounded font-bold border border-on-surface-variant/20">CTRL + S</span>
+</div>
+</div>
+<!-- Search Results (Simulated) -->
+<div class="mt-4 border border-border-subtle rounded-lg overflow-hidden hidden" id="search-results">
+<div class="bg-surface-container-low px-4 py-2 border-b border-border-subtle flex justify-between items-center">
+<span class="text-label-md text-on-surface-variant">4 results found</span>
+<button class="text-primary text-label-md hover:underline">Clear</button>
+</div>
+<div class="divide-y divide-border-subtle">
+<div class="px-4 py-3 flex justify-between items-center hover:bg-medical-green-soft cursor-pointer transition-colors group">
+<div>
+<p class="font-bold text-on-surface">I10 - Essential (primary) hypertension</p>
+<p class="text-body-sm text-on-surface-variant">Chronic condition, cardiovascular</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded uppercase">Select</button>
+</div>
+<div class="px-4 py-3 flex justify-between items-center hover:bg-medical-green-soft cursor-pointer transition-colors group">
+<div>
+<p class="font-bold text-on-surface">I11.9 - Hypertensive heart disease without heart failure</p>
+<p class="text-body-sm text-on-surface-variant">Cardiac involvement</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded uppercase">Select</button>
+</div>
+</div>
+</div>
+</div>
+<!-- DATA ENTRY FORM -->
+<div class="bg-white rounded-xl border border-border-subtle overflow-hidden shadow-sm">
+<div class="bg-surface-container-low border-b border-border-subtle px-6 py-4 flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md text-on-surface">Active Diagnosis Entry</h4>
+<span class="material-symbols-outlined text-on-surface-variant">info</span>
+</div>
+<div class="p-6 grid grid-cols-2 gap-6">
+<!-- Primary Diagnosis -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface-variant uppercase">Primary Diagnosis <span class="text-error">*</span></label>
+<div class="relative">
+<input class="w-full bg-medical-green-soft border border-outline text-on-surface font-semibold px-4 py-3 rounded-lg focus:outline-none" readonly="" type="text" value="I10 - Hypertension"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary">check_circle</span>
+</div>
+<p class="text-[11px] text-primary font-medium italic">Confirmed match from ICD-10 registry.</p>
+</div>
+<!-- Severity -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface-variant uppercase">Severity / Status</label>
+<select class="w-full bg-white border border-border-subtle px-4 py-3 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+<option>Mild - Stable</option>
+<option selected="">Moderate - Acute</option>
+<option>Severe - Critical</option>
+<option>Resolved / History</option>
+</select>
+</div>
+<!-- Secondary Diagnosis -->
+<div class="col-span-2 space-y-2">
+<label class="block font-label-md text-label-md text-on-surface-variant uppercase">Secondary Diagnosis / Comorbidities</label>
+<textarea class="w-full bg-white border border-border-subtle px-4 py-3 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Add secondary findings, complications, or associated conditions..." rows="3"></textarea>
+</div>
+<!-- Action -->
+<div class="col-span-2 flex justify-end">
+<button class="bg-primary text-on-primary font-bold px-8 py-3 rounded-xl flex items-center gap-2 shadow-md hover:bg-primary-container transition-all active:scale-95 group">
+<span class="material-symbols-outlined group-hover:rotate-90 transition-transform">add</span>
+                                    Add Diagnosis
+                                </button>
+</div>
+</div>
+</div>
+<!-- SELECTED LIST -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h4 class="font-headline-md text-headline-md text-on-surface">Encounter Diagnoses (3)</h4>
+<span class="text-label-md text-on-surface-variant">Validated for Billing</span>
+</div>
+<div class="grid grid-cols-1 gap-3">
+<!-- Item 1 -->
+<div class="bg-white border-l-4 border-primary p-4 rounded-r-xl border-y border-r border-border-subtle flex items-center justify-between bento-card">
+<div class="flex items-center gap-4">
+<div class="bg-primary/10 text-primary w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div>
+<div>
+<p class="font-bold text-on-surface">I10 Essential (primary) hypertension</p>
+<div class="flex gap-2 mt-1">
+<span class="bg-medical-green-soft text-deep-forest text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Primary</span>
+<span class="bg-pending-soft text-on-tertiary-fixed-variant text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Moderate</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="bg-white border-l-4 border-outline p-4 rounded-r-xl border-y border-r border-border-subtle flex items-center justify-between bento-card">
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-high text-on-surface w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div>
+<div>
+<p class="font-bold text-on-surface">E11 Type 2 diabetes mellitus</p>
+<div class="flex gap-2 mt-1">
+<span class="bg-surface-container-high text-on-surface-variant text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Secondary</span>
+<span class="bg-medical-green-soft text-deep-forest text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Controlled</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="bg-white border-l-4 border-outline p-4 rounded-r-xl border-y border-r border-border-subtle flex items-center justify-between bento-card">
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-high text-on-surface w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div>
+<div>
+<p class="font-bold text-on-surface">M54.5 Low back pain</p>
+<div class="flex gap-2 mt-1">
+<span class="bg-surface-container-high text-on-surface-variant text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Secondary</span>
+<span class="bg-emergency-soft text-emergency-dark text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Acute</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- CLINICAL CONTEXT & TOOLS (Right - 4 columns) -->
+<aside class="col-span-4 space-y-6">
+<!-- PATIENT QUICK CARD -->
+<div class="bg-white rounded-xl border border-border-subtle overflow-hidden shadow-sm">
+<div class="h-1 bg-primary"></div>
+<div class="p-6">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-16 h-16 rounded-xl bg-accent-blue overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A detailed digital avatar of a senior male patient in a clinical setting. He has kind, weathered features, silver hair, and is wearing a standard light-blue patient gown. The image is rendered in a high-fidelity 3D style with soft studio lighting that creates a professional, empathetic atmosphere for medical software." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOBDgBeqSg0CJwwW-AJ4Wb3gk-Yt92B0MsHuY99fY-47uusJoiZZKXG9gkJ7EM4oh3_GngSwgS-PJc2-Gc3kfmV8y9xDsZHEh3p81FGmNkGW4RmfhzzgimNlMAtz6GvkAHn1CEH8CsL4k-9GlL9OxzxuuLioKuERzTnNiUBJRaQGRE-aH3K7MarvTbdPX_aYfCRM4AjSQFddVvpoTr4dBQHatHjT2zj05QePwW1PXWhFh9WgML8XVUZ1XenBWSQyUyNuSLe513h_U"/>
+</div>
+<div>
+<h5 class="font-bold text-on-surface text-lg leading-tight">John Evans Doe</h5>
+<p class="text-body-sm text-on-surface-variant">64 years • Male • O+ Positive</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 py-4 border-y border-border-subtle">
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest">Weight</p>
+<p class="font-bold text-lg">82.4 <span class="text-sm font-normal text-on-surface-variant">kg</span></p>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest">Blood Pressure</p>
+<p class="font-bold text-lg text-secondary">158/94 <span class="text-sm font-normal text-on-surface-variant">mmHg</span></p>
+</div>
+</div>
+<div class="mt-4">
+<button class="w-full py-2 bg-surface-container-low text-primary font-bold text-label-md rounded-lg hover:bg-accent-blue transition-colors">View Full History</button>
+</div>
+</div>
+</div>
+<!-- CODING HELPER -->
+<div class="bg-inverse-surface rounded-xl p-6 text-white shadow-lg relative overflow-hidden">
+<!-- Abstract glow effect -->
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary-fixed">lightbulb</span>
+<h5 class="font-bold text-lg">Clinical Assistant</h5>
+</div>
+<p class="text-body-md text-white/80 leading-relaxed mb-4">Based on vitals and previous notes, consider checking for:</p>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 group cursor-pointer">
+<div class="mt-1 w-2 h-2 rounded-full bg-primary-fixed group-hover:scale-125 transition-transform"></div>
+<div>
+<p class="text-body-sm font-bold">I15.1 Hypertension secondary to other renal disorders</p>
+<p class="text-[11px] text-white/50">Elevated Creatinine (1.4 mg/dL)</p>
+</div>
+</li>
+<li class="flex items-start gap-3 group cursor-pointer">
+<div class="mt-1 w-2 h-2 rounded-full bg-primary-fixed group-hover:scale-125 transition-transform"></div>
+<div>
+<p class="text-body-sm font-bold">E11.65 Type 2 diabetes with hyperglycemia</p>
+<p class="text-[11px] text-white/50">Random Blood Sugar (210 mg/dL)</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<!-- BILLING PREVIEW -->
+<div class="bg-white rounded-xl border border-border-subtle p-6 shadow-sm">
+<h5 class="font-bold text-on-surface mb-4">Revenue Cycle Impact</h5>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-body-sm">
+<span class="text-on-surface-variant">Coding Complexity</span>
+<span class="font-bold text-deep-forest">Moderate (Level 3)</span>
+</div>
+<div class="flex justify-between items-center text-body-sm">
+<span class="text-on-surface-variant">Est. Reimbursement</span>
+<span class="font-bold text-on-surface">GHS 420.00</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 mt-4">
+<div class="bg-primary h-1.5 rounded-full" style="width: 75%"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant italic">Documentation is 75% complete for this encounter level.</p>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<!-- FLOATING ACTION BUTTON (Suppressed on details screens but here as requested contextually if needed elsewhere - actually hidden as per guidelines) -->
+<script>
+        // Micro-interactions for ICD-10 Search Simulation
+        const icdSearch = document.getElementById('icd-search');
+        const resultsBox = document.getElementById('search-results');
+
+        icdSearch.addEventListener('input', (e) => {
+            if(e.target.value.length > 2) {
+                resultsBox.classList.remove('hidden');
+            } else {
+                resultsBox.classList.add('hidden');
+            }
+        });
+
+        // Close search results when clicking outside
+        document.addEventListener('click', (e) => {
+            if(!icdSearch.contains(e.target) && !resultsBox.contains(e.target)) {
+                resultsBox.classList.add('hidden');
+            }
+        });
+
+        // Focus search on Ctrl+S
+        document.addEventListener('keydown', (e) => {
+            if(e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                icdSearch.focus();
+            }
+        });
+    </script>
+</body></html>

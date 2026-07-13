@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Result Validation | KHMS Lab</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#ffb3af",
+                        "on-surface-variant": "#40493c",
+                        "app-bg": "#F8FAFC",
+                        "inverse-surface": "#213145",
+                        "emergency-dark": "#B80021",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "outline": "#707a6b",
+                        "background": "#f8f9ff",
+                        "on-surface": "#0b1c30",
+                        "tertiary": "#572e00",
+                        "pending-soft": "#FFF4E8",
+                        "on-tertiary": "#ffffff",
+                        "deep-forest": "#064906",
+                        "primary-container": "#0b5d0b",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#8ad97a",
+                        "primary": "#004302",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#2d1600",
+                        "border-subtle": "#E2E8F0",
+                        "surface-tint": "#206d1b",
+                        "surface-container": "#e5eeff",
+                        "secondary": "#bb0021",
+                        "on-primary-fixed": "#002201",
+                        "on-primary-container": "#86d576",
+                        "secondary-container": "#ea002c",
+                        "secondary-fixed": "#ffdad7",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#784200",
+                        "on-secondary-container": "#fffbff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "on-background": "#0b1c30",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#ffb168",
+                        "on-secondary-fixed": "#410005",
+                        "accent-blue": "#EAF3FA",
+                        "on-primary-fixed-variant": "#005304",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "primary-fixed": "#a5f693",
+                        "inverse-primary": "#8ad97a",
+                        "surface": "#f8f9ff",
+                        "on-secondary-fixed-variant": "#930018",
+                        "surface-container-low": "#eff4ff",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#cbdbf5",
+                        "medical-green-soft": "#E8F5E9",
+                        "tertiary-fixed": "#ffdcc0",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#c0cab8",
+                        "emergency-soft": "#FDECEF"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sidebar-width": "260px",
+                        "margin-mobile": "1rem",
+                        "margin-desktop": "2rem",
+                        "gutter": "1.5rem",
+                        "topbar-height": "64px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "table-data": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-app-bg font-body-md text-on-surface antialiased overflow-hidden">
+<!-- SIDEBAR NAV -->
+<aside class="fixed left-0 top-0 h-full w-[260px] flex flex-col bg-primary border-r border-outline-variant z-50">
+<div class="p-6">
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-primary">KHMS Lab</h1>
+<p class="font-label-md text-label-md text-primary-fixed-dim uppercase tracking-wider">Kwadaso HealthLink</p>
+</div>
+<nav class="flex-1 px-2 space-y-1 overflow-y-auto mt-4">
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+<span class="font-label-md text-label-md">Lab Queue</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="science">science</span>
+<span class="font-label-md text-label-md">Sample Tracking</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span class="font-label-md text-label-md">Result Entry</span>
+</a>
+<a class="flex items-center gap-3 bg-deep-forest text-on-primary border-l-4 border-tertiary px-4 py-3" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">Results Viewer</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="emergency_home">emergency_home</span>
+<span class="font-label-md text-label-md">Critical Alerts</span>
+<span class="ml-auto bg-secondary text-white text-[10px] px-1.5 py-0.5 rounded-full">4</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Test Catalog</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-primary-container">
+<button class="w-full bg-tertiary text-on-tertiary py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all font-label-md">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span>New Lab Request</span>
+</button>
+<div class="mt-4 flex flex-col gap-1">
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TOP BAR -->
+<header class="fixed top-0 left-[260px] right-0 h-[64px] bg-surface border-b border-border-subtle flex items-center justify-between px-8 z-40">
+<div class="flex items-center gap-6">
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Laboratory Management</h2>
+<div class="flex gap-4">
+<a class="text-on-surface-variant font-medium font-label-md hover:text-primary transition-colors" href="#">Lab Requests</a>
+<a class="text-on-surface-variant font-medium font-label-md hover:text-primary transition-colors" href="#">Inventory</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md" href="#">Validation Queue</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 px-4 py-2 border border-secondary text-secondary rounded font-label-md hover:bg-emergency-soft transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="warning">warning</span>
+<span>Emergency Alert</span>
+</button>
+<button class="bg-primary text-on-primary px-4 py-2 rounded font-label-md hover:opacity-90 transition-all active:scale-95">
+                Scan Sample ID
+            </button>
+<div class="flex items-center gap-2 pl-4 border-l border-border-subtle">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary" data-icon="notifications">notifications</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Close-up professional headshot of a female lab technician wearing a white lab coat and stethoscope, set against a blurred clinical background with soft teal and white lighting. She is smiling confidently, embodying the trustworthy and clinical precision of KHMS Lab." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA38H48zH-Z4RsOqsg0O2kuEsS-UnS5OIxlkduQ6JTv3FksHZ8d1JdrM7pVoxtmKS6qzT-qohoI8to_XgUuPynx7NZ5FKobQ1QFhV09lVtTzzdL1z5GxWlGWHluHOmBV3D_Npd4ZgV-7nvg8hr80xdmr5dodMAMd02bCz5OShL4OuKKCTXhHGuWFLUtuetSODpB5_B4ztfcte4Q-PHCGnqpixkvQIDE0nA3EynA1NGQNBKZAzsFdzNCi06DYmRyanwzUYn0rIYSDs"/>
+</div>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT AREA -->
+<main class="ml-[260px] pt-[64px] h-screen flex flex-col">
+<!-- Breadcrumb & Title -->
+<div class="px-8 py-4 bg-white border-b border-border-subtle flex items-center justify-between">
+<div>
+<nav class="flex items-center gap-2 text-on-surface-variant mb-1">
+<span class="font-label-md text-label-md">Queue</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+<span class="font-label-md text-label-md text-primary font-bold">SID-2023-9942 (Comprehensive Metabolic Panel)</span>
+</nav>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Review & Validate Results</h3>
+</div>
+<div class="flex items-center gap-3">
+<span class="bg-pending-soft text-tertiary-container px-3 py-1 rounded-full text-[12px] font-bold border border-tertiary-fixed">PENDING PATHOLOGIST REVIEW</span>
+<div class="flex flex-col items-end">
+<span class="text-[10px] text-on-surface-variant uppercase font-bold">Assigned Technician</span>
+<span class="text-sm font-medium">Samuel Appiah, MLS(ASCP)</span>
+</div>
+</div>
+</div>
+<!-- Dual Pane Workspace -->
+<div class="flex-1 overflow-hidden flex">
+<!-- Left Pane: Results -->
+<section class="w-7/12 overflow-y-auto border-r border-border-subtle bg-white p-8">
+<div class="mb-6 flex items-center justify-between">
+<h4 class="font-headline-md text-headline-md font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="fact_check">fact_check</span>
+                        Entered Test Results
+                    </h4>
+<span class="text-sm text-on-surface-variant italic">2 flags detected requiring attention</span>
+</div>
+<div class="overflow-hidden border border-border-subtle rounded-lg">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue border-b border-border-subtle">
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase">Test Component</th>
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase">Value</th>
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase">Unit</th>
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase">Reference Range</th>
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle font-table-data text-table-data">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="p-4 font-bold text-on-surface">Sodium (Na+)</td>
+<td class="p-4">138</td>
+<td class="p-4">mmol/L</td>
+<td class="p-4 text-on-surface-variant">135 - 145</td>
+<td class="p-4 text-right"><span class="text-green-600 font-bold">NORMAL</span></td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors bg-emergency-soft">
+<td class="p-4 font-bold text-on-surface">Potassium (K+)</td>
+<td class="p-4 font-extrabold text-secondary">6.1</td>
+<td class="p-4">mmol/L</td>
+<td class="p-4 text-on-surface-variant">3.5 - 5.1</td>
+<td class="p-4 text-right">
+<span class="bg-secondary text-white px-2 py-0.5 rounded-sm text-[10px] font-bold">CRITICAL HIGH</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="p-4 font-bold text-on-surface">Chloride (Cl-)</td>
+<td class="p-4">102</td>
+<td class="p-4">mmol/L</td>
+<td class="p-4 text-on-surface-variant">96 - 106</td>
+<td class="p-4 text-right"><span class="text-green-600 font-bold">NORMAL</span></td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="p-4 font-bold text-on-surface">Glucose, Fasting</td>
+<td class="p-4">98</td>
+<td class="p-4">mg/dL</td>
+<td class="p-4 text-on-surface-variant">70 - 99</td>
+<td class="p-4 text-right"><span class="text-green-600 font-bold">NORMAL</span></td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors bg-pending-soft">
+<td class="p-4 font-bold text-on-surface">Creatinine</td>
+<td class="p-4 font-bold text-tertiary">1.4</td>
+<td class="p-4">mg/dL</td>
+<td class="p-4 text-on-surface-variant">0.7 - 1.3</td>
+<td class="p-4 text-right">
+<span class="text-tertiary font-bold uppercase">ABNORMAL</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="p-4 font-bold text-on-surface">BUN</td>
+<td class="p-4">18</td>
+<td class="p-4">mg/dL</td>
+<td class="p-4 text-on-surface-variant">7 - 20</td>
+<td class="p-4 text-right"><span class="text-green-600 font-bold">NORMAL</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-8">
+<h5 class="font-label-md text-label-md text-on-surface-variant uppercase mb-3">Technician's Notes</h5>
+<div class="p-4 bg-slate-50 border border-border-subtle rounded text-body-md text-on-surface italic">
+                        "Sample showed minor hemolysis, however, rerun yielded consistent critical potassium value. Patient has history of CKD. Proceeding to validation for immediate clinician notification."
+                    </div>
+</div>
+<div class="mt-8">
+<h5 class="font-label-md text-label-md text-on-surface-variant uppercase mb-3">Instrument Audit Log</h5>
+<div class="space-y-2">
+<div class="flex items-center gap-3 text-sm p-3 bg-white border border-border-subtle rounded">
+<span class="material-symbols-outlined text-green-600" data-icon="check_circle">check_circle</span>
+<span class="font-bold text-primary">Sysmex XN-1000</span>
+<span class="text-on-surface-variant">| Calibration Check: PASS</span>
+<span class="ml-auto text-xs text-on-surface-variant">Today, 08:15 AM</span>
+</div>
+<div class="flex items-center gap-3 text-sm p-3 bg-white border border-border-subtle rounded">
+<span class="material-symbols-outlined text-green-600" data-icon="check_circle">check_circle</span>
+<span class="font-bold text-primary">Beckman AU5800</span>
+<span class="text-on-surface-variant">| QC Lot #8841-B: IN CONTROL</span>
+<span class="ml-auto text-xs text-on-surface-variant">Today, 09:02 AM</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Pane: Clinical Context -->
+<section class="w-5/12 overflow-y-auto bg-slate-50 p-8">
+<div class="mb-6">
+<h4 class="font-headline-md text-headline-md font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="person_search">person_search</span>
+                        Clinical Context
+                    </h4>
+</div>
+<!-- Patient Quick Card -->
+<div class="bg-white p-6 rounded-lg border border-border-subtle shadow-sm mb-6">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h5 class="text-lg font-bold text-primary">DOE, JOHN QUINCY</h5>
+<p class="text-sm text-on-surface-variant">MRN: KH-00923-41 | Male, 58y</p>
+</div>
+<div class="w-12 h-12 bg-accent-blue rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="person">person</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Location</p>
+<p class="text-sm font-medium">Ward 4B - Bed 12</p>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Ordering Physician</p>
+<p class="text-sm font-medium">Dr. Akoto Mensah</p>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Clinical Diagnosis</p>
+<p class="text-sm font-medium text-secondary-container bg-emergency-soft px-2 py-1 rounded inline-block">Chronic Kidney Disease Stage 4</p>
+</div>
+</div>
+</div>
+<!-- Previous Results Trend -->
+<div class="bg-white p-6 rounded-lg border border-border-subtle shadow-sm mb-6">
+<h6 class="font-label-md text-label-md text-on-surface-variant uppercase mb-4">Potassium (K+) Trend</h6>
+<div class="h-32 w-full flex items-end gap-2 px-2 pb-2">
+<div class="flex-1 flex flex-col items-center">
+<div class="w-full bg-slate-200 h-[60%] rounded-t-sm hover:bg-primary transition-colors"></div>
+<span class="text-[8px] mt-1 text-on-surface-variant">Oct 12</span>
+<span class="text-[10px] font-bold">4.2</span>
+</div>
+<div class="flex-1 flex flex-col items-center">
+<div class="w-full bg-slate-200 h-[75%] rounded-t-sm hover:bg-primary transition-colors"></div>
+<span class="text-[8px] mt-1 text-on-surface-variant">Oct 28</span>
+<span class="text-[10px] font-bold">4.8</span>
+</div>
+<div class="flex-1 flex flex-col items-center">
+<div class="w-full bg-slate-200 h-[85%] rounded-t-sm hover:bg-primary transition-colors"></div>
+<span class="text-[8px] mt-1 text-on-surface-variant">Nov 15</span>
+<span class="text-[10px] font-bold">5.4</span>
+</div>
+<div class="flex-1 flex flex-col items-center">
+<div class="w-full bg-secondary h-[100%] rounded-t-sm"></div>
+<span class="text-[8px] mt-1 text-on-surface-variant">TODAY</span>
+<span class="text-[10px] font-bold text-secondary">6.1</span>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant mt-4 text-center">Trend indicates rapid escalation over 4 weeks.</p>
+</div>
+<!-- Related Medications -->
+<div class="bg-white p-6 rounded-lg border border-border-subtle shadow-sm">
+<h6 class="font-label-md text-label-md text-on-surface-variant uppercase mb-4">Relevant Medications</h6>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 p-2 bg-slate-50 rounded border border-slate-100">
+<span class="material-symbols-outlined text-secondary" data-icon="pill">pill</span>
+<div>
+<p class="text-sm font-bold">Lisinopril 20mg</p>
+<p class="text-[10px] text-on-surface-variant">Potassium-sparing effect</p>
+</div>
+</li>
+<li class="flex items-center gap-3 p-2 bg-slate-50 rounded border border-slate-100">
+<span class="material-symbols-outlined text-primary" data-icon="pill">pill</span>
+<div>
+<p class="text-sm font-bold">Furosemide 40mg</p>
+<p class="text-[10px] text-on-surface-variant">Loop diuretic</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+</div>
+<!-- Sticky Confirmation Bar -->
+<footer class="h-[100px] bg-white border-t border-border-subtle flex items-center justify-between px-8 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-50">
+<div class="flex items-center gap-6">
+<div class="flex flex-col">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase mb-1" for="technician_pin">Digital Signature (PIN)</label>
+<div class="relative">
+<input class="border border-border-subtle rounded-lg px-4 py-2 w-48 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all tracking-widest font-bold" id="technician_pin" placeholder="Enter PIN" type="password"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]" data-icon="lock">lock</span>
+</div>
+</div>
+<div class="flex flex-col">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase mb-1">Validation Action</label>
+<div class="flex items-center gap-2">
+<input class="rounded text-primary focus:ring-primary" id="critical_notified" type="checkbox"/>
+<label class="text-sm font-medium" for="critical_notified">Physician notified of critical values</label>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-6 py-3 border border-secondary text-secondary rounded-lg font-bold hover:bg-emergency-soft transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+                    Reject / Re-test
+                </button>
+<button class="px-8 py-3 bg-primary text-white rounded-lg font-bold hover:opacity-90 shadow-lg shadow-primary/20 transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined fill-icon" data-icon="verified">verified</span>
+                    Approve & Release
+                </button>
+</div>
+</footer>
+</main>
+<script>
+        // Micro-interactions
+        const pinInput = document.getElementById('technician_pin');
+        pinInput.addEventListener('focus', () => {
+            pinInput.parentElement.querySelector('span').classList.add('text-primary');
+        });
+        pinInput.addEventListener('blur', () => {
+            pinInput.parentElement.querySelector('span').classList.remove('text-primary');
+        });
+
+        // Simple table row hover effect script if needed, though Tailwind handles it well
+        const tableRows = document.querySelectorAll('tbody tr');
+        tableRows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.classList.add('cursor-pointer');
+            });
+        });
+    </script>
+</body></html>

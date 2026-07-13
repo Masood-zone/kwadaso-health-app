@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Medication Stock | MediFlow Pharmacy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#f8f9ff",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "outline": "#707a6b",
+                    "emergency-dark": "#B80021",
+                    "surface-variant": "#d3e4fe",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "on-surface-variant": "#40493c",
+                    "app-bg": "#F8FAFC",
+                    "inverse-surface": "#213145",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed": "#2d1600",
+                    "border-subtle": "#E2E8F0",
+                    "surface-tint": "#206d1b",
+                    "surface-container": "#e5eeff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#8ad97a",
+                    "primary": "#004302",
+                    "tertiary": "#572e00",
+                    "pending-soft": "#FFF4E8",
+                    "on-tertiary": "#ffffff",
+                    "deep-forest": "#064906",
+                    "primary-container": "#0b5d0b",
+                    "on-surface": "#0b1c30",
+                    "on-tertiary-container": "#ffb168",
+                    "on-secondary-fixed": "#410005",
+                    "accent-blue": "#EAF3FA",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-high": "#dce9ff",
+                    "on-background": "#0b1c30",
+                    "error-container": "#ffdad6",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary": "#bb0021",
+                    "on-primary-fixed": "#002201",
+                    "on-primary-container": "#86d576",
+                    "secondary-container": "#ea002c",
+                    "secondary-fixed": "#ffdad7",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#784200",
+                    "outline-variant": "#c0cab8",
+                    "emergency-soft": "#FDECEF",
+                    "medical-green-soft": "#E8F5E9",
+                    "tertiary-fixed": "#ffdcc0",
+                    "surface-bright": "#f8f9ff",
+                    "on-primary-fixed-variant": "#005304",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "primary-fixed": "#a5f693",
+                    "inverse-primary": "#8ad97a",
+                    "surface": "#f8f9ff",
+                    "on-secondary-fixed-variant": "#930018",
+                    "surface-container-low": "#eff4ff",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#cbdbf5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "topbar-height": "64px",
+                    "container-max": "1440px",
+                    "sidebar-width": "260px",
+                    "margin-mobile": "1rem",
+                    "margin-desktop": "2rem",
+                    "gutter": "1.5rem"
+            },
+            "fontFamily": {
+                    "headline-md": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "table-data": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #f8f9ff; -webkit-font-smoothing: antialiased; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+        .status-strip-green { border-left: 4px solid #004302; }
+        .status-strip-orange { border-left: 4px solid #ffb877; }
+        .status-strip-red { border-left: 4px solid #bb0021; }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- SIDEBAR -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-primary dark:bg-inverse-surface border-r border-border-subtle dark:border-outline flex flex-col z-50">
+<div class="p-6">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary dark:text-inverse-on-surface">MediFlow Pharmacy</h1>
+<p class="text-xs text-primary-fixed opacity-70">General Hospital Central</p>
+</div>
+<nav class="flex-1 mt-4 px-2 space-y-1 overflow-y-auto custom-scrollbar">
+<a class="flex items-center gap-3 text-on-primary-container opacity-80 px-4 py-3 hover:bg-primary-container hover:opacity-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+<span class="font-body-md">Queue</span>
+</a>
+<!-- Inventory is Active -->
+<a class="flex items-center gap-3 bg-deep-forest text-on-primary border-l-4 border-tertiary-fixed-dim px-4 py-3 transition-transform translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-body-md font-semibold">Inventory</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container opacity-80 px-4 py-3 hover:bg-primary-container hover:opacity-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container opacity-80 px-4 py-3 hover:bg-primary-container hover:opacity-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<div class="p-4 mt-auto">
+<button class="w-full flex items-center justify-center gap-2 bg-tertiary-fixed text-on-tertiary-fixed font-bold py-3 rounded-lg hover:bg-tertiary-fixed-dim transition-colors">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                New Prescription
+            </button>
+<div class="mt-6 flex items-center gap-3 px-2">
+<img class="w-10 h-10 rounded-full border-2 border-primary-fixed" data-alt="Close up portrait of a professional pharmacist in a clinical white coat, smiling warmly in a modern pharmacy setting. High-key clinical lighting, crisp details, soft blurred medical shelves in the background, professional corporate photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7f9ynUdcqXm-ySOTBl9oU6415dl1cS9DirNrHgTV5j9SdgpYdx5g6pb0NO-kFI2ylJGIgljrQgpb3eT4xsJFkoCPxqMMh0mFWiDv8ECehxfwSmEeCBJ_ya0ZQ5nEhXKhaE239kYQVytQOz5o9gt9EGLqYVQEhPTwUGtOq7XupJv4d36RIJbSm7pi2XQlluAig17GsdNJYHEcGRoafpu2_sDzT5rt84baLQ4RneBQ5yE5Xrb6FJ_F8MbJfvhIj3Sm1Sl1vRGOatEM"/>
+<div class="overflow-hidden">
+<p class="text-on-primary font-bold truncate">Pharmacist Profile</p>
+<p class="text-xs text-primary-fixed opacity-60">Admin Access</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TOPBAR -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface dark:bg-on-surface border-b border-border-subtle dark:border-outline flex justify-between items-center px-margin-desktop z-40">
+<div class="flex items-center gap-6">
+<span class="font-headline-sm text-headline-sm font-black text-on-surface dark:text-inverse-on-surface">Pharmacy Management System</span>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="search">search</span>
+</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container rounded-lg border-none focus:ring-2 focus:ring-primary-container w-64 text-sm" placeholder="Quick search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 px-4 py-2 bg-secondary text-on-secondary rounded font-bold hover:bg-secondary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+                Emergency Restock
+            </button>
+<div class="flex items-center gap-2 border-l border-border-subtle pl-4 ml-2">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT -->
+<main class="ml-sidebar-width pt-topbar-height p-margin-desktop min-h-screen">
+<div class="max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-1">Medication Stock Inventory</h2>
+<p class="text-on-surface-variant">Manage and monitor pharmacy stock levels across all categories.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 bg-medical-green-soft text-primary border border-primary font-bold rounded-lg hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                        Export Inventory Report
+                    </button>
+<button class="flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary-container transition-all hover:shadow-md">
+<span class="material-symbols-outlined" data-icon="add_circle" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                        Add New Stock
+                    </button>
+</div>
+</div>
+<!-- Dashboard Overview Cards -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-8">
+<div class="bg-surface-container-lowest border border-border-subtle p-5 rounded-lg status-strip-green">
+<p class="text-label-md text-on-surface-variant mb-1 uppercase tracking-wider">Total Items</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">1,248</h3>
+<p class="text-xs text-on-primary-fixed-variant mt-2 font-semibold">94% in stock</p>
+</div>
+<div class="bg-surface-container-lowest border border-border-subtle p-5 rounded-lg status-strip-red">
+<p class="text-label-md text-on-surface-variant mb-1 uppercase tracking-wider">Critical Alerts</p>
+<h3 class="font-headline-lg text-headline-lg text-secondary">12</h3>
+<p class="text-xs text-on-secondary-fixed-variant mt-2 font-semibold">Immediate action required</p>
+</div>
+<div class="bg-surface-container-lowest border border-border-subtle p-5 rounded-lg status-strip-orange">
+<p class="text-label-md text-on-surface-variant mb-1 uppercase tracking-wider">Low Stock</p>
+<h3 class="font-headline-lg text-headline-lg text-on-tertiary-fixed-variant">45</h3>
+<p class="text-xs text-on-tertiary-fixed-variant mt-2 font-semibold">Order within 48 hours</p>
+</div>
+<div class="bg-surface-container-lowest border border-border-subtle p-5 rounded-lg status-strip-orange">
+<p class="text-label-md text-on-surface-variant mb-1 uppercase tracking-wider">Expiring Soon</p>
+<h3 class="font-headline-lg text-headline-lg text-on-tertiary-fixed-variant">8</h3>
+<p class="text-xs text-on-tertiary-fixed-variant mt-2 font-semibold">Within 30 days</p>
+</div>
+</div>
+<!-- Filters & Search Bar -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-4 mb-6 flex flex-wrap gap-4 items-center justify-between">
+<div class="flex flex-wrap gap-3">
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center text-on-surface-variant">
+<span class="material-symbols-outlined text-md" data-icon="filter_list">filter_list</span>
+</span>
+<select class="pl-10 pr-10 py-2 border border-border-subtle rounded text-body-md focus:border-primary focus:ring-1 focus:ring-primary appearance-none bg-white">
+<option>All Categories</option>
+<option>Antibiotics</option>
+<option>Analgesics</option>
+<option>Antivirals</option>
+<option>Cardiology</option>
+<option>Emergency</option>
+</select>
+</div>
+<div class="relative">
+<select class="pl-4 pr-10 py-2 border border-border-subtle rounded text-body-md focus:border-primary focus:ring-1 focus:ring-primary appearance-none bg-white">
+<option>All Stock Statuses</option>
+<option>Sufficient</option>
+<option>Low</option>
+<option>Critical</option>
+</select>
+</div>
+<button class="text-primary font-bold text-sm px-2 hover:underline">Clear all</button>
+</div>
+<div class="relative flex-1 max-w-md">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center text-on-surface-variant">
+<span class="material-symbols-outlined text-md" data-icon="search">search</span>
+</span>
+<input class="w-full pl-10 pr-4 py-2 border border-border-subtle rounded text-body-md focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Search by drug name or batch ID..." type="text"/>
+</div>
+</div>
+<!-- Stock Data Table -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue border-b border-border-subtle">
+<th class="px-6 py-4 font-headline-md text-label-md text-on-surface uppercase tracking-wider">Medicine Name</th>
+<th class="px-6 py-4 font-headline-md text-label-md text-on-surface uppercase tracking-wider">Category</th>
+<th class="px-6 py-4 font-headline-md text-label-md text-on-surface uppercase tracking-wider">Stock Level</th>
+<th class="px-6 py-4 font-headline-md text-label-md text-on-surface uppercase tracking-wider">Expiry Status</th>
+<th class="px-6 py-4 font-headline-md text-label-md text-on-surface uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Sufficient Row -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Amoxicillin 500mg</span>
+<span class="text-xs text-on-surface-variant">Batch: #AMX-2024-001</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-body-md py-1 px-2.5 bg-surface-container rounded-full text-on-surface-variant text-xs font-semibold">Antibiotics</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="flex-1 w-24 bg-medical-green-soft rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 85%"></div>
+</div>
+<span class="text-table-data text-on-surface whitespace-nowrap">850 / 1000</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-medical-green-soft text-primary">Sufficient</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-base" data-icon="calendar_today">calendar_today</span>
+                                    Dec 2025
+                                </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-1 hover:text-primary transition-colors ml-2"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</td>
+</tr>
+<!-- Low Stock Row -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Lisinopril 10mg</span>
+<span class="text-xs text-on-surface-variant">Batch: #LSN-2023-442</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-body-md py-1 px-2.5 bg-surface-container rounded-full text-on-surface-variant text-xs font-semibold">Cardiology</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="flex-1 w-24 bg-pending-soft rounded-full h-2">
+<div class="bg-on-tertiary-container h-2 rounded-full" style="width: 20%"></div>
+</div>
+<span class="text-table-data text-on-surface whitespace-nowrap">105 / 500</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-pending-soft text-on-tertiary-fixed-variant">Low</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-base" data-icon="calendar_today">calendar_today</span>
+                                    Aug 2024
+                                </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-1 hover:text-primary transition-colors ml-2"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</td>
+</tr>
+<!-- Critical Row -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Insulin Glargine</span>
+<span class="text-xs text-on-surface-variant">Batch: #INS-2024-912</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-body-md py-1 px-2.5 bg-surface-container rounded-full text-on-surface-variant text-xs font-semibold">Endocrinology</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="flex-1 w-24 bg-emergency-soft rounded-full h-2">
+<div class="bg-secondary h-2 rounded-full" style="width: 5%"></div>
+</div>
+<span class="text-table-data text-on-surface whitespace-nowrap">12 / 250</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emergency-soft text-secondary">Critical</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-base" data-icon="calendar_today">calendar_today</span>
+                                    Nov 2025
+                                </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-1 hover:text-primary transition-colors ml-2"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</td>
+</tr>
+<!-- Expiring Row -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Ibuprofen 400mg</span>
+<span class="text-xs text-on-surface-variant">Batch: #IBU-2022-118</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-body-md py-1 px-2.5 bg-surface-container rounded-full text-on-surface-variant text-xs font-semibold">Analgesics</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="flex-1 w-24 bg-medical-green-soft rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 60%"></div>
+</div>
+<span class="text-table-data text-on-surface whitespace-nowrap">620 / 1000</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-medical-green-soft text-primary">Sufficient</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5 text-secondary text-sm font-bold">
+<span class="material-symbols-outlined text-base" data-icon="event_busy">event_busy</span>
+                                    Mar 2024 (Soon)
+                                </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-1 hover:text-primary transition-colors ml-2"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Metformin 500mg</span>
+<span class="text-xs text-on-surface-variant">Batch: #MTF-2023-088</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-body-md py-1 px-2.5 bg-surface-container rounded-full text-on-surface-variant text-xs font-semibold">Endocrinology</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="flex-1 w-24 bg-pending-soft rounded-full h-2">
+<div class="bg-on-tertiary-container h-2 rounded-full" style="width: 35%"></div>
+</div>
+<span class="text-table-data text-on-surface whitespace-nowrap">175 / 500</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-pending-soft text-on-tertiary-fixed-variant">Low</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-base" data-icon="calendar_today">calendar_today</span>
+                                    Jan 2026
+                                </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-1 hover:text-primary transition-colors ml-2"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="px-6 py-4 bg-surface-container-low border-t border-border-subtle flex justify-between items-center">
+<p class="text-sm text-on-surface-variant">Showing <span class="font-bold">5</span> of <span class="font-bold">248</span> medications</p>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-border-subtle rounded hover:bg-white transition-colors disabled:opacity-50" disabled="">Previous</button>
+<button class="px-3 py-1 bg-primary text-on-primary rounded font-bold">1</button>
+<button class="px-3 py-1 border border-border-subtle rounded hover:bg-white transition-colors">2</button>
+<button class="px-3 py-1 border border-border-subtle rounded hover:bg-white transition-colors">3</button>
+<button class="px-3 py-1 border border-border-subtle rounded hover:bg-white transition-colors">Next</button>
+</div>
+</div>
+</div>
+<!-- Contextual Information (Bento Style) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mt-8">
+<div class="lg:col-span-2 bg-surface-container-lowest border border-border-subtle p-6 rounded-xl">
+<h4 class="font-headline-md text-headline-md text-on-surface mb-4">Stock Trend Analysis</h4>
+<div class="h-64 relative flex items-end justify-between px-4 pb-2">
+<!-- Simplified Visualization Placeholder -->
+<div class="w-10 bg-primary opacity-20 rounded-t h-[40%]"></div>
+<div class="w-10 bg-primary opacity-30 rounded-t h-[55%]"></div>
+<div class="w-10 bg-primary opacity-40 rounded-t h-[45%]"></div>
+<div class="w-10 bg-primary opacity-60 rounded-t h-[70%]"></div>
+<div class="w-10 bg-primary opacity-80 rounded-t h-[85%]"></div>
+<div class="w-10 bg-primary opacity-100 rounded-t h-[95%]"></div>
+<div class="w-10 bg-primary opacity-90 rounded-t h-[80%]"></div>
+<div class="w-10 bg-primary opacity-70 rounded-t h-[65%]"></div>
+<div class="w-10 bg-primary opacity-50 rounded-t h-[50%]"></div>
+<div class="w-10 bg-primary opacity-30 rounded-t h-[40%]"></div>
+</div>
+<div class="flex justify-between px-4 mt-2 text-xs text-on-surface-variant font-medium">
+<span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span>
+</div>
+</div>
+<div class="bg-primary text-on-primary p-6 rounded-xl flex flex-col justify-between">
+<div>
+<h4 class="font-headline-md text-headline-md mb-2">Automated Reordering</h4>
+<p class="text-sm opacity-80 mb-6">Your system currently has 8 rules active for automatic stock replenishment when levels hit 'Low'.</p>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-sm py-2 border-b border-white/10">
+<span>Last Triggered</span>
+<span class="font-bold">2 hours ago</span>
+</div>
+<div class="flex justify-between items-center text-sm py-2 border-b border-white/10">
+<span>Pending Orders</span>
+<span class="font-bold">14 Items</span>
+</div>
+<button class="w-full mt-4 py-3 bg-white text-primary font-bold rounded-lg hover:bg-primary-fixed transition-colors">
+                            Manage Rules
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Micro-interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.querySelector('input[placeholder="Search by drug name or batch ID..."]');
+            searchInput.addEventListener('focus', () => {
+                searchInput.parentElement.classList.add('scale-[1.01]');
+                searchInput.parentElement.classList.add('transition-transform');
+            });
+            searchInput.addEventListener('blur', () => {
+                searchInput.parentElement.classList.remove('scale-[1.01]');
+            });
+        });
+    </script>
+</body></html>

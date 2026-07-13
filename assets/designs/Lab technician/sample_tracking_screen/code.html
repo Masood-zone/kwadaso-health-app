@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sample Tracking | KHMS Lab</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-active { font-variation-settings: 'FILL' 1; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .timeline-gradient {
+            background: linear-gradient(90deg, #0b5d0b 0%, #0b5d0b var(--progress), #E2E8F0 var(--progress), #E2E8F0 100%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#ffb3af",
+                        "on-surface-variant": "#40493c",
+                        "app-bg": "#F8FAFC",
+                        "inverse-surface": "#213145",
+                        "emergency-dark": "#B80021",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "outline": "#707a6b",
+                        "background": "#f8f9ff",
+                        "on-surface": "#0b1c30",
+                        "tertiary": "#572e00",
+                        "pending-soft": "#FFF4E8",
+                        "on-tertiary": "#ffffff",
+                        "deep-forest": "#064906",
+                        "primary-container": "#0b5d0b",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#8ad97a",
+                        "primary": "#004302",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#2d1600",
+                        "border-subtle": "#E2E8F0",
+                        "surface-tint": "#206d1b",
+                        "surface-container": "#e5eeff",
+                        "secondary": "#bb0021",
+                        "on-primary-fixed": "#002201",
+                        "on-primary-container": "#86d576",
+                        "secondary-container": "#ea002c",
+                        "secondary-fixed": "#ffdad7",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#784200",
+                        "on-secondary-container": "#fffbff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "on-background": "#0b1c30",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#ffb168",
+                        "on-secondary-fixed": "#410005",
+                        "accent-blue": "#EAF3FA",
+                        "on-primary-fixed-variant": "#005304",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "primary-fixed": "#a5f693",
+                        "inverse-primary": "#8ad97a",
+                        "surface": "#f8f9ff",
+                        "on-secondary-fixed-variant": "#930018",
+                        "surface-container-low": "#eff4ff",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#cbdbf5",
+                        "medical-green-soft": "#E8F5E9",
+                        "tertiary-fixed": "#ffdcc0",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#c0cab8",
+                        "emergency-soft": "#FDECEF"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sidebar-width": "260px",
+                        "margin-mobile": "1rem",
+                        "margin-desktop": "2rem",
+                        "gutter": "1.5rem",
+                        "topbar-height": "64px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "table-data": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "table-data": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-app-bg font-body-md text-on-surface overflow-hidden">
+<!-- Fixed Sidebar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-primary border-r border-outline-variant flex flex-col z-50">
+<div class="p-6">
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-primary">KHMS Lab</h1>
+<p class="font-label-md text-label-md text-primary-fixed-dim uppercase tracking-widest mt-1">Kwadaso HealthLink</p>
+</div>
+<nav class="flex-1 px-2 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+<span class="font-label-md text-label-md">Lab Queue</span>
+</a>
+<a class="flex items-center gap-3 bg-deep-forest text-on-primary border-l-4 border-tertiary px-4 py-3 opacity-90 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="science">science</span>
+<span class="font-label-md text-label-md">Sample Tracking</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span class="font-label-md text-label-md">Result Entry</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">Results Viewer</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="emergency_home">emergency_home</span>
+<span class="font-label-md text-label-md">Critical Alerts</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Test Catalog</span>
+</a>
+</nav>
+<div class="p-4 border-t border-primary-container">
+<button class="w-full bg-tertiary text-on-tertiary font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 mb-4 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="font-label-md">New Lab Request</span>
+</button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:text-on-primary px-4 py-2 text-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span>
+<span class="font-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:text-on-primary px-4 py-2 text-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+<span class="font-label-md">Sign Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 h-[64px] left-[260px] bg-surface border-b border-border-subtle flex justify-between items-center px-8 z-40">
+<div class="flex items-center gap-8">
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Laboratory Management</h2>
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-border-subtle rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Search Sample ID, Patient..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex gap-4">
+<a class="text-on-surface-variant font-medium font-label-md hover:text-primary transition-colors" href="#">Lab Requests</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md" href="#">Inventory</a>
+<a class="text-on-surface-variant font-medium font-label-md hover:text-primary transition-colors" href="#">Archived Results</a>
+</div>
+<div class="flex items-center gap-3 pl-4 border-l border-border-subtle">
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<div class="flex items-center gap-3 cursor-pointer hover:bg-surface-container p-1 pr-3 rounded-full transition-colors">
+<img class="w-8 h-8 rounded-full border border-primary-fixed" data-alt="A professional headshot of a male clinical technician in a white lab coat, wearing glasses, in a brightly lit modern hospital laboratory setting with blurred medical equipment in the background. The lighting is crisp and sterile, matching a high-end healthcare UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBENAEdDdku8SHoHD9OoDg43_TuQk7SrEJpZUd6VH5iMRBDP4-rkiDq8xOetZqDQK8xa0YKN278dLziSUU02gg9xoeaJ_lxqv-xgvP1qWdgZSzQHu5PXnBCYZI2CkEcAbI8u3vSoEGKYblOdjPhChn4YcUE5v1AAzoLIH4kv9BTWeGq4_HTXAYupsa4179oic2eTNq3sJsM0T2ZE4kXGvmnhCDeFrA4wiFNzfYEG2xpyroYDq10exjyKlYZVdYirNAMJj1pP_RSLY"/>
+<span class="font-label-md text-on-surface font-semibold">Dr. Arhin</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[260px] pt-[64px] h-screen overflow-y-auto bg-app-bg p-8">
+<!-- Page Header & Stats -->
+<div class="mb-8 flex justify-between items-end">
+<div>
+<nav class="flex items-center gap-2 text-on-surface-variant mb-2">
+<span class="font-label-md">Lab</span>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+<span class="font-label-md text-primary font-bold">Sample Tracking</span>
+</nav>
+<h3 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Active Workload</h3>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface border border-border-subtle text-primary font-bold rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+<span class="font-label-md">Filter View</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary font-bold rounded-lg hover:opacity-90 transition-all">
+<span class="material-symbols-outlined" data-icon="barcode_scanner">barcode_scanner</span>
+<span class="font-label-md">Scan Sample ID</span>
+</button>
+</div>
+</div>
+<!-- Quick Metrics Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<div class="bg-white p-6 border border-border-subtle rounded-xl flex items-center justify-between relative overflow-hidden group">
+<div class="absolute left-0 top-0 h-full w-1 bg-primary"></div>
+<div>
+<p class="font-label-md text-on-surface-variant uppercase tracking-wider mb-1">In Processing</p>
+<h4 class="font-display-lg text-display-lg text-on-surface">142</h4>
+<p class="text-xs text-primary font-semibold mt-1">↑ 12% from avg</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-medical-green-soft flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="conveyor_belt">conveyor_belt</span>
+</div>
+</div>
+<div class="bg-white p-6 border border-border-subtle rounded-xl flex items-center justify-between relative overflow-hidden">
+<div class="absolute left-0 top-0 h-full w-1 bg-tertiary"></div>
+<div>
+<p class="font-label-md text-on-surface-variant uppercase tracking-wider mb-1">Pending Analysis</p>
+<h4 class="font-display-lg text-display-lg text-on-surface">48</h4>
+<p class="text-xs text-tertiary font-semibold mt-1">Est: 45 min wait</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-pending-soft flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="hourglass_empty">hourglass_empty</span>
+</div>
+</div>
+<div class="bg-white p-6 border border-border-subtle rounded-xl flex items-center justify-between relative overflow-hidden">
+<div class="absolute left-0 top-0 h-full w-1 bg-secondary"></div>
+<div>
+<p class="font-label-md text-on-surface-variant uppercase tracking-wider mb-1">Critical Results</p>
+<h4 class="font-display-lg text-display-lg text-secondary">06</h4>
+<p class="text-xs text-secondary font-semibold mt-1">Immediate action</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-emergency-soft flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="emergency">emergency</span>
+</div>
+</div>
+<div class="bg-white p-6 border border-border-subtle rounded-xl flex items-center justify-between relative overflow-hidden">
+<div class="absolute left-0 top-0 h-full w-1 bg-accent-blue"></div>
+<div>
+<p class="font-label-md text-on-surface-variant uppercase tracking-wider mb-1">Today's Completed</p>
+<h4 class="font-display-lg text-display-lg text-on-surface">892</h4>
+<p class="text-xs text-on-surface-variant font-semibold mt-1">94% Efficiency</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-accent-blue flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="task_alt">task_alt</span>
+</div>
+</div>
+</div>
+<!-- Sample Tracking Board -->
+<div class="bg-white rounded-xl border border-border-subtle shadow-sm overflow-hidden mb-8">
+<div class="p-6 border-b border-border-subtle bg-surface flex justify-between items-center">
+<div class="flex items-center gap-4">
+<h4 class="font-headline-md text-on-surface font-bold">Real-time Sample Timeline</h4>
+<span class="px-3 py-1 bg-medical-green-soft text-primary text-xs font-bold rounded-full flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span> Live Sync
+                    </span>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-2 px-3 py-1 bg-white border border-border-subtle rounded-md text-xs font-medium text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span> Completed
+                    </div>
+<div class="flex items-center gap-2 px-3 py-1 bg-white border border-border-subtle rounded-md text-xs font-medium text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> Active
+                    </div>
+</div>
+</div>
+<!-- Tracking Table Headers -->
+<div class="grid grid-cols-[200px_1fr_120px] gap-4 px-8 py-4 bg-accent-blue/30 border-b border-border-subtle">
+<span class="font-label-md text-on-surface-variant">SAMPLE DETAILS</span>
+<div class="grid grid-cols-5 text-center">
+<span class="font-label-md text-on-surface-variant">COLLECTED</span>
+<span class="font-label-md text-on-surface-variant">LOGGED</span>
+<span class="font-label-md text-on-surface-variant">PROCESSING</span>
+<span class="font-label-md text-on-surface-variant">ANALYSIS</span>
+<span class="font-label-md text-on-surface-variant">RELEASED</span>
+</div>
+<span class="font-label-md text-on-surface-variant text-right">ACTION</span>
+</div>
+<!-- Tracking Table Rows -->
+<div class="divide-y divide-border-subtle">
+<!-- Row 1: Released -->
+<div class="grid grid-cols-[200px_1fr_120px] gap-4 px-8 py-6 items-center hover:bg-slate-50 transition-colors">
+<div>
+<p class="font-bold text-on-surface">SID-24901-B</p>
+<p class="text-xs text-on-surface-variant font-medium">Patient: Ama Mansah</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">CBC • Routine</p>
+</div>
+<div class="relative py-4">
+<!-- Progress Line -->
+<div class="absolute top-1/2 left-[10%] right-[10%] -translate-y-1/2 h-1 bg-primary-container z-0"></div>
+<!-- Steps -->
+<div class="grid grid-cols-5 relative z-10">
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-sm step-active" data-icon="check">check</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-primary">08:15 AM</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-sm step-active" data-icon="check">check</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-primary">08:45 AM</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-sm step-active" data-icon="check">check</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-primary">09:30 AM</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-sm step-active" data-icon="check">check</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-primary">10:15 AM</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-sm step-active" data-icon="check">check</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-primary">11:00 AM</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<button class="text-primary font-bold text-xs hover:underline">View Report</button>
+</div>
+</div>
+<!-- Row 2: In Analysis -->
+<div class="grid grid-cols-[200px_1fr_120px] gap-4 px-8 py-6 items-center hover:bg-slate-50 transition-colors">
+<div>
+<p class="font-bold text-on-surface">SID-24912-A</p>
+<p class="text-xs text-on-surface-variant font-medium">Patient: Kofi Boateng</p>
+<p class="text-[10px] text-tertiary font-bold uppercase tracking-tighter bg-pending-soft inline-block px-1 rounded">Urgent • LFT</p>
+</div>
+<div class="relative py-4">
+<div class="absolute top-1/2 left-[10%] right-[10%] -translate-y-1/2 h-1 bg-border-subtle z-0">
+<div class="h-full bg-primary-container w-[75%]"></div>
+</div>
+<div class="grid grid-cols-5 relative z-10">
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-sm step-active" data-icon="check">check</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-primary">09:00 AM</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-sm step-active" data-icon="check">check</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-primary">09:30 AM</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-sm step-active" data-icon="check">check</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-primary">10:00 AM</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center text-xs ring-4 ring-pending-soft">
+<span class="material-symbols-outlined text-sm animate-spin" data-icon="autorenew">autorenew</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-tertiary">Processing</span>
+</div>
+<div class="flex flex-col items-center opacity-40">
+<div class="w-6 h-6 rounded-full bg-border-subtle flex items-center justify-center text-xs"></div>
+<span class="text-[10px] mt-1">Pending</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<button class="text-on-surface-variant font-bold text-xs">Track Details</button>
+</div>
+</div>
+<!-- Row 3: Logged in Lab -->
+<div class="grid grid-cols-[200px_1fr_120px] gap-4 px-8 py-6 items-center hover:bg-slate-50 transition-colors">
+<div>
+<p class="font-bold text-on-surface">SID-24955-C</p>
+<p class="text-xs text-on-surface-variant font-medium">Patient: Sarah Mensah</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Lipid Profile</p>
+</div>
+<div class="relative py-4">
+<div class="absolute top-1/2 left-[10%] right-[10%] -translate-y-1/2 h-1 bg-border-subtle z-0">
+<div class="h-full bg-primary-container w-[25%]"></div>
+</div>
+<div class="grid grid-cols-5 relative z-10">
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-sm step-active" data-icon="check">check</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-primary">11:10 AM</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center text-xs ring-4 ring-pending-soft">
+<span class="material-symbols-outlined text-sm" data-icon="login">login</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-tertiary">Logged</span>
+</div>
+<div class="flex flex-col items-center opacity-40">
+<div class="w-6 h-6 rounded-full bg-border-subtle flex items-center justify-center text-xs"></div>
+<span class="text-[10px] mt-1">Wait</span>
+</div>
+<div class="flex flex-col items-center opacity-40">
+<div class="w-6 h-6 rounded-full bg-border-subtle flex items-center justify-center text-xs"></div>
+<span class="text-[10px] mt-1">Wait</span>
+</div>
+<div class="flex flex-col items-center opacity-40">
+<div class="w-6 h-6 rounded-full bg-border-subtle flex items-center justify-center text-xs"></div>
+<span class="text-[10px] mt-1">Wait</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<button class="text-on-surface-variant font-bold text-xs">Manage</button>
+</div>
+</div>
+<!-- Row 4: Critical Case -->
+<div class="grid grid-cols-[200px_1fr_120px] gap-4 px-8 py-6 items-center hover:bg-slate-50 transition-colors bg-emergency-soft/20">
+<div>
+<p class="font-bold text-secondary">SID-24899-X</p>
+<p class="text-xs text-on-surface-variant font-medium">Patient: John Doe</p>
+<p class="text-[10px] text-white font-bold uppercase tracking-tighter bg-secondary inline-block px-1 rounded">STAT • Cardiac Markers</p>
+</div>
+<div class="relative py-4">
+<div class="absolute top-1/2 left-[10%] right-[10%] -translate-y-1/2 h-1 bg-border-subtle z-0">
+<div class="h-full bg-secondary w-[50%]"></div>
+</div>
+<div class="grid grid-cols-5 relative z-10">
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-secondary text-on-primary flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-sm step-active" data-icon="check">check</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-secondary">11:45 AM</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-secondary text-on-primary flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-sm step-active" data-icon="check">check</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-secondary">11:50 AM</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center text-xs ring-4 ring-pending-soft">
+<span class="material-symbols-outlined text-sm animate-pulse" data-icon="biotech">biotech</span>
+</div>
+<span class="text-[10px] font-bold mt-1 text-tertiary">In Queue</span>
+</div>
+<div class="flex flex-col items-center opacity-40">
+<div class="w-6 h-6 rounded-full bg-border-subtle flex items-center justify-center text-xs"></div>
+<span class="text-[10px] mt-1">Pending</span>
+</div>
+<div class="flex flex-col items-center opacity-40">
+<div class="w-6 h-6 rounded-full bg-border-subtle flex items-center justify-center text-xs"></div>
+<span class="text-[10px] mt-1">Pending</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<button class="bg-secondary text-white text-[10px] font-bold px-3 py-1 rounded">PRIORITY</button>
+</div>
+</div>
+</div>
+<!-- Table Footer -->
+<div class="px-8 py-4 bg-surface border-t border-border-subtle flex justify-between items-center">
+<span class="text-xs text-on-surface-variant">Showing 1-10 of 42 active samples</span>
+<div class="flex gap-1">
+<button class="p-1 border border-border-subtle rounded hover:bg-white transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="p-1 border border-border-subtle rounded bg-primary text-on-primary text-xs font-bold px-3">1</button>
+<button class="p-1 border border-border-subtle rounded hover:bg-white transition-colors text-xs font-bold px-3">2</button>
+<button class="p-1 border border-border-subtle rounded hover:bg-white transition-colors text-xs font-bold px-3">3</button>
+<button class="p-1 border border-border-subtle rounded hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- System Alerts & Activity Bento Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Recent Activity -->
+<div class="bg-white rounded-xl border border-border-subtle p-6 col-span-2">
+<h5 class="font-headline-md font-bold text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="history">history</span>
+                    System Log
+                </h5>
+<div class="space-y-4">
+<div class="flex gap-4 items-start">
+<div class="w-8 h-8 rounded-full bg-medical-green-soft flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-sm" data-icon="done_all">done_all</span>
+</div>
+<div>
+<p class="text-sm font-semibold">Bulk release completed: Batch #892-A</p>
+<p class="text-xs text-on-surface-variant">Technician: Mensah K. • 4 minutes ago</p>
+</div>
+</div>
+<div class="flex gap-4 items-start">
+<div class="w-8 h-8 rounded-full bg-pending-soft flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-outlined text-sm" data-icon="warning">warning</span>
+</div>
+<div>
+<p class="text-sm font-semibold">Calibration warning: Analyzer Unit 04</p>
+<p class="text-xs text-on-surface-variant">Maintenance required within 2 hours • 12 minutes ago</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Maintenance/Support -->
+<div class="bg-white rounded-xl border border-border-subtle p-6 relative overflow-hidden">
+<div class="relative z-10">
+<h5 class="font-headline-md font-bold text-on-surface mb-2">Technical Support</h5>
+<p class="text-sm text-on-surface-variant mb-6">Need assistance with sample logging or analyzer integration?</p>
+<button class="w-full py-2 bg-accent-blue text-primary font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-white transition-all">
+                        Open Support Ticket
+                    </button>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-5">
+<span class="material-symbols-outlined text-9xl" data-icon="support_agent">support_agent</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual Search Micro-interaction Overlay (Hidden by default) -->
+<div class="fixed inset-0 bg-on-surface/40 backdrop-blur-sm z-[100] hidden items-start justify-center pt-24" id="search-overlay">
+<div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+<div class="p-4 border-b border-border-subtle flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="search">search</span>
+<input autofocus="" class="flex-1 bg-transparent border-none focus:ring-0 text-lg font-medium" id="overlay-search-input" placeholder="Type Sample ID (e.g. SID-24...)" type="text"/>
+<button class="text-on-surface-variant hover:text-primary p-2" onclick="toggleSearch()">ESC</button>
+</div>
+<div class="p-2 max-h-96 overflow-y-auto" id="search-results">
+<p class="text-center py-12 text-on-surface-variant font-label-md">Start typing to search active tracking database...</p>
+</div>
+</div>
+</div>
+<script>
+        function toggleSearch() {
+            const overlay = document.getElementById('search-overlay');
+            overlay.classList.toggle('hidden');
+            overlay.classList.toggle('flex');
+            if (!overlay.classList.contains('hidden')) {
+                document.getElementById('overlay-search-input').focus();
+            }
+        }
+
+        // Simple keyboard shortcut for search
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                toggleSearch();
+            }
+            if (e.key === 'Escape' && !document.getElementById('search-overlay').classList.contains('hidden')) {
+                toggleSearch();
+            }
+        });
+
+        // Hover effect on progress steps to show tooltips (conceptual)
+        document.querySelectorAll('.material-symbols-outlined').forEach(icon => {
+            icon.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.2)';
+                this.style.transition = 'transform 0.2s';
+            });
+            icon.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

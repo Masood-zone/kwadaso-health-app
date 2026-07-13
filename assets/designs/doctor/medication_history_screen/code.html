@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHMS EHR - Medication History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "border-subtle": "#E2E8F0",
+                        "on-primary-container": "#86d576",
+                        "primary-fixed": "#a5f693",
+                        "on-secondary-container": "#fffbff",
+                        "tertiary-fixed": "#ffdcc0",
+                        "pending-soft": "#FFF4E8",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#8ad97a",
+                        "on-primary-fixed": "#002201",
+                        "inverse-surface": "#213145",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-fixed-variant": "#005304",
+                        "secondary-fixed": "#ffdad7",
+                        "error": "#ba1a1a",
+                        "medical-green-soft": "#E8F5E9",
+                        "secondary": "#bb0021",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "on-tertiary-container": "#ffb168",
+                        "tertiary": "#572e00",
+                        "primary": "#004302",
+                        "surface-container-high": "#dce9ff",
+                        "surface": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "emergency-dark": "#B80021",
+                        "secondary-container": "#ea002c",
+                        "on-secondary-fixed": "#410005",
+                        "on-surface": "#0b1c30",
+                        "background": "#f8f9ff",
+                        "on-tertiary-fixed": "#2d1600",
+                        "emergency-soft": "#FDECEF",
+                        "surface-tint": "#206d1b",
+                        "outline-variant": "#c0cab8",
+                        "app-bg": "#F8FAFC",
+                        "on-background": "#0b1c30",
+                        "surface-container-low": "#eff4ff",
+                        "accent-blue": "#EAF3FA",
+                        "tertiary-container": "#784200",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#930018",
+                        "deep-forest": "#064906",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "surface-bright": "#f8f9ff",
+                        "inverse-primary": "#8ad97a",
+                        "outline": "#707a6b",
+                        "on-surface-variant": "#40493c",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-dim": "#cbdbf5",
+                        "primary-container": "#0b5d0b",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#6b3b00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "1.5rem",
+                        "sidebar-width": "260px",
+                        "container-max": "1440px",
+                        "topbar-height": "64px",
+                        "margin-mobile": "1rem",
+                        "margin-desktop": "2rem"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "table-data": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "body-md": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC;
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for clinical density */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F1F5F9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SIDEBAR -->
+<aside class="fixed left-0 top-0 h-screen w-[260px] bg-deep-forest border-r border-outline-variant flex flex-col py-6 z-50">
+<div class="px-6 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">SDA Hospital</h1>
+<p class="text-on-primary/70 font-body-sm text-body-sm">Kwadaso Branch</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Patient Records is active based on context -->
+<a class="flex items-center px-6 py-3 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center px-6 py-3 bg-primary-container text-on-primary-container border-l-4 border-on-secondary-container transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">person_search</span>
+<span class="font-body-md text-body-md">Patient Records</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">clinical_notes</span>
+<span class="font-body-md text-body-md">Clinical Encounters</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">biotech</span>
+<span class="font-body-md text-body-md">Laboratory</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">medication</span>
+<span class="font-body-md text-body-md">Pharmacy</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">payments</span>
+<span class="font-body-md text-body-md">Billing</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-primary/70 hover:text-on-primary hover:bg-primary/20 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full bg-primary-fixed text-on-primary-fixed py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                New Encounter
+            </button>
+</div>
+</aside>
+<!-- TOP NAVIGATION BAR -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface border-b border-border-subtle flex justify-between items-center px-8 z-40">
+<div class="flex items-center flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-app-bg border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-body-md" placeholder="Search patients or records..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="hover:text-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="hover:text-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-border-subtle"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface font-bold">Dr. Kwame Mensah</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Internal Medicine</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-border-subtle">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a mature doctor with glasses, wearing a clinical white coat and a stethoscope around his neck. The portrait has soft studio lighting against a clean, hospital-style blurred background, maintaining a corporate modern aesthetic with high-key lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaMgU-QFxl36yXWsr2sNTNbr23TX62s5tLZLRa75K9x2YFCipBT_JWaYxf0rRTq754JFWQTGDUhSf0bdSVVp4YRrcFX0DsFeEuUDxeuG8Cz3kkpX3vhGzAYPwg6qaSg025JmV7HVZ9HT-cUOOnTpkdVoGeee6Bg5ziQKaMFFF5L1jZuqGPyYV-uG-NHn1ZTIIaUbRe9DRvHKjWzSalRjOFJxiibT2kEeh6iD7i0mIu0grY8zNJ1THj1YnogwYRLL1K1J9-t0Nbst8"/>
+</div>
+</div>
+<button class="px-4 py-2 border border-secondary text-secondary rounded-lg font-bold hover:bg-emergency-soft transition-colors active:scale-95">
+                Check-out
+            </button>
+</div>
+</header>
+<!-- PATIENT CONTEXT BAR -->
+<div class="fixed top-[64px] right-0 w-[calc(100%-260px)] h-12 bg-accent-blue border-b border-outline-variant flex items-center justify-between px-8 z-30">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-deep-forest">clinical_notes</span>
+<span class="font-headline-sm text-headline-sm text-deep-forest font-semibold">Patient Context: John Doe</span>
+<div class="h-4 w-[1px] bg-outline-variant mx-2"></div>
+<span class="text-body-sm font-medium text-on-surface-variant">ID: #KH-9823-22</span>
+<span class="text-body-sm font-medium text-on-surface-variant">Age: 44 Yrs</span>
+<span class="text-body-sm font-medium text-on-surface-variant">Blood: O+</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-emergency-soft text-secondary text-[10px] font-bold rounded-full flex items-center gap-1 border border-secondary/20">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                Critical Alerts (2)
+            </span>
+</div>
+</div>
+<!-- MAIN CONTENT CANVAS -->
+<main class="pt-[112px] pl-[260px] min-h-screen">
+<div class="max-w-container-max mx-auto p-margin-desktop">
+<!-- HEADER SECTION -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<nav class="flex gap-2 text-[12px] text-on-surface-variant mb-2">
+<span>Patient Records</span>
+<span>/</span>
+<span class="text-primary font-semibold">Medication History</span>
+</nav>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Medication Management</h2>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 bg-white border border-border-subtle rounded-lg text-body-md font-medium hover:bg-slate-50 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">print</span>
+                        Print Rx History
+                    </button>
+<button class="px-4 py-2 bg-primary text-white rounded-lg text-body-md font-bold hover:bg-deep-forest transition-all flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+                        New Prescription
+                    </button>
+</div>
+</div>
+<!-- ALLERGY WARNINGS BENTO SECTION -->
+<div class="grid grid-cols-12 gap-6 mb-8">
+<div class="col-span-12 lg:col-span-4 bg-white border border-border-subtle rounded-xl p-6 relative overflow-hidden group">
+<div class="absolute left-0 top-0 w-1 h-full bg-secondary"></div>
+<div class="flex items-center justify-between mb-4">
+<span class="font-headline-md text-headline-md text-on-surface">Allergy Profile</span>
+<span class="material-symbols-outlined text-secondary">report</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3 bg-emergency-soft rounded-lg border border-secondary/10">
+<div>
+<p class="text-body-md font-bold text-secondary">Penicillin</p>
+<p class="text-[11px] text-on-surface-variant">Reaction: Anaphylaxis</p>
+</div>
+<span class="px-2 py-1 bg-secondary text-white text-[10px] font-bold rounded">HIGH RISK</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-pending-soft rounded-lg border border-tertiary/10">
+<div>
+<p class="text-body-md font-bold text-tertiary">Sulfa Drugs</p>
+<p class="text-[11px] text-on-surface-variant">Reaction: Severe Rash</p>
+</div>
+<span class="px-2 py-1 bg-tertiary text-white text-[10px] font-bold rounded">MODERATE</span>
+</div>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-8 bg-accent-blue/40 border border-border-subtle rounded-xl p-6 flex flex-col justify-center">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-full bg-white flex items-center justify-center border border-border-subtle shadow-sm">
+<span class="material-symbols-outlined text-primary text-[32px]">pill</span>
+</div>
+<div>
+<h3 class="text-body-lg font-bold text-on-surface">Compliance Summary</h3>
+<p class="text-body-md text-on-surface-variant">Patient is 92% compliant with current hypertension regimen. Last pharmacy pickup was 4 days ago at Kwadaso Central.</p>
+</div>
+<div class="ml-auto text-right">
+<p class="text-display-lg font-display-lg text-primary">05</p>
+<p class="text-label-md text-on-surface-variant font-bold uppercase tracking-widest">Active Meds</p>
+</div>
+</div>
+</div>
+</div>
+<!-- CURRENT MEDICATIONS TABLE -->
+<div class="bg-white border border-border-subtle rounded-xl shadow-sm mb-8 overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle flex justify-between items-center bg-slate-50/50">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-medical-green-soft ring-4 ring-medical-green-soft/50 animate-pulse"></span>
+                        Current Medications
+                    </h3>
+<div class="flex gap-2">
+<span class="text-body-sm text-on-surface-variant">Showing 5 active prescriptions</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue border-b border-border-subtle">
+<th class="px-6 py-4 text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Drug Name</th>
+<th class="px-6 py-4 text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Dosage &amp; Frequency</th>
+<th class="px-6 py-4 text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Last Prescribed</th>
+<th class="px-6 py-4 text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Prescribing MD</th>
+<th class="px-6 py-4 text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Status</th>
+<th class="px-6 py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<p class="text-table-data font-bold text-on-surface">Lisinopril 10mg</p>
+<p class="text-[11px] text-on-surface-variant">ACE Inhibitor (Hypertension)</p>
+</td>
+<td class="px-6 py-4 text-table-data text-on-surface">1 Tablet Daily (Morning)</td>
+<td class="px-6 py-4 text-table-data text-on-surface">Oct 12, 2023</td>
+<td class="px-6 py-4 text-table-data text-on-surface">Dr. Kwame Mensah</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-medical-green-soft text-deep-forest text-[11px] font-bold rounded">ACTIVE</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 hover:bg-primary-container/10 rounded-lg text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<p class="text-table-data font-bold text-on-surface">Metformin 500mg</p>
+<p class="text-[11px] text-on-surface-variant">Biguanide (Diabetes Type II)</p>
+</td>
+<td class="px-6 py-4 text-table-data text-on-surface">1 Tablet BID (With Meals)</td>
+<td class="px-6 py-4 text-table-data text-on-surface">Nov 02, 2023</td>
+<td class="px-6 py-4 text-table-data text-on-surface">Dr. Sarah Boateng</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-medical-green-soft text-deep-forest text-[11px] font-bold rounded">ACTIVE</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 hover:bg-primary-container/10 rounded-lg text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<p class="text-table-data font-bold text-on-surface">Atorvastatin 20mg</p>
+<span class="material-symbols-outlined text-tertiary text-[16px]" title="Possible Interaction">priority_high</span>
+</div>
+<p class="text-[11px] text-on-surface-variant">Statin (Hyperlipidemia)</p>
+</td>
+<td class="px-6 py-4 text-table-data text-on-surface">1 Tablet Daily (Bedtime)</td>
+<td class="px-6 py-4 text-table-data text-on-surface">Oct 28, 2023</td>
+<td class="px-6 py-4 text-table-data text-on-surface">Dr. Kwame Mensah</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-pending-soft text-tertiary text-[11px] font-bold rounded">PENDING REFILL</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 hover:bg-primary-container/10 rounded-lg text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- PAST PRESCRIPTIONS SECTION -->
+<div class="bg-white border border-border-subtle rounded-xl shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle bg-slate-50/50">
+<h3 class="font-headline-md text-headline-md text-on-surface-variant">Past Prescriptions &amp; History</h3>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-100 border-b border-border-subtle">
+<th class="px-6 py-4 text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Medication</th>
+<th class="px-6 py-4 text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Cycle</th>
+<th class="px-6 py-4 text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Reason for Discontinuation</th>
+<th class="px-6 py-4 text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Date Ceased</th>
+<th class="px-6 py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-slate-50 transition-colors opacity-70">
+<td class="px-6 py-4">
+<p class="text-table-data font-medium text-on-surface">Amoxicillin 500mg</p>
+<p class="text-[11px] text-on-surface-variant">10 Day Course</p>
+</td>
+<td class="px-6 py-4 text-table-data text-on-surface">Aug 2023 - Sep 2023</td>
+<td class="px-6 py-4 text-table-data text-on-surface">Course Completed</td>
+<td class="px-6 py-4 text-table-data text-on-surface">Sep 04, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary font-bold text-body-sm hover:underline">Re-order</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4">
+<p class="text-table-data font-medium text-on-surface">Ibuprofen 400mg</p>
+<p class="text-[11px] text-on-surface-variant">PRN Pain relief</p>
+</td>
+<td class="px-6 py-4 text-table-data text-on-surface">Jun 2023 - Jul 2023</td>
+<td class="px-6 py-4 text-table-data text-secondary font-medium">Adverse Reaction (GI Upset)</td>
+<td class="px-6 py-4 text-table-data text-on-surface">Jul 12, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-on-surface-variant font-bold text-body-sm cursor-not-allowed">Contraindicated</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- FOOTER INFO -->
+<div class="mt-8 flex items-center justify-between text-on-surface-variant text-[11px]">
+<div class="flex items-center gap-4">
+<p>Last Sync: Today, 08:45 AM</p>
+<p>Source: Kwadaso Pharmacy Network</p>
+</div>
+<p>© 2024 SDA Hospital Kwadaso Branch • KHMS EHR v4.2.1</p>
+</div>
+</div>
+</main>
+<!-- FAB FOR NEW ENCOUNTER (Only active on Dashboard/Patient List, but included for complete identity) -->
+<div class="fixed bottom-8 right-8 z-50 pointer-events-none">
+<!-- Suppressed for this detailed sub-page based on 'Task-Focused' rule -->
+</div>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('click', function() {
+                // In a real app, this would open a details drawer
+                console.log('Row clicked');
+            });
+        });
+    </script>
+</body></html>

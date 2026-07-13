@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pharmacy Operations Report</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#e5eeff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary-container": "#784200",
+                        "primary": "#004302",
+                        "tertiary": "#572e00",
+                        "on-primary-container": "#86d576",
+                        "on-tertiary-fixed": "#2d1600",
+                        "accent-blue": "#EAF3FA",
+                        "outline-variant": "#c0cab8",
+                        "app-bg": "#F8FAFC",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "on-primary": "#ffffff",
+                        "pending-soft": "#FFF4E8",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "inverse-surface": "#213145",
+                        "on-tertiary-container": "#ffb168",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#a5f693",
+                        "primary-container": "#0b5d0b",
+                        "surface-dim": "#cbdbf5",
+                        "emergency-soft": "#FDECEF",
+                        "tertiary-fixed": "#ffdcc0",
+                        "surface-bright": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#40493c",
+                        "medical-green-soft": "#E8F5E9",
+                        "error-container": "#ffdad6",
+                        "border-subtle": "#E2E8F0",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface": "#f8f9ff",
+                        "on-primary-fixed": "#002201",
+                        "primary-fixed-dim": "#8ad97a",
+                        "on-secondary-fixed-variant": "#930018",
+                        "surface-variant": "#d3e4fe",
+                        "on-secondary-container": "#fffbff",
+                        "on-surface": "#0b1c30",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "on-secondary-fixed": "#410005",
+                        "background": "#f8f9ff",
+                        "surface-tint": "#206d1b",
+                        "on-primary-fixed-variant": "#005304",
+                        "deep-forest": "#064906",
+                        "surface-container-highest": "#d3e4fe",
+                        "emergency-dark": "#B80021",
+                        "outline": "#707a6b",
+                        "secondary-fixed": "#ffdad7",
+                        "secondary": "#bb0021",
+                        "surface-container-low": "#eff4ff",
+                        "on-background": "#0b1c30",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#ea002c",
+                        "inverse-primary": "#8ad97a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Manrope"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "table-data": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-sm": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .header-font {
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- START OF SHARED COMPONENT: TopNavBar -->
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-[#f8fcf8] group/design-root overflow-x-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7f3e7] px-10 py-3">
+<div class="flex items-center gap-4 text-[#0e1b0e]">
+<div class="size-4">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_535)">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clippath id="clip0_6_535"><rect fill="white" height="48" width="48"></rect></clippath>
+</defs>
+</svg>
+</div>
+<h2 class="text-[#0e1b0e] text-lg font-bold leading-tight tracking-[-0.015em]">Pharmacy Operations</h2>
+</div>
+<div class="flex gap-2">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 bg-[#e7f3e7] text-[#0e1b0e] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<div class="text-[#0e1b0e]" data-icon="Bell" data-size="20px" data-weight="regular">
+<svg fill="currentColor" height="20px" viewbox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+<path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"></path>
+</svg>
+</div>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 bg-[#e7f3e7] text-[#0e1b0e] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<div class="text-[#0e1b0e]" data-icon="User" data-size="20px" data-weight="regular">
+<svg fill="currentColor" height="20px" viewbox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+<path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
+</svg>
+</div>
+</button>
+</div>
+</header>
+<div class="flex flex-wrap justify-between items-end gap-3 p-4">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-[#0e1b0e] text-4xl font-black leading-tight tracking-[-0.033em]">Pharmacy Report</p>
+<p class="text-[#4e974e] text-base font-normal leading-normal">Daily operational overview and performance metrics</p>
+</div>
+<div class="flex gap-3 pb-2">
+<button class="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-primary text-on-primary font-bold text-sm transition-all hover:bg-primary-container">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                                Download PDF
+                            </button>
+<button class="flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-outline bg-transparent text-primary font-bold text-sm transition-all hover:bg-surface-container">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+                                Schedule Report
+                            </button>
+</div>
+</div>
+<!-- Metric Cards -->
+<div class="flex flex-wrap gap-4 p-4">
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border border-[#d0e7d0] bg-surface-container-lowest shadow-sm">
+<p class="text-[#0e1b0e] text-base font-medium leading-normal">Total Dispensed Today</p>
+<p class="text-[#0e1b0e] tracking-light text-2xl font-bold leading-tight">1,284 items</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[#078823] text-sm">trending_up</span>
+<p class="text-[#078823] text-base font-medium leading-normal">+12%</p>
+</div>
+</div>
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border border-[#d0e7d0] bg-surface-container-lowest shadow-sm">
+<p class="text-[#0e1b0e] text-base font-medium leading-normal">Stock Movement Volume</p>
+<p class="text-[#0e1b0e] tracking-light text-2xl font-bold leading-tight">4,520 units</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[#078823] text-sm">trending_up</span>
+<p class="text-[#078823] text-base font-medium leading-normal">+5%</p>
+</div>
+</div>
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 border border-[#d0e7d0] bg-surface-container-lowest shadow-sm">
+<p class="text-[#0e1b0e] text-base font-medium leading-normal">Revenue Summary</p>
+<p class="text-[#0e1b0e] tracking-light text-2xl font-bold leading-tight">$12,450.00</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[#e72208] text-sm">trending_down</span>
+<p class="text-[#e72208] text-base font-medium leading-normal">-2%</p>
+</div>
+</div>
+</div>
+<!-- Daily Summary Chart Section -->
+<div class="px-4">
+<div class="rounded-xl border border-[#d0e7d0] bg-surface-container-lowest p-6">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-[#0e1b0e] text-[22px] font-bold leading-tight tracking-[-0.015em]">Daily Pharmacy Summary</h2>
+<div class="flex gap-2">
+<span class="inline-flex items-center px-2 py-1 rounded bg-[#e7f3e7] text-[#0e1b0e] text-xs font-semibold">Today</span>
+<span class="inline-flex items-center px-2 py-1 rounded bg-surface-container text-[#4e974e] text-xs font-semibold">Yesterday</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-4">
+<div class="flex min-w-72 flex-1 flex-col gap-2">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-[#4e974e] text-sm font-medium leading-normal">Dispensing Trends</p>
+<p class="text-[#0e1b0e] tracking-light text-[32px] font-bold leading-tight truncate">8.5k</p>
+</div>
+<div class="flex gap-1 mb-2">
+<p class="text-[#4e974e] text-base font-normal leading-normal">Last 24 Hours</p>
+<p class="text-[#078823] text-base font-medium leading-normal">+15%</p>
+</div>
+</div>
+<div class="flex min-h-[180px] flex-1 flex-col gap-8 py-4">
+<svg fill="none" height="148" preserveaspectratio="none" viewbox="-3 0 478 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z" fill="url(#paint0_linear_1131_5935)"></path>
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25" stroke="#4e974e" stroke-linecap="round" stroke-width="3"></path>
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="paint0_linear_1131_5935" x1="236" x2="236" y1="1" y2="149">
+<stop stop-color="#e7f3e7"></stop>
+<stop offset="1" stop-color="#e7f3e7" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+</svg>
+<div class="flex justify-around">
+<p class="text-[#4e974e] text-[11px] font-bold leading-normal tracking-[0.015em]">00:00</p>
+<p class="text-[#4e974e] text-[11px] font-bold leading-normal tracking-[0.015em]">06:00</p>
+<p class="text-[#4e974e] text-[11px] font-bold leading-normal tracking-[0.015em]">12:00</p>
+<p class="text-[#4e974e] text-[11px] font-bold leading-normal tracking-[0.015em]">18:00</p>
+<p class="text-[#4e974e] text-[11px] font-bold leading-normal tracking-[0.015em]">23:59</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recently Dispensed Items -->
+<div class="px-4 py-6">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-[#0e1b0e] text-[20px] font-bold leading-tight">Recently Dispensed Items</h2>
+<button class="text-primary text-sm font-semibold hover:underline">View All Transactions</button>
+</div>
+<div class="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Item Name</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Dosage</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Qty</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Time</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-bright transition-colors cursor-pointer">
+<td class="px-6 py-4 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-medical-green-soft flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="medication">medication</span>
+</div>
+<span class="font-medium text-on-surface">Amoxicillin 500mg</span>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Capsule</td>
+<td class="px-6 py-4 text-sm text-on-surface">21</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-full bg-medical-green-soft text-[#078823] text-xs font-semibold border border-[#078823]/10">Dispensed</span>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">14:22</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors cursor-pointer">
+<td class="px-6 py-4 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-pending-soft flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary-container text-sm" data-icon="pill">pill</span>
+</div>
+<span class="font-medium text-on-surface">Lisinopril 10mg</span>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Tablet</td>
+<td class="px-6 py-4 text-sm text-on-surface">30</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-full bg-pending-soft text-tertiary-container text-xs font-semibold border border-tertiary-container/10">In Progress</span>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">14:15</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors cursor-pointer">
+<td class="px-6 py-4 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-emergency-soft flex items-center justify-center">
+<span class="material-symbols-outlined text-emergency-dark text-sm" data-icon="vaccines">vaccines</span>
+</div>
+<span class="font-medium text-on-surface">Insulin Glargine</span>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Vial</td>
+<td class="px-6 py-4 text-sm text-on-surface">2</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-full bg-emergency-soft text-emergency-dark text-xs font-semibold border border-emergency-dark/10">Priority</span>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">13:58</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors cursor-pointer">
+<td class="px-6 py-4 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-medical-green-soft flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="medication_liquid">medication_liquid</span>
+</div>
+<span class="font-medium text-on-surface">Metformin 850mg</span>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Tablet</td>
+<td class="px-6 py-4 text-sm text-on-surface">60</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-full bg-medical-green-soft text-[#078823] text-xs font-semibold border border-[#078823]/10">Dispensed</span>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">13:42</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Additional Details / Footer-ish area -->
+<div class="px-4 pb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="p-6 rounded-xl border border-outline-variant bg-accent-blue/40 flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="inventory_2">inventory_2</span>
+<h3 class="font-bold text-on-surface">Inventory Alert</h3>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                                4 items are reaching critical stock levels. It is recommended to initiate a re-order within the next 24 hours to prevent fulfillment delays.
+                            </p>
+<button class="mt-auto text-primary text-sm font-bold flex items-center gap-1">
+                                Review Stock
+                                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="p-6 rounded-xl border border-outline-variant bg-surface-container-high/40 flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="verified_user">verified_user</span>
+<h3 class="font-bold text-on-surface">Compliance Status</h3>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                                All dispensed items today passed verification protocols. Monthly compliance report is currently at 98.4%.
+                            </p>
+<button class="mt-auto text-primary text-sm font-bold flex items-center gap-1">
+                                View Compliance Logs
+                                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END OF SHARED COMPONENT -->
+<script>
+        // Simple interactivity for the buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const ripple = document.createElement('div');
+                ripple.classList.add('absolute', 'bg-white/20', 'rounded-full', 'animate-ping');
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.left = `${e.clientX - btn.getBoundingClientRect().left - 10}px`;
+                ripple.style.top = `${e.clientY - btn.getBoundingClientRect().top - 10}px`;
+                
+                // For demonstration, just adding a console log
+                console.log(`Action: ${btn.textContent.trim()}`);
+            });
+        });
+    </script>
+</body></html>

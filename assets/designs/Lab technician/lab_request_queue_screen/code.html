@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lab Request Queue | KHMS Lab</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .sidebar-active-indicator {
+            box-shadow: inset 4px 0 0 0 #ff6b00; /* Flame Orange from guidance */
+        }
+        /* Custom scrollbar for clinical data density */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c0cab8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #707a6b;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#ffb3af",
+                      "on-surface-variant": "#40493c",
+                      "app-bg": "#F8FAFC",
+                      "inverse-surface": "#213145",
+                      "emergency-dark": "#B80021",
+                      "surface-variant": "#d3e4fe",
+                      "on-tertiary-fixed-variant": "#6b3b00",
+                      "outline": "#707a6b",
+                      "background": "#f8f9ff",
+                      "on-surface": "#0b1c30",
+                      "tertiary": "#572e00",
+                      "pending-soft": "#FFF4E8",
+                      "on-tertiary": "#ffffff",
+                      "deep-forest": "#064906",
+                      "primary-container": "#0b5d0b",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#8ad97a",
+                      "primary": "#004302",
+                      "error": "#ba1a1a",
+                      "on-tertiary-fixed": "#2d1600",
+                      "border-subtle": "#E2E8F0",
+                      "surface-tint": "#206d1b",
+                      "surface-container": "#e5eeff",
+                      "secondary": "#bb0021",
+                      "on-primary-fixed": "#002201",
+                      "on-primary-container": "#86d576",
+                      "secondary-container": "#ea002c",
+                      "secondary-fixed": "#ffdad7",
+                      "on-primary": "#ffffff",
+                      "tertiary-container": "#784200",
+                      "on-secondary-container": "#fffbff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "surface-container-highest": "#d3e4fe",
+                      "surface-container-high": "#dce9ff",
+                      "on-background": "#0b1c30",
+                      "error-container": "#ffdad6",
+                      "on-secondary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "on-tertiary-container": "#ffb168",
+                      "on-secondary-fixed": "#410005",
+                      "accent-blue": "#EAF3FA",
+                      "on-primary-fixed-variant": "#005304",
+                      "tertiary-fixed-dim": "#ffb877",
+                      "primary-fixed": "#a5f693",
+                      "inverse-primary": "#8ad97a",
+                      "surface": "#f8f9ff",
+                      "on-secondary-fixed-variant": "#930018",
+                      "surface-container-low": "#eff4ff",
+                      "on-error": "#ffffff",
+                      "surface-dim": "#cbdbf5",
+                      "medical-green-soft": "#E8F5E9",
+                      "tertiary-fixed": "#ffdcc0",
+                      "surface-bright": "#f8f9ff",
+                      "outline-variant": "#c0cab8",
+                      "emergency-soft": "#FDECEF"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sidebar-width": "260px",
+                      "margin-mobile": "1rem",
+                      "margin-desktop": "2rem",
+                      "gutter": "1.5rem",
+                      "topbar-height": "64px",
+                      "container-max": "1440px"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "display-lg": ["Manrope"],
+                      "body-lg": ["Inter"],
+                      "table-data": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Manrope"],
+                      "headline-lg": ["Manrope"],
+                      "body-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-screen w-[sidebar-width] bg-primary border-r border-outline-variant flex flex-col z-50">
+<div class="p-6">
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-primary">KHMS Lab</h1>
+<p class="font-label-md text-label-md text-primary-fixed-dim uppercase tracking-wider mt-1">Kwadaso HealthLink</p>
+</div>
+<nav class="flex-1 overflow-y-auto mt-4">
+<!-- Active Tab: Lab Queue -->
+<a class="flex items-center gap-3 bg-deep-forest text-on-primary border-l-4 border-tertiary px-4 py-3 opacity-90 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+<span class="font-label-md text-label-md">Lab Queue</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="science">science</span>
+<span class="font-label-md text-label-md">Sample Tracking</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span class="font-label-md text-label-md">Result Entry</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">Results Viewer</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="emergency_home">emergency_home</span>
+<span class="font-label-md text-label-md">Critical Alerts</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Test Catalog</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 space-y-2 border-t border-primary-container">
+<button class="w-full py-3 px-4 bg-tertiary-container text-on-tertiary-container rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+                New Lab Request
+            </button>
+<div class="pt-2">
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:text-on-primary px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:text-on-primary px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[sidebar-width] flex flex-col h-screen">
+<!-- Top Navigation Bar -->
+<header class="flex justify-between items-center h-[topbar-height] px-margin-desktop border-b border-border-subtle bg-surface z-40">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-body-md focus:ring-2 focus:ring-primary outline-none transition-all" placeholder="Search by Request ID, Patient Name, or ID..." type="text"/>
+</div>
+<nav class="hidden md:flex gap-6">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Lab Requests</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Inventory</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-md text-label-md" href="#">Archived Results</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
+                    Scan Sample ID
+                </button>
+<button class="text-on-surface-variant hover:bg-surface-container rounded-full p-2 relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-border-subtle">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface">Dr. Sarah Kwadu</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Chief Pathologist</p>
+</div>
+<img class="w-10 h-10 rounded-full border-2 border-medical-green-soft object-cover" data-alt="A professional headshot of a female doctor in her 40s wearing a clean white lab coat and a stethoscope. She has a warm, confident expression and is set against a brightly lit, modern clinical laboratory background with soft blue and green lighting. The photography is high-resolution, clinical, and evokes trust and precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnPBzIqLRSjl92oIqMSdQ8hMa1S5Qfdw7otdkOyuj-lA9c8gW4tLYuJmfcdyXeQEzpzq4xRQs3xKyqFarw_ZIjqPYvEyFBkrEEex_RPzDPmo-FRAB_qme-TQhq4nnLP7i-iyg2YRK4ne7YxeUUgzswhnSvp5r-1dADwPp7Y9B_9ARiACfIy_npJzqjavexEE4IAUkdfOEEZgtIoF_Pxuz4YbZWLdrVyxyTQ-MJavPvWAQYJGFqP2Ktp-aDjaxzP6hYGBJV8Qr0op0"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="flex-1 overflow-auto p-8 space-y-6">
+<!-- Page Header & Stats -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Lab Request Queue</h2>
+<p class="text-on-surface-variant mt-1">Manage and prioritize incoming laboratory tests and sample collections.</p>
+</div>
+<div class="flex gap-4">
+<div class="bg-white p-4 border border-border-subtle rounded-xl flex flex-col min-w-[140px]">
+<span class="text-on-surface-variant font-label-md text-label-md uppercase">Pending</span>
+<span class="text-headline-md font-headline-md text-on-surface">24</span>
+</div>
+<div class="bg-white p-4 border border-border-subtle rounded-xl flex flex-col min-w-[140px] border-l-4 border-secondary">
+<span class="text-on-surface-variant font-label-md text-label-md uppercase">Critical/STAT</span>
+<span class="text-headline-md font-headline-md text-secondary">03</span>
+</div>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="bg-white border border-border-subtle p-4 rounded-xl flex flex-wrap gap-4 items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="filter_list">filter_list</span>
+<span class="font-label-md text-label-md text-on-surface">Filters:</span>
+</div>
+<select class="bg-surface-container-low border border-outline-variant rounded-lg px-3 py-1.5 text-body-md text-on-surface outline-none focus:border-primary">
+<option>All Priorities</option>
+<option>STAT (Immediate)</option>
+<option>Urgent</option>
+<option>Routine</option>
+</select>
+<select class="bg-surface-container-low border border-outline-variant rounded-lg px-3 py-1.5 text-body-md text-on-surface outline-none focus:border-primary">
+<option>All Departments</option>
+<option>Emergency (ER)</option>
+<option>Intensive Care (ICU)</option>
+<option>General Ward</option>
+<option>Outpatient</option>
+</select>
+<select class="bg-surface-container-low border border-outline-variant rounded-lg px-3 py-1.5 text-body-md text-on-surface outline-none focus:border-primary">
+<option>Today</option>
+<option>Last 24 Hours</option>
+<option>Pending Only</option>
+</select>
+<button class="ml-auto text-on-primary-container hover:underline font-label-md text-label-md">Clear All Filters</button>
+</div>
+<!-- Requests Table -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue border-b border-border-subtle">
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Request ID</th>
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Patient Name/ID</th>
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Requested By</th>
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Department</th>
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Priority</th>
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Time Elapsed</th>
+<th class="p-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- STAT Row -->
+<tr class="hover:bg-gray-50 transition-colors group">
+<td class="p-4">
+<span class="font-table-data text-table-data text-on-surface">#REQ-9021</span>
+<p class="text-[10px] text-on-surface-variant">CBC, Liver Panel</p>
+</td>
+<td class="p-4">
+<span class="font-table-data text-table-data block font-bold">Adwoa Mansa</span>
+<span class="text-body-sm text-on-surface-variant">ID: 001-442-90</span>
+</td>
+<td class="p-4">
+<span class="font-table-data text-table-data">Dr. J. Appiah</span>
+</td>
+<td class="p-4">
+<span class="px-2 py-1 bg-emergency-soft text-emergency-dark text-[11px] font-bold rounded-md">ER - Trauma</span>
+</td>
+<td class="p-4">
+<span class="flex items-center gap-1.5 px-2 py-1 bg-emergency-soft text-secondary font-bold text-[11px] rounded-md border border-secondary/20">
+<span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+                                    STAT
+                                </span>
+</td>
+<td class="p-4">
+<span class="font-table-data text-table-data text-secondary">12m 45s</span>
+</td>
+<td class="p-4 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:scale-[1.02] transition-all">
+                                    Begin Collection
+                                </button>
+</td>
+</tr>
+<!-- Urgent Row -->
+<tr class="hover:bg-gray-50 transition-colors group">
+<td class="p-4">
+<span class="font-table-data text-table-data text-on-surface">#REQ-8984</span>
+<p class="text-[10px] text-on-surface-variant">Urinalysis, Glucose</p>
+</td>
+<td class="p-4">
+<span class="font-table-data text-table-data block font-bold">Kofi Osei</span>
+<span class="text-body-sm text-on-surface-variant">ID: 001-311-22</span>
+</td>
+<td class="p-4">
+<span class="font-table-data text-table-data">Dr. Linda T.</span>
+</td>
+<td class="p-4">
+<span class="px-2 py-1 bg-pending-soft text-tertiary-container text-[11px] font-bold rounded-md">ICU Unit B</span>
+</td>
+<td class="p-4">
+<span class="flex items-center gap-1.5 px-2 py-1 bg-pending-soft text-tertiary font-bold text-[11px] rounded-md border border-tertiary/20">
+                                    Urgent
+                                </span>
+</td>
+<td class="p-4">
+<span class="font-table-data text-table-data text-on-surface">42m 10s</span>
+</td>
+<td class="p-4 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:scale-[1.02] transition-all">
+                                    Begin Collection
+                                </button>
+</td>
+</tr>
+<!-- Routine Row -->
+<tr class="hover:bg-gray-50 transition-colors group">
+<td class="p-4">
+<span class="font-table-data text-table-data text-on-surface">#REQ-8977</span>
+<p class="text-[10px] text-on-surface-variant">Lipid Profile</p>
+</td>
+<td class="p-4">
+<span class="font-table-data text-table-data block font-bold">Sarah Mensah</span>
+<span class="text-body-sm text-on-surface-variant">ID: 001-228-11</span>
+</td>
+<td class="p-4">
+<span class="font-table-data text-table-data">Dr. M. Boateng</span>
+</td>
+<td class="p-4">
+<span class="px-2 py-1 bg-medical-green-soft text-deep-forest text-[11px] font-bold rounded-md">Outpatient</span>
+</td>
+<td class="p-4">
+<span class="flex items-center gap-1.5 px-2 py-1 bg-medical-green-soft text-primary font-bold text-[11px] rounded-md border border-primary/20">
+                                    Routine
+                                </span>
+</td>
+<td class="p-4">
+<span class="font-table-data text-table-data text-on-surface">1h 15m</span>
+</td>
+<td class="p-4 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:scale-[1.02] transition-all">
+                                    Begin Collection
+                                </button>
+</td>
+</tr>
+<!-- Another Routine Row -->
+<tr class="hover:bg-gray-50 transition-colors group">
+<td class="p-4">
+<span class="font-table-data text-table-data text-on-surface">#REQ-8975</span>
+<p class="text-[10px] text-on-surface-variant">TSH, T4 Free</p>
+</td>
+<td class="p-4">
+<span class="font-table-data text-table-data block font-bold">Emmanuel Darko</span>
+<span class="text-body-sm text-on-surface-variant">ID: 002-114-55</span>
+</td>
+<td class="p-4">
+<span class="font-table-data text-table-data">Dr. Linda T.</span>
+</td>
+<td class="p-4">
+<span class="px-2 py-1 bg-medical-green-soft text-deep-forest text-[11px] font-bold rounded-md">General Ward</span>
+</td>
+<td class="p-4">
+<span class="flex items-center gap-1.5 px-2 py-1 bg-medical-green-soft text-primary font-bold text-[11px] rounded-md border border-primary/20">
+                                    Routine
+                                </span>
+</td>
+<td class="p-4">
+<span class="font-table-data text-table-data text-on-surface">1h 22m</span>
+</td>
+<td class="p-4 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:scale-[1.02] transition-all">
+                                    Begin Collection
+                                </button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-4 bg-surface-container-low border-t border-border-subtle flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface-variant">Showing 1-4 of 24 requests</span>
+<div class="flex gap-2">
+<button class="p-1 rounded hover:bg-surface-container transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="px-3 py-1 bg-primary text-on-primary rounded font-label-md text-label-md">1</button>
+<button class="px-3 py-1 hover:bg-surface-container rounded font-label-md text-label-md">2</button>
+<button class="px-3 py-1 hover:bg-surface-container rounded font-label-md text-label-md">3</button>
+<button class="p-1 rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Emergency Dashboard Alert (If any) -->
+<div class="bg-emergency-soft border border-secondary/30 p-6 rounded-2xl flex items-start gap-4">
+<div class="bg-secondary text-on-secondary p-3 rounded-full">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+</div>
+<div class="flex-1">
+<h4 class="font-headline-md text-headline-md text-secondary">High Critical Volume Detected</h4>
+<p class="text-on-surface-variant">There are currently 3 STAT requests in Trauma and ER that require immediate collection. Lab technicians on Floor 2 have been notified.</p>
+</div>
+<button class="border-2 border-secondary text-secondary px-6 py-2 rounded-lg font-bold hover:bg-secondary hover:text-white transition-all">
+                    Assign Backup Tech
+                </button>
+</div>
+</div>
+</main>
+<!-- Micro-interaction script -->
+<script>
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });</script></body></html>

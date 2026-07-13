@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHMS Lab - Results Viewer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "secondary-fixed-dim": "#ffb3af",
+                  "on-surface-variant": "#40493c",
+                  "app-bg": "#F8FAFC",
+                  "inverse-surface": "#213145",
+                  "emergency-dark": "#B80021",
+                  "surface-variant": "#d3e4fe",
+                  "on-tertiary-fixed-variant": "#6b3b00",
+                  "outline": "#707a6b",
+                  "background": "#f8f9ff",
+                  "on-surface": "#0b1c30",
+                  "tertiary": "#572e00",
+                  "pending-soft": "#FFF4E8",
+                  "on-tertiary": "#ffffff",
+                  "deep-forest": "#064906",
+                  "primary-container": "#0b5d0b",
+                  "surface-container-lowest": "#ffffff",
+                  "primary-fixed-dim": "#8ad97a",
+                  "primary": "#004302",
+                  "error": "#ba1a1a",
+                  "on-tertiary-fixed": "#2d1600",
+                  "border-subtle": "#E2E8F0",
+                  "surface-tint": "#206d1b",
+                  "surface-container": "#e5eeff",
+                  "secondary": "#bb0021",
+                  "on-primary-fixed": "#002201",
+                  "on-primary-container": "#86d576",
+                  "secondary-container": "#ea002c",
+                  "secondary-fixed": "#ffdad7",
+                  "on-primary": "#ffffff",
+                  "tertiary-container": "#784200",
+                  "on-secondary-container": "#fffbff",
+                  "inverse-on-surface": "#eaf1ff",
+                  "surface-container-highest": "#d3e4fe",
+                  "surface-container-high": "#dce9ff",
+                  "on-background": "#0b1c30",
+                  "error-container": "#ffdad6",
+                  "on-secondary": "#ffffff",
+                  "on-error-container": "#93000a",
+                  "on-tertiary-container": "#ffb168",
+                  "on-secondary-fixed": "#410005",
+                  "accent-blue": "#EAF3FA",
+                  "on-primary-fixed-variant": "#005304",
+                  "tertiary-fixed-dim": "#ffb877",
+                  "primary-fixed": "#a5f693",
+                  "inverse-primary": "#8ad97a",
+                  "surface": "#f8f9ff",
+                  "on-secondary-fixed-variant": "#930018",
+                  "surface-container-low": "#eff4ff",
+                  "on-error": "#ffffff",
+                  "surface-dim": "#cbdbf5",
+                  "medical-green-soft": "#E8F5E9",
+                  "tertiary-fixed": "#ffdcc0",
+                  "surface-bright": "#f8f9ff",
+                  "outline-variant": "#c0cab8",
+                  "emergency-soft": "#FDECEF"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.125rem",
+                  "lg": "0.25rem",
+                  "xl": "0.5rem",
+                  "full": "0.75rem"
+          },
+          "spacing": {
+                  "sidebar-width": "260px",
+                  "margin-mobile": "1rem",
+                  "margin-desktop": "2rem",
+                  "gutter": "1.5rem",
+                  "topbar-height": "64px",
+                  "container-max": "1440px"
+          },
+          "fontFamily": {
+                  "label-md": ["Inter"],
+                  "display-lg": ["Manrope"],
+                  "body-lg": ["Inter"],
+                  "table-data": ["Inter"],
+                  "body-md": ["Inter"],
+                  "headline-md": ["Manrope"],
+                  "headline-lg": ["Manrope"],
+                  "body-sm": ["Inter"]
+          },
+          "fontSize": {
+                  "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                  "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                  "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                  "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                  "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                  "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                  "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #F8FAFC;
+      color: #0b1c30;
+      -webkit-font-smoothing: antialiased;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .card-shadow {
+      box-shadow: 0px 4px 12px rgba(15, 23, 42, 0.08);
+    }
+    .clinical-border {
+      border: 1px solid #E2E8F0;
+    }
+    .trend-dot {
+      transition: all 0.2s ease-in-out;
+    }
+    .trend-dot:hover {
+      transform: scale(1.5);
+      filter: brightness(1.1);
+    }
+  </style>
+</head>
+<body class="font-body-md text-body-md overflow-hidden">
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-0 h-screen w-[260px] bg-primary flex flex-col border-r border-outline-variant z-50">
+<div class="p-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-on-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">biotech</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary leading-tight">KHMS Lab</h1>
+<p class="font-label-md text-label-md text-primary-fixed-dim opacity-80 uppercase tracking-wider">Kwadaso HealthLink</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-2 space-y-1 mt-4">
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">lab_profile</span>
+<span class="font-label-md text-label-md">Lab Queue</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">science</span>
+<span class="font-label-md text-label-md">Sample Tracking</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-label-md text-label-md">Result Entry</span>
+</a>
+<!-- Active State Logic: Mapping to "Results Viewer" -->
+<a class="flex items-center gap-3 bg-deep-forest text-on-primary border-l-4 border-tertiary px-4 py-3 transition-all opacity-90" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">Results Viewer</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">emergency_home</span>
+<span class="font-label-md text-label-md">Critical Alerts</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</nav>
+<div class="px-2 py-4 space-y-1">
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Shell -->
+<main class="ml-[260px] h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Shell -->
+<header class="flex justify-between items-center h-[64px] px-margin-desktop border-b border-border-subtle bg-surface z-40">
+<div class="flex items-center gap-8">
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Laboratory Management</h2>
+<div class="hidden lg:flex items-center gap-6">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Lab Requests</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Inventory</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">Archived Results</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-primary-container transition-all">
+<span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
+          Scan Sample ID
+        </button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">notifications</span>
+<div class="flex items-center gap-3 ml-2 cursor-pointer group">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of a male medical laboratory technician wearing a clean white lab coat and blue scrubs, working in a high-tech medical facility. He has a friendly and trustworthy expression. The lighting is bright and clinical, emphasizing a sterile and efficient hospital environment with soft blue and grey tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS5lBp_txsN1TuzR2vjsbb4w68LYVrL3kG1KgUDDXvjKs2BbejXUc80Ue8aIj-cr68En9qgq2Cbz9w96CtLagGObXoss6Bw3ytGwUwzFVpMxayx95_q2B4MPpRN9fh311uMZpkPT8zg6ywd2e0gNrRpvdynKn3Qkkvi7YHfpNTxnmNJzEaItwlKnpFDN2eMz4qopXn2puX-bb30lV2bOR8ZyNdWTRVWBuH-gPWKHKe9w0ydkvmHbO00KKKz088HyLRKezGIqivQe0"/>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Scrollable Body -->
+<div class="flex-1 overflow-y-auto p-8 space-y-8 bg-app-bg">
+<!-- Patient Header & Global Actions -->
+<section class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">Patient: Alexander Thorne</h3>
+<span class="px-3 py-1 bg-medical-green-soft text-primary font-label-md text-label-md rounded-full">Stable Condition</span>
+</div>
+<p class="text-on-surface-variant">DOB: 12-May-1984 | Patient ID: #KH-99201-B | Primary Physician: Dr. Sarah Jenkins</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 border-2 border-primary text-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-medical-green-soft transition-all">
+<span class="material-symbols-outlined text-[20px]">print</span>
+            Print Report
+          </button>
+<button class="flex items-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:opacity-90 shadow-lg transition-all">
+<span class="material-symbols-outlined text-[20px]">download</span>
+            Download PDF
+          </button>
+</div>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Main Trend Chart: Blood Glucose -->
+<div class="col-span-12 lg:col-span-8 bg-white p-6 rounded-xl clinical-border card-shadow relative overflow-hidden">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h4 class="font-headline-md text-headline-md font-bold text-on-surface">Glucose Trends (Last 6 Months)</h4>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Fasting plasma glucose levels measured in mg/dL</p>
+</div>
+<div class="flex gap-2">
+<span class="flex items-center gap-1 font-label-md text-label-md text-on-surface-variant">
+<span class="w-3 h-3 rounded-full bg-primary"></span> Patient
+              </span>
+<span class="flex items-center gap-1 font-label-md text-label-md text-on-surface-variant">
+<span class="w-3 h-3 rounded-full bg-outline-variant"></span> Normal Range
+              </span>
+</div>
+</div>
+<!-- Custom SVG Trend Graph -->
+<div class="w-full h-64 relative mt-4">
+<svg class="w-full h-full" viewbox="0 0 800 200">
+<!-- Reference Range Band -->
+<rect fill="#E8F5E9" height="40" opacity="0.5" width="800" x="0" y="80"></rect>
+<line opacity="0.2" stroke="#707a6b" stroke-dasharray="4" x1="0" x2="800" y1="80" y2="80"></line>
+<line opacity="0.2" stroke="#707a6b" stroke-dasharray="4" x1="0" x2="800" y1="120" y2="120"></line>
+<!-- Trend Line -->
+<path d="M 50 140 L 150 110 L 250 95 L 350 105 L 450 85 L 550 90 L 650 98 L 750 92" fill="none" stroke="#004302" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+<!-- Data Points -->
+<circle class="trend-dot" cx="50" cy="140" fill="#004302" r="5"></circle>
+<circle class="trend-dot" cx="150" cy="110" fill="#004302" r="5"></circle>
+<circle class="trend-dot" cx="250" cy="95" fill="#004302" r="5"></circle>
+<circle class="trend-dot" cx="350" cy="105" fill="#004302" r="5"></circle>
+<circle class="trend-dot" cx="450" cy="85" fill="#004302" r="5"></circle>
+<circle class="trend-dot" cx="550" cy="90" fill="#004302" r="5"></circle>
+<circle class="trend-dot" cx="650" cy="98" fill="#004302" r="5"></circle>
+<circle class="trend-dot" cx="750" cy="92" fill="#004302" r="5"></circle>
+</svg>
+<div class="flex justify-between px-4 mt-4 text-on-surface-variant font-label-md text-label-md">
+<span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span>
+</div>
+</div>
+</div>
+<!-- Latest Snapshot -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<div class="bg-white p-6 rounded-xl clinical-border card-shadow flex-1">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary">assessment</span>
+<h4 class="font-headline-md text-headline-md font-bold text-on-surface">Key Metrics</h4>
+</div>
+<div class="space-y-6">
+<div class="flex justify-between items-end border-b border-border-subtle pb-4">
+<div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase">HBA1C</p>
+<p class="font-display-lg text-display-lg text-on-surface">5.8%</p>
+</div>
+<div class="text-right">
+<span class="text-primary font-bold">Optimal</span>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Target: &lt; 6.0%</p>
+</div>
+</div>
+<div class="flex justify-between items-end border-b border-border-subtle pb-4">
+<div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase">LDL CHOLESTEROL</p>
+<p class="font-display-lg text-display-lg text-on-surface">92</p>
+</div>
+<div class="text-right">
+<span class="text-primary font-bold">Stable</span>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Target: &lt; 100 mg/dL</p>
+</div>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase">BUN/CREATININE</p>
+<p class="font-display-lg text-display-lg text-on-surface">14.2</p>
+</div>
+<div class="text-right">
+<span class="text-primary font-bold">Normal</span>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Range: 10-20</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Comprehensive Results Table -->
+<div class="col-span-12 bg-white rounded-xl clinical-border card-shadow overflow-hidden">
+<div class="p-6 border-b border-border-subtle bg-accent-blue/30 flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md font-bold text-on-surface">Comprehensive Historical Log</h4>
+<div class="flex gap-2">
+<input class="px-4 py-1.5 text-body-sm border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none" placeholder="Search tests..." type="text"/>
+<button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue font-label-md text-label-md text-on-surface uppercase tracking-wider">
+<th class="px-6 py-4">Test Name</th>
+<th class="px-6 py-4">Result</th>
+<th class="px-6 py-4">Units</th>
+<th class="px-6 py-4">Reference Range</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4 text-right">Date Reported</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-bold text-on-surface">Glucose, Fasting Plasma</td>
+<td class="px-6 py-4 text-on-surface font-table-data">92</td>
+<td class="px-6 py-4 text-on-surface-variant">mg/dL</td>
+<td class="px-6 py-4 text-on-surface-variant">65 - 99</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-medical-green-soft text-primary font-label-md text-label-md rounded-full">Normal</span>
+</td>
+<td class="px-6 py-4 text-right text-on-surface-variant">15-Aug-2023</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-bold text-on-surface">Hemoglobin A1c</td>
+<td class="px-6 py-4 text-on-surface font-table-data">5.8</td>
+<td class="px-6 py-4 text-on-surface-variant">%</td>
+<td class="px-6 py-4 text-on-surface-variant">4.0 - 5.6 (Prediabetes: 5.7 - 6.4)</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-pending-soft text-tertiary font-label-md text-label-md rounded-full">Observation</span>
+</td>
+<td class="px-6 py-4 text-right text-on-surface-variant">15-Aug-2023</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-bold text-on-surface">Calcium, Serum</td>
+<td class="px-6 py-4 text-on-surface font-table-data">9.4</td>
+<td class="px-6 py-4 text-on-surface-variant">mg/dL</td>
+<td class="px-6 py-4 text-on-surface-variant">8.6 - 10.2</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-medical-green-soft text-primary font-label-md text-label-md rounded-full">Normal</span>
+</td>
+<td class="px-6 py-4 text-right text-on-surface-variant">12-Jul-2023</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-bold text-on-surface">Vitamin D, 25-Hydroxy</td>
+<td class="px-6 py-4 text-on-surface font-table-data">28</td>
+<td class="px-6 py-4 text-on-surface-variant">ng/mL</td>
+<td class="px-6 py-4 text-on-surface-variant">30 - 100</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-emergency-soft text-emergency-dark font-label-md text-label-md rounded-full">Critical Low</span>
+</td>
+<td class="px-6 py-4 text-right text-on-surface-variant">12-Jul-2023</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-bold text-on-surface">Potassium</td>
+<td class="px-6 py-4 text-on-surface font-table-data">4.2</td>
+<td class="px-6 py-4 text-on-surface-variant">mmol/L</td>
+<td class="px-6 py-4 text-on-surface-variant">3.5 - 5.1</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-medical-green-soft text-primary font-label-md text-label-md rounded-full">Normal</span>
+</td>
+<td class="px-6 py-4 text-right text-on-surface-variant">10-Jun-2023</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-6 bg-surface flex justify-between items-center text-on-surface-variant font-body-sm text-body-sm">
+<p>Showing 5 of 24 historical tests recorded since Jan 2023</p>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-outline-variant rounded hover:bg-white transition-all disabled:opacity-50" disabled="">Previous</button>
+<button class="px-3 py-1 bg-primary text-on-primary rounded shadow-sm">1</button>
+<button class="px-3 py-1 border border-outline-variant rounded hover:bg-white transition-all">2</button>
+<button class="px-3 py-1 border border-outline-variant rounded hover:bg-white transition-all">Next</button>
+</div>
+</div>
+</div>
+<!-- Laboratory Notes & Contact -->
+<div class="col-span-12 lg:col-span-6 bg-white p-6 rounded-xl clinical-border card-shadow">
+<h4 class="font-headline-md text-headline-md font-bold text-on-surface mb-4">Laboratory Interpretation</h4>
+<p class="text-on-surface-variant leading-relaxed mb-4">
+            "Fasting glucose remains within optimal range. Slight elevation in A1c observed compared to previous screening (5.6% vs 5.8%), which falls into the early pre-diabetic monitoring threshold. Vitamin D levels indicate deficiency; patient advised to discuss supplementation with primary physician. All other metabolic markers are stable."
+          </p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-accent-blue flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">person_check</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Reviewed by: Dr. Marcus Chen</p>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Head Pathologist, Kwadaso HealthLink</p>
+</div>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-6 bg-deep-forest p-6 rounded-xl text-on-primary card-shadow relative overflow-hidden">
+<div class="relative z-10 h-full flex flex-col justify-between">
+<div>
+<h4 class="font-headline-md text-headline-md font-bold mb-2">Need a follow-up?</h4>
+<p class="opacity-80 mb-6">Schedule a consultation with your primary doctor to discuss these results in detail. Fast track appointments are available for KHMS Premium members.</p>
+</div>
+<button class="self-start px-6 py-3 bg-tertiary text-on-primary rounded-lg font-label-md text-label-md hover:brightness-110 transition-all">
+              Book Appointment
+            </button>
+</div>
+<!-- Decorative Background Element -->
+<div class="absolute right-[-20px] bottom-[-20px] opacity-10 transform rotate-12">
+<span class="material-symbols-outlined text-[160px]" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Micro-interactions & Lightweight Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tooltips = document.querySelectorAll('.trend-dot');
+      tooltips.forEach((dot, index) => {
+        dot.addEventListener('mouseenter', (e) => {
+          // Simple visual feedback for interactive data points
+          dot.style.filter = 'drop-shadow(0 0 4px #a5f693)';
+        });
+        dot.addEventListener('mouseleave', () => {
+          dot.style.filter = 'none';
+        });
+      });
+      
+      // Simple Search Filter Simulation
+      const searchInput = document.querySelector('input[placeholder="Search tests..."]');
+      const tableRows = document.querySelectorAll('tbody tr');
+      
+      searchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        tableRows.forEach(row => {
+          const testName = row.querySelector('td:first-child').textContent.toLowerCase();
+          row.style.display = testName.includes(term) ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</body></html>

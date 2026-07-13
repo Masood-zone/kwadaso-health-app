@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHMS - Lab Request</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#410005",
+                        "primary-container": "#0b5d0b",
+                        "inverse-primary": "#8ad97a",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "medical-green-soft": "#E8F5E9",
+                        "inverse-surface": "#213145",
+                        "on-primary-container": "#86d576",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#784200",
+                        "border-subtle": "#E2E8F0",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#f8f9ff",
+                        "accent-blue": "#EAF3FA",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "primary-fixed": "#a5f693",
+                        "on-surface-variant": "#40493c",
+                        "surface-variant": "#d3e4fe",
+                        "on-error": "#ffffff",
+                        "background": "#f8f9ff",
+                        "secondary-fixed": "#ffdad7",
+                        "emergency-dark": "#B80021",
+                        "emergency-soft": "#FDECEF",
+                        "surface": "#f8f9ff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#dce9ff",
+                        "app-bg": "#F8FAFC",
+                        "on-tertiary-fixed": "#2d1600",
+                        "secondary-container": "#ea002c",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#8ad97a",
+                        "surface-container-highest": "#d3e4fe",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "on-secondary-container": "#fffbff",
+                        "on-tertiary-container": "#ffb168",
+                        "surface-container": "#e5eeff",
+                        "outline-variant": "#c0cab8",
+                        "tertiary-fixed": "#ffdcc0",
+                        "secondary": "#bb0021",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "surface-dim": "#cbdbf5",
+                        "error": "#ba1a1a",
+                        "deep-forest": "#064906",
+                        "primary": "#004302",
+                        "surface-tint": "#206d1b",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary-fixed-variant": "#005304",
+                        "on-primary-fixed": "#002201",
+                        "pending-soft": "#FFF4E8",
+                        "tertiary": "#572e00",
+                        "on-secondary-fixed-variant": "#930018",
+                        "outline": "#707a6b",
+                        "on-background": "#0b1c30"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Manrope"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "table-data": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .test-card-selected {
+            border: 2px solid #004302;
+            background-color: #E8F5E9;
+        }
+        .priority-active-urgent {
+            background-color: #bb0021;
+            color: white;
+        }
+        .priority-active-routine {
+            background-color: #004302;
+            color: white;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-app-bg group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Focused Header (Hierarchy of Focus Logic) -->
+<header class="flex items-center justify-between border-b border-border-subtle bg-white px-6 md:px-20 py-4 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors" onclick="window.history.back()">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<div>
+<h1 class="text-headline-md font-bold text-on-surface">New Lab Request</h1>
+<p class="text-body-sm text-outline">Consultation #KH-88291</p>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-3 bg-medical-green-soft px-4 py-2 rounded-xl">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">JD</div>
+<div>
+<p class="text-label-md text-primary leading-none">PATIENT</p>
+<p class="text-body-md font-semibold text-on-surface">John Doe (34Y, M)</p>
+</div>
+</div>
+</header>
+<main class="flex-1 flex justify-center py-8 px-4">
+<div class="max-w-[960px] w-full flex flex-col gap-8">
+<!-- Patient Summary Card -->
+<section class="bg-white border border-border-subtle rounded-xl p-6 shadow-sm">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="space-y-1">
+<h2 class="text-headline-sm font-bold text-on-surface">Clinical Indication</h2>
+<p class="text-body-md text-on-surface-variant italic">"Persistent high-grade fever (39°C) for 3 days, accompanied by chills and intense joint pain. Suspected malaria or viral infection."</p>
+</div>
+<div class="flex items-center gap-2 text-primary font-semibold">
+<span class="material-symbols-outlined">history_edu</span>
+<span class="text-body-sm">Dr. Sarah Smith</span>
+</div>
+</div>
+</section>
+<!-- Lab Test Selection Grid -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-headline-md font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">biotech</span>
+                                Select Common Tests
+                            </h3>
+<span class="text-body-sm font-medium text-outline">8 Tests Available</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+<!-- CBC -->
+<div class="test-card cursor-pointer group flex flex-col gap-3 p-4 bg-white border border-border-subtle rounded-xl transition-all hover:shadow-md hover:border-primary" onclick="toggleSelection(this)">
+<div class="w-full h-32 rounded-lg bg-cover bg-center" data-alt="A macro scientific photograph of blood cells under a microscope with a clean medical laboratory lighting. The image showcases the detailed texture of erythrocytes in a bright clinical white environment with deep green accents reflecting the KHMS brand." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDuxTj1nHFDMlSMLW_V_xb0Hp850Dds9RDbPGB1wQPit1o0ZHzH2hX7yYQR96GccU5RuJsvFoanpL9Vz5EG_1RBkJielorUEe5PhpQSpKWcf1oU1uITapGX-qsjseAB2qu387ExcEkT5pg3KWEP3w8VAJ1FBA_2oj3PxW0PYLmUB2Dfzf3DOzgclaWjOD1x4HNzWng5yEKKZgjaA12PT-bv4as_xq2xYPWeTQKQ8eeVlCHvGElAe7ZteQmRkUduz3wa7mB6RV2Hcv0')"></div>
+<div>
+<p class="text-body-md font-bold text-on-surface">CBC</p>
+<p class="text-label-md text-primary">Full Blood Count</p>
+</div>
+<div class="mt-auto flex justify-end">
+<span class="material-symbols-outlined text-outline group-hover:text-primary check-icon">add_circle</span>
+</div>
+</div>
+<!-- Glucose -->
+<div class="test-card cursor-pointer group flex flex-col gap-3 p-4 bg-white border border-border-subtle rounded-xl transition-all hover:shadow-md hover:border-primary" onclick="toggleSelection(this)">
+<div class="w-full h-32 rounded-lg bg-cover bg-center" data-alt="Close-up shot of a modern digital glucometer showing a blood sugar reading. The setting is a bright, sterile clinical room with soft natural lighting and a professional medical aesthetic consistent with a high-end healthcare facility." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCqY3IE8qvrCVPBZbfQ7ckbqVigG_2Qyj_xaYc_fxi0Kv6jMpKC4Skp-2ANNgnvYf_YkhdZFkygDNXZ1MdD_pfwXzfrWygExdyC9fjDcOdv76gsG4VsGfHMtWDU0pxvyuje7x9cEOPLA7D_7y_7jzD8kJ1R1liP7EiePahC_B4f6O-emBO3-iE8ZnbFlpiwC-IQMstgiYHHZUmOtunaj0VC6MMPSF0QVf_ysiwziS_tLoNm4zcY-pTAKEnAd3lGy1ejr58dl8bcfdY')"></div>
+<div>
+<p class="text-body-md font-bold text-on-surface">Glucose</p>
+<p class="text-label-md text-primary">Blood Sugar</p>
+</div>
+<div class="mt-auto flex justify-end">
+<span class="material-symbols-outlined text-outline group-hover:text-primary check-icon">add_circle</span>
+</div>
+</div>
+<!-- Malaria RDT -->
+<div class="test-card cursor-pointer group flex flex-col gap-3 p-4 bg-white border border-border-subtle rounded-xl transition-all hover:shadow-md hover:border-primary" onclick="toggleSelection(this)">
+<div class="w-full h-32 rounded-lg bg-cover bg-center" data-alt="A rapid diagnostic test kit for malaria placed on a clean white laboratory workbench. The lighting is crisp and cool-toned, emphasizing the precision and cleanliness of the medical laboratory." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCbwIpnBm6wFmGpTIIlNOd49K4lcrW1zAn6sR1V3E3dzG780LIUWXYJSA3Z37uGmT9XsGadm3msrDIQ3k2zJYR9DrG4dhQXumrjhOeXBFWTFtgaFgYg_WhFcs3VPlll1zwJe0q8TsR12MbNEeIu6MdDY9BFqumEgtqg8di59Q-3s3jXKDyzJb3GkvZgycnov1g-zGEHSzdtDe3iIhThSkn3MPGYxWdyCrfbIhMQdzo6UgFBAMs1CitOe8MzWdiL5wIj71WYJqsnNRo')"></div>
+<div>
+<p class="text-body-md font-bold text-on-surface">Malaria RDT</p>
+<p class="text-label-md text-primary">Rapid Test</p>
+</div>
+<div class="mt-auto flex justify-end">
+<span class="material-symbols-outlined text-outline group-hover:text-primary check-icon">add_circle</span>
+</div>
+</div>
+<!-- Urinalysis -->
+<div class="test-card cursor-pointer group flex flex-col gap-3 p-4 bg-white border border-border-subtle rounded-xl transition-all hover:shadow-md hover:border-primary" onclick="toggleSelection(this)">
+<div class="w-full h-32 rounded-lg bg-cover bg-center" data-alt="A scientific laboratory scene showing test tubes with clear samples, symbolizing a urinalysis test. The background is a clean white and soft green palette with professional medical equipment in soft focus." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBiTtqpTZ8wGo98UXZXGm97tENKE89_2tbZT679PdLxSb2dCh0Je51dQs7dbhRqoyG_tAiQCxPtUbFrOmH1iPgUhd-Tk8mF6FgsiCeZjM7JpfIzqA1IF2Txx-_zafTkesBvFhjGDu55OjlQ7hHWi4VGBflXoZV5XSrf6xueEebBnRuT8N49vSYWOTUdHAqTpUd_QPEVYiIkyAz9aJ8_vMRWcvlI51QvyW1H-UEpl9C7LNIA9jaeTxMlHhuI9s4mcAsnyIIGHUMnVNE')"></div>
+<div>
+<p class="text-body-md font-bold text-on-surface">Urinalysis</p>
+<p class="text-label-md text-primary">Physical/Chemical</p>
+</div>
+<div class="mt-auto flex justify-end">
+<span class="material-symbols-outlined text-outline group-hover:text-primary check-icon">add_circle</span>
+</div>
+</div>
+</div>
+<button class="w-full py-3 border-2 border-dashed border-outline-variant rounded-xl text-outline font-medium hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">search</span>
+                            Browse Full Laboratory Catalog
+                        </button>
+</section>
+<!-- Clinical Notes & Priority -->
+<div class="grid md:grid-cols-3 gap-8">
+<div class="md:col-span-2 space-y-4">
+<label class="text-headline-md font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">description</span>
+                                Clinical Notes
+                            </label>
+<textarea class="w-full min-h-[160px] p-4 rounded-xl border border-border-subtle focus:ring-2 focus:ring-primary focus:border-primary outline-none bg-white text-body-md placeholder:text-outline/50" placeholder="Add specific instructions for the lab technician (e.g., 'Perform additional culture if RDT is negative', 'Check for specific antibodies')..."></textarea>
+</div>
+<div class="space-y-4">
+<h3 class="text-headline-md font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">notification_important</span>
+                                Priority Level
+                            </h3>
+<div class="bg-white border border-border-subtle p-2 rounded-xl flex flex-col gap-2">
+<button class="priority-btn w-full py-3 px-4 rounded-lg text-left flex items-center justify-between transition-all font-semibold border border-transparent priority-active-routine" onclick="setPriority('routine', this)">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined">schedule</span>
+                                        Routine
+                                    </span>
+<span class="material-symbols-outlined check-mark">check_circle</span>
+</button>
+<button class="priority-btn w-full py-3 px-4 rounded-lg text-left flex items-center justify-between transition-all font-semibold border border-transparent text-on-surface-variant hover:bg-surface-container" onclick="setPriority('urgent', this)">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined">priority_high</span>
+                                        Urgent (STAT)
+                                    </span>
+<span class="material-symbols-outlined check-mark opacity-0">check_circle</span>
+</button>
+</div>
+<p class="text-body-sm text-outline-variant leading-tight">
+<span class="font-semibold">Note:</span> Urgent requests are flagged for immediate processing in the laboratory queue.
+                            </p>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col sm:flex-row gap-4 pt-4 pb-12 border-t border-border-subtle">
+<button class="flex-1 py-4 bg-primary text-white rounded-xl font-bold text-body-lg hover:bg-primary-container transition-all shadow-lg flex items-center justify-center gap-2 active:scale-95">
+<span class="material-symbols-outlined">send</span>
+                            Send to Laboratory
+                        </button>
+<button class="px-8 py-4 border border-outline text-on-surface font-semibold rounded-xl hover:bg-surface-container transition-all">
+                            Save Draft
+                        </button>
+</div>
+</div>
+</main>
+</div>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        function toggleSelection(element) {
+            element.classList.toggle('test-card-selected');
+            const icon = element.querySelector('.check-icon');
+            if (element.classList.contains('test-card-selected')) {
+                icon.textContent = 'check_circle';
+                icon.classList.remove('text-outline');
+                icon.classList.add('text-primary');
+                element.style.borderColor = '#004302';
+            } else {
+                icon.textContent = 'add_circle';
+                icon.classList.add('text-outline');
+                icon.classList.remove('text-primary');
+                element.style.borderColor = '';
+            }
+        }
+
+        function setPriority(type, btn) {
+            const btns = document.querySelectorAll('.priority-btn');
+            btns.forEach(b => {
+                b.classList.remove('priority-active-routine', 'priority-active-urgent', 'text-white');
+                b.classList.add('text-on-surface-variant');
+                b.querySelector('.check-mark').classList.add('opacity-0');
+            });
+
+            btn.classList.remove('text-on-surface-variant');
+            btn.querySelector('.check-mark').classList.remove('opacity-0');
+
+            if (type === 'urgent') {
+                btn.classList.add('priority-active-urgent');
+            } else {
+                btn.classList.add('priority-active-routine');
+            }
+        }
+    </script>
+</body></html>

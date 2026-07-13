@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Critical Drug Interaction Alert - MediFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar for clinical density */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c0cab8;
+            border-radius: 10px;
+        }
+        .pulse-red {
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(186, 26, 26, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(186, 26, 26, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(186, 26, 26, 0); }
+        }
+    </style>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f8f9ff",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "outline": "#707a6b",
+                        "emergency-dark": "#B80021",
+                        "surface-variant": "#d3e4fe",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "on-surface-variant": "#40493c",
+                        "app-bg": "#F8FAFC",
+                        "inverse-surface": "#213145",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#2d1600",
+                        "border-subtle": "#E2E8F0",
+                        "surface-tint": "#206d1b",
+                        "surface-container": "#e5eeff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#8ad97a",
+                        "primary": "#004302",
+                        "tertiary": "#572e00",
+                        "pending-soft": "#FFF4E8",
+                        "on-tertiary": "#ffffff",
+                        "deep-forest": "#064906",
+                        "primary-container": "#0b5d0b",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-container": "#ffb168",
+                        "on-secondary-fixed": "#410005",
+                        "accent-blue": "#EAF3FA",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "on-background": "#0b1c30",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#fffbff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary": "#bb0021",
+                        "on-primary-fixed": "#002201",
+                        "on-primary-container": "#86d576",
+                        "secondary-container": "#ea002c",
+                        "secondary-fixed": "#ffdad7",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#784200",
+                        "outline-variant": "#c0cab8",
+                        "emergency-soft": "#FDECEF",
+                        "medical-green-soft": "#E8F5E9",
+                        "tertiary-fixed": "#ffdcc0",
+                        "surface-bright": "#f8f9ff",
+                        "on-primary-fixed-variant": "#005304",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "primary-fixed": "#a5f693",
+                        "inverse-primary": "#8ad97a",
+                        "surface": "#f8f9ff",
+                        "on-secondary-fixed-variant": "#930018",
+                        "surface-container-low": "#eff4ff",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#cbdbf5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "topbar-height": "64px",
+                        "container-max": "1440px",
+                        "sidebar-width": "260px",
+                        "margin-mobile": "1rem",
+                        "margin-desktop": "2rem",
+                        "gutter": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "table-data": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-app-bg text-on-background font-body-md min-h-screen">
+<!-- Sidebar (Shared Component) -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-primary dark:bg-inverse-surface border-r border-border-subtle flex flex-col h-full z-50">
+<div class="p-6">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">MediFlow Pharmacy</h1>
+<p class="text-on-primary opacity-70 font-body-sm">General Hospital Central</p>
+</div>
+<nav class="flex-1 mt-4">
+<a class="flex items-center gap-3 bg-deep-forest text-on-primary border-l-4 border-tertiary-fixed-dim px-4 py-3 Active: translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">pending_actions</span>
+<span class="font-body-md">Queue</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container opacity-80 px-4 py-3 hover:bg-primary-container hover:opacity-100 transition-colors" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-body-md">Inventory</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container opacity-80 px-4 py-3 hover:bg-primary-container hover:opacity-100 transition-colors" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container opacity-80 px-4 py-3 hover:bg-primary-container hover:opacity-100 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<div class="p-4 mt-auto">
+<button class="w-full bg-primary-fixed text-on-primary-fixed font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span>
+                New Prescription
+            </button>
+<div class="mt-6 flex items-center gap-3 px-2">
+<img class="w-10 h-10 rounded-full border-2 border-primary-fixed" data-alt="Close up portrait of a professional female pharmacist wearing a white lab coat and a stethoscope, in a bright, clean medical setting with blurred pharmacy shelves in the background. High-quality corporate medical photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8-9CDPMmow37dmckk7MMlrPGBbREjs0Vb9OJgp7blylaD7flVihvz6kzUJvuBgTuFPeLcdB7Yy9kl9QE8DvucA4IqAfDCCxy5TL_I2iJRIOGDJQNMaI1vR5f5Iyf7A25F5UvAzLwkNI0DEplVttu9sBtjqY_mStpOd7KENb8ckRcO5gnYYm8kDPLNGEeUuRTrv2h1zyYEgTH1Ig7bzyfkuqtYlXM7tBTm6NNRjBuvfhXS5x4r9hoy_xJ4Iu3bSdnvMkLyVp1O2yc"/>
+<div class="overflow-hidden">
+<p class="text-on-primary font-bold truncate">Pharmacist Profile</p>
+<p class="text-on-primary opacity-60 text-xs truncate">ID: PH-9902</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Top Navigation (Shared Component) -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface border-b border-border-subtle flex justify-between items-center px-margin-desktop z-40">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-sm text-headline-sm font-black text-on-surface">Pharmacy Management System</h2>
+<div class="ml-8 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 border border-border-subtle rounded-lg bg-surface-container-low focus:ring-2 focus:ring-primary-container outline-none w-80" placeholder="Search orders, patients..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-2 text-secondary font-bold hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-secondary">emergency</span>
+                Emergency Restock
+            </button>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">help</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">apps</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[calc(64px+2rem)] ml-[260px] p-margin-desktop min-h-screen">
+<!-- Patient Context Strip -->
+<div class="mb-8 bg-white border border-border-subtle rounded-xl p-6 flex items-center justify-between">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-primary opacity-40">person</span>
+</div>
+<div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">James R. Thompson</h3>
+<p class="text-on-surface-variant">DOB: 12/04/1976 (47 yrs) • MRN: #66722-01 • Room: 402-B</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="px-4 py-2 bg-emergency-soft border border-secondary rounded-lg">
+<p class="text-xs font-bold text-secondary uppercase tracking-wider">Known Allergy</p>
+<p class="font-bold text-on-secondary-fixed-variant">Penicillin (Anaphylaxis)</p>
+</div>
+<div class="px-4 py-2 bg-pending-soft border border-tertiary rounded-lg">
+<p class="text-xs font-bold text-tertiary-container uppercase tracking-wider">Status</p>
+<p class="font-bold text-on-tertiary-fixed-variant">Inpatient - Observation</p>
+</div>
+</div>
+</div>
+<!-- Warning Grid -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Primary Warning Column -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<!-- CRITICAL ALERT BOX -->
+<div class="bg-white border-2 border-secondary rounded-xl overflow-hidden pulse-red">
+<div class="bg-secondary p-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-white font-variation-settings: 'FILL' 1">report</span>
+<h4 class="text-white font-headline-md text-headline-md font-bold">CRITICAL INTERACTION WARNING</h4>
+</div>
+<div class="p-6 space-y-6">
+<!-- Allergy Warning Banner -->
+<div class="p-4 bg-emergency-soft border-l-8 border-secondary rounded flex gap-4">
+<span class="material-symbols-outlined text-secondary text-3xl">warning</span>
+<div>
+<p class="font-bold text-on-secondary-fixed-variant text-lg">Allergy Warning: Penicillin Sensitivity</p>
+<p class="text-on-secondary-fixed-variant opacity-80">The requested medication <strong>Amoxicillin 500mg</strong> belongs to the Penicillin group. Patient has a documented history of severe anaphylaxis.</p>
+</div>
+</div>
+<!-- Duplicate Warning Banner -->
+<div class="p-4 bg-pending-soft border-l-8 border-tertiary rounded flex gap-4">
+<span class="material-symbols-outlined text-tertiary text-3xl">content_copy</span>
+<div>
+<p class="font-bold text-on-tertiary-fixed-variant text-lg">Duplicate Medication Warning</p>
+<p class="text-on-tertiary-fixed-variant opacity-80">Active prescription detected: <strong>Ceftriaxone 1g IV</strong> (Last administered: 08:30 AM today). Simultaneous administration may cause toxicity.</p>
+</div>
+</div>
+<!-- Data Comparison Table -->
+<div class="border border-border-subtle rounded-lg overflow-hidden">
+<table class="w-full text-left">
+<thead class="bg-accent-blue border-b border-border-subtle">
+<tr>
+<th class="p-3 text-label-md font-label-md text-on-surface-variant">Medication</th>
+<th class="p-3 text-label-md font-label-md text-on-surface-variant">Class</th>
+<th class="p-3 text-label-md font-label-md text-on-surface-variant">Interaction Level</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-border-subtle">
+<td class="p-3 font-bold">Amoxicillin (Requested)</td>
+<td class="p-3">Beta-lactam Antibiotic</td>
+<td class="p-3"><span class="px-2 py-1 bg-emergency-soft text-secondary text-xs font-bold rounded">LEVEL 1 - LETHAL</span></td>
+</tr>
+<tr class="bg-surface-container-low">
+<td class="p-3 font-bold">Ceftriaxone (Active)</td>
+<td class="p-3">Third-gen Cephalosporin</td>
+<td class="p-3"><span class="px-2 py-1 bg-pending-soft text-tertiary text-xs font-bold rounded">MODERATE RISK</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Clinician Note Summary -->
+<div class="bg-white border border-border-subtle rounded-xl p-6">
+<h5 class="font-headline-md text-headline-md mb-4 text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">clinical_notes</span>
+                        Clinician Note Summary
+                    </h5>
+<div class="prose prose-sm max-w-none text-on-surface-variant">
+<p class="mb-4">Dr. Sarah Miller noted on 10/24: "Patient exhibits high sensitivity to Beta-lactam rings. Avoid all Penicillin derivatives. In case of bacterial infection, prioritize Macrolides or Tetracyclines."</p>
+<div class="flex items-center gap-3 p-3 bg-medical-green-soft rounded-lg">
+<span class="material-symbols-outlined text-deep-forest">lightbulb</span>
+<p class="text-on-primary-fixed-variant italic">Alternative Recommendation: <strong>Azithromycin 500mg</strong> - No known interactions with patient record.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Side Panel -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<!-- Resolution Card -->
+<div class="bg-white border border-border-subtle rounded-xl shadow-md p-6 sticky top-24">
+<h5 class="font-headline-md text-headline-md mb-6 text-on-surface">Dispensing Resolution</h5>
+<form class="space-y-6" id="resolutionForm">
+<div>
+<label class="block text-sm font-bold text-on-surface mb-2">Override Reason <span class="text-secondary">*</span></label>
+<select class="w-full border-border-subtle rounded-lg p-3 bg-background focus:ring-primary focus:border-primary">
+<option disabled="" selected="" value="">Select a justification...</option>
+<option value="provider_verified">Prescribing Physician Verified</option>
+<option value="emergency_use">Emergency/Life-Saving Exception</option>
+<option value="benefit_over_risk">Clinical Benefit Outweighs Risk</option>
+<option value="incorrect_record">Patient Record Correction Required</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-bold text-on-surface mb-2">Detailed Explanation</label>
+<textarea class="w-full border-border-subtle rounded-lg p-3 bg-background focus:ring-primary focus:border-primary" placeholder="Enter clinical reasoning for override..." rows="4"></textarea>
+</div>
+<div class="pt-4 space-y-3">
+<button class="w-full bg-secondary hover:bg-emergency-dark text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all transform active:scale-[0.98]" onclick="handleOverride()" type="button">
+<span class="material-symbols-outlined">security_update_warning</span>
+                                Override (Require Reason)
+                            </button>
+<button class="w-full border-2 border-outline text-on-surface-variant font-bold py-4 rounded-lg flex items-center justify-center gap-2 hover:bg-surface-container transition-all" onclick="handleCancel()" type="button">
+<span class="material-symbols-outlined">block</span>
+                                Cancel Dispensing
+                            </button>
+</div>
+</form>
+<div class="mt-8 p-4 border-t border-border-subtle flex items-start gap-3">
+<span class="material-symbols-outlined text-outline text-sm">lock</span>
+<p class="text-[11px] text-on-surface-variant leading-relaxed">
+                            All overrides are logged with Pharmacist ID and timestamp. This action will trigger an automatic notification to the Quality Assurance board and the attending physician.
+                        </p>
+</div>
+</div>
+<!-- Medication Visual Info -->
+<div class="rounded-xl overflow-hidden bg-white border border-border-subtle">
+<div class="h-40 relative">
+<img class="w-full h-full object-cover" data-alt="High-resolution clinical macro photograph of amoxicillin capsules in a prescription bottle, featuring sharp focus, clean hospital lighting, and a medical laboratory aesthetic with white and pale blue tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4FH2bfSms8tHqxAJFlDOwTS7hEguClsC6t84KzOBKAMco09zSLKnYMhhtMtCE3xhnCKTK_i0mVcW0Q0ZJD5ht0PGIw5_rOEbj48mSl3v_yki9DIFkEtB5BBcNjVsytYbvjM6YbV2XgptnxapVZXpO11raB-gTJpy3zNm6Y0QoU8z5CVPuj5GgFtDYctZ8vs2En42n9LmI3KRv2VLwIT3kCtIedb-pTqRK9wuB88UhJz0nqB05Ecs304CSIwbeD254JsJ2jCuaIlQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-4 left-4 text-white">
+<p class="font-bold text-lg">Amoxicillin 500mg</p>
+<p class="text-xs opacity-80">Oral Capsule • 21 Day Supply</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Overlay Logic Micro-interactions -->
+<script>
+        function handleOverride() {
+            const confirmed = confirm("CRITICAL ALERT: You are attempting to override a LETHAL interaction. This action is permanently logged. Proceed?");
+            if (confirmed) {
+                alert("Override processed. Quality Assurance notified.");
+            }
+        }
+
+        function handleCancel() {
+            alert("Dispensing operation cancelled. Returning to queue.");
+            window.location.reload();
+        }
+
+        // Simulating the high-impact visual feedback
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('resolutionForm');
+            form.addEventListener('change', () => {
+                // Future logic for enabling buttons based on form completion
+            });
+        });
+    </script>
+</body></html>

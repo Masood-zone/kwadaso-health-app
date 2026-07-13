@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHMS - Close Encounter Confirmation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#206d1b",
+                        "outline-variant": "#c0cab8",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "on-tertiary-fixed": "#2d1600",
+                        "tertiary-fixed": "#ffdcc0",
+                        "primary-container": "#0b5d0b",
+                        "surface": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-secondary-fixed-variant": "#930018",
+                        "background": "#f8f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#e5eeff",
+                        "primary-fixed-dim": "#8ad97a",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#410005",
+                        "on-primary-fixed-variant": "#005304",
+                        "primary-fixed": "#a5f693",
+                        "surface-container-highest": "#d3e4fe",
+                        "medical-green-soft": "#E8F5E9",
+                        "tertiary": "#572e00",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "inverse-surface": "#213145",
+                        "secondary": "#bb0021",
+                        "app-bg": "#F8FAFC",
+                        "secondary-container": "#ea002c",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "on-error-container": "#93000a",
+                        "pending-soft": "#FFF4E8",
+                        "secondary-fixed": "#ffdad7",
+                        "surface-dim": "#cbdbf5",
+                        "emergency-dark": "#B80021",
+                        "tertiary-container": "#784200",
+                        "border-subtle": "#E2E8F0",
+                        "accent-blue": "#EAF3FA",
+                        "surface-container-high": "#dce9ff",
+                        "on-tertiary-container": "#ffb168",
+                        "on-surface": "#0b1c30",
+                        "on-primary-container": "#86d576",
+                        "deep-forest": "#064906",
+                        "on-background": "#0b1c30",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary-fixed": "#002201",
+                        "primary": "#004302",
+                        "on-secondary-container": "#fffbff",
+                        "surface-bright": "#f8f9ff",
+                        "on-surface-variant": "#40493c",
+                        "error": "#ba1a1a",
+                        "outline": "#707a6b",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#8ad97a",
+                        "emergency-soft": "#FDECEF"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "table-data": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .modal-overlay {
+            background-color: rgba(11, 28, 48, 0.4);
+            backdrop-filter: blur(4px);
+        }
+        .animate-in {
+            animation: fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-app-bg font-body-md text-on-surface">
+<!-- Mock Background Content (The Encounter Screen being finalized) -->
+<div class="fixed inset-0 z-0 overflow-hidden pointer-events-none opacity-50 flex flex-col">
+<header class="h-16 bg-white border-b border-border-subtle flex items-center px-6 gap-4">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm">health_and_safety</span>
+</div>
+<div class="flex flex-col">
+<span class="font-bold text-headline-md">Patient Encounter: Jane Doe</span>
+<span class="text-body-sm text-outline">DOB: 05/12/1985 • ID: #KH-9821</span>
+</div>
+</header>
+<div class="flex-1 p-8 grid grid-cols-12 gap-6">
+<div class="col-span-8 space-y-6">
+<div class="h-40 bg-white rounded-xl border border-border-subtle p-4">
+<div class="h-4 w-1/4 bg-surface-container rounded mb-4"></div>
+<div class="h-4 w-full bg-surface-container-low rounded mb-2"></div>
+<div class="h-4 w-5/6 bg-surface-container-low rounded"></div>
+</div>
+<div class="h-64 bg-white rounded-xl border border-border-subtle p-4">
+<div class="h-4 w-1/3 bg-surface-container rounded mb-4"></div>
+<div class="space-y-2">
+<div class="h-4 w-full bg-surface-container-low rounded"></div>
+<div class="h-4 w-full bg-surface-container-low rounded"></div>
+<div class="h-4 w-full bg-surface-container-low rounded"></div>
+<div class="h-4 w-3/4 bg-surface-container-low rounded"></div>
+</div>
+</div>
+</div>
+<div class="col-span-4 space-y-6">
+<div class="h-full bg-white rounded-xl border border-border-subtle p-4">
+<div class="h-4 w-1/2 bg-surface-container rounded mb-6"></div>
+<div class="space-y-4">
+<div class="h-12 bg-surface-container-low rounded-lg"></div>
+<div class="h-12 bg-surface-container-low rounded-lg"></div>
+<div class="h-12 bg-surface-container-low rounded-lg"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Confirmation Modal Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center modal-overlay p-4">
+<!-- Shared Component Logic: "Focused View" exclusion of global nav applies -->
+<!-- Using a custom modal container that implements the Shared Component layout rules -->
+<div class="w-full max-w-[560px] bg-white rounded-xl shadow-2xl overflow-hidden border border-border-subtle animate-in">
+<!-- Header Section (Derived from Shared TopNavBar logic but for Modal) -->
+<header class="flex items-center justify-between border-b border-solid border-outline-variant px-6 py-4 bg-white">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-medical-green-soft rounded-lg text-primary">
+<span class="material-symbols-outlined" data-icon="task_alt">task_alt</span>
+</div>
+<div>
+<h2 class="text-on-surface text-lg font-bold leading-tight tracking-[-0.015em]">KHMS</h2>
+<p class="text-outline text-xs font-medium uppercase tracking-wider">Clinical Records Office</p>
+</div>
+</div>
+<button aria-label="Close modal" class="flex items-center justify-center rounded-full h-10 w-10 hover:bg-surface-container transition-colors text-on-surface">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</header>
+<!-- Content Area -->
+<div class="px-6 py-8 flex flex-col gap-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-on-surface text-2xl font-bold leading-tight font-display-lg">Confirm Encounter Closure</h1>
+<p class="text-on-surface-variant text-body-md">You are about to finalize this clinical encounter for <strong>Jane Doe (ID: #KH-9821)</strong>. Please review the legal requirements below.</p>
+</div>
+<!-- Legal Warning Banner -->
+<div class="flex flex-col items-start gap-4 rounded-xl border border-error/20 bg-emergency-soft p-5">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="gavel">gavel</span>
+<div class="flex flex-col gap-1">
+<p class="text-secondary text-base font-bold leading-tight">Legal Record Warning</p>
+<p class="text-on-surface-variant text-sm font-normal leading-relaxed">
+                                Finalizing this encounter will lock the record for legal purposes. Once completed, the visit note becomes a permanent part of the EHR. Further edits will require a formal addendum.
+                            </p>
+</div>
+</div>
+<div class="w-full flex items-center justify-between pt-2 border-t border-secondary/10">
+<span class="text-xs font-bold text-secondary uppercase tracking-widest">Acknowledgment required</span>
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full border-none bg-outline-variant p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary transition-all">
+<div class="h-full aspect-square rounded-full bg-white shadow-sm"></div>
+<input class="invisible absolute peer" id="legal-ack" type="checkbox"/>
+</label>
+</div>
+</div>
+<!-- Clinician Signature Section -->
+<div class="flex flex-col gap-3">
+<label class="text-on-surface text-base font-medium leading-normal" for="signature">Clinician Signature (Password)</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="lock" data-weight="fill" style="font-variation-settings: 'FILL' 1;">lock</span>
+</div>
+<input class="form-input block w-full pl-11 pr-4 h-14 bg-surface-container-low border border-outline-variant rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline text-on-surface" id="signature" placeholder="Enter system password to sign-off" type="password"/>
+</div>
+<p class="text-[11px] text-outline px-1">By signing, you attest that the clinical information provided is accurate to the best of your knowledge.</p>
+</div>
+</div>
+<!-- Modal Footer / Actions -->
+<div class="px-6 pb-8 pt-2 flex flex-col gap-3">
+<button class="flex h-14 items-center justify-center overflow-hidden rounded-xl bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] w-full hover:bg-deep-forest transition-all active:scale-[0.98] shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined mr-2" data-icon="verified">verified</span>
+<span class="truncate">Complete Visit &amp; Sign Record</span>
+</button>
+<button class="flex h-12 items-center justify-center overflow-hidden rounded-xl bg-transparent border border-outline-variant text-on-surface text-base font-bold leading-normal tracking-[0.015em] w-full hover:bg-surface-container transition-all">
+<span class="truncate">Save as Draft</span>
+</button>
+</div>
+<!-- Patient Context Footer (Small) -->
+<div class="bg-surface-container-low px-6 py-3 flex justify-between items-center text-[10px] uppercase tracking-widest text-outline border-t border-outline-variant/30">
+<span>Encounter ID: 2023-9981-AD</span>
+<span class="flex items-center gap-1">
+<span class="size-1.5 rounded-full bg-primary animate-pulse"></span> 
+                    Secure Session Active
+                </span>
+</div>
+</div>
+</div>
+<!-- Decorative atmospheric background shader -->
+<div class="fixed inset-0 -z-10 opacity-30 pointer-events-none">
+<webgl-shader class="w-full h-full" src="{{DATA:ANIMATION:ANIMATION_1}}"></webgl-shader>
+</div>
+<script>
+        // Micro-interaction for the password field and validation
+        const signOffBtn = document.querySelector('button.bg-primary');
+        const passwordInput = document.getElementById('signature');
+        const checkbox = document.getElementById('legal-ack');
+
+        // Simple visual feedback for the button state
+        const updateButtonState = () => {
+            if (passwordInput.value.length > 0 && checkbox.checked) {
+                signOffBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                signOffBtn.classList.add('hover:shadow-primary/30');
+            } else {
+                signOffBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        };
+
+        passwordInput.addEventListener('input', updateButtonState);
+        checkbox.addEventListener('change', updateButtonState);
+        
+        // Initial state
+        updateButtonState();
+
+        // Close modal effect
+        document.querySelector('button[aria-label="Close modal"]').addEventListener('click', () => {
+            const modal = document.querySelector('.animate-in');
+            modal.style.transition = 'all 0.2s ease-in';
+            modal.style.opacity = '0';
+            modal.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                document.querySelector('.modal-overlay').classList.add('hidden');
+            }, 200);
+        });
+    </script>
+</body></html>

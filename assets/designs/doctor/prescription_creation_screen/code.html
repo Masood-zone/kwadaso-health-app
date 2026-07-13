@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHMS - New Prescription</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "surface-dim": "#cbdbf5",
+                        "pending-soft": "#FFF4E8",
+                        "background": "#f8f9ff",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "on-primary-fixed": "#002201",
+                        "on-tertiary-container": "#ffb168",
+                        "tertiary-fixed": "#ffdcc0",
+                        "surface-container": "#e5eeff",
+                        "on-surface-variant": "#40493c",
+                        "primary-fixed-dim": "#8ad97a",
+                        "emergency-dark": "#B80021",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "outline": "#707a6b",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#206d1b",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-surface": "#213145",
+                        "secondary-fixed": "#ffdad7",
+                        "surface-container-high": "#dce9ff",
+                        "app-bg": "#F8FAFC",
+                        "on-secondary-container": "#fffbff",
+                        "tertiary-container": "#784200",
+                        "primary-container": "#0b5d0b",
+                        "error-container": "#ffdad6",
+                        "border-subtle": "#E2E8F0",
+                        "primary": "#004302",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#005304",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface": "#f8f9ff",
+                        "on-surface": "#0b1c30",
+                        "tertiary": "#572e00",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "inverse-primary": "#8ad97a",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed": "#a5f693",
+                        "secondary-container": "#ea002c",
+                        "deep-forest": "#064906",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#0b1c30",
+                        "accent-blue": "#EAF3FA",
+                        "medical-green-soft": "#E8F5E9",
+                        "emergency-soft": "#FDECEF",
+                        "on-tertiary-fixed": "#2d1600",
+                        "secondary": "#bb0021",
+                        "on-secondary-fixed": "#410005",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#930018",
+                        "on-primary-container": "#86d576",
+                        "outline-variant": "#c0cab8",
+                        "surface-variant": "#d3e4fe"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "display-lg": ["Manrope"],
+                        "headline-md": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .form-input-focus:focus {
+            border-color: #005304;
+            box-shadow: 0 0 0 1px #005304;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-surface min-h-screen">
+<!-- Header Section (Derived from Shared Assets Logic) -->
+<header class="flex items-center justify-between border-b border-solid border-outline-variant bg-surface px-6 py-3 lg:px-10">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_535)">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clippath id="clip0_6_535"><rect fill="white" height="48" width="48"></rect></clippath>
+</defs>
+</svg>
+</div>
+<h2 class="text-on-surface text-lg font-bold leading-tight tracking-[-0.015em] font-headline-md">KHMS</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-on-surface text-sm font-medium hover:text-primary transition-colors" href="#">Patients</a>
+<a class="text-on-surface text-sm font-medium hover:text-primary transition-colors" href="#">Prescriptions</a>
+</nav>
+<div class="flex gap-2">
+<button class="flex size-10 cursor-pointer items-center justify-center rounded bg-surface-container text-on-surface transition-colors hover:bg-surface-container-high">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-outline-variant" data-alt="A clean, professional headshot of a healthcare administrator in a bright, modern medical facility. The subject is wearing professional attire, and the lighting is soft and even, typical of a high-end corporate or healthcare environment. The background is slightly blurred, showing a contemporary clinic hallway with a minimal, sterile aesthetic." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAIENn9yb1Iyw2mhxYKi0KoC2ctPA3vAoND3Je_EZAtIcD5unfeE7SqKNIpVPxI1fdg8sOfiaT40VnC5jw7o7nq69OGt4mT01TZ_EJvXngf7wB7hkmCtmkyyit4ee9ehTU8BchRWE2kLHX4j6LZkTLjlr_GcNEwREJdSdrOY0RnB7kktX7gFN0R1Ym52JFLonPmiYDjxdo8nZONRqeterubYW2u4Ac8Y5_64f6tR2SltQP2GyVt9R_ybWfVRbYoagI7wb2Dr6DYj0Y");'>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-5xl mx-auto px-4 py-8 lg:py-12">
+<!-- Title Section -->
+<div class="mb-8">
+<button class="flex items-center gap-1 text-primary text-sm font-semibold mb-4 hover:underline transition-all">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                Back to Patient Profile
+            </button>
+<h1 class="text-headline-lg font-headline-lg text-on-surface mb-2">Create New Prescription</h1>
+<p class="text-on-surface-variant body-md">Enter medication details for <span class="font-semibold text-on-surface">Alex Johnson (ID: #PT-8821)</span></p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Form Card -->
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-white rounded-xl shadow-sm border border-outline-variant p-6 lg:p-8">
+<div class="flex items-center gap-3 mb-6 pb-4 border-b border-outline-variant">
+<span class="material-symbols-outlined text-primary-container p-2 bg-medical-green-soft rounded-lg">medication</span>
+<h3 class="text-headline-md font-headline-md text-on-surface">Medication Details</h3>
+</div>
+<form class="space-y-6">
+<!-- Medicine Name (Searchable) -->
+<div class="relative">
+<label class="block text-on-surface text-sm font-semibold mb-2">Medicine Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-11 pr-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-outline" placeholder="Search for medication (e.g. Amoxicillin, Metformin...)" type="text"/>
+</div>
+<div class="mt-1 text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">info</span>
+                                Start typing to see suggestions from the drug database
+                            </div>
+</div>
+<!-- Dosage & Frequency -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-on-surface text-sm font-semibold mb-2">Dosage</label>
+<input class="w-full px-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="e.g. 500mg" type="text"/>
+</div>
+<div>
+<label class="block text-on-surface text-sm font-semibold mb-2">Frequency</label>
+<select class="w-full px-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all appearance-none cursor-pointer">
+<option disabled="" selected="" value="">Select frequency</option>
+<option value="OD">OD (Once daily)</option>
+<option value="BD">BD (Twice daily)</option>
+<option value="TDS">TDS (Three times daily)</option>
+<option value="QDS">QDS (Four times daily)</option>
+<option value="PRN">PRN (As needed)</option>
+</select>
+</div>
+</div>
+<!-- Duration -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-on-surface text-sm font-semibold mb-2">Duration</label>
+<div class="flex gap-2">
+<input class="w-24 px-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Value" type="number"/>
+<select class="flex-1 px-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
+<option value="days">Days</option>
+<option value="weeks">Weeks</option>
+<option value="months">Months</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-on-surface text-sm font-semibold mb-2">Route of Administration</label>
+<select class="w-full px-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
+<option value="oral">Oral</option>
+<option value="injection">Injection</option>
+<option value="topical">Topical</option>
+<option value="inhalation">Inhalation</option>
+</select>
+</div>
+</div>
+<!-- Instructions -->
+<div>
+<label class="block text-on-surface text-sm font-semibold mb-2">Special Instructions</label>
+<textarea class="w-full px-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none" placeholder="e.g. After meals, take with plenty of water, avoid dairy products..." rows="3"></textarea>
+</div>
+<!-- Action Buttons -->
+<div class="pt-4 flex flex-col sm:flex-row items-center gap-4">
+<button class="w-full sm:flex-1 bg-primary text-white font-bold py-4 px-6 rounded-lg hover:bg-on-primary-fixed-variant transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/10" type="button">
+<span class="material-symbols-outlined">add_circle</span>
+                                Add to Prescription List
+                            </button>
+<button class="w-full sm:w-auto px-8 py-4 text-on-surface-variant font-semibold hover:bg-surface-container rounded-lg transition-all border border-transparent hover:border-outline-variant" type="button">
+                                Cancel
+                            </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Sidebar / Summary Card -->
+<div class="lg:col-span-1 space-y-6">
+<!-- Patient Context Card -->
+<div class="bg-surface-container-low rounded-xl border border-outline-variant p-6">
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-primary-fixed text-on-primary-fixed w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg">AJ</div>
+<div>
+<p class="font-bold text-on-surface">Alex Johnson</p>
+<p class="text-body-sm text-on-surface-variant">28 Yrs • Male</p>
+</div>
+</div>
+<div class="space-y-3 pt-4 border-t border-outline-variant/30">
+<div class="flex justify-between text-body-sm">
+<span class="text-on-surface-variant">Known Allergies:</span>
+<span class="font-semibold text-secondary">Penicillin</span>
+</div>
+<div class="flex justify-between text-body-sm">
+<span class="text-on-surface-variant">Weight:</span>
+<span class="font-semibold text-on-surface">78 kg</span>
+</div>
+</div>
+</div>
+<!-- Live Preview / List -->
+<div class="bg-white rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+<div class="bg-surface-container px-6 py-4 border-b border-outline-variant">
+<h4 class="font-headline-md text-on-surface text-base flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">list_alt</span>
+                            Current List (0)
+                        </h4>
+</div>
+<div class="p-8 text-center">
+<div class="mb-4 opacity-30">
+<span class="material-symbols-outlined text-[64px]">medication_liquid</span>
+</div>
+<p class="text-on-surface-variant text-sm">No medications added to the list yet.</p>
+<p class="text-body-sm mt-2 text-outline">Fill the form to see preview here.</p>
+</div>
+</div>
+<!-- Clinical Reference Placeholder -->
+<div class="relative overflow-hidden rounded-xl h-48 group">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-10"></div>
+<div class="absolute inset-0 bg-center bg-cover transition-transform duration-500 group-hover:scale-110" data-alt="A macro photograph of professional medical literature or a digital tablet showing pharmaceutical interaction charts. The lighting is clinical and cool-toned with accents of medical green and soft blues. The composition is clean and technical, suggesting a highly reliable clinical environment for healthcare professionals." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA26JghuM0H6nB6kMsLkdgQw_hh08SspmoDaaIBiI0vK4WB2O-IA2lMeYKaY8U1lKcQ415ujvxXGkp0aOwmuNSbuCv0ozT6HtIKm5iLJQP-vYYdt_5CdVLgDKapGWXyoSfExroFIzyijQr1ycWNib6BIZuOmHW7v7QlAaVoOHgyCwEwpqVKqMymC4fmlfrcQCoN3tvodkGuKN0uXokZW9h1MHNpQvgG8-wG6Iu_Bm8zA6e2wUyszCYyIZqLh9Z7APJgSqJ-rTtJFtk')"></div>
+<div class="absolute bottom-4 left-4 right-4 z-20">
+<p class="text-white font-bold text-sm">Clinical Reference Guide</p>
+<p class="text-white/80 text-xs mt-1">Check dosage limits and interactions in real-time.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Success Toast (Hidden by default) -->
+<div class="fixed bottom-6 right-6 translate-y-20 opacity-0 transition-all duration-300 pointer-events-none" id="toast">
+<div class="bg-primary text-white px-6 py-4 rounded-xl shadow-xl flex items-center gap-3">
+<span class="material-symbols-outlined">check_circle</span>
+<span class="font-medium">Medication added successfully</span>
+</div>
+</div>
+<script>
+        // Simple Interaction logic
+        const addButton = document.querySelector('button[type="button"].bg-primary');
+        const toast = document.getElementById('toast');
+
+        addButton.addEventListener('click', () => {
+            // Show toast
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            
+            // Auto hide
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 3000);
+        });
+
+        // Search highlight behavior
+        const searchInput = document.querySelector('input[placeholder*="Search"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+    </script>
+</body></html>

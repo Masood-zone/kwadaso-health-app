@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Result Entry - KHMS Lab</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind Config Verbatim -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#ffb3af",
+                    "on-surface-variant": "#40493c",
+                    "app-bg": "#F8FAFC",
+                    "inverse-surface": "#213145",
+                    "emergency-dark": "#B80021",
+                    "surface-variant": "#d3e4fe",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "outline": "#707a6b",
+                    "background": "#f8f9ff",
+                    "on-surface": "#0b1c30",
+                    "tertiary": "#572e00",
+                    "pending-soft": "#FFF4E8",
+                    "on-tertiary": "#ffffff",
+                    "deep-forest": "#064906",
+                    "primary-container": "#0b5d0b",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#8ad97a",
+                    "primary": "#004302",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed": "#2d1600",
+                    "border-subtle": "#E2E8F0",
+                    "surface-tint": "#206d1b",
+                    "surface-container": "#e5eeff",
+                    "secondary": "#bb0021",
+                    "on-primary-fixed": "#002201",
+                    "on-primary-container": "#86d576",
+                    "secondary-container": "#ea002c",
+                    "secondary-fixed": "#ffdad7",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#784200",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-high": "#dce9ff",
+                    "on-background": "#0b1c30",
+                    "error-container": "#ffdad6",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-container": "#ffb168",
+                    "on-secondary-fixed": "#410005",
+                    "accent-blue": "#EAF3FA",
+                    "on-primary-fixed-variant": "#005304",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "primary-fixed": "#a5f693",
+                    "inverse-primary": "#8ad97a",
+                    "surface": "#f8f9ff",
+                    "on-secondary-fixed-variant": "#930018",
+                    "surface-container-low": "#eff4ff",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#cbdbf5",
+                    "medical-green-soft": "#E8F5E9",
+                    "tertiary-fixed": "#ffdcc0",
+                    "surface-bright": "#f8f9ff",
+                    "outline-variant": "#c0cab8",
+                    "emergency-soft": "#FDECEF"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sidebar-width": "260px",
+                    "margin-mobile": "1rem",
+                    "margin-desktop": "2rem",
+                    "gutter": "1.5rem",
+                    "topbar-height": "64px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "table-data": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            background-color: #F8FAFC;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .input-focus-ring:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #004302;
+        }
+        .data-row:hover {
+            background-color: #F1F5F9;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-0 h-full w-[sidebar-width] bg-primary border-r border-outline-variant flex flex-col z-50">
+<div class="p-6">
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-primary">KHMS Lab</h1>
+<p class="font-label-md text-label-md text-primary-fixed-dim uppercase tracking-widest mt-1">Kwadaso HealthLink</p>
+</div>
+<nav class="flex-1 overflow-y-auto px-2 space-y-1 mt-4">
+<!-- Lab Queue -->
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span class="font-label-md text-label-md">Lab Queue</span>
+</a>
+<!-- Sample Tracking -->
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">science</span>
+<span class="font-label-md text-label-md">Sample Tracking</span>
+</a>
+<!-- Result Entry (ACTIVE) -->
+<a class="flex items-center gap-3 bg-deep-forest text-on-primary border-l-4 border-tertiary px-4 py-3 transition-all opacity-90" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-label-md text-label-md">Result Entry</span>
+</a>
+<!-- Results Viewer -->
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">Results Viewer</span>
+</a>
+<!-- Critical Alerts -->
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">emergency_home</span>
+<span class="font-label-md text-label-md">Critical Alerts</span>
+</a>
+<!-- Dashboard -->
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Test Catalog -->
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Test Catalog</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 border-t border-primary-container bg-primary">
+<button class="w-full mb-4 bg-tertiary text-on-tertiary font-label-md text-label-md py-3 rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+                New Lab Request
+            </button>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-[sidebar-width] min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<header class="flex justify-between items-center h-[topbar-height] px-margin-desktop bg-surface border-b border-border-subtle sticky top-0 z-40">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-primary">Laboratory Management</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant font-medium font-label-md text-label-md hover:text-primary transition-colors" href="#">Lab Requests</a>
+<a class="text-on-surface-variant font-medium font-label-md text-label-md hover:text-primary transition-colors" href="#">Inventory</a>
+<a class="text-on-surface-variant font-medium font-label-md text-label-md hover:text-primary transition-colors" href="#">Archived Results</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+                    Scan Sample ID
+                </button>
+<button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-emergency-dark active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">emergency</span>
+                    Emergency Alert
+                </button>
+<div class="flex items-center gap-2 ml-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">notifications</span>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden cursor-pointer border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional close-up headshot of a clinical laboratory technician wearing a crisp white medical lab coat and a subtle hospital identification badge. The background is a clean, slightly blurred clinical setting with cool white lighting and metallic accents, conveying a sense of expertise, focus, and modern healthcare professionalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcS1nNQT_hQewDUcq4eoNpjlKz57KcvDnsomkxOnMJh8tTUSdIsdkfC_wMVQJMx-s0GHdBBhQtoOdua5KdXdXQDUKwHjmJPUK_tdzXh4d5GpdnEJkspyiNTY9Ok1ZeJvPuFSEFyPWJxBSrpVfTmnDeBFyfY8qsXBISATULUGTZIdV3sMbSetQrTrYpficHdm65F_vy5BTQTSYBNnWPuzy0hLUujuu1o9Za5x4qKb1aQ9iK62csjWerMspGtvr8IH6GkDvb3Fgo9Qs"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Content: Result Entry Canvas -->
+<div class="p-8 flex-1">
+<div class="max-w-[1200px] mx-auto">
+<!-- Patient Header Card -->
+<div class="bg-white border border-border-subtle p-6 rounded-lg flex items-center justify-between mb-8">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 bg-accent-blue rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[32px]">person</span>
+</div>
+<div>
+<div class="flex items-center gap-3">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Osei Tutu, Emmanuel</h2>
+<span class="bg-medical-green-soft text-primary font-label-md text-label-md px-3 py-1 rounded-full">ID: KH-88219-B</span>
+</div>
+<div class="flex gap-4 mt-1 font-body-md text-body-md text-on-surface-variant">
+<span>Age: 34 Yrs</span>
+<span>|</span>
+<span>Sex: Male</span>
+<span>|</span>
+<span>Sample Type: Whole Blood (EDTA)</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Test Requisition</p>
+<p class="font-headline-md text-headline-md text-on-surface font-bold">Full Blood Count (FBC)</p>
+<p class="font-body-sm text-body-sm text-secondary font-semibold mt-1">STAT ORDER - High Priority</p>
+</div>
+</div>
+<!-- Main Data Entry Form -->
+<div class="bg-white border border-border-subtle rounded-lg overflow-hidden flex flex-col">
+<div class="bg-accent-blue px-6 py-4 border-b border-border-subtle flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-primary">Enter Parameters</h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-error"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Critical Outlier</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Review Required</span>
+</div>
+</div>
+</div>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-bright border-b border-border-subtle">
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider w-1/3">Test Parameter</th>
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider w-1/4">Measured Value</th>
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Reference Range</th>
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Unit</th>
+<th class="px-6 py-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Flag</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Row 1 -->
+<tr class="data-row transition-colors">
+<td class="px-6 py-4 font-body-md text-body-md font-semibold text-on-surface">Haemoglobin (Hb)</td>
+<td class="px-6 py-4">
+<input class="w-32 bg-white border border-border-subtle rounded px-3 py-2 text-headline-md font-bold text-on-surface input-focus-ring transition-shadow" placeholder="0.0" step="0.1" type="number" value="13.2"/>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">13.5 - 17.5</td>
+<td class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">g/dL</td>
+<td class="px-6 py-4 text-right">
+<span class="material-symbols-outlined text-secondary align-middle">south</span>
+<span class="bg-emergency-soft text-secondary font-label-md text-label-md px-2 py-0.5 rounded ml-2">Low</span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="data-row transition-colors bg-white">
+<td class="px-6 py-4 font-body-md text-body-md font-semibold text-on-surface">White Blood Cell Count (WBC)</td>
+<td class="px-6 py-4">
+<input class="w-32 bg-white border border-border-subtle rounded px-3 py-2 text-headline-md font-bold text-on-surface input-focus-ring transition-shadow" placeholder="0.0" step="0.1" type="number" value="11.8"/>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">4.0 - 11.0</td>
+<td class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">x10³/µL</td>
+<td class="px-6 py-4 text-right">
+<span class="material-symbols-outlined text-tertiary align-middle" style="font-variation-settings: 'FILL' 1;">north</span>
+<span class="bg-pending-soft text-tertiary font-label-md text-label-md px-2 py-0.5 rounded ml-2">High</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="data-row transition-colors bg-white">
+<td class="px-6 py-4 font-body-md text-body-md font-semibold text-on-surface">Platelet Count</td>
+<td class="px-6 py-4">
+<input class="w-32 bg-white border border-border-subtle rounded px-3 py-2 text-headline-md font-bold text-on-surface input-focus-ring transition-shadow" placeholder="0" type="number" value="245"/>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">150 - 450</td>
+<td class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">x10³/µL</td>
+<td class="px-6 py-4 text-right">
+<span class="text-primary font-bold text-[18px]">OK</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="data-row transition-colors bg-white">
+<td class="px-6 py-4 font-body-md text-body-md font-semibold text-on-surface">Mean Cell Volume (MCV)</td>
+<td class="px-6 py-4">
+<input class="w-32 bg-white border border-border-subtle rounded px-3 py-2 text-headline-md font-bold text-on-surface input-focus-ring transition-shadow" placeholder="0.0" step="0.1" type="number" value="89.2"/>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">80.0 - 100.0</td>
+<td class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">fL</td>
+<td class="px-6 py-4 text-right">
+<span class="text-primary font-bold text-[18px]">OK</span>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Comments & Actions Section -->
+<div class="p-6 border-t border-border-subtle bg-surface-bright flex flex-col md:flex-row gap-8">
+<div class="flex-1">
+<label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-2">Technician Observations & Comments</label>
+<textarea class="w-full bg-white border border-border-subtle rounded-lg p-4 font-body-md text-body-md input-focus-ring resize-none" placeholder="Enter clinical notes, morphology observations, or critical reasonings here..." rows="4"></textarea>
+</div>
+<div class="md:w-80 flex flex-col gap-4">
+<div class="bg-white p-4 border border-border-subtle rounded-lg">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase mb-3">Submission Checklist</p>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">Values verified against LIS</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">Critical flags acknowledged</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">Morphology checked</span>
+</label>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-3">
+<button class="w-full bg-primary text-on-primary py-4 rounded-lg font-headline-md text-headline-md flex items-center justify-center gap-3 hover:opacity-90 active:scale-95 transition-all shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+                                    Save & Send for Validation
+                                </button>
+<button class="w-full border-2 border-primary text-primary py-3 rounded-lg font-label-md text-label-md hover:bg-medical-green-soft transition-colors">
+                                    Save as Draft
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Stats / Shortcuts -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-white border-l-4 border-primary p-4 rounded flex items-center gap-4 shadow-sm">
+<div class="p-3 bg-medical-green-soft rounded">
+<span class="material-symbols-outlined text-primary">timer</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Current TAT (Turnaround)</p>
+<p class="font-headline-md text-headline-md font-bold text-on-surface">24m 12s</p>
+</div>
+</div>
+<div class="bg-white border-l-4 border-tertiary p-4 rounded flex items-center gap-4 shadow-sm">
+<div class="p-3 bg-pending-soft rounded">
+<span class="material-symbols-outlined text-tertiary">keyboard</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Hotkeys</p>
+<p class="font-body-md text-body-md text-on-surface">Enter: Next Row | Ctrl+S: Save</p>
+</div>
+</div>
+<div class="bg-white border-l-4 border-secondary p-4 rounded flex items-center gap-4 shadow-sm">
+<div class="p-3 bg-emergency-soft rounded">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Technician Assigned</p>
+<p class="font-body-md text-body-md text-on-surface">Dr. Linda Appiah (Senior Tech)</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interaction: Automatically move to next input on 'Enter' key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const current = document.activeElement;
+                if (current.tagName === 'INPUT' && current.type === 'number') {
+                    const inputs = Array.from(document.querySelectorAll('input[type="number"]'));
+                    const index = inputs.indexOf(current);
+                    if (index > -1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                        e.preventDefault();
+                    }
+                }
+            }
+        });
+
+        // Micro-interaction: Logic to highlight input border based on reference ranges (conceptual)
+        const inputs = document.querySelectorAll('input[type="number"]');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                // In a real app, logic here would trigger the High/Low UI changes dynamically
+                console.log('Value changed:', this.value);
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lab Request Details - KHMS Lab</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#ffb3af",
+                        "on-surface-variant": "#40493c",
+                        "app-bg": "#F8FAFC",
+                        "inverse-surface": "#213145",
+                        "emergency-dark": "#B80021",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "outline": "#707a6b",
+                        "background": "#f8f9ff",
+                        "on-surface": "#0b1c30",
+                        "tertiary": "#572e00",
+                        "pending-soft": "#FFF4E8",
+                        "on-tertiary": "#ffffff",
+                        "deep-forest": "#064906",
+                        "primary-container": "#0b5d0b",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#8ad97a",
+                        "primary": "#004302",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#2d1600",
+                        "border-subtle": "#E2E8F0",
+                        "surface-tint": "#206d1b",
+                        "surface-container": "#e5eeff",
+                        "secondary": "#bb0021",
+                        "on-primary-fixed": "#002201",
+                        "on-primary-container": "#86d576",
+                        "secondary-container": "#ea002c",
+                        "secondary-fixed": "#ffdad7",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#784200",
+                        "on-secondary-container": "#fffbff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "on-background": "#0b1c30",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#ffb168",
+                        "on-secondary-fixed": "#410005",
+                        "accent-blue": "#EAF3FA",
+                        "on-primary-fixed-variant": "#005304",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "primary-fixed": "#a5f693",
+                        "inverse-primary": "#8ad97a",
+                        "surface": "#f8f9ff",
+                        "on-secondary-fixed-variant": "#930018",
+                        "surface-container-low": "#eff4ff",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#cbdbf5",
+                        "medical-green-soft": "#E8F5E9",
+                        "tertiary-fixed": "#ffdcc0",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#c0cab8",
+                        "emergency-soft": "#FDECEF"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sidebar-width": "260px",
+                        "margin-mobile": "1rem",
+                        "margin-desktop": "2rem",
+                        "gutter": "1.5rem",
+                        "topbar-height": "64px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "table-data": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #F8FAFC;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- SIDEBAR ANCHOR -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-primary flex flex-col border-r border-outline-variant z-50">
+<div class="p-6">
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-primary">KHMS Lab</h1>
+<p class="font-label-md text-label-md text-primary-fixed-dim tracking-wider opacity-80">Kwadaso HealthLink</p>
+</div>
+<nav class="flex-1 px-2 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-3 bg-deep-forest text-on-primary border-l-4 border-tertiary px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+<span class="font-label-md text-label-md">Lab Queue</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="science">science</span>
+<span class="font-label-md text-label-md">Sample Tracking</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span class="font-label-md text-label-md">Result Entry</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">Results Viewer</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="emergency_home">emergency_home</span>
+<span class="font-label-md text-label-md">Critical Alerts</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Test Catalog</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="px-2 py-4 border-t border-primary-container/30">
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="flex items-center gap-3 text-primary-fixed-dim hover:bg-primary-container hover:text-on-primary px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- TOPBAR ANCHOR -->
+<header class="fixed top-0 right-0 left-[260px] h-[topbar-height] bg-surface border-b border-border-subtle z-40 flex items-center justify-between px-margin-desktop">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="arrow_back">arrow_back</span>
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Lab Request Details</h2>
+</div>
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Lab Requests</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Inventory</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Archived Results</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="barcode_scanner">barcode_scanner</span>
+                Scan Sample ID
+            </button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<div class="flex items-center gap-2 pl-4 border-l border-border-subtle">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of a female laboratory technician in a clean, white lab coat, standing in a brightly lit, modern medical facility. The background features high-tech clinical equipment and soft blue tones, emphasizing a trustworthy and precise medical environment. Her expression is focused and capable." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn9PJRs09OzMw16gzG9hTl-zazK0UEfuctpDxhdn10b_QMu7hGCCUZh6YJbz_fDZZ4yx7D8jd3vKKmaLuk-uqivv1r5hQno_1O6lePvcJIrh0r1gZ1xv0H3UO9-vBoyFW8lPV9JJ791SZpNaTbiGQmmUknlRQsQ9kDbnJuBXLKA2HNhOd3Mza_JpzMSJEJ5VIfQxBVunimI5POKc0ThNsWa11ta_A_UYe65dZMjgWQjDQ_mOROiBusRibYICO2CJhFUcd1OZb4FAY"/>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT AREA -->
+<main class="ml-[260px] mt-[64px] p-margin-desktop min-h-[calc(100vh-64px)] overflow-y-auto">
+<div class="max-w-[1200px] mx-auto">
+<!-- Patient Context Header Card -->
+<section class="bg-white border border-border-subtle rounded-xl p-6 mb-gutter relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-2 bg-primary"></div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex items-center gap-6">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-accent-blue border border-border-subtle shrink-0">
+<img class="w-full h-full object-cover" data-alt="Close up photograph of an elderly male patient with gentle features and short grey hair, looking directly at the camera with a calm expression. He is wearing a clean clinical gown. The lighting is soft and high-key, reinforcing a clean, safe hospital atmosphere with neutral tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYDTRKLYKDC7jgzfaaC-MQJLE1C2ght-AuB5iYJx2kH8aVirWXY5jEGATj5C65zackZV5DBZj1FmAlb-0_3z9mO41mO0eYGFcDW82pS_ZJpmsZRlJ8-gyQgSCvoS6HYsEMAvSAq-6P9jmwTEpATzZ5yOPjvw58Kk58vwQiHyGyru_3yqIx1ap123mLKD5n72Cg-OkhnahnTrI6KWYjgcls8PV9gg2i-3F3743eB-fYSEWzlv0b5wpQiva1i4bhcQUurp8_KXo7Xf0"/>
+</div>
+<div class="space-y-1">
+<div class="flex items-center gap-3">
+<h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">Osei Kwame Mensah</h3>
+<span class="bg-medical-green-soft text-primary px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider">Patient ID: #LK-90210</span>
+</div>
+<div class="flex flex-wrap gap-x-6 gap-y-1 text-on-surface-variant font-body-md">
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]" data-icon="person">person</span> 64 Years, Male</span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]" data-icon="bloodtype">bloodtype</span> O Positive</span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span> Ward 4B, Bed 12</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end gap-2 text-right">
+<span class="text-on-surface-variant text-label-md">REQUESTED ON</span>
+<p class="font-headline-md text-headline-md font-bold text-on-surface">Oct 24, 2023</p>
+<p class="text-body-sm text-on-surface-variant">09:45 AM by Dr. Araba Forson</p>
+</div>
+</div>
+</section>
+<!-- Main Layout Bento Grid -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Left Column: Tests and Requirements -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<!-- Tests Panel -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle bg-accent-blue/30 flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+                                Requested Tests
+                            </h4>
+<span class="text-body-sm font-bold text-on-surface-variant">3 ITEMS</span>
+</div>
+<div class="divide-y divide-border-subtle">
+<!-- Test Item 1 -->
+<div class="p-6 hover:bg-surface-container-lowest transition-colors flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-medical-green-soft flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+</div>
+<div>
+<p class="font-bold text-on-surface text-body-lg">Complete Blood Count (CBC)</p>
+<p class="text-body-sm text-on-surface-variant">HGB, WBC, PLT, Differential</p>
+</div>
+</div>
+<span class="bg-pending-soft text-tertiary px-3 py-1 rounded font-label-md text-label-md border border-tertiary/10">Awaiting Sample</span>
+</div>
+<!-- Test Item 2 -->
+<div class="p-6 hover:bg-surface-container-lowest transition-colors flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-medical-green-soft flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="opacity">opacity</span>
+</div>
+<div>
+<p class="font-bold text-on-surface text-body-lg">Lipid Profile</p>
+<p class="text-body-sm text-on-surface-variant">Cholesterol, LDL, HDL, Triglycerides</p>
+</div>
+</div>
+<span class="bg-pending-soft text-tertiary px-3 py-1 rounded font-label-md text-label-md border border-tertiary/10">Awaiting Sample</span>
+</div>
+<!-- Test Item 3 -->
+<div class="p-6 hover:bg-surface-container-lowest transition-colors flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-medical-green-soft flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="experiment">experiment</span>
+</div>
+<div>
+<p class="font-bold text-on-surface text-body-lg">HbA1c</p>
+<p class="text-body-sm text-on-surface-variant">Glycated Hemoglobin</p>
+</div>
+</div>
+<span class="bg-pending-soft text-tertiary px-3 py-1 rounded font-label-md text-label-md border border-tertiary/10">Awaiting Sample</span>
+</div>
+</div>
+</div>
+<!-- Clinical Notes -->
+<div class="bg-white border border-border-subtle rounded-xl p-6">
+<h4 class="font-headline-md text-headline-md font-bold text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="notes">notes</span>
+                            Clinical Notes
+                        </h4>
+<div class="p-4 bg-background border-l-4 border-primary rounded-r-lg">
+<p class="text-body-md text-on-surface leading-relaxed italic">
+                                "Patient presenting with chronic fatigue and occasional dizziness. Previous history of Type 2 Diabetes. Requesting comprehensive baseline check prior to medication adjustment. Ensure 12-hour fasting for Lipid Profile."
+                            </p>
+<div class="mt-3 flex justify-between items-center text-body-sm text-on-surface-variant">
+<span class="font-bold">— Dr. Araba Forson</span>
+<span>Internal Medicine</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Requirements and Actions -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- Action Panel -->
+<div class="bg-white border border-border-subtle rounded-xl p-6 shadow-sm">
+<h4 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-6">Request Actions</h4>
+<div class="space-y-3">
+<button class="w-full bg-primary text-on-primary py-4 rounded-xl font-headline-md text-headline-md font-bold flex items-center justify-center gap-3 hover:shadow-lg transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="blood_pressure">blood_pressure</span>
+                                Collect Sample
+                            </button>
+<button class="w-full border-2 border-primary text-primary py-4 rounded-xl font-headline-md text-headline-md font-bold flex items-center justify-center gap-3 hover:bg-medical-green-soft transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="print">print</span>
+                                Print Barcode
+                            </button>
+<div class="pt-4 mt-4 border-t border-border-subtle">
+<button class="w-full text-secondary font-bold py-3 rounded-xl hover:bg-emergency-soft transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+                                    Cancel Request
+                                </button>
+</div>
+</div>
+</div>
+<!-- Sample Requirements -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden">
+<div class="px-6 py-4 bg-tertiary text-on-tertiary flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<h4 class="font-label-md text-label-md uppercase font-bold">Sample Requirements</h4>
+</div>
+<div class="p-6 space-y-6">
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-full bg-pending-soft flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-outlined text-[20px]" data-icon="timer">timer</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Fasting Required</p>
+<p class="text-body-sm text-on-surface-variant">Patient must fast for 12 hours prior to collection. Water is permitted.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-full bg-accent-blue flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]" data-icon="vial">bia</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Tube Types</p>
+<ul class="text-body-sm text-on-surface-variant list-disc ml-4 space-y-1 mt-1">
+<li>1x EDTA (Lavender Top)</li>
+<li>1x Gel Separator (Gold Top)</li>
+<li>1x Fluoride (Grey Top)</li>
+</ul>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-full bg-emergency-soft flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-[20px]" data-icon="priority_high">priority_high</span>
+</div>
+<div>
+<p class="font-bold text-on-surface text-secondary">Pre-collection Check</p>
+<p class="text-body-sm text-on-surface-variant">Verify patient identification using wristband before proceeding.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Audit Trail Summary -->
+<div class="bg-surface-container-low border border-border-subtle rounded-xl p-4">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-bold text-on-surface-variant uppercase">History</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]" data-icon="history">history</span>
+</div>
+<div class="space-y-3 relative">
+<div class="absolute left-[7px] top-2 bottom-2 w-[2px] bg-outline-variant/30"></div>
+<div class="flex gap-3 relative z-10">
+<div class="w-4 h-4 rounded-full bg-primary ring-4 ring-surface-container-low"></div>
+<div class="flex-1">
+<p class="text-xs font-bold text-on-surface">Request Created</p>
+<p class="text-[10px] text-on-surface-variant">Today, 09:45 AM • Dr. Araba Forson</p>
+</div>
+</div>
+<div class="flex gap-3 relative z-10">
+<div class="w-4 h-4 rounded-full bg-outline-variant ring-4 ring-surface-container-low"></div>
+<div class="flex-1">
+<p class="text-xs font-bold text-on-surface-variant">Awaiting Sample Collection</p>
+<p class="text-[10px] text-on-surface-variant">Pending Technician assignment</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interactions for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.add('scale-95');
+                setTimeout(() => this.classList.remove('scale-95'), 150);
+            });
+        });
+    </script>
+</body></html>

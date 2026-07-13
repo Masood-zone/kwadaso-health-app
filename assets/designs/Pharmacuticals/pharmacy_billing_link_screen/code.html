@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pharmacy Billing Link | MediFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "background": "#f8f9ff",
+                "on-tertiary-fixed-variant": "#6b3b00",
+                "outline": "#707a6b",
+                "emergency-dark": "#B80021",
+                "surface-variant": "#d3e4fe",
+                "secondary-fixed-dim": "#ffb3af",
+                "on-surface-variant": "#40493c",
+                "app-bg": "#F8FAFC",
+                "inverse-surface": "#213145",
+                "error": "#ba1a1a",
+                "on-tertiary-fixed": "#2d1600",
+                "border-subtle": "#E2E8F0",
+                "surface-tint": "#206d1b",
+                "surface-container": "#e5eeff",
+                "surface-container-lowest": "#ffffff",
+                "primary-fixed-dim": "#8ad97a",
+                "primary": "#004302",
+                "tertiary": "#572e00",
+                "pending-soft": "#FFF4E8",
+                "on-tertiary": "#ffffff",
+                "deep-forest": "#064906",
+                "primary-container": "#0b5d0b",
+                "on-surface": "#0b1c30",
+                "on-tertiary-container": "#ffb168",
+                "on-secondary-fixed": "#410005",
+                "accent-blue": "#EAF3FA",
+                "surface-container-highest": "#d3e4fe",
+                "surface-container-high": "#dce9ff",
+                "on-background": "#0b1c30",
+                "error-container": "#ffdad6",
+                "on-secondary": "#ffffff",
+                "on-error-container": "#93000a",
+                "on-secondary-container": "#fffbff",
+                "inverse-on-surface": "#eaf1ff",
+                "secondary": "#bb0021",
+                "on-primary-fixed": "#002201",
+                "on-primary-container": "#86d576",
+                "secondary-container": "#ea002c",
+                "secondary-fixed": "#ffdad7",
+                "on-primary": "#ffffff",
+                "tertiary-container": "#784200",
+                "outline-variant": "#c0cab8",
+                "emergency-soft": "#FDECEF",
+                "medical-green-soft": "#E8F5E9",
+                "tertiary-fixed": "#ffdcc0",
+                "surface-bright": "#f8f9ff",
+                "on-primary-fixed-variant": "#005304",
+                "tertiary-fixed-dim": "#ffb877",
+                "primary-fixed": "#a5f693",
+                "inverse-primary": "#8ad97a",
+                "surface": "#f8f9ff",
+                "on-secondary-fixed-variant": "#930018",
+                "surface-container-low": "#eff4ff",
+                "on-error": "#ffffff",
+                "surface-dim": "#cbdbf5"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "spacing": {
+                "topbar-height": "64px",
+                "container-max": "1440px",
+                "sidebar-width": "260px",
+                "margin-mobile": "1rem",
+                "margin-desktop": "2rem",
+                "gutter": "1.5rem"
+            },
+            "fontFamily": {
+                "headline-md": ["Manrope"],
+                "headline-lg": ["Manrope"],
+                "body-sm": ["Inter"],
+                "body-lg": ["Inter"],
+                "table-data": ["Inter"],
+                "body-md": ["Inter"],
+                "display-lg": ["Manrope"],
+                "label-md": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC;
+            color: #0b1c30;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .status-strip-green { border-left: 4px solid #206d1b; }
+        .status-strip-orange { border-left: 4px solid #ffb168; }
+        .status-strip-red { border-left: 4px solid #bb0021; }
+    </style>
+</head>
+<body class="font-body-md overflow-x-hidden">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-primary dark:bg-inverse-surface border-r border-border-subtle dark:border-outline flex flex-col h-full z-50">
+<div class="p-6">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary dark:text-inverse-on-surface">MediFlow Pharmacy</h1>
+<p class="text-xs text-on-primary opacity-70 mt-1 uppercase tracking-widest">General Hospital Central</p>
+</div>
+<nav class="flex-1 mt-4">
+<a class="flex items-center gap-3 text-on-primary-container opacity-80 px-4 py-3 hover:bg-primary-container hover:opacity-100 transition-colors" href="#">
+<span class="material-symbols-outlined">pending_actions</span>
+<span class="font-body-md text-body-md">Queue</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container opacity-80 px-4 py-3 hover:bg-primary-container hover:opacity-100 transition-colors" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-body-md text-body-md">Inventory</span>
+</a>
+<a class="flex items-center gap-3 bg-deep-forest text-on-primary border-l-4 border-tertiary-fixed-dim px-4 py-3 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container opacity-80 px-4 py-3 hover:bg-primary-container hover:opacity-100 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="p-4 mt-auto">
+<button class="w-full py-3 bg-tertiary-container text-on-tertiary-container font-bold rounded flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined">add</span>
+                New Prescription
+            </button>
+<div class="mt-6 flex items-center gap-3 px-2">
+<img class="w-10 h-10 rounded-full border border-on-primary/20" data-alt="A professional headshot of a middle-aged male pharmacist in a clean white medical coat, wearing glasses, smiling warmly in a bright, modern pharmacy setting. The lighting is clinical and bright, reinforcing a trustworthy healthcare atmosphere with soft blue and green tones in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUeVS4jQJzDALif1zjumbbZhW7rxCQNFyXCVeePdeejRowHoiW5bQwL9wuPcXvvpYyHodHbqUeRpKTsitgWEt15DIAKSsuePltwZ6hjT7GdMhkCftVEddBXoUIRKWH20ty-E99XuZH6_tODxx-NdSG0zGRIVLBnUp0017LDj_JrGVlkbhy9hu1trPOUw80xRAef5ilSpiXDQB8zmJ1LubK5m0D5IrOykUpBanYIoMBRQxnNLN-PqMWHeCouq1ziqetoLt49y3RTxQ"/>
+<div class="text-on-primary">
+<p class="text-sm font-bold">Pharmacist Profile</p>
+<p class="text-xs opacity-70">Lic. #PH-99281</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface dark:bg-on-surface border-b border-border-subtle dark:border-outline flex justify-between items-center px-margin-desktop z-40">
+<div class="flex items-center gap-4 flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary-container outline-none" placeholder="Search billing references or patient MRN..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="material-symbols-outlined hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined hover:text-primary transition-colors">help</button>
+<button class="material-symbols-outlined hover:text-primary transition-colors">apps</button>
+</div>
+<button class="px-4 py-2 bg-secondary text-on-secondary font-bold text-sm rounded shadow-sm hover:opacity-90 transition-all">
+                Emergency Restock
+            </button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[260px] pt-[84px] p-margin-desktop min-h-screen">
+<!-- Breadcrumbs & Header -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<nav class="flex items-center gap-2 text-xs text-on-surface-variant mb-2">
+<span>Pharmacy Management System</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span>Finance</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-primary font-bold">Billing Link</span>
+</nav>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Medication Billing Bridge</h2>
+<p class="text-on-surface-variant text-body-md">Review and finalize pharmaceutical charges for patient encounter #E-8829-X</p>
+</div>
+<div class="flex items-center gap-3 bg-medical-green-soft px-4 py-2 rounded-lg border border-primary/10">
+<span class="material-symbols-outlined text-deep-forest" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="text-xs font-bold text-deep-forest tracking-wider uppercase">Secure Billing Protocol Active</span>
+</div>
+</div>
+<!-- Bento Grid Layout for Billing Info -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Patient Summary Card -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-xl status-strip-green">
+<p class="text-label-md text-on-surface-variant mb-4">PATIENT ENCOUNTER</p>
+<div class="flex items-start gap-4">
+<div class="w-16 h-16 bg-accent-blue rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-4xl">person</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md">Eleanor Vance</h3>
+<p class="text-body-sm text-on-surface-variant">MRN: 2024-VNC-1192</p>
+<p class="text-body-sm text-on-surface-variant">Ward: Oncology 4B - Bed 12</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-xl">
+<p class="text-label-md text-on-surface-variant mb-4">BILLING REFERENCE</p>
+<div class="flex items-center justify-between py-3 border-b border-border-subtle">
+<span class="text-body-md font-medium">Ref Number:</span>
+<span class="font-bold font-table-data text-primary">TX-990-281-BIL</span>
+</div>
+<div class="flex items-center justify-between py-3 border-b border-border-subtle">
+<span class="text-body-md font-medium">Date Generated:</span>
+<span class="text-body-md">Oct 24, 2023 | 14:22</span>
+</div>
+<div class="flex items-center justify-between py-3">
+<span class="text-body-md font-medium">Payment Status:</span>
+<span class="px-3 py-1 bg-pending-soft text-on-tertiary-fixed-variant text-xs font-bold rounded-full">INSURANCE PENDING</span>
+</div>
+</div>
+</div>
+<!-- Medication Charges Table -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden">
+<div class="bg-accent-blue px-6 py-4 border-b border-border-subtle flex justify-between items-center">
+<h3 class="font-bold text-on-surface">Medication Charges</h3>
+<span class="text-xs text-on-surface-variant">5 Items Charged</span>
+</div>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-white/50 text-label-md text-on-surface-variant">
+<th class="px-6 py-3 font-semibold uppercase">Medication</th>
+<th class="px-6 py-3 font-semibold uppercase">NDC Code</th>
+<th class="px-6 py-3 font-semibold uppercase">Qty</th>
+<th class="px-6 py-3 font-semibold uppercase text-right">Unit Price</th>
+<th class="px-6 py-3 font-semibold uppercase text-right">Total</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-accent-blue/30 transition-colors">
+<td class="px-6 py-4">
+<p class="font-bold font-table-data text-on-surface">Rituximab Injection</p>
+<p class="text-[11px] text-on-surface-variant">500mg/50mL Single Dose</p>
+</td>
+<td class="px-6 py-4 font-table-data text-on-surface-variant">50242-051-21</td>
+<td class="px-6 py-4 font-table-data">2</td>
+<td class="px-6 py-4 text-right font-table-data">$1,840.00</td>
+<td class="px-6 py-4 text-right font-bold text-on-surface">$3,680.00</td>
+</tr>
+<tr class="hover:bg-accent-blue/30 transition-colors">
+<td class="px-6 py-4">
+<p class="font-bold font-table-data text-on-surface">Dexamethasone</p>
+<p class="text-[11px] text-on-surface-variant">4mg Tablets (Oral)</p>
+</td>
+<td class="px-6 py-4 font-table-data text-on-surface-variant">00527-0595-01</td>
+<td class="px-6 py-4 font-table-data">10</td>
+<td class="px-6 py-4 text-right font-table-data">$2.40</td>
+<td class="px-6 py-4 text-right font-bold text-on-surface">$24.00</td>
+</tr>
+<tr class="hover:bg-accent-blue/30 transition-colors">
+<td class="px-6 py-4">
+<p class="font-bold font-table-data text-on-surface">Sodium Chloride 0.9%</p>
+<p class="text-[11px] text-on-surface-variant">500mL IV Bag</p>
+</td>
+<td class="px-6 py-4 font-table-data text-on-surface-variant">00338-0049-03</td>
+<td class="px-6 py-4 font-table-data">3</td>
+<td class="px-6 py-4 text-right font-table-data">$18.50</td>
+<td class="px-6 py-4 text-right font-bold text-on-surface">$55.50</td>
+</tr>
+<tr class="hover:bg-accent-blue/30 transition-colors">
+<td class="px-6 py-4">
+<p class="font-bold font-table-data text-on-surface">Ondansetron HCl</p>
+<p class="text-[11px] text-on-surface-variant">4mg/2mL Vial</p>
+</td>
+<td class="px-6 py-4 font-table-data text-on-surface-variant">00409-4755-03</td>
+<td class="px-6 py-4 font-table-data">1</td>
+<td class="px-6 py-4 text-right font-table-data">$42.00</td>
+<td class="px-6 py-4 text-right font-bold text-on-surface">$42.00</td>
+</tr>
+</tbody>
+</table>
+<div class="p-6 bg-surface-container-low border-t border-border-subtle">
+<div class="flex flex-col items-end gap-2">
+<div class="flex justify-between w-64 text-body-sm">
+<span class="text-on-surface-variant">Subtotal:</span>
+<span class="font-table-data">$3,801.50</span>
+</div>
+<div class="flex justify-between w-64 text-body-sm">
+<span class="text-on-surface-variant">Pharmacy Admin Fee:</span>
+<span class="font-table-data">$25.00</span>
+</div>
+<div class="flex justify-between w-64 text-body-sm pb-2 border-b border-outline-variant">
+<span class="text-on-surface-variant">Insurance Discount (Est.):</span>
+<span class="font-table-data text-secondary">-$240.00</span>
+</div>
+<div class="flex justify-between w-64 pt-2">
+<span class="font-bold text-on-surface">Total Charge:</span>
+<span class="font-bold text-lg text-primary">$3,586.50</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Interaction Section -->
+<div class="col-span-12 grid grid-cols-1 md:grid-cols-3 gap-gutter mt-4">
+<div class="bg-medical-green-soft border border-primary/20 p-6 rounded-xl flex flex-col justify-between">
+<div>
+<h4 class="font-bold text-deep-forest mb-2">Final Review</h4>
+<p class="text-body-sm text-on-surface-variant">Check for dosage accuracy and NDC matching before confirming. Once sent to billing, modifications require admin override.</p>
+</div>
+<div class="flex items-center gap-2 mt-4 text-xs font-bold text-deep-forest">
+<input class="rounded border-primary text-primary focus:ring-primary" id="reviewed" type="checkbox"/>
+<label for="reviewed">I confirm charges are medically accurate.</label>
+</div>
+</div>
+<div class="md:col-span-2 bg-surface-container-lowest border border-border-subtle p-6 rounded-xl flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-high rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+<div>
+<p class="font-bold">Next Step: Billing Department</p>
+<p class="text-xs text-on-surface-variant">Queue: <span class="font-bold text-on-surface">Central Billing (Room 201)</span></p>
+</div>
+</div>
+<div class="flex gap-3 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-6 py-3 border border-primary text-primary font-bold rounded-lg hover:bg-primary/5 transition-all text-sm">
+                            Confirm Payment
+                        </button>
+<button class="flex-1 md:flex-none px-8 py-3 bg-primary text-on-primary font-bold rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 text-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">send</span>
+                            Send to Billing
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Atmospheric Micro-interaction Layer (Hidden logic for focus) -->
+<div class="fixed bottom-8 right-8 bg-inverse-surface text-inverse-on-surface px-6 py-4 rounded-xl shadow-2xl translate-y-24 opacity-0 transition-all duration-500 z-[100] flex items-center gap-3" id="toast">
+<span class="material-symbols-outlined text-primary-fixed">check_circle</span>
+<div>
+<p class="font-bold text-sm">Charges Transferred</p>
+<p class="text-xs opacity-80">Reference TX-990-281-BIL sent to Central Billing.</p>
+</div>
+</div>
+</main>
+<script>
+        // Simple Micro-interaction for the "Send to Billing" button
+        const sendBtn = document.querySelector('button:last-child');
+        const toast = document.getElementById('toast');
+        const checkbox = document.getElementById('reviewed');
+
+        sendBtn.addEventListener('click', () => {
+            if(!checkbox.checked) {
+                alert('Please confirm medical accuracy before sending.');
+                return;
+            }
+            
+            sendBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Sending...';
+            sendBtn.disabled = true;
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-24', 'opacity-0');
+                sendBtn.innerHTML = '<span class="material-symbols-outlined">done_all</span> Sent';
+                sendBtn.classList.add('bg-deep-forest');
+                
+                setTimeout(() => {
+                    toast.classList.add('translate-y-24', 'opacity-0');
+                }, 4000);
+            }, 1200);
+        });
+
+        // Toggle table row highlights on hover effect refinement
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.querySelector('p.font-bold').classList.add('text-primary');
+            });
+            row.addEventListener('mouseleave', () => {
+                row.querySelector('p.font-bold').classList.remove('text-primary');
+            });
+        });
+    </script>
+</body></html>
