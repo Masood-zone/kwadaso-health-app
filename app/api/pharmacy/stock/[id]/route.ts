@@ -1,0 +1,12 @@
+import type { NextRequest } from "next/server"
+import { ensurePharmacyStock, pharmacyOk, serializeStock, withPharmacy, writePharmacyAuditLog } from "@/lib/pharmacy"
+import { stockUpdateSchema } from "@/lib/pharmacy-schemas"
+import { AuditAction } from "@/lib/generated/prisma/enums"
+import { prisma } from "@/lib/prisma"
+
+type Context = { params: Promise<{ id: string }> }
+export async function GET(request: NextRequest, context: Context) { return withPharmacy(request, async (actor) => { const { id } = await context.params; const row = await ensurePharmacyStock(id, actor.facilityId); if (!row) throw new Error("STOCK_NOT_FOUND"); return pharmacyOk({ ...serializeStock(row), movements: row.movements.map((item) => ({ id: item.id, type: item.type, quantity: item.quantity, reason: item.reason, reference: item.reference, performedByName: item.performedBy?.name ?? null, createdAt: item.createdAt.toISOString() })) }) }) }
+export async function PATCH(request: NextRequest, context: Context) {
+  return withPharmacy(request, async (actor) => { const { id } = await context.params; const parsed = stockUpdateSchema.safeParse(await request.json()); if (!parsed.success) return Response.json({ success: false, message: "Stock metadata is invalid." }, { status: 400 }); const row = await prisma.$transaction(async (tx) => { const before = await ensurePharmacyStock(id, actor.facilityId, tx); if (!before) throw new Error("STOCK_NOT_FOUND"); const updated = await tx.medicationStock.update({ where: { id }, data: { ...parsed.data, expiryDate: parsed.data.expiryDate === undefined ? undefined : parsed.data.expiryDate ? new Date(parsed.data.expiryDate) : null }, include: { medication: true, movements: { include: { performedBy: true }, orderBy: { createdAt: "desc" } } } }); await writePharmacyAuditLog({ client: tx, request, actor, action: AuditAction.UPDATE, entityType: "MedicationStock", entityId: id, description: `Updated stock batch ${updated.batchNumber ?? updated.id}`, before: { batchNumber: before.batchNumber, expiryDate: before.expiryDate?.toISOString() ?? null, unitCost: before.unitCost?.toString() ?? null, sellingPrice: before.sellingPrice?.toString() ?? null }, after: { batchNumber: updated.batchNumber, expiryDate: updated.expiryDate?.toISOString() ?? null, unitCost: updated.unitCost?.toString() ?? null, sellingPrice: updated.sellingPrice?.toString() ?? null } }); return updated }); return pharmacyOk(serializeStock(row)) })
+}
+

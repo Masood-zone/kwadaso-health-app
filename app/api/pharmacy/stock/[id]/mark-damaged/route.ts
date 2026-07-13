@@ -1,0 +1,10 @@
+import type { NextRequest } from "next/server"
+import { ensurePharmacyStock, pharmacyOk, reconcileLowStockNotification, withPharmacy, writePharmacyAuditLog } from "@/lib/pharmacy"
+import { stockWriteOffSchema } from "@/lib/pharmacy-schemas"
+import { AuditAction } from "@/lib/generated/prisma/enums"
+import { prisma } from "@/lib/prisma"
+
+export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  return withPharmacy(request, async (actor) => { const { id } = await context.params; const parsed = stockWriteOffSchema.safeParse(await request.json()); if (!parsed.success) return Response.json({ success: false, message: "Damaged-stock details are invalid." }, { status: 400 }); const result = await prisma.$transaction(async (tx) => { const stock = await ensurePharmacyStock(id, actor.facilityId, tx); if (!stock) throw new Error("STOCK_NOT_FOUND"); const changed = await tx.medicationStock.updateMany({ where: { id, quantityOnHand: { gte: parsed.data.quantity } }, data: { quantityOnHand: { decrement: parsed.data.quantity } } }); if (changed.count !== 1) throw new Error("INSUFFICIENT_STOCK"); const movement = await tx.stockMovement.create({ data: { stockId: id, medicationId: stock.medicationId, type: "DAMAGED", quantity: parsed.data.quantity, reason: parsed.data.reason, reference: parsed.data.reference, performedById: actor.id } }); const updated = await tx.medicationStock.findUniqueOrThrow({ where: { id }, include: { medication: true } }); await reconcileLowStockNotification(tx, updated, actor.id); await writePharmacyAuditLog({ client: tx, request, actor, action: AuditAction.UPDATE, entityType: "MedicationStock", entityId: id, description: `Recorded damaged stock for ${stock.medication.name}`, before: { quantityOnHand: stock.quantityOnHand }, after: { quantityOnHand: updated.quantityOnHand, quantityDamaged: parsed.data.quantity, movementId: movement.id } }); return { movementId: movement.id, quantityOnHand: updated.quantityOnHand } }); return pharmacyOk(result, "Damaged stock recorded.", 201) })
+}
+

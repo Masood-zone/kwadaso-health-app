@@ -1,0 +1,9 @@
+import type { NextRequest } from "next/server"
+import { canTransitionReorder, pharmacyOk, withPharmacy, writePharmacyAuditLog } from "@/lib/pharmacy"
+import { reorderUpdateSchema } from "@/lib/pharmacy-schemas"
+import { AuditAction } from "@/lib/generated/prisma/enums"
+import { prisma } from "@/lib/prisma"
+
+export async function PATCH(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  return withPharmacy(request, async (actor) => { const { id } = await context.params; const parsed = reorderUpdateSchema.safeParse(await request.json()); if (!parsed.success) return Response.json({ success: false, message: "Reorder update is invalid." }, { status: 400 }); const row = await prisma.$transaction(async (tx) => { const before = await tx.pharmacyReorder.findFirst({ where: { id, facilityId: actor.facilityId } }); if (!before) throw new Error("REORDER_NOT_FOUND"); if (!canTransitionReorder(before.status, parsed.data.status)) throw new Error("REORDER_TRANSITION_INVALID"); const updated = await tx.pharmacyReorder.update({ where: { id }, data: { status: parsed.data.status, notes: parsed.data.notes, receivedAt: parsed.data.status === "RECEIVED" ? new Date() : before.receivedAt }, include: { medication: true, createdBy: true } }); await writePharmacyAuditLog({ client: tx, request, actor, action: AuditAction.UPDATE, entityType: "PharmacyReorder", entityId: id, description: `Updated reorder ${updated.reference} to ${updated.status}`, before: { status: before.status }, after: { status: updated.status } }); return updated }); return pharmacyOk({ id: row.id, reference: row.reference, medicationId: row.medicationId, medicationName: row.medication.name, stockId: row.stockId, requestedQuantity: row.requestedQuantity, status: row.status, notes: row.notes, createdByName: row.createdBy?.name ?? null, createdAt: row.createdAt.toISOString() }) })
+}
