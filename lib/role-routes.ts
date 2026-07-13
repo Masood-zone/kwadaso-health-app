@@ -9,6 +9,7 @@ export const dashboardRoutes: Partial<Record<StaffRole, string>> = {
   LAB_TECHNICIAN: "/laboratory",
   DOCTOR: "/clinician",
   PHYSICIAN_ASSISTANT: "/clinician",
+  PHARMACIST: "/pharmacy",
 }
 
 export function getDashboardRoute(role?: StaffRole | null) {

@@ -18,12 +18,120 @@ BEGIN
     ALTER TABLE "Medication" ADD COLUMN "facilityId" TEXT;
     DROP INDEX IF EXISTS "Medication_code_key";
 
-    -- Backfill with default facility
-    UPDATE "Medication"
-    SET "facilityId" = (
-      SELECT "id" FROM "Facility" WHERE "code" = 'SDA-KWADASO' LIMIT 1
+    -- Build the complete set of facilities where each existing medication is
+    -- already used. Prescriptions without an encounter inherit the patient's
+    -- registered facility. Stock-linked records use the owning stock facility.
+    CREATE TEMP TABLE "_MedicationFacilityUsage" (
+      "medicationId" TEXT NOT NULL,
+      "facilityId" TEXT NOT NULL,
+      PRIMARY KEY ("medicationId", "facilityId")
+    ) ON COMMIT DROP;
+
+    INSERT INTO "_MedicationFacilityUsage" ("medicationId", "facilityId")
+    SELECT DISTINCT "medicationId", "facilityId"
+    FROM "MedicationStock"
+    ON CONFLICT DO NOTHING;
+
+    INSERT INTO "_MedicationFacilityUsage" ("medicationId", "facilityId")
+    SELECT DISTINCT pi."medicationId", COALESCE(e."facilityId", ptn."registeredFacilityId")
+    FROM "PrescriptionItem" pi
+    JOIN "Prescription" p ON p."id" = pi."prescriptionId"
+    JOIN "Patient" ptn ON ptn."id" = p."patientId"
+    LEFT JOIN "Encounter" e ON e."id" = p."encounterId"
+    WHERE pi."medicationId" IS NOT NULL
+      AND COALESCE(e."facilityId", ptn."registeredFacilityId") IS NOT NULL
+    ON CONFLICT DO NOTHING;
+
+    INSERT INTO "_MedicationFacilityUsage" ("medicationId", "facilityId")
+    SELECT DISTINCT di."medicationId", COALESCE(e."facilityId", ptn."registeredFacilityId")
+    FROM "DispenseItem" di
+    JOIN "Dispensing" d ON d."id" = di."dispensingId"
+    JOIN "Prescription" p ON p."id" = d."prescriptionId"
+    JOIN "Patient" ptn ON ptn."id" = d."patientId"
+    LEFT JOIN "Encounter" e ON e."id" = p."encounterId"
+    WHERE di."medicationId" IS NOT NULL
+      AND COALESCE(e."facilityId", ptn."registeredFacilityId") IS NOT NULL
+    ON CONFLICT DO NOTHING;
+
+    INSERT INTO "_MedicationFacilityUsage" ("medicationId", "facilityId")
+    SELECT DISTINCT sm."medicationId", ms."facilityId"
+    FROM "StockMovement" sm
+    JOIN "MedicationStock" ms ON ms."id" = sm."stockId"
+    ON CONFLICT DO NOTHING;
+
+    -- Preserve otherwise-unused catalog entries at the deterministic first
+    -- facility instead of dropping them during ownership enforcement.
+    INSERT INTO "_MedicationFacilityUsage" ("medicationId", "facilityId")
+    SELECT m."id", (SELECT f."id" FROM "Facility" f ORDER BY f."createdAt", f."id" LIMIT 1)
+    FROM "Medication" m
+    WHERE NOT EXISTS (
+      SELECT 1 FROM "_MedicationFacilityUsage" u WHERE u."medicationId" = m."id"
     )
-    WHERE "facilityId" IS NULL;
+    ON CONFLICT DO NOTHING;
+
+    CREATE TEMP TABLE "_MedicationFacilityMap" ON COMMIT DROP AS
+    SELECT
+      u."medicationId" AS "sourceMedicationId",
+      u."facilityId",
+      CASE
+        WHEN u."facilityId" = MIN(u."facilityId") OVER (PARTITION BY u."medicationId")
+          THEN u."medicationId"
+        ELSE 'phm_' || md5(u."medicationId" || ':' || u."facilityId")
+      END AS "targetMedicationId",
+      u."facilityId" = MIN(u."facilityId") OVER (PARTITION BY u."medicationId") AS "usesOriginal"
+    FROM "_MedicationFacilityUsage" u;
+
+    UPDATE "Medication" m
+    SET "facilityId" = map."facilityId"
+    FROM "_MedicationFacilityMap" map
+    WHERE map."sourceMedicationId" = m."id" AND map."usesOriginal";
+
+    INSERT INTO "Medication" (
+      "id", "facilityId", "code", "name", "genericName", "category",
+      "dosageForm", "strength", "unit", "reorderLevel", "isActive",
+      "createdAt", "updatedAt"
+    )
+    SELECT
+      map."targetMedicationId", map."facilityId", m."code", m."name",
+      m."genericName", m."category", m."dosageForm", m."strength", m."unit",
+      m."reorderLevel", m."isActive", m."createdAt", m."updatedAt"
+    FROM "_MedicationFacilityMap" map
+    JOIN "Medication" m ON m."id" = map."sourceMedicationId"
+    WHERE NOT map."usesOriginal";
+
+    UPDATE "MedicationStock" ms
+    SET "medicationId" = map."targetMedicationId"
+    FROM "_MedicationFacilityMap" map
+    WHERE map."sourceMedicationId" = ms."medicationId"
+      AND map."facilityId" = ms."facilityId";
+
+    UPDATE "PrescriptionItem" pi
+    SET "medicationId" = map."targetMedicationId"
+    FROM "Prescription" p
+    JOIN "Patient" ptn ON ptn."id" = p."patientId"
+    LEFT JOIN "Encounter" e ON e."id" = p."encounterId"
+    JOIN "_MedicationFacilityMap" map
+      ON map."facilityId" = COALESCE(e."facilityId", ptn."registeredFacilityId")
+    WHERE p."id" = pi."prescriptionId"
+      AND map."sourceMedicationId" = pi."medicationId";
+
+    UPDATE "DispenseItem" di
+    SET "medicationId" = map."targetMedicationId"
+    FROM "Dispensing" d
+    JOIN "Prescription" p ON p."id" = d."prescriptionId"
+    JOIN "Patient" ptn ON ptn."id" = d."patientId"
+    LEFT JOIN "Encounter" e ON e."id" = p."encounterId"
+    JOIN "_MedicationFacilityMap" map
+      ON map."facilityId" = COALESCE(e."facilityId", ptn."registeredFacilityId")
+    WHERE d."id" = di."dispensingId"
+      AND map."sourceMedicationId" = di."medicationId";
+
+    UPDATE "StockMovement" sm
+    SET "medicationId" = map."targetMedicationId"
+    FROM "MedicationStock" ms
+    JOIN "_MedicationFacilityMap" map ON map."facilityId" = ms."facilityId"
+    WHERE ms."id" = sm."stockId"
+      AND map."sourceMedicationId" = sm."medicationId";
 
     ALTER TABLE "Medication" ALTER COLUMN "facilityId" SET NOT NULL;
     CREATE UNIQUE INDEX "Medication_facilityId_code_key" ON "Medication"("facilityId", "code");
@@ -78,6 +186,27 @@ BEGIN
     WHERE table_name = 'DispenseItem' AND column_name = 'stockId'
   ) THEN
     ALTER TABLE "DispenseItem" ADD COLUMN "stockId" TEXT;
+    UPDATE "DispenseItem" di
+    SET "stockId" = (
+      SELECT sm."stockId"
+      FROM "Dispensing" d
+      JOIN "StockMovement" sm
+        ON sm."reference" = d."dispenseNo"
+       AND sm."type" = 'DISPENSE'
+       AND sm."medicationId" = di."medicationId"
+      WHERE d."id" = di."dispensingId"
+      ORDER BY sm."createdAt"
+      LIMIT 1
+    )
+    WHERE EXISTS (
+      SELECT 1
+      FROM "Dispensing" d
+      JOIN "StockMovement" sm
+        ON sm."reference" = d."dispenseNo"
+       AND sm."type" = 'DISPENSE'
+       AND sm."medicationId" = di."medicationId"
+      WHERE d."id" = di."dispensingId"
+    );
     CREATE INDEX "DispenseItem_stockId_idx" ON "DispenseItem"("stockId");
     ALTER TABLE "DispenseItem" ADD CONSTRAINT "DispenseItem_stockId_fkey"
       FOREIGN KEY ("stockId") REFERENCES "MedicationStock"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -111,7 +240,7 @@ CREATE TABLE IF NOT EXISTS "PharmacyReorder" (
   "createdById" TEXT,
   "receivedAt" TIMESTAMP(3),
   "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" TIMESTAMP(3) NOT NULL,
   CONSTRAINT "PharmacyReorder_pkey" PRIMARY KEY ("id")
 );
 

@@ -199,6 +199,13 @@ enum DispenseStatus {
   CANCELLED
 }
 
+enum PharmacyReorderStatus {
+  REQUESTED
+  ORDERED
+  RECEIVED
+  CANCELLED
+}
+
 enum StockMovementType {
   OPENING_BALANCE
   PURCHASE
@@ -368,8 +375,11 @@ model User {
   enteredLabResults           LabResult[]          @relation("LabResultEnteredBy")
   validatedLabResults         LabResult[]          @relation("LabResultValidatedBy")
   prescriptionsPrescribed     Prescription[]       @relation("PrescriptionPrescribedBy")
+  prescriptionsCancelled      Prescription[]       @relation("PrescriptionCancelledBy")
   stockMovementsPerformed     StockMovement[]      @relation("StockMovementPerformedBy")
   dispensingsPerformed        Dispensing[]         @relation("DispensingDispensedBy")
+  dispensingsCancelled        Dispensing[]         @relation("DispensingCancelledBy")
+  pharmacyReordersCreated     PharmacyReorder[]    @relation("PharmacyReorderCreatedBy")
   createdInvoices             Invoice[]            @relation("InvoiceCreatedBy")
   receivedPayments            Payment[]            @relation("PaymentReceivedBy")
   referralsMade               Referral[]           @relation("ReferralReferredBy")
@@ -486,6 +496,8 @@ model Facility {
   appointments       Appointment[]     @relation("FacilityAppointments")
   encounters         Encounter[]       @relation("FacilityEncounters")
   medicationStocks   MedicationStock[]
+  medications        Medication[]      @relation("FacilityMedications")
+  pharmacyReorders   PharmacyReorder[]
   invoices           Invoice[]         @relation("FacilityInvoices")
   fromReferrals      Referral[]        @relation("ReferralFromFacility")
   toReferrals        Referral[]        @relation("ReferralToFacility")
@@ -1075,7 +1087,8 @@ model LabResultItem {
 
 model Medication {
   id           String   @id @default(cuid())
-  code         String?  @unique
+  facilityId   String
+  code         String?
   name         String
   genericName  String?
   category     String?
@@ -1087,37 +1100,46 @@ model Medication {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+  facility          Facility           @relation("FacilityMedications", fields: [facilityId], references: [id], onDelete: Cascade)
   stocks            MedicationStock[]
   stockMovements    StockMovement[]
   prescriptionItems PrescriptionItem[]
   dispenseItems     DispenseItem[]
+  reorders          PharmacyReorder[]
 
+  @@unique([facilityId, code])
+  @@index([facilityId])
   @@index([name])
   @@index([genericName])
   @@index([isActive])
 }
 
 model Prescription {
-  id             String             @id @default(cuid())
-  prescriptionNo String             @unique
-  patientId      String
-  encounterId    String?
-  prescribedById String?
-  status         PrescriptionStatus @default(DRAFT)
-  notes          String?
-  issuedAt       DateTime?
-  createdAt      DateTime           @default(now())
-  updatedAt      DateTime           @updatedAt
+  id                 String             @id @default(cuid())
+  prescriptionNo     String             @unique
+  patientId          String
+  encounterId        String?
+  prescribedById     String?
+  status             PrescriptionStatus @default(DRAFT)
+  notes              String?
+  issuedAt           DateTime?
+  cancellationReason String?
+  cancelledAt        DateTime?
+  cancelledById      String?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
 
   patient      Patient            @relation(fields: [patientId], references: [id], onDelete: Cascade)
   encounter    Encounter?         @relation(fields: [encounterId], references: [id], onDelete: SetNull)
   prescribedBy User?              @relation("PrescriptionPrescribedBy", fields: [prescribedById], references: [id], onDelete: SetNull)
+  cancelledBy  User?              @relation("PrescriptionCancelledBy", fields: [cancelledById], references: [id], onDelete: SetNull)
   items        PrescriptionItem[]
-  dispensing   Dispensing?
+  dispensings  Dispensing[]
 
   @@index([patientId])
   @@index([encounterId])
   @@index([prescribedById])
+  @@index([cancelledById])
   @@index([status])
   @@index([issuedAt])
 }
@@ -1154,9 +1176,11 @@ model MedicationStock {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
-  facility   Facility        @relation(fields: [facilityId], references: [id], onDelete: Cascade)
-  medication Medication      @relation(fields: [medicationId], references: [id], onDelete: Cascade)
-  movements  StockMovement[]
+  facility      Facility          @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  medication    Medication        @relation(fields: [medicationId], references: [id], onDelete: Cascade)
+  movements     StockMovement[]
+  dispenseItems DispenseItem[]
+  reorders      PharmacyReorder[]
 
   @@unique([facilityId, medicationId, batchNumber])
   @@index([facilityId])
@@ -1172,12 +1196,15 @@ model StockMovement {
   quantity      Int
   reason        String?
   reference     String?
+  reversalOfId  String?           @unique
   performedById String?
   createdAt     DateTime          @default(now())
 
   stock       MedicationStock @relation(fields: [stockId], references: [id], onDelete: Cascade)
   medication  Medication      @relation(fields: [medicationId], references: [id], onDelete: Cascade)
   performedBy User?           @relation("StockMovementPerformedBy", fields: [performedById], references: [id], onDelete: SetNull)
+  reversalOf  StockMovement?  @relation("StockMovementReversal", fields: [reversalOfId], references: [id], onDelete: SetNull)
+  reversal    StockMovement?  @relation("StockMovementReversal")
 
   @@index([stockId])
   @@index([medicationId])
@@ -1187,22 +1214,29 @@ model StockMovement {
 }
 
 model Dispensing {
-  id               String         @id @default(cuid())
-  dispenseNo       String         @unique
-  prescriptionId   String         @unique
-  patientId        String
-  status           DispenseStatus @default(PENDING)
-  dispensedById    String?
-  dispensedAt      DateTime?
-  counsellingNotes String?
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  id                    String         @id @default(cuid())
+  dispenseNo            String         @unique
+  prescriptionId        String
+  patientId             String
+  status                DispenseStatus @default(PENDING)
+  dispensedById         String?
+  dispensedAt           DateTime?
+  counsellingNotes      String?
+  notes                 String?
+  partialDispenseReason String?
+  cancellationReason    String?
+  cancelledAt           DateTime?
+  cancelledById         String?
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
 
   prescription Prescription   @relation(fields: [prescriptionId], references: [id], onDelete: Cascade)
   patient      Patient        @relation(fields: [patientId], references: [id], onDelete: Cascade)
   dispensedBy  User?          @relation("DispensingDispensedBy", fields: [dispensedById], references: [id], onDelete: SetNull)
+  cancelledBy  User?          @relation("DispensingCancelledBy", fields: [cancelledById], references: [id], onDelete: SetNull)
   items        DispenseItem[]
 
+  @@index([prescriptionId])
   @@index([patientId])
   @@index([dispensedById])
   @@index([status])
@@ -1214,6 +1248,7 @@ model DispenseItem {
   dispensingId       String
   prescriptionItemId String?
   medicationId       String?
+  stockId            String?
   medicineName       String
   quantityDispensed  Int
   notes              String?
@@ -1222,10 +1257,38 @@ model DispenseItem {
   dispensing       Dispensing        @relation(fields: [dispensingId], references: [id], onDelete: Cascade)
   prescriptionItem PrescriptionItem? @relation(fields: [prescriptionItemId], references: [id], onDelete: SetNull)
   medication       Medication?       @relation(fields: [medicationId], references: [id], onDelete: SetNull)
+  stock            MedicationStock?  @relation(fields: [stockId], references: [id], onDelete: SetNull)
 
   @@index([dispensingId])
   @@index([prescriptionItemId])
   @@index([medicationId])
+  @@index([stockId])
+}
+
+model PharmacyReorder {
+  id                String                @id @default(cuid())
+  reference         String                @unique
+  facilityId        String
+  medicationId      String
+  stockId           String?
+  requestedQuantity Int
+  status            PharmacyReorderStatus @default(REQUESTED)
+  notes             String?
+  createdById       String?
+  receivedAt        DateTime?
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+
+  facility   Facility         @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  medication Medication       @relation(fields: [medicationId], references: [id], onDelete: Cascade)
+  stock      MedicationStock? @relation(fields: [stockId], references: [id], onDelete: SetNull)
+  createdBy  User?            @relation("PharmacyReorderCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([facilityId])
+  @@index([medicationId])
+  @@index([stockId])
+  @@index([status])
+  @@index([createdAt])
 }
 
 // =============================
