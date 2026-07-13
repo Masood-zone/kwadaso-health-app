@@ -3,11 +3,14 @@ import { z } from "zod"
 
 import { requireRoleApi } from "@/lib/auth-session"
 import { prisma } from "@/lib/prisma"
-import { serializeStaff, syncUserPrimaryRole, writeAuditLog } from "@/lib/super-admin"
+import {
+  serializeStaff,
+  syncUserPrimaryRole,
+  writeAuditLog,
+} from "@/lib/super-admin"
 import type { ApiResponse } from "@/types"
 
 const updateStaffSchema = z.object({
-  staffId: z.string().trim().min(2),
   firstName: z.string().trim().min(1),
   lastName: z.string().trim().min(1),
   otherNames: z.string().trim().optional().nullable(),
@@ -106,7 +109,6 @@ export async function PATCH(
     const updated = await prisma.user.update({
       where: { id },
       data: {
-        staffId: values.staffId,
         firstName: values.firstName,
         lastName: values.lastName,
         otherNames: values.otherNames || null,
@@ -154,7 +156,8 @@ export async function PATCH(
     return Response.json(
       {
         success: false,
-        message: "Staff account could not be updated. Check unique email and staff ID.",
+        message:
+          "Staff account could not be updated. Check the email address and try again.",
       } satisfies ApiResponse,
       { status: 400 }
     )

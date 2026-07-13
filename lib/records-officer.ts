@@ -17,6 +17,7 @@ import {
   VisitType,
 } from "@/lib/generated/prisma/enums"
 import { prisma } from "@/lib/prisma"
+export { generatePatientNo } from "@/lib/identifiers"
 import type {
   RecordsOfficerAppointmentListItem,
   RecordsOfficerPatientDocumentListItem,
@@ -110,15 +111,6 @@ export async function writeRecordsOfficerAuditLog({
       userAgent: meta.userAgent,
     },
   })
-}
-
-export async function generatePatientNo(facilityId: string) {
-  const today = new Date()
-  const stamp = `${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, "0")}${String(today.getDate()).padStart(2, "0")}`
-  const count = await prisma.patient.count({
-    where: { registeredFacilityId: facilityId },
-  })
-  return `SDA-P-${stamp}-${String(count + 1).padStart(4, "0")}`
 }
 
 export async function generateAppointmentNo() {

@@ -9,12 +9,12 @@ import {
   serializeHospitalAdminStaff,
   writeHospitalAdminAuditLog,
 } from "@/lib/hospital-admin"
+import { generateStaffId } from "@/lib/identifiers"
 import { prisma } from "@/lib/prisma"
 import { syncUserPrimaryRole } from "@/lib/super-admin"
 import type { ApiResponse } from "@/types"
 
 const staffCreateSchema = z.object({
-  staffId: z.string().trim().min(2),
   firstName: z.string().trim().min(1),
   lastName: z.string().trim().min(1),
   otherNames: z.string().trim().optional().nullable(),
@@ -98,6 +98,7 @@ export async function POST(request: NextRequest) {
   }
 
   const passwordHash = await hashPassword(values.temporaryPassword)
+  const staffId = await generateStaffId(values.role)
   const name = [values.firstName, values.otherNames, values.lastName]
     .filter(Boolean)
     .join(" ")
@@ -105,7 +106,7 @@ export async function POST(request: NextRequest) {
   try {
     const user = await prisma.user.create({
       data: {
-        staffId: values.staffId,
+        staffId,
         email: values.email,
         passwordHash,
         firstName: values.firstName,
@@ -167,7 +168,8 @@ export async function POST(request: NextRequest) {
     return Response.json(
       {
         success: false,
-        message: "Staff could not be created. Check unique email and staff ID.",
+        message:
+          "Staff could not be created. Check the email address and try again.",
       } satisfies ApiResponse,
       { status: 400 }
     )

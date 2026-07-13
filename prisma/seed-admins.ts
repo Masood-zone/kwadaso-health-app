@@ -80,15 +80,26 @@ const staffMembers = [
     departmentCode: "ADMIN",
   },
   {
-    staffId: "KHS-NU-001",
-    firstName: "Akosua",
-    lastName: "Triage",
-    name: "Akosua Triage Nurse",
-    email: "nurse@kwadaso.health",
+    staffId: "KHS-MHD-001",
+    firstName: "Nana",
+    lastName: "Owusu",
+    name: "Nana Owusu",
+    email: "director@kwadaso.health",
     password: DEFAULT_PASSWORD,
-    jobTitle: "Triage Nurse",
-    role: "NURSE",
-    departmentCode: "TRIAGE",
+    jobTitle: "Municipal Health Director",
+    role: "MUNICIPAL_HEALTH_DIRECTOR",
+    departmentCode: "PUBHEALTH",
+  },
+  {
+    staffId: "KHS-ME-001",
+    firstName: "Yaw",
+    lastName: "Asare",
+    name: "Yaw Asare",
+    email: "monitoring@kwadaso.health",
+    password: DEFAULT_PASSWORD,
+    jobTitle: "Monitoring and Evaluation Officer",
+    role: "M_AND_E_OFFICER",
+    departmentCode: "PUBHEALTH",
   },
   {
     staffId: "KHS-RO-001",
@@ -100,6 +111,61 @@ const staffMembers = [
     jobTitle: "Records Officer",
     role: "RECORDS_OFFICER",
     departmentCode: "RECORDS",
+  },
+  {
+    staffId: "KHS-FD-001",
+    firstName: "Esi",
+    lastName: "Boateng",
+    name: "Esi Boateng",
+    email: "frontdesk@kwadaso.health",
+    password: DEFAULT_PASSWORD,
+    jobTitle: "Front Desk Officer",
+    role: "FRONT_DESK",
+    departmentCode: "RECORDS",
+  },
+  {
+    staffId: "KHS-DR-001",
+    firstName: "Kwame",
+    lastName: "Miller",
+    name: "Dr Kwame Miller",
+    email: "doctor@kwadaso.health",
+    password: DEFAULT_PASSWORD,
+    jobTitle: "Medical Officer",
+    role: "DOCTOR",
+    departmentCode: "CONSULT",
+  },
+  {
+    staffId: "KHS-PA-001",
+    firstName: "Abena",
+    lastName: "Osei",
+    name: "Abena Osei",
+    email: "physicianassistant@kwadaso.health",
+    password: DEFAULT_PASSWORD,
+    jobTitle: "Physician Assistant",
+    role: "PHYSICIAN_ASSISTANT",
+    departmentCode: "CONSULT",
+  },
+  {
+    staffId: "KHS-NU-001",
+    firstName: "Akosua",
+    lastName: "Triage",
+    name: "Akosua Triage Nurse",
+    email: "nurse@kwadaso.health",
+    password: DEFAULT_PASSWORD,
+    jobTitle: "Triage Nurse",
+    role: "NURSE",
+    departmentCode: "TRIAGE",
+  },
+  {
+    staffId: "KHS-LT-001",
+    firstName: "Kofi",
+    lastName: "Antwi",
+    name: "Kofi Antwi",
+    email: "laboratory@kwadaso.health",
+    password: DEFAULT_PASSWORD,
+    jobTitle: "Laboratory Technician",
+    role: "LAB_TECHNICIAN",
+    departmentCode: "LAB",
   },
   {
     staffId: "KHS-PH-001",
@@ -401,7 +467,7 @@ async function seedPatientFlow(
   const consultationId = departmentMap.get("CONSULT")!.id
 
   const patient = await prisma.patient.upsert({
-    where: { patientNo: "SDA-P-0001" },
+    where: { patientNo: "KHS-PT-000001" },
     update: {
       firstName: "Akua",
       lastName: "Mensah",
@@ -410,7 +476,7 @@ async function seedPatientFlow(
       registeredFacilityId: facilityId,
     },
     create: {
-      patientNo: "SDA-P-0001",
+      patientNo: "KHS-PT-000001",
       firstName: "Akua",
       lastName: "Mensah",
       gender: "FEMALE",
@@ -423,7 +489,7 @@ async function seedPatientFlow(
   })
 
   const secondPatient = await prisma.patient.upsert({
-    where: { patientNo: "SDA-P-0002" },
+    where: { patientNo: "KHS-PT-000002" },
     update: {
       firstName: "Kojo",
       lastName: "Agyeman",
@@ -432,7 +498,7 @@ async function seedPatientFlow(
       registeredFacilityId: facilityId,
     },
     create: {
-      patientNo: "SDA-P-0002",
+      patientNo: "KHS-PT-000002",
       firstName: "Kojo",
       lastName: "Agyeman",
       gender: "MALE",
@@ -653,8 +719,8 @@ async function seedPharmacyDemo(
   prescribedById: string
 ) {
   const [patientOne, patientTwo, paracetamol, amoxicillin] = await Promise.all([
-    prisma.patient.findUniqueOrThrow({ where: { patientNo: "SDA-P-0001" } }),
-    prisma.patient.findUniqueOrThrow({ where: { patientNo: "SDA-P-0002" } }),
+    prisma.patient.findUniqueOrThrow({ where: { patientNo: "KHS-PT-000001" } }),
+    prisma.patient.findUniqueOrThrow({ where: { patientNo: "KHS-PT-000002" } }),
     prisma.medication.findUniqueOrThrow({
       where: { facilityId_code: { facilityId, code: "MED-PAR-500" } },
     }),

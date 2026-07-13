@@ -1,10 +1,21 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { LockKeyhole, Pencil, Plus, Save, SlidersHorizontal, UserX, Users } from "lucide-react"
+import {
+  LockKeyhole,
+  Pencil,
+  Plus,
+  Save,
+  SlidersHorizontal,
+  UserX,
+  Users,
+} from "lucide-react"
 import { toast } from "sonner"
 
-import { DashboardError, StatusBadge } from "@/components/dashboard/dashboard-widgets"
+import {
+  DashboardError,
+  StatusBadge,
+} from "@/components/dashboard/dashboard-widgets"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -28,7 +39,6 @@ import {
 import type { SuperAdminStaffSummary } from "@/types/super-admin"
 
 const blankStaffForm: StaffFormPayload = {
-  staffId: "",
   firstName: "",
   lastName: "",
   otherNames: "",
@@ -50,7 +60,9 @@ export function StaffManagementPage() {
   const [form, setForm] = useState<StaffFormPayload>(blankStaffForm)
 
   const departments = dashboard?.management.departments ?? []
-  const activeDepartments = departments.filter((department) => department.isActive)
+  const activeDepartments = departments.filter(
+    (department) => department.isActive
+  )
   const roles = dashboard?.management.lookups.roles ?? []
   const statuses = dashboard?.management.lookups.statuses ?? []
 
@@ -71,7 +83,6 @@ export function StaffManagementPage() {
     const lastName = rest.pop() ?? ""
     setEditingId(item.id)
     setForm({
-      staffId: item.staffId,
       firstName,
       lastName,
       otherNames: rest.join(" "),
@@ -97,11 +108,14 @@ export function StaffManagementPage() {
       setEditingId(null)
       setForm(blankStaffForm)
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Staff change failed")
+      toast.error(
+        error instanceof Error ? error.message : "Staff change failed"
+      )
     }
   }
 
-  if (isError) return <DashboardError message="Staff accounts could not be loaded." />
+  if (isError)
+    return <DashboardError message="Staff accounts could not be loaded." />
 
   return (
     <div className="space-y-6">
@@ -115,7 +129,12 @@ export function StaffManagementPage() {
               <SlidersHorizontal className="size-4" />
               Filter
             </Button>
-            <Button onClick={() => { setEditingId(null); setForm(blankStaffForm) }}>
+            <Button
+              onClick={() => {
+                setEditingId(null)
+                setForm(blankStaffForm)
+              }}
+            >
               <Plus className="size-4" />
               New Staff
             </Button>
@@ -124,15 +143,39 @@ export function StaffManagementPage() {
       />
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatTile label="Total Staff" value={staff.length.toString()} tone="green" detail={`${stats.activeStaff} active`} />
-        <StatTile label="Clinical Staff" value={stats.clinicalStaff.toString()} tone="blue" detail="Doctors, PAs, nurses" />
-        <StatTile label="Departments" value={activeDepartments.length.toString()} tone="orange" detail="Active assignment pools" />
-        <StatTile label="Restricted" value={stats.restrictedStaff.toString()} tone="red" detail="Inactive, suspended, locked" />
+        <StatTile
+          label="Total Staff"
+          value={staff.length.toString()}
+          tone="green"
+          detail={`${stats.activeStaff} active`}
+        />
+        <StatTile
+          label="Clinical Staff"
+          value={stats.clinicalStaff.toString()}
+          tone="blue"
+          detail="Doctors, PAs, nurses"
+        />
+        <StatTile
+          label="Departments"
+          value={activeDepartments.length.toString()}
+          tone="orange"
+          detail="Active assignment pools"
+        />
+        <StatTile
+          label="Restricted"
+          value={stats.restrictedStaff.toString()}
+          tone="red"
+          detail="Inactive, suspended, locked"
+        />
       </section>
 
       <section className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1fr)_420px]">
         <div className="khms-card overflow-hidden">
-          <SectionHeader icon={Users} eyebrow="Staff Accounts" title="Personnel Directory" />
+          <SectionHeader
+            icon={Users}
+            eyebrow="Staff Accounts"
+            title="Personnel Directory"
+          />
           {isLoading ? (
             <div className="h-96 animate-pulse bg-muted" />
           ) : (
@@ -149,31 +192,52 @@ export function StaffManagementPage() {
               </thead>
               <tbody className="divide-y divide-border-subtle">
                 {staff.map((item) => (
-                  <tr key={item.id} className="hover:bg-surface-container-lowest">
+                  <tr
+                    key={item.id}
+                    className="hover:bg-surface-container-lowest"
+                  >
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <AvatarInitials name={item.name} />
                         <div>
                           <p className="text-sm font-bold">{item.name}</p>
-                          <p className="text-xs text-muted-foreground">{item.email}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {item.email}
+                          </p>
                         </div>
                       </div>
                     </td>
-                    <td className="khms-table-data px-4 py-3 text-muted-foreground">{item.staffId}</td>
-                    <td className="khms-table-data px-4 py-3">{formatEnum(item.defaultRole)}</td>
-                    <td className="khms-table-data px-4 py-3">{item.departmentName ?? "Unassigned"}</td>
+                    <td className="khms-table-data px-4 py-3 text-muted-foreground">
+                      {item.staffId}
+                    </td>
+                    <td className="khms-table-data px-4 py-3">
+                      {formatEnum(item.defaultRole)}
+                    </td>
+                    <td className="khms-table-data px-4 py-3">
+                      {item.departmentName ?? "Unassigned"}
+                    </td>
                     <td className="px-4 py-3">
                       <StatusBadge value={formatEnum(item.status)} />
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex justify-end gap-2">
-                        <IconAction label="Edit profile" onClick={() => editStaff(item)}>
+                        <IconAction
+                          label="Edit profile"
+                          onClick={() => editStaff(item)}
+                        >
                           <Pencil className="size-3.5" />
                         </IconAction>
-                        <IconAction label="Restrict access" tone="danger" onClick={() => editStaff(item)}>
+                        <IconAction
+                          label="Restrict access"
+                          tone="danger"
+                          onClick={() => editStaff(item)}
+                        >
                           <UserX className="size-3.5" />
                         </IconAction>
-                        <IconAction label="Reset password" onClick={() => editStaff(item)}>
+                        <IconAction
+                          label="Reset password"
+                          onClick={() => editStaff(item)}
+                        >
                           <LockKeyhole className="size-3.5" />
                         </IconAction>
                       </div>
@@ -192,58 +256,135 @@ export function StaffManagementPage() {
         >
           <div className="grid gap-3">
             <Field label="Staff ID">
-              <Input value={form.staffId} onChange={(event) => setForm({ ...form, staffId: event.target.value })} />
+              <Input
+                disabled
+                value={
+                  editingId
+                    ? (staff.find((item) => item.id === editingId)?.staffId ??
+                      "")
+                    : "Assigned automatically when saved"
+                }
+              />
             </Field>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <Field label="First Name">
-                <Input value={form.firstName} onChange={(event) => setForm({ ...form, firstName: event.target.value })} />
+                <Input
+                  value={form.firstName}
+                  onChange={(event) =>
+                    setForm({ ...form, firstName: event.target.value })
+                  }
+                />
               </Field>
               <Field label="Last Name">
-                <Input value={form.lastName} onChange={(event) => setForm({ ...form, lastName: event.target.value })} />
+                <Input
+                  value={form.lastName}
+                  onChange={(event) =>
+                    setForm({ ...form, lastName: event.target.value })
+                  }
+                />
               </Field>
             </div>
             <Field label="Email">
-              <Input type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} />
+              <Input
+                type="email"
+                value={form.email}
+                onChange={(event) =>
+                  setForm({ ...form, email: event.target.value })
+                }
+              />
             </Field>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <Field label="Phone">
-                <Input value={form.phone ?? ""} onChange={(event) => setForm({ ...form, phone: event.target.value })} />
+                <Input
+                  value={form.phone ?? ""}
+                  onChange={(event) =>
+                    setForm({ ...form, phone: event.target.value })
+                  }
+                />
               </Field>
               <Field label="Job Title">
-                <Input value={form.jobTitle ?? ""} onChange={(event) => setForm({ ...form, jobTitle: event.target.value })} />
+                <Input
+                  value={form.jobTitle ?? ""}
+                  onChange={(event) =>
+                    setForm({ ...form, jobTitle: event.target.value })
+                  }
+                />
               </Field>
             </div>
             <Field label="Department">
-              <select className="khms-input w-full" value={form.departmentId ?? ""} onChange={(event) => setForm({ ...form, departmentId: event.target.value })}>
+              <select
+                className="khms-input w-full"
+                value={form.departmentId ?? ""}
+                onChange={(event) =>
+                  setForm({ ...form, departmentId: event.target.value })
+                }
+              >
                 <option value="">Unassigned</option>
                 {activeDepartments.map((department) => (
-                  <option key={department.id} value={department.id}>{department.name}</option>
+                  <option key={department.id} value={department.id}>
+                    {department.name}
+                  </option>
                 ))}
               </select>
             </Field>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <Field label="Primary Role">
-                <select className="khms-input w-full" value={form.defaultRole} onChange={(event) => setForm({ ...form, defaultRole: event.target.value })}>
-                  {roles.map((role) => <option key={role} value={role}>{formatEnum(role)}</option>)}
+                <select
+                  className="khms-input w-full"
+                  value={form.defaultRole}
+                  onChange={(event) =>
+                    setForm({ ...form, defaultRole: event.target.value })
+                  }
+                >
+                  {roles.map((role) => (
+                    <option key={role} value={role}>
+                      {formatEnum(role)}
+                    </option>
+                  ))}
                 </select>
               </Field>
               <Field label="Status">
-                <select className="khms-input w-full" value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })}>
-                  {statuses.map((status) => <option key={status} value={status}>{formatEnum(status)}</option>)}
+                <select
+                  className="khms-input w-full"
+                  value={form.status}
+                  onChange={(event) =>
+                    setForm({ ...form, status: event.target.value })
+                  }
+                >
+                  {statuses.map((status) => (
+                    <option key={status} value={status}>
+                      {formatEnum(status)}
+                    </option>
+                  ))}
                 </select>
               </Field>
             </div>
             {!editingId ? (
               <Field label="Temporary Password">
-                <Input type="text" value={form.temporaryPassword ?? ""} onChange={(event) => setForm({ ...form, temporaryPassword: event.target.value })} />
+                <Input
+                  type="text"
+                  value={form.temporaryPassword ?? ""}
+                  onChange={(event) =>
+                    setForm({ ...form, temporaryPassword: event.target.value })
+                  }
+                />
               </Field>
             ) : null}
             <div className="flex gap-2">
-              <Button onClick={saveStaff} disabled={createStaff.isPending || updateStaff.isPending}>
+              <Button
+                onClick={saveStaff}
+                disabled={createStaff.isPending || updateStaff.isPending}
+              >
                 <Save className="size-4" />
                 Save Staff
               </Button>
-              <Button variant="outline" onClick={() => { setEditingId(null); setForm(blankStaffForm) }}>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setEditingId(null)
+                  setForm(blankStaffForm)
+                }}
+              >
                 Reset
               </Button>
             </div>

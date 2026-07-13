@@ -62,7 +62,6 @@ import type {
 } from "@/types/hospital-admin"
 
 const blankStaff: HospitalAdminStaffCreatePayload = {
-  staffId: "",
   firstName: "",
   lastName: "",
   otherNames: "",
@@ -240,9 +239,12 @@ function DesignBreadcrumb({
     <div className="rounded border border-border-subtle bg-white p-4 shadow-sm">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <div className="mb-2 flex flex-wrap items-center gap-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <div className="mb-2 flex flex-wrap items-center gap-1 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
             {items.map((item, index) => (
-              <span key={`${item}-${index}`} className="flex items-center gap-1">
+              <span
+                key={`${item}-${index}`}
+                className="flex items-center gap-1"
+              >
                 <span>{item}</span>
                 {index < items.length - 1 ? (
                   <MaterialSymbol icon="chevron_right" className="text-base" />
@@ -324,14 +326,17 @@ function PatientSearchSelect({
   disabled,
 }: {
   selectedId: string
-  selectedFallback?: { patientId: string; patientName: string; patientNo: string }
+  selectedFallback?: {
+    patientId: string
+    patientName: string
+    patientNo: string
+  }
   onSelect: (patient: HospitalAdminPatientLookupItem) => void
   disabled?: boolean
 }) {
   const [search, setSearch] = useState("")
   const { data: patients = [] } = useHospitalAdminPatientLookup(search)
-  const selected =
-    patients.find((patient) => patient.id === selectedId) ?? null
+  const selected = patients.find((patient) => patient.id === selectedId) ?? null
 
   return (
     <div className="space-y-3">
@@ -399,7 +404,6 @@ export function HospitalAdminStaffPage() {
   function editStaff(item: HospitalAdminStaffListItem) {
     setEditing(item)
     setForm({
-      staffId: item.staffId,
       firstName: item.firstName,
       lastName: item.lastName,
       otherNames: item.otherNames ?? "",
@@ -566,10 +570,8 @@ export function HospitalAdminStaffPage() {
           <div className="mt-4 grid gap-3">
             <Field label="Staff ID">
               <Input
-                value={form.staffId}
-                onChange={(event) =>
-                  setForm({ ...form, staffId: event.target.value })
-                }
+                disabled
+                value={editing?.staffId ?? "Assigned automatically when saved"}
               />
             </Field>
             <div className="grid grid-cols-2 gap-3">
@@ -1050,7 +1052,13 @@ export function HospitalAdminAppointmentsCrudPage() {
     patientSearch: "",
   })
   const [activeView, setActiveView] = useState<
-    "calendar" | "booking" | "details" | "analytics" | "missed" | "checkin" | "reschedule"
+    | "calendar"
+    | "booking"
+    | "details"
+    | "analytics"
+    | "missed"
+    | "checkin"
+    | "reschedule"
   >("calendar")
   const [editing, setEditing] =
     useState<HospitalAdminAppointmentListItem | null>(null)
@@ -1254,11 +1262,11 @@ export function HospitalAdminAppointmentsCrudPage() {
           <option value="">All clinicians</option>
           {clinicians.map((clinician) => (
             <option key={clinician.id} value={clinician.id}>
-            {clinician.name}
-          </option>
-        ))}
-      </select>
-    </section>
+              {clinician.name}
+            </option>
+          ))}
+        </select>
+      </section>
       {isLoading ? <LoadingPanel /> : null}
       {!isLoading && activeView === "calendar" ? (
         <section className="grid grid-cols-1 gap-5 xl:grid-cols-[300px_minmax(0,1fr)]">
@@ -1338,7 +1346,8 @@ export function HospitalAdminAppointmentsCrudPage() {
                         {item.patientName}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        {item.patientNo} / {item.departmentName ?? "No department"}
+                        {item.patientNo} /{" "}
+                        {item.departmentName ?? "No department"}
                       </p>
                     </div>
                     <SoftBadge value={item.status} />
@@ -1491,7 +1500,9 @@ export function HospitalAdminAppointmentsCrudPage() {
               <>
                 <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <p className="khms-label">{selectedAppointment.appointmentNo}</p>
+                    <p className="khms-label">
+                      {selectedAppointment.appointmentNo}
+                    </p>
                     <h2 className="font-heading text-2xl font-bold">
                       Appointment Details
                     </h2>
@@ -1520,9 +1531,16 @@ export function HospitalAdminAppointmentsCrudPage() {
                   <div className="rounded border border-border-subtle p-4">
                     <p className="khms-label">Status Timeline</p>
                     <div className="mt-3 grid gap-2 text-sm">
-                      <p>Scheduled: {formatDate(selectedAppointment.scheduledAt)}</p>
-                      <p>Checked in: {formatDate(selectedAppointment.checkedInAt)}</p>
-                      <p>Cancelled: {formatDate(selectedAppointment.cancelledAt)}</p>
+                      <p>
+                        Scheduled: {formatDate(selectedAppointment.scheduledAt)}
+                      </p>
+                      <p>
+                        Checked in:{" "}
+                        {formatDate(selectedAppointment.checkedInAt)}
+                      </p>
+                      <p>
+                        Cancelled: {formatDate(selectedAppointment.cancelledAt)}
+                      </p>
                     </div>
                   </div>
                   <div className="rounded border border-border-subtle p-4">
@@ -1565,7 +1583,12 @@ export function HospitalAdminAppointmentsCrudPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => saveAppointment("CANCELLED", "Cancelled by hospital administrator")}
+                    onClick={() =>
+                      saveAppointment(
+                        "CANCELLED",
+                        "Cancelled by hospital administrator"
+                      )
+                    }
                   >
                     <MaterialSymbol icon="event_busy" />
                     Cancel Appointment
@@ -1580,9 +1603,15 @@ export function HospitalAdminAppointmentsCrudPage() {
         <section className="space-y-5">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
             {appointmentStats.map((stat) => (
-              <div key={stat.label} className="rounded border border-border-subtle bg-white p-4 shadow-sm">
-                <MaterialSymbol icon={stat.icon} className="text-[28px] text-primary" />
-                <p className="mt-3 khms-label">{stat.label}</p>
+              <div
+                key={stat.label}
+                className="rounded border border-border-subtle bg-white p-4 shadow-sm"
+              >
+                <MaterialSymbol
+                  icon={stat.icon}
+                  className="text-[28px] text-primary"
+                />
+                <p className="khms-label mt-3">{stat.label}</p>
                 <p className="font-heading text-3xl font-bold">{stat.value}</p>
               </div>
             ))}
@@ -1637,7 +1666,11 @@ export function HospitalAdminAppointmentsCrudPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <SoftBadge value={item.status} />
-                  <Button size="sm" variant="outline" onClick={() => editAppointment(item)}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => editAppointment(item)}
+                  >
                     Review
                   </Button>
                 </div>
@@ -1659,7 +1692,9 @@ export function HospitalAdminAppointmentsCrudPage() {
               />
             </div>
             <h2 className="mt-4 font-heading text-2xl font-bold">
-              {activeView === "checkin" ? "Patient Check-in" : "Reschedule Appointment"}
+              {activeView === "checkin"
+                ? "Patient Check-in"
+                : "Reschedule Appointment"}
             </h2>
             <p className="text-sm text-muted-foreground">
               {editing
@@ -1696,7 +1731,9 @@ export function HospitalAdminAppointmentsCrudPage() {
                 disabled={updateAppointment.isPending}
               >
                 <MaterialSymbol icon="task_alt" />
-                {activeView === "checkin" ? "Generate Queue Number" : "Save Reschedule"}
+                {activeView === "checkin"
+                  ? "Generate Queue Number"
+                  : "Save Reschedule"}
               </Button>
             </div>
           ) : null}
@@ -1729,7 +1766,9 @@ export function HospitalAdminQueuePage() {
   )
   const nowCalling =
     queue.find((item) => item.status === "WITH_CLINICIAN") ?? activeQueue[0]
-  const upNext = activeQueue.filter((item) => item.id !== nowCalling?.id).slice(0, 4)
+  const upNext = activeQueue
+    .filter((item) => item.id !== nowCalling?.id)
+    .slice(0, 4)
 
   async function saveQueue(statusOverride?: HospitalAdminQueueItem["status"]) {
     try {
@@ -1970,7 +2009,9 @@ export function HospitalAdminQueuePage() {
                     }
                   : undefined
               }
-              onSelect={(patient) => setForm({ ...form, patientId: patient.id })}
+              onSelect={(patient) =>
+                setForm({ ...form, patientId: patient.id })
+              }
             />
             <Field label="Appointment ID">
               <Input
@@ -2224,7 +2265,9 @@ export function HospitalAdminNotificationsPage() {
   const urgentCount = notifications.filter((item) =>
     ["HIGH", "URGENT"].includes(item.priority)
   ).length
-  const unreadCount = notifications.filter((item) => item.status === "UNREAD").length
+  const unreadCount = notifications.filter(
+    (item) => item.status === "UNREAD"
+  ).length
 
   async function saveNotification() {
     try {
@@ -2291,8 +2334,11 @@ export function HospitalAdminNotificationsPage() {
             key={card.label}
             className="rounded border border-border-subtle bg-white p-4 shadow-sm"
           >
-            <MaterialSymbol icon={card.icon} className="text-[28px] text-primary" />
-            <p className="mt-3 khms-label">{card.label}</p>
+            <MaterialSymbol
+              icon={card.icon}
+              className="text-[28px] text-primary"
+            />
+            <p className="khms-label mt-3">{card.label}</p>
             <p className="font-heading text-3xl font-bold">{card.value}</p>
           </div>
         ))}
@@ -2443,7 +2489,10 @@ export function HospitalAdminNotificationsPage() {
                   <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                     <div className="flex gap-3">
                       <div className="flex size-11 shrink-0 items-center justify-center rounded bg-accent-blue text-primary">
-                        <MaterialSymbol icon="notifications" className="text-[24px]" />
+                        <MaterialSymbol
+                          icon="notifications"
+                          className="text-[24px]"
+                        />
                       </div>
                       <div>
                         <p className="font-semibold">{item.title}</p>

@@ -3,6 +3,7 @@ import { NextRequest } from "next/server"
 import { z } from "zod"
 
 import { requireRoleApi } from "@/lib/auth-session"
+import { generateStaffId } from "@/lib/identifiers"
 import { prisma } from "@/lib/prisma"
 import {
   getPrimaryFacility,
@@ -13,7 +14,6 @@ import {
 import type { ApiResponse } from "@/types"
 
 const staffSchema = z.object({
-  staffId: z.string().trim().min(2),
   firstName: z.string().trim().min(1),
   lastName: z.string().trim().min(1),
   otherNames: z.string().trim().optional().nullable(),
@@ -100,6 +100,7 @@ export async function POST(request: NextRequest) {
 
   const values = parsed.data
   const passwordHash = await hashPassword(values.temporaryPassword)
+  const staffId = await generateStaffId(values.defaultRole)
   const name = [values.firstName, values.otherNames, values.lastName]
     .filter(Boolean)
     .join(" ")
@@ -107,7 +108,7 @@ export async function POST(request: NextRequest) {
   try {
     const user = await prisma.user.create({
       data: {
-        staffId: values.staffId,
+        staffId,
         email: values.email,
         passwordHash,
         firstName: values.firstName,
@@ -166,7 +167,8 @@ export async function POST(request: NextRequest) {
     return Response.json(
       {
         success: false,
-        message: "Staff account could not be created. Check unique email and staff ID.",
+        message:
+          "Staff account could not be created. Check the email address and try again.",
       } satisfies ApiResponse,
       { status: 400 }
     )

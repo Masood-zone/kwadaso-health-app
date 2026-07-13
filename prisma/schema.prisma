@@ -1632,6 +1632,13 @@ model SystemSetting {
   @@index([isPublic])
 }
 
+model IdentifierSequence {
+  key       String   @id
+  lastValue Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Session {
   id        String   @id
   expiresAt DateTime

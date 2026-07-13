@@ -28,7 +28,7 @@ export const auditActions = Object.values(AuditAction)
 export const systemSettingDefaults: SuperAdminSystemSettings = {
   "session.timeoutMinutes": 30,
   "audit.retentionDays": 365,
-  "patient.numberPrefix": "SDA-P",
+  "patient.numberPrefix": "KHS-PT",
   "invoice.numberPrefix": "INV-SDA",
   "appointment.defaultSlotMinutes": 30,
 }
@@ -68,18 +68,142 @@ export const permissionCatalog = [
   ["sync.manage", "Manage Sync Jobs", "Sync"],
 ] as const
 
+const rolePermissionDefaults: Record<StaffRole, readonly string[]> = {
+  SUPER_ADMIN: permissionCatalog.map(([key]) => key),
+  HOSPITAL_ADMIN: [
+    "dashboard.view",
+    "staff.view",
+    "staff.create",
+    "staff.update",
+    "staff.status",
+    "roles.view",
+    "departments.view",
+    "departments.create",
+    "departments.update",
+    "patients.view",
+    "patients.manage",
+    "clinical.view",
+    "laboratory.view",
+    "pharmacy.view",
+    "billing.view",
+    "reports.view",
+    "reports.export",
+    "referrals.view",
+    "notifications.view",
+    "notifications.manage",
+  ],
+  MUNICIPAL_HEALTH_DIRECTOR: [
+    "dashboard.view",
+    "patients.view",
+    "clinical.view",
+    "laboratory.view",
+    "pharmacy.view",
+    "billing.view",
+    "reports.view",
+    "reports.export",
+    "referrals.view",
+    "notifications.view",
+  ],
+  M_AND_E_OFFICER: [
+    "dashboard.view",
+    "patients.view",
+    "clinical.view",
+    "laboratory.view",
+    "pharmacy.view",
+    "billing.view",
+    "reports.view",
+    "reports.export",
+    "notifications.view",
+  ],
+  RECORDS_OFFICER: [
+    "dashboard.view",
+    "patients.view",
+    "patients.manage",
+    "referrals.view",
+    "notifications.view",
+  ],
+  FRONT_DESK: [
+    "dashboard.view",
+    "patients.view",
+    "patients.manage",
+    "notifications.view",
+  ],
+  DOCTOR: [
+    "dashboard.view",
+    "patients.view",
+    "clinical.view",
+    "clinical.manage",
+    "laboratory.view",
+    "laboratory.manage",
+    "pharmacy.view",
+    "pharmacy.manage",
+    "referrals.view",
+    "referrals.manage",
+    "notifications.view",
+  ],
+  PHYSICIAN_ASSISTANT: [
+    "dashboard.view",
+    "patients.view",
+    "clinical.view",
+    "clinical.manage",
+    "laboratory.view",
+    "laboratory.manage",
+    "pharmacy.view",
+    "pharmacy.manage",
+    "referrals.view",
+    "referrals.manage",
+    "notifications.view",
+  ],
+  NURSE: [
+    "dashboard.view",
+    "patients.view",
+    "patients.manage",
+    "clinical.view",
+    "clinical.manage",
+    "notifications.view",
+  ],
+  LAB_TECHNICIAN: [
+    "dashboard.view",
+    "patients.view",
+    "laboratory.view",
+    "laboratory.manage",
+    "reports.view",
+    "notifications.view",
+  ],
+  PHARMACIST: [
+    "dashboard.view",
+    "patients.view",
+    "pharmacy.view",
+    "pharmacy.manage",
+    "reports.view",
+    "notifications.view",
+  ],
+  BILLING_OFFICER: [
+    "dashboard.view",
+    "patients.view",
+    "billing.view",
+    "billing.manage",
+    "reports.view",
+    "reports.export",
+    "notifications.view",
+  ],
+}
+
 export async function ensureSystemRolesAndPermissions() {
-  const permissions = await Promise.all(
-    permissionCatalog.map(([key, name, module]) =>
-      prisma.permission.upsert({
+  const permissions = []
+  for (const [key, name, module] of permissionCatalog) {
+    permissions.push(
+      await prisma.permission.upsert({
         where: { key },
         update: { name, module },
         create: { key, name, module },
       })
     )
-  )
+  }
 
-  const permissionIds = permissions.map((permission) => permission.id)
+  const permissionByKey = new Map(
+    permissions.map((permission) => [permission.key, permission.id])
+  )
 
   for (const roleName of staffRoles) {
     const role = await prisma.role.upsert({
@@ -92,16 +216,16 @@ export async function ensureSystemRolesAndPermissions() {
       },
     })
 
-    if (roleName === "SUPER_ADMIN") {
-      await Promise.all(
-        permissionIds.map((permissionId) =>
-          prisma.rolePermission.upsert({
-            where: { roleId_permissionId: { roleId: role.id, permissionId } },
-            update: {},
-            create: { roleId: role.id, permissionId },
-          })
-        )
-      )
+    for (const permissionKey of rolePermissionDefaults[roleName]) {
+      const permissionId = permissionByKey.get(permissionKey)
+      if (!permissionId) {
+        throw new Error(`Unknown permission ${permissionKey}`)
+      }
+      await prisma.rolePermission.upsert({
+        where: { roleId_permissionId: { roleId: role.id, permissionId } },
+        update: {},
+        create: { roleId: role.id, permissionId },
+      })
     }
   }
 }

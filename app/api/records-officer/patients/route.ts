@@ -20,7 +20,14 @@ const patientSchema = z
     dateOfBirth: z.string().datetime().optional().nullable(),
     estimatedAge: z.coerce.number().int().min(0).max(130).optional().nullable(),
     maritalStatus: z
-      .enum(["SINGLE", "MARRIED", "DIVORCED", "WIDOWED", "SEPARATED", "UNKNOWN"])
+      .enum([
+        "SINGLE",
+        "MARRIED",
+        "DIVORCED",
+        "WIDOWED",
+        "SEPARATED",
+        "UNKNOWN",
+      ])
       .optional(),
     bloodGroup: z
       .enum([
@@ -113,15 +120,26 @@ export async function GET(request: NextRequest) {
             ],
           }
         : {}),
-      ...(patientNo ? { patientNo: { contains: patientNo, mode: "insensitive" } } : {}),
-      ...(nhisNumber ? { nhisNumber: { contains: nhisNumber, mode: "insensitive" } } : {}),
+      ...(patientNo
+        ? { patientNo: { contains: patientNo, mode: "insensitive" } }
+        : {}),
+      ...(nhisNumber
+        ? { nhisNumber: { contains: nhisNumber, mode: "insensitive" } }
+        : {}),
       ...(nationalIdNumber
-        ? { nationalIdNumber: { contains: nationalIdNumber, mode: "insensitive" } }
+        ? {
+            nationalIdNumber: {
+              contains: nationalIdNumber,
+              mode: "insensitive",
+            },
+          }
         : {}),
       ...(phone ? { phone: { contains: phone, mode: "insensitive" } } : {}),
       ...(gender ? { gender: gender as never } : {}),
       ...(status ? { status: status as never } : {}),
-      ...(community ? { community: { contains: community, mode: "insensitive" } } : {}),
+      ...(community
+        ? { community: { contains: community, mode: "insensitive" } }
+        : {}),
       ...(registeredFrom || registeredTo
         ? {
             createdAt: {
@@ -160,12 +178,15 @@ export async function POST(request: NextRequest) {
   const values = parsed.data
   const uniqueError = await ensureUniqueIdentifiers(values)
   if (uniqueError) {
-    return Response.json({ success: false, message: uniqueError }, { status: 400 })
+    return Response.json(
+      { success: false, message: uniqueError },
+      { status: 400 }
+    )
   }
 
   const patient = await prisma.patient.create({
     data: {
-      patientNo: await generatePatientNo(actor!.facilityId),
+      patientNo: await generatePatientNo(),
       firstName: values.firstName,
       lastName: values.lastName,
       otherNames: values.otherNames || null,
@@ -203,10 +224,20 @@ export async function POST(request: NextRequest) {
       registeredFacilityId: patient.registeredFacilityId,
     },
   })
-  await notifyBillingService(prisma, { facilityId: actor!.facilityId, createdById: actor!.id, entityType: "Patient", entityId: patient.id, title: "Patient registration ready for billing", body: `${patient.patientNo} was registered and is available for charge review.` })
+  await notifyBillingService(prisma, {
+    facilityId: actor!.facilityId,
+    createdById: actor!.id,
+    entityType: "Patient",
+    entityId: patient.id,
+    title: "Patient registration ready for billing",
+    body: `${patient.patientNo} was registered and is available for charge review.`,
+  })
 
   return Response.json(
-    { success: true, data: serializeRecordsPatient(patient) } satisfies ApiResponse,
+    {
+      success: true,
+      data: serializeRecordsPatient(patient),
+    } satisfies ApiResponse,
     { status: 201 }
   )
 }

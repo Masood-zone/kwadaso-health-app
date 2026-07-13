@@ -49,7 +49,7 @@ export const clinicalAppointmentRoles = [
 ] as const
 
 export const hospitalAdminSystemSettingDefaults = {
-  "patient.numberPrefix": "SDA-P",
+  "patient.numberPrefix": "KHS-PT",
   "invoice.numberPrefix": "INV-SDA",
   "appointment.defaultSlotMinutes": 30,
 }

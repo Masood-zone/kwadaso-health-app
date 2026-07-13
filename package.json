@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "seed": "tsx prisma/seed-admins.ts",
+    "seed:verify": "tsx prisma/verify-seed.ts",
     "seed:medications": "tsx prisma/seed-medications.ts",
     "seed:lab-tests": "tsx prisma/seed-lab-tests.ts"
   },

@@ -7,7 +7,6 @@ import type { ApiResponse } from "@/types"
 import type { SuperAdminStaffSummary } from "@/types/super-admin"
 
 export type StaffFormPayload = {
-  staffId: string
   firstName: string
   lastName: string
   otherNames?: string | null
@@ -37,7 +36,9 @@ export function useStaffList(filters?: {
         `/super-admin/staff${params.size ? `?${params.toString()}` : ""}`
       )
       if (!response.data.success || !response.data.data) {
-        throw new Error(response.data.message || "Staff accounts could not be loaded")
+        throw new Error(
+          response.data.message || "Staff accounts could not be loaded"
+        )
       }
       return response.data.data
     },
@@ -54,11 +55,14 @@ export function useCreateStaff() {
         payload
       )
       if (!response.data.success || !response.data.data) {
-        throw new Error(response.data.message || "Staff account could not be created")
+        throw new Error(
+          response.data.message || "Staff account could not be created"
+        )
       }
       return response.data.data
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["super-admin"] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["super-admin"] }),
   })
 }
 
@@ -80,10 +84,13 @@ export function useUpdateStaff() {
         updatePayload
       )
       if (!response.data.success || !response.data.data) {
-        throw new Error(response.data.message || "Staff account could not be updated")
+        throw new Error(
+          response.data.message || "Staff account could not be updated"
+        )
       }
       return response.data.data
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["super-admin"] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["super-admin"] }),
   })
 }

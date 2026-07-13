@@ -37,7 +37,6 @@ export type HospitalAdminStaffListItem = {
 }
 
 export type HospitalAdminStaffCreatePayload = {
-  staffId: string
   firstName: string
   lastName: string
   otherNames?: string | null
