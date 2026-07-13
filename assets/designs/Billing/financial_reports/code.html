@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Financial Reports - KHIP Billing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "on-background": "#0b1c30",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-container": "#ffb168",
+                        "on-tertiary-fixed": "#2d1600",
+                        "tertiary": "#572e00",
+                        "medical-green-soft": "#E8F5E9",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#ea002c",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#a5f693",
+                        "on-secondary-fixed-variant": "#930018",
+                        "primary-fixed-dim": "#8ad97a",
+                        "background": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#410005",
+                        "on-surface-variant": "#40493c",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "tertiary-container": "#784200",
+                        "emergency-soft": "#FDECEF",
+                        "outline": "#707a6b",
+                        "on-surface": "#0b1c30",
+                        "inverse-on-surface": "#eaf1ff",
+                        "accent-blue": "#EAF3FA",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "surface-tint": "#206d1b",
+                        "secondary": "#bb0021",
+                        "primary-container": "#0b5d0b",
+                        "surface-dim": "#cbdbf5",
+                        "primary": "#004302",
+                        "on-primary-fixed": "#002201",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-secondary": "#ffffff",
+                        "border-subtle": "#E2E8F0",
+                        "inverse-surface": "#213145",
+                        "on-secondary-container": "#fffbff",
+                        "error": "#ba1a1a",
+                        "emergency-dark": "#B80021",
+                        "pending-soft": "#FFF4E8",
+                        "outline-variant": "#c0cab8",
+                        "on-primary-container": "#86d576",
+                        "secondary-fixed": "#ffdad7",
+                        "on-error-container": "#93000a",
+                        "app-bg": "#F8FAFC",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#005304",
+                        "deep-forest": "#064906",
+                        "inverse-primary": "#8ad97a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "1rem",
+                        "sidebar-width": "260px",
+                        "topbar-height": "64px",
+                        "margin-desktop": "2rem",
+                        "container-max": "1440px",
+                        "gutter": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "display-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "table-data": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .report-card-hover:hover {
+            transform: translateY(-2px);
+            transition: transform 0.2s ease-out;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md overflow-hidden">
+<!-- Fixed Sidebar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-deep-forest dark:bg-on-background border-r border-border-subtle dark:border-outline shadow-sm flex flex-col py-6 z-50">
+<div class="px-6 mb-10 flex items-center gap-3">
+<div class="w-10 h-10 bg-on-primary-container rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary leading-none">KHIP</h1>
+<p class="text-[10px] text-on-primary-container uppercase tracking-widest font-bold">HealthLink Integrated</p>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto px-3 space-y-1">
+<div class="text-on-primary-container/60 text-[10px] font-bold px-3 py-2 uppercase tracking-wider">Main Navigation</div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary/50 font-body-md transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary/50 font-body-md transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span>Patient Billing</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary/50 font-body-md transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]">description</span>
+<span>Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary/50 font-body-md transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+<span>Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary/50 font-body-md transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<span>Receipts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary/50 font-body-md transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]">pending_actions</span>
+<span>Outstanding Balances</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary/50 font-body-md transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]">summarize</span>
+<span>Daily Collections</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary/50 font-body-md transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]">health_and_safety</span>
+<span>NHIS &amp; Waivers</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded bg-primary-container text-on-primary-container border-l-4 border-on-tertiary-container font-body-md font-medium cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span>Financial Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary/50 font-body-md transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span>Notifications</span>
+</a>
+</nav>
+<div class="px-3 mt-auto pt-6 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary/50 font-body-md transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary/50 font-body-md transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-[64px] bg-surface dark:bg-surface-dim border-b border-border-subtle dark:border-outline flex justify-between items-center px-margin-desktop z-40">
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container rounded-lg border-none focus:ring-2 focus:ring-primary w-80 text-sm" placeholder="Search patients or invoices..." type="text"/>
+</div>
+<div class="h-6 w-px bg-border-subtle mx-2"></div>
+<span class="font-label-md text-label-md font-semibold text-primary">Billing / Accounts Officer</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative hover:text-primary transition-all">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<button class="hover:text-primary transition-all">
+<span class="material-symbols-outlined">calendar_today</span>
+</button>
+<div class="flex items-center gap-3 border-l border-border-subtle pl-6">
+<div class="text-right">
+<p class="text-sm font-bold text-on-surface">Dr. James Wilson</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-tighter">Finance Lead</p>
+</div>
+<img class="w-10 h-10 rounded-full object-cover border border-primary-container" data-alt="Professional headshot of a mature African male doctor wearing a white clinical coat and glasses, soft studio lighting, clinical environment background with a clean aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBV3f_xn9sLhs-oGnRnd-qqicyzwTEzA3yaTfeWXOBm5fG0Vi1Ru_5n9pnUtG2FnjPsxvXtG-dvPxbE3byyUlcRLAh1qY7f1roObmc1trF7ad4y-cQwQLTqnr5wnpnml5PsDNQ_w3xKulE_TGFLgRvNDUA6h8l13oQ1lgrJr3g0FSxV6mpFYFYqQsJFXHmhKueYlhpF-sieApyuwvaEJyL-NhTQEOttCqy92av_z1cDCIxywEJsgka7"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[260px] mt-[64px] h-[calc(100vh-64px)] overflow-y-auto p-margin-desktop">
+<div class="max-w-container-max mx-auto space-y-gutter">
+<!-- Page Header & Action Bar -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Financial Reporting Hub</h2>
+<p class="text-on-surface-variant font-body-md">Comprehensive analysis of revenue streams and collection performance.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 bg-surface-container-lowest border border-border-subtle rounded-lg flex items-center gap-2 text-on-surface font-medium hover:bg-surface-container-low transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+<span>Export PDF</span>
+</button>
+<button class="px-4 py-2 bg-primary text-on-primary rounded-lg flex items-center gap-2 font-bold hover:opacity-90 transition-opacity shadow-md">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Export CSV</span>
+</button>
+</div>
+</div>
+<!-- Dashboard Bento Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Filter Panel (Left Column) -->
+<div class="col-span-12 lg:col-span-3 space-y-4">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-border-subtle shadow-sm">
+<h3 class="font-headline-md text-headline-md mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">filter_list</span>
+                            Report Filters
+                        </h3>
+<div class="space-y-5">
+<div>
+<label class="block text-label-md text-on-surface-variant mb-2">Report Type</label>
+<select class="w-full bg-surface-container-low border-border-subtle rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary">
+<option>Daily Collections Summary</option>
+<option>Payments by Method</option>
+<option>Revenue by Department</option>
+<option>Outstanding Balances</option>
+<option>NHIS Claims Analysis</option>
+</select>
+</div>
+<div>
+<label class="block text-label-md text-on-surface-variant mb-2">Date Range</label>
+<div class="grid grid-cols-1 gap-2">
+<input class="w-full bg-surface-container-low border-border-subtle rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary" type="date"/>
+<input class="w-full bg-surface-container-low border-border-subtle rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary" type="date"/>
+</div>
+</div>
+<div>
+<label class="block text-label-md text-on-surface-variant mb-2">Department</label>
+<select class="w-full bg-surface-container-low border-border-subtle rounded-lg p-2.5 text-sm">
+<option>All Departments</option>
+<option>Emergency Room</option>
+<option>Cardiology</option>
+<option>Pediatrics</option>
+<option>Pharmacy</option>
+<option>Laboratory</option>
+</select>
+</div>
+<div>
+<label class="block text-label-md text-on-surface-variant mb-2">Billing Officer</label>
+<select class="w-full bg-surface-container-low border-border-subtle rounded-lg p-2.5 text-sm">
+<option>All Officers</option>
+<option>James Wilson</option>
+<option>Sarah Chen</option>
+<option>Michael Okafor</option>
+</select>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary rounded-lg font-bold mt-4 shadow-sm active:scale-95 transition-transform">
+                                Generate Report
+                            </button>
+</div>
+</div>
+<!-- Quick Insights List -->
+<div class="bg-accent-blue/40 p-5 rounded-xl border border-blue-100">
+<h4 class="text-sm font-bold text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">lightbulb</span>
+                            Quick Insights
+                        </h4>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[18px] mt-0.5">trending_up</span>
+<p class="text-xs text-on-surface-variant leading-relaxed">Revenue is up <span class="font-bold text-on-surface">12%</span> compared to last month.</p>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-[18px] mt-0.5">warning</span>
+<p class="text-xs text-on-surface-variant leading-relaxed">NHIS rejections increased by <span class="font-bold text-secondary">3%</span> this week.</p>
+</li>
+</ul>
+</div>
+</div>
+<!-- Main Dashboard Output (Right Column) -->
+<div class="col-span-12 lg:col-span-9 space-y-gutter">
+<!-- Summary Metric Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-xl flex items-center gap-5 relative overflow-hidden report-card-hover group">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+<div class="w-12 h-12 rounded-full bg-medical-green-soft flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<div>
+<p class="text-label-md font-medium text-on-surface-variant">Total Collections</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">₦4,285,000</p>
+<span class="text-[10px] font-bold text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">arrow_upward</span> 8.4% vs prev. month
+                                </span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-xl flex items-center gap-5 relative overflow-hidden report-card-hover group">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-on-tertiary-container"></div>
+<div class="w-12 h-12 rounded-full bg-pending-soft flex items-center justify-center text-tertiary group-hover:bg-on-tertiary-container group-hover:text-on-tertiary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">pending_actions</span>
+</div>
+<div>
+<p class="text-label-md font-medium text-on-surface-variant">Pending Receivables</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">₦812,400</p>
+<span class="text-[10px] font-bold text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span> 14 accounts overdue
+                                </span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-xl flex items-center gap-5 relative overflow-hidden report-card-hover group">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary"></div>
+<div class="w-12 h-12 rounded-full bg-emergency-soft flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-on-secondary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+</div>
+<div>
+<p class="text-label-md font-medium text-on-surface-variant">Insurance/Waivers</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">₦324,150</p>
+<span class="text-[10px] font-bold text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">remove_circle</span> 4.2% of total revenue
+                                </span>
+</div>
+</div>
+</div>
+<!-- Revenue Trend Chart Placeholder -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Revenue Analysis Trend</h3>
+<p class="text-body-sm text-on-surface-variant">Daily collection trends across all departments</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-xs font-bold bg-surface-container rounded-full text-on-surface border border-border-subtle">Week</button>
+<button class="px-3 py-1 text-xs font-bold bg-primary text-on-primary rounded-full">Month</button>
+<button class="px-3 py-1 text-xs font-bold bg-surface-container rounded-full text-on-surface border border-border-subtle">Year</button>
+</div>
+</div>
+<div class="h-64 relative flex items-end justify-between gap-4 px-2">
+<!-- Simple CSS Chart bars to simulate visual density -->
+<div class="flex-1 bg-primary/20 rounded-t h-[40%] hover:bg-primary transition-colors relative group">
+<div class="hidden group-hover:block absolute -top-10 left-1/2 -translate-x-1/2 bg-on-background text-white text-[10px] py-1 px-2 rounded whitespace-nowrap">₦120k</div>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t h-[65%] hover:bg-primary transition-colors relative group">
+<div class="hidden group-hover:block absolute -top-10 left-1/2 -translate-x-1/2 bg-on-background text-white text-[10px] py-1 px-2 rounded whitespace-nowrap">₦210k</div>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t h-[55%] hover:bg-primary transition-colors relative group"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[85%] hover:bg-primary transition-colors relative group"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[45%] hover:bg-primary transition-colors relative group"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[70%] hover:bg-primary transition-colors relative group"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[95%] hover:bg-primary transition-colors relative group"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[60%] hover:bg-primary transition-colors relative group"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[40%] hover:bg-primary transition-colors relative group"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[75%] hover:bg-primary transition-colors relative group"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[50%] hover:bg-primary transition-colors relative group"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[65%] hover:bg-primary transition-colors relative group"></div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest border-t pt-4">
+<span>01 May</span>
+<span>07 May</span>
+<span>14 May</span>
+<span>21 May</span>
+<span>28 May</span>
+</div>
+</div>
+<!-- Detailed Data Table -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden shadow-sm">
+<div class="p-5 border-b border-border-subtle bg-accent-blue/30 flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Transaction Logs</h3>
+<button class="text-primary text-sm font-bold hover:underline">View All Records</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="p-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider border-b border-border-subtle">Date/Time</th>
+<th class="p-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider border-b border-border-subtle">Patient Name</th>
+<th class="p-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider border-b border-border-subtle">Department</th>
+<th class="p-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider border-b border-border-subtle">Method</th>
+<th class="p-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider border-b border-border-subtle">Amount</th>
+<th class="p-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider border-b border-border-subtle">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle font-table-data">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="p-4">
+<div class="text-on-surface">May 24, 2024</div>
+<div class="text-[11px] text-on-surface-variant">10:45 AM</div>
+</td>
+<td class="p-4 font-bold text-on-surface">Adeola Johnson</td>
+<td class="p-4">Outpatient Care</td>
+<td class="p-4">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-blue-500">credit_card</span>
+                                                POS
+                                            </span>
+</td>
+<td class="p-4 font-bold text-on-surface">₦45,500.00</td>
+<td class="p-4">
+<span class="px-2.5 py-1 rounded-full bg-medical-green-soft text-primary text-[11px] font-bold uppercase tracking-tight">Cleared</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="p-4">
+<div class="text-on-surface">May 24, 2024</div>
+<div class="text-[11px] text-on-surface-variant">11:15 AM</div>
+</td>
+<td class="p-4 font-bold text-on-surface">Fatima Ibrahim</td>
+<td class="p-4">Radiology</td>
+<td class="p-4">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-green-600">payments</span>
+                                                Cash
+                                            </span>
+</td>
+<td class="p-4 font-bold text-on-surface">₦12,000.00</td>
+<td class="p-4">
+<span class="px-2.5 py-1 rounded-full bg-medical-green-soft text-primary text-[11px] font-bold uppercase tracking-tight">Cleared</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="p-4">
+<div class="text-on-surface">May 24, 2024</div>
+<div class="text-[11px] text-on-surface-variant">12:30 PM</div>
+</td>
+<td class="p-4 font-bold text-on-surface">Samuel Chibuike</td>
+<td class="p-4">Inpatient/Surgery</td>
+<td class="p-4">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-purple-600">account_balance</span>
+                                                Transfer
+                                            </span>
+</td>
+<td class="p-4 font-bold text-on-surface">₦285,000.00</td>
+<td class="p-4">
+<span class="px-2.5 py-1 rounded-full bg-pending-soft text-tertiary text-[11px] font-bold uppercase tracking-tight">Pending</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="p-4">
+<div class="text-on-surface">May 24, 2024</div>
+<div class="text-[11px] text-on-surface-variant">01:10 PM</div>
+</td>
+<td class="p-4 font-bold text-on-surface">Grace Mendy</td>
+<td class="p-4">Pharmacy</td>
+<td class="p-4">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-blue-500">credit_card</span>
+                                                POS
+                                            </span>
+</td>
+<td class="p-4 font-bold text-on-surface">₦8,750.00</td>
+<td class="p-4">
+<span class="px-2.5 py-1 rounded-full bg-medical-green-soft text-primary text-[11px] font-bold uppercase tracking-tight">Cleared</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-border-subtle flex items-center justify-between bg-surface-container-lowest">
+<span class="text-body-sm text-on-surface-variant font-medium">Showing 4 of 128 transactions</span>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-surface-container rounded-lg border border-border-subtle transition-colors"><span class="material-symbols-outlined text-[18px]">chevron_left</span></button>
+<button class="px-3 py-1 bg-primary text-on-primary rounded font-bold text-sm">1</button>
+<button class="px-3 py-1 hover:bg-surface-container rounded font-bold text-sm">2</button>
+<button class="px-3 py-1 hover:bg-surface-container rounded font-bold text-sm">3</button>
+<button class="p-2 hover:bg-surface-container rounded-lg border border-border-subtle transition-colors"><span class="material-symbols-outlined text-[18px]">chevron_right</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interaction for table row highlight
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                // Potential modal trigger for transaction details
+            });
+        });
+
+        // Simulating loading state for filters
+        const generateBtn = document.querySelector('button.w-full.py-3');
+        generateBtn.addEventListener('click', function() {
+            const originalContent = this.innerHTML;
+            this.disabled = true;
+            this.innerHTML = '<span class="flex items-center justify-center gap-2"><span class="material-symbols-outlined animate-spin">sync</span> Processing...</span>';
+            
+            setTimeout(() => {
+                this.disabled = false;
+                this.innerHTML = originalContent;
+                // Add actual report regeneration logic here
+            }, 1200);
+        });
+    </script>
+</body></html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHIP Billing - Record Payment</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "on-background": "#0b1c30",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-container": "#ffb168",
+                        "on-tertiary-fixed": "#2d1600",
+                        "tertiary": "#572e00",
+                        "medical-green-soft": "#E8F5E9",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#ea002c",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#a5f693",
+                        "on-secondary-fixed-variant": "#930018",
+                        "primary-fixed-dim": "#8ad97a",
+                        "background": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#410005",
+                        "on-surface-variant": "#40493c",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "tertiary-container": "#784200",
+                        "emergency-soft": "#FDECEF",
+                        "outline": "#707a6b",
+                        "on-surface": "#0b1c30",
+                        "inverse-on-surface": "#eaf1ff",
+                        "accent-blue": "#EAF3FA",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "surface-tint": "#206d1b",
+                        "secondary": "#bb0021",
+                        "primary-container": "#0b5d0b",
+                        "surface-dim": "#cbdbf5",
+                        "primary": "#004302",
+                        "on-primary-fixed": "#002201",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-secondary": "#ffffff",
+                        "border-subtle": "#E2E8F0",
+                        "inverse-surface": "#213145",
+                        "on-secondary-container": "#fffbff",
+                        "error": "#ba1a1a",
+                        "emergency-dark": "#B80021",
+                        "pending-soft": "#FFF4E8",
+                        "outline-variant": "#c0cab8",
+                        "on-primary-container": "#86d576",
+                        "secondary-fixed": "#ffdad7",
+                        "on-error-container": "#93000a",
+                        "app-bg": "#F8FAFC",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#005304",
+                        "deep-forest": "#064906",
+                        "inverse-primary": "#8ad97a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "1rem",
+                        "sidebar-width": "260px",
+                        "topbar-height": "64px",
+                        "margin-desktop": "2rem",
+                        "container-max": "1440px",
+                        "gutter": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "display-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "table-data": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-active-indicator {
+            position: absolute;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #ffb168; /* Flame Orange from on-tertiary-container */
+        }
+    </style>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md overflow-x-hidden">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-deep-forest dark:bg-on-background border-r border-border-subtle dark:border-outline shadow-sm flex flex-col py-6 z-50">
+<div class="px-6 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">KHIP</h1>
+<p class="text-on-primary/70 text-label-md">HealthLink Integrated</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-6 py-3 text-surface-container-low hover:bg-primary-container/20 transition-colors cursor-pointer active:scale-95 group" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-body-md text-body-md font-medium">Dashboard</span>
+</a>
+<!-- Active State: Payments -->
+<a class="relative flex items-center px-6 py-3 bg-primary-container text-on-primary-container border-l-4 border-on-tertiary-container transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">payments</span>
+<span class="font-body-md text-body-md font-medium">Payments</span>
+</a>
+<a class="flex items-center px-6 py-3 text-surface-container-low hover:bg-primary-container/20 transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">description</span>
+<span class="font-body-md text-body-md font-medium">Invoices</span>
+</a>
+<a class="flex items-center px-6 py-3 text-surface-container-low hover:bg-primary-container/20 transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">account_balance_wallet</span>
+<span class="font-body-md text-body-md font-medium">Receipts</span>
+</a>
+<a class="flex items-center px-6 py-3 text-surface-container-low hover:bg-primary-container/20 transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">pending_actions</span>
+<span class="font-body-md text-body-md font-medium">Outstanding Balances</span>
+</a>
+<a class="flex items-center px-6 py-3 text-surface-container-low hover:bg-primary-container/20 transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">summarize</span>
+<span class="font-body-md text-body-md font-medium">Daily Collections</span>
+</a>
+<a class="flex items-center px-6 py-3 text-surface-container-low hover:bg-primary-container/20 transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">health_and_safety</span>
+<span class="font-body-md text-body-md font-medium">NHIS &amp; Waivers</span>
+</a>
+<a class="flex items-center px-6 py-3 text-surface-container-low hover:bg-primary-container/20 transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span class="font-body-md text-body-md font-medium">Financial Reports</span>
+</a>
+<a class="flex items-center px-6 py-3 text-surface-container-low hover:bg-primary-container/20 transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">notifications</span>
+<span class="font-body-md text-body-md font-medium">Notifications</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-primary/20">
+<a class="flex items-center px-6 py-3 text-surface-container-low hover:bg-primary-container/20 transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span class="font-body-md text-body-md font-medium">Settings</span>
+</a>
+<a class="flex items-center px-6 py-3 text-surface-container-low hover:bg-primary-container/20 transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">logout</span>
+<span class="font-body-md text-body-md font-medium">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[260px] min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface dark:bg-surface-dim border-b border-border-subtle dark:border-outline flex justify-between items-center px-margin-desktop z-40">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-lg text-headline-lg font-black text-primary">KHIP Billing</h2>
+<div class="h-6 w-px bg-border-subtle mx-2"></div>
+<nav class="flex items-center gap-4">
+<span class="font-label-md text-label-md font-semibold text-primary font-bold border-b-2 border-primary pb-1">Billing / Accounts Officer</span>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-primary transition-all focus-within:ring-2 focus-within:ring-primary p-2">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all focus-within:ring-2 focus-within:ring-primary p-2">
+<span class="material-symbols-outlined">calendar_today</span>
+</button>
+<div class="flex items-center gap-3 border-l border-border-subtle pl-6">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary text-[12px] font-bold">JD</div>
+<button class="font-label-md text-label-md font-semibold text-on-surface-variant hover:text-primary transition-all">Logout</button>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="pt-topbar-height p-margin-desktop max-w-[1000px] mx-auto">
+<div class="mb-8 flex items-center justify-between">
+<div>
+<nav class="flex text-label-md text-on-surface-variant mb-2 items-center gap-2">
+<span>Payments</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-semibold">Record Payment</span>
+</nav>
+<h1 class="font-headline-lg text-headline-lg text-on-background">Record Payment</h1>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-primary text-primary font-semibold rounded hover:bg-primary/5 transition-colors">Cancel</button>
+</div>
+</div>
+<!-- Bento Grid Section: Invoice Summary -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="md:col-span-2 bg-surface-container-lowest border border-border-subtle rounded-xl p-6 shadow-sm flex flex-col gap-4">
+<div class="flex items-center gap-3 border-b border-border-subtle pb-4">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">person</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Patient Details</h3>
+</div>
+<div class="grid grid-cols-2 gap-y-4">
+<div>
+<p class="text-label-md text-on-surface-variant uppercase tracking-wider">Patient Name</p>
+<p class="font-body-lg text-body-lg font-bold text-on-surface">Kwame Mensah Appiah</p>
+</div>
+<div>
+<p class="text-label-md text-on-surface-variant uppercase tracking-wider">Patient ID</p>
+<p class="font-body-lg text-body-lg font-medium text-on-surface">KHIP-2023-8842</p>
+</div>
+<div>
+<p class="text-label-md text-on-surface-variant uppercase tracking-wider">Invoice Number</p>
+<p class="font-body-lg text-body-lg font-bold text-primary">INV-45290</p>
+</div>
+<div>
+<p class="text-label-md text-on-surface-variant uppercase tracking-wider">Service Type</p>
+<p class="font-body-lg text-body-lg font-medium text-on-surface">OPD General Consultation</p>
+</div>
+</div>
+</div>
+<div class="bg-primary text-white rounded-xl p-6 shadow-md relative overflow-hidden flex flex-col justify-between">
+<!-- Subtle background pattern -->
+<div class="absolute top-0 right-0 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[120px]">account_balance_wallet</span>
+</div>
+<div>
+<p class="text-label-md text-primary-fixed uppercase tracking-widest font-bold mb-1">Balance Due</p>
+<h2 class="font-display-lg text-display-lg">GHS 1,450.00</h2>
+</div>
+<div class="mt-4 pt-4 border-t border-white/20 grid grid-cols-2">
+<div>
+<p class="text-label-md text-primary-fixed/80">Total Amount</p>
+<p class="font-body-md font-semibold">GHS 2,100.00</p>
+</div>
+<div>
+<p class="text-label-md text-primary-fixed/80">Paid Already</p>
+<p class="font-body-md font-semibold text-primary-fixed">GHS 650.00</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Payment Form -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl shadow-sm overflow-hidden">
+<div class="bg-accent-blue/50 px-6 py-4 border-b border-border-subtle">
+<h3 class="font-headline-md text-headline-md text-primary">Payment Collection Form</h3>
+</div>
+<form class="p-8 space-y-6 max-w-2xl mx-auto" id="paymentForm">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Date -->
+<div class="flex flex-col gap-2">
+<label class="text-label-md font-semibold text-on-surface-variant">Payment Date <span class="text-emergency-dark">*</span></label>
+<div class="relative">
+<input class="w-full h-12 px-4 bg-white border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" type="date" value="2023-11-20"/>
+</div>
+</div>
+<!-- Method -->
+<div class="flex flex-col gap-2">
+<label class="text-label-md font-semibold text-on-surface-variant">Payment Method <span class="text-emergency-dark">*</span></label>
+<select class="w-full h-12 px-4 bg-white border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary outline-none appearance-none transition-all" id="paymentMethod">
+<option value="cash">Cash</option>
+<option value="momo">MoMo (Mobile Money)</option>
+<option value="card">Debit/Credit Card</option>
+<option value="transfer">Bank Transfer</option>
+<option value="nhis">NHIS (National Health Insurance)</option>
+<option value="waiver">Administrative Waiver</option>
+</select>
+</div>
+</div>
+<!-- Amount -->
+<div class="flex flex-col gap-2">
+<label class="text-label-md font-semibold text-on-surface-variant">Amount Received (GHS) <span class="text-emergency-dark">*</span></label>
+<div class="relative group">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold">GHS</div>
+<input class="w-full h-14 pl-16 pr-4 bg-white border border-border-subtle rounded-lg text-headline-md font-bold focus:ring-2 focus:ring-primary outline-none transition-all placeholder:text-surface-dim" id="amountInput" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</div>
+<!-- Transaction Reference (Conditional Rendering via JS logic below) -->
+<div class="flex flex-col gap-2 hidden animate-in fade-in duration-300" id="referenceField">
+<label class="text-label-md font-semibold text-on-surface-variant">Transaction Reference / Auth Code <span class="text-emergency-dark">*</span></label>
+<input class="w-full h-12 px-4 bg-white border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" placeholder="e.g. 29381029302" type="text"/>
+<p class="text-label-md text-on-surface-variant italic">Required for digital and banking transactions.</p>
+</div>
+<!-- NHIS / Waiver Details -->
+<div class="flex flex-col gap-2 hidden animate-in fade-in duration-300" id="waiverField">
+<label class="text-label-md font-semibold text-on-surface-variant">Reason for Waiver / NHIS Claim #</label>
+<textarea class="w-full p-4 bg-white border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" placeholder="Enter administrative justification or NHIS serial number..." rows="3"></textarea>
+</div>
+<!-- Calculations Summary -->
+<div class="bg-surface-container-low p-6 rounded-lg border-l-4 border-primary space-y-3">
+<div class="flex justify-between items-center text-body-md">
+<span class="text-on-surface-variant">Outstanding Balance</span>
+<span class="font-semibold">GHS 1,450.00</span>
+</div>
+<div class="flex justify-between items-center text-body-md">
+<span class="text-on-surface-variant">Paying Now</span>
+<span class="font-semibold text-primary" id="displayAmount">GHS 0.00</span>
+</div>
+<div class="h-px bg-border-subtle my-2"></div>
+<div class="flex justify-between items-center">
+<span class="text-body-lg font-bold text-on-background">Balance After Payment</span>
+<span class="text-headline-md font-bold text-secondary" id="remainingBalance">GHS 1,450.00</span>
+</div>
+</div>
+<!-- CTA -->
+<div class="pt-4">
+<button class="w-full h-14 bg-primary text-white font-headline-md rounded-lg shadow-lg hover:bg-deep-forest active:scale-[0.98] transition-all flex items-center justify-center gap-3" onclick="showConfirmation()" type="button">
+<span class="material-symbols-outlined">verified</span>
+                            Record Payment &amp; Generate Receipt
+                        </button>
+</div>
+</form>
+</div>
+<!-- Help Message -->
+<div class="mt-8 flex items-center gap-4 p-4 bg-accent-blue border border-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">info</span>
+<p class="text-body-sm text-on-surface-variant">Note: Once a payment is recorded, it can only be reversed by a Senior Accounts Manager. Please double-check all figures before confirming.</p>
+</div>
+</div>
+</main>
+<!-- Confirmation Modal -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center hidden" id="confirmationModal">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-on-background/60 backdrop-blur-sm transition-opacity"></div>
+<!-- Modal Content -->
+<div class="relative bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+<div class="bg-primary p-6 text-center text-white">
+<div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+<span class="material-symbols-outlined text-[32px]">payments</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg">Confirm Payment</h3>
+<p class="text-primary-fixed opacity-90">Please verify the amount before submission.</p>
+</div>
+<div class="p-8 space-y-4">
+<div class="flex justify-between border-b border-border-subtle pb-3">
+<span class="text-on-surface-variant">Patient</span>
+<span class="font-bold text-on-surface">Kwame Mensah Appiah</span>
+</div>
+<div class="flex justify-between border-b border-border-subtle pb-3">
+<span class="text-on-surface-variant">Total Amount</span>
+<span class="font-bold text-on-surface" id="modalAmount">GHS 0.00</span>
+</div>
+<div class="flex justify-between border-b border-border-subtle pb-3">
+<span class="text-on-surface-variant">Method</span>
+<span class="font-bold text-on-surface" id="modalMethod">Cash</span>
+</div>
+<div class="flex justify-between pt-2">
+<span class="text-on-surface-variant font-semibold">Remaining Balance</span>
+<span class="font-bold text-secondary" id="modalRemaining">GHS 1,450.00</span>
+</div>
+<div class="flex gap-4 mt-8">
+<button class="flex-1 py-3 border border-border-subtle rounded-lg font-semibold hover:bg-surface-container-low transition-colors" onclick="hideConfirmation()">Go Back</button>
+<button class="flex-1 py-3 bg-primary text-white rounded-lg font-semibold shadow-md hover:bg-deep-forest transition-colors" onclick="processPayment()">Confirm &amp; Process</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Success Feedback Overlay (Hidden by default) -->
+<div class="fixed inset-0 z-[110] flex items-center justify-center hidden bg-white/95 backdrop-blur-md" id="successOverlay">
+<div class="text-center animate-in slide-in-from-bottom-8 duration-500">
+<div class="w-24 h-24 bg-medical-green-soft text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-[48px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="font-display-lg text-display-lg text-on-background mb-2">Payment Successful!</h2>
+<p class="text-body-lg text-on-surface-variant mb-8">Receipt #RCP-9021 has been generated and queued for printing.</p>
+<div class="flex gap-4 justify-center">
+<button class="px-8 py-3 bg-primary text-white font-bold rounded-lg hover:shadow-lg transition-all" onclick="location.reload()">New Payment</button>
+<button class="px-8 py-3 border border-primary text-primary font-bold rounded-lg hover:bg-primary/5 transition-all">Download Receipt</button>
+</div>
+</div>
+</div>
+<script>
+        const amountInput = document.getElementById('amountInput');
+        const displayAmount = document.getElementById('displayAmount');
+        const remainingBalance = document.getElementById('remainingBalance');
+        const paymentMethod = document.getElementById('paymentMethod');
+        const referenceField = document.getElementById('referenceField');
+        const waiverField = document.getElementById('waiverField');
+        const outstanding = 1450.00;
+
+        amountInput.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value) || 0;
+            displayAmount.innerText = `GHS ${val.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            
+            const remaining = outstanding - val;
+            remainingBalance.innerText = `GHS ${remaining.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            
+            if (remaining < 0) {
+                remainingBalance.classList.replace('text-secondary', 'text-primary');
+            } else {
+                remainingBalance.classList.replace('text-primary', 'text-secondary');
+            }
+        });
+
+        paymentMethod.addEventListener('change', (e) => {
+            const val = e.target.value;
+            // Digital methods require reference
+            if (['momo', 'card', 'transfer'].includes(val)) {
+                referenceField.classList.remove('hidden');
+            } else {
+                referenceField.classList.add('hidden');
+            }
+
+            // NHIS/Waiver require detail
+            if (['nhis', 'waiver'].includes(val)) {
+                waiverField.classList.remove('hidden');
+            } else {
+                waiverField.classList.add('hidden');
+            }
+        });
+
+        function showConfirmation() {
+            const val = parseFloat(amountInput.value) || 0;
+            if (val <= 0) {
+                alert('Please enter a valid payment amount.');
+                return;
+            }
+            document.getElementById('modalAmount').innerText = displayAmount.innerText;
+            document.getElementById('modalMethod').innerText = paymentMethod.options[paymentMethod.selectedIndex].text;
+            document.getElementById('modalRemaining').innerText = remainingBalance.innerText;
+            document.getElementById('confirmationModal').classList.remove('hidden');
+        }
+
+        function hideConfirmation() {
+            document.getElementById('confirmationModal').classList.add('hidden');
+        }
+
+        function processPayment() {
+            document.getElementById('confirmationModal').classList.add('hidden');
+            document.getElementById('successOverlay').classList.remove('hidden');
+        }
+    </script>
+</body></html>

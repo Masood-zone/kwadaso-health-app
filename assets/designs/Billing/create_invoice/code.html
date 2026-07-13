@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHIP Billing - Create Invoice</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "on-background": "#0b1c30",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-container": "#ffb168",
+                        "on-tertiary-fixed": "#2d1600",
+                        "tertiary": "#572e00",
+                        "medical-green-soft": "#E8F5E9",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#ea002c",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#a5f693",
+                        "on-secondary-fixed-variant": "#930018",
+                        "primary-fixed-dim": "#8ad97a",
+                        "background": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#410005",
+                        "on-surface-variant": "#40493c",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "tertiary-container": "#784200",
+                        "emergency-soft": "#FDECEF",
+                        "outline": "#707a6b",
+                        "on-surface": "#0b1c30",
+                        "inverse-on-surface": "#eaf1ff",
+                        "accent-blue": "#EAF3FA",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "surface-tint": "#206d1b",
+                        "secondary": "#bb0021",
+                        "primary-container": "#0b5d0b",
+                        "surface-dim": "#cbdbf5",
+                        "primary": "#004302",
+                        "on-primary-fixed": "#002201",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-secondary": "#ffffff",
+                        "border-subtle": "#E2E8F0",
+                        "inverse-surface": "#213145",
+                        "on-secondary-container": "#fffbff",
+                        "error": "#ba1a1a",
+                        "emergency-dark": "#B80021",
+                        "pending-soft": "#FFF4E8",
+                        "outline-variant": "#c0cab8",
+                        "on-primary-container": "#86d576",
+                        "secondary-fixed": "#ffdad7",
+                        "on-error-container": "#93000a",
+                        "app-bg": "#F8FAFC",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#005304",
+                        "deep-forest": "#064906",
+                        "inverse-primary": "#8ad97a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "1rem",
+                        "sidebar-width": "260px",
+                        "topbar-height": "64px",
+                        "margin-desktop": "2rem",
+                        "gutter": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "display-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "table-data": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "table-data": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-indicator {
+            border-left: 4px solid #ffb168; /* Flame Orange indicator from style logic */
+        }
+        .bento-card {
+            background: #ffffff;
+            border: 1px solid #E2E8F0;
+            transition: all 0.2s ease;
+        }
+        .bento-card:hover {
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f8f9ff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-deep-forest dark:bg-on-background border-r border-border-subtle dark:border-outline flex flex-col py-6 z-50">
+<div class="px-6 mb-10 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">health_and_safety</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary leading-tight">KHIP</h1>
+<p class="text-[10px] uppercase tracking-widest text-primary-fixed/60">HealthLink Integrated</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1 px-3">
+<a class="flex items-center gap-3 px-3 py-3 rounded transition-colors text-surface-container-low hover:bg-primary/50 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-3 rounded transition-colors bg-primary-container text-on-primary-container border-l-4 border-on-tertiary-container font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">payments</span> Patient Billing
+            </a>
+<a class="flex items-center gap-3 px-3 py-3 rounded transition-colors text-surface-container-low hover:bg-primary/50 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">description</span> Invoices
+            </a>
+<a class="flex items-center gap-3 px-3 py-3 rounded transition-colors text-surface-container-low hover:bg-primary/50 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span> Payments
+            </a>
+<a class="flex items-center gap-3 px-3 py-3 rounded transition-colors text-surface-container-low hover:bg-primary/50 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">receipt_long</span> Receipts
+            </a>
+<a class="flex items-center gap-3 px-3 py-3 rounded transition-colors text-surface-container-low hover:bg-primary/50 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">pending_actions</span> Outstanding Balances
+            </a>
+<a class="flex items-center gap-3 px-3 py-3 rounded transition-colors text-surface-container-low hover:bg-primary/50 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">summarize</span> Daily Collections
+            </a>
+<a class="flex items-center gap-3 px-3 py-3 rounded transition-colors text-surface-container-low hover:bg-primary/50 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">health_and_safety</span> NHIS &amp; Waivers
+            </a>
+<a class="flex items-center gap-3 px-3 py-3 rounded transition-colors text-surface-container-low hover:bg-primary/50 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">analytics</span> Financial Reports
+            </a>
+<a class="flex items-center gap-3 px-3 py-3 rounded transition-colors text-surface-container-low hover:bg-primary/50 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">notifications</span> Notifications
+            </a>
+</nav>
+<div class="mt-auto px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-3 rounded transition-colors text-surface-container-low hover:bg-primary/50 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+            </a>
+<a class="flex items-center gap-3 px-3 py-3 rounded transition-colors text-surface-container-low hover:bg-primary/50 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">logout</span> Logout
+            </a>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface dark:bg-surface-dim border-b border-border-subtle dark:border-outline flex justify-between items-center px-margin-desktop z-40">
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-lowest border border-border-subtle rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-primary text-body-md" placeholder="Search Patient PID or Name..." type="text"/>
+</div>
+<nav class="hidden md:flex items-center gap-4">
+<span class="font-label-md text-label-md font-semibold text-primary">Billing / Accounts Officer</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">calendar_today</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<div class="h-8 w-[1px] bg-border-subtle mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-label-md text-label-md font-semibold">Samuel Mensah</p>
+<p class="text-[10px] text-outline uppercase tracking-wider">Level 4 Admin</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-cover bg-center" data-alt="A professional headshot of a middle-aged hospital administrator in a clean office environment, high-key medical lighting, corporate photography style, trustworthy and precise aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVENxNOR4kQjLeM25qaH91bNMV0vudtS73aQK31Gbv0r8FMFn7VbakYsZi-UsW-xlgsmRgH0pezf3BxmzO4mchdZ7l0G9CYHrY0qgFxvlMEWzVXkTagdHNLbuZsjh1zsu9y1p6urEcIzuyFN9IDnzHzDPQRcQQGEBbpmxyiy8MxMYUnywIYukNitstSXjDTzp4wM_jNzXH7CjVNoBcSq4Z1xFmqvg2TbWIVLg9PL1gCZxG3XGS6pmc')"></div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[260px] pt-[calc(64px+2rem)] px-margin-desktop pb-12 min-h-screen">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-1">Create New Invoice</h2>
+<nav class="flex text-body-sm text-outline gap-2">
+<span>Patient Billing</span>
+<span>/</span>
+<span class="text-on-surface">Invoice Builder</span>
+</nav>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2 border border-primary text-primary font-semibold rounded-lg hover:bg-primary/5 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">save</span> Save Draft
+                </button>
+<button class="px-6 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-deep-forest transition-all shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">send</span> Issue &amp; Print Invoice
+                </button>
+</div>
+</div>
+<!-- Bento Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Patient Header Card -->
+<section class="col-span-12 bento-card p-6 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-6">
+<div class="w-20 h-20 rounded-full bg-accent-blue flex items-center justify-center text-primary border-4 border-white shadow-sm overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A detailed portrait of an elderly African patient in a hospital setting, soft natural lighting, high resolution clinical photography, neutral colors with green accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsbKI3ueuz4PBSzRAl7TnUzrpIOFc5OhksS7yt3OJMxKp2NQg01bZZ-LO_O-nC8w4RDO9jgrAhCs58QJSpbIKktCwiPleH-Kq75GMhO6-46kdedFvrh-cACxL4w2JSJA1Y6anbR7IMKrRvNEBE9KaBy5nFfAy1jBn7eMXLyLqRfQJiNJtLRzd3M_59W346_M_Xg_BjfwpwTHi1qbPVX9JPpIgrPIRq4cFD3H8ahSKmlMz1z8vVMBax"/>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h3 class="font-headline-md text-headline-md text-on-background">Kofi Akoto Boateng</h3>
+<span class="px-3 py-1 bg-medical-green-soft text-primary-container text-[11px] font-bold rounded-full uppercase tracking-tighter">Active Patient</span>
+</div>
+<div class="grid grid-cols-4 gap-x-8 gap-y-1">
+<p class="text-body-sm text-outline">PID: <span class="text-on-surface font-semibold">KHIP-2024-8842</span></p>
+<p class="text-body-sm text-outline">NHIS: <span class="text-on-surface font-semibold">Verified (Exp: 12/25)</span></p>
+<p class="text-body-sm text-outline">Dept: <span class="text-on-surface font-semibold">General Medicine</span></p>
+<p class="text-body-sm text-outline">Visit Date: <span class="text-on-surface font-semibold">Oct 24, 2023</span></p>
+</div>
+</div>
+</div>
+<div class="text-right">
+<p class="text-body-sm text-outline mb-1 uppercase tracking-widest">Balance Brought Forward</p>
+<p class="font-display-lg text-display-lg text-on-background">GHS 0.00</p>
+</div>
+</section>
+<!-- Pending Charges & Builder Section -->
+<section class="col-span-8 space-y-6">
+<!-- Pending Charges Table -->
+<div class="bento-card rounded-xl overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle bg-accent-blue/30 flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">pending_actions</span> Pending Charges
+                        </h4>
+<button class="text-primary font-semibold text-body-sm hover:underline flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">add_circle</span> Add Custom Item
+                        </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-accent-blue text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+<tr>
+<th class="px-6 py-3 font-semibold w-12"><input checked="" class="rounded border-outline text-primary focus:ring-primary" type="checkbox"/></th>
+<th class="px-6 py-3 font-semibold">Service Description</th>
+<th class="px-6 py-3 font-semibold">Type</th>
+<th class="px-6 py-3 font-semibold text-center">Qty</th>
+<th class="px-6 py-3 font-semibold text-right">Unit Price</th>
+<th class="px-6 py-3 font-semibold text-right">Total (GHS)</th>
+<th class="px-6 py-3 font-semibold text-center">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4"><input checked="" class="rounded border-outline text-primary focus:ring-primary" type="checkbox"/></td>
+<td class="px-6 py-4">
+<p class="font-semibold text-on-surface">General Consultation Fee</p>
+<p class="text-[11px] text-outline">Dr. Sarah Lartey</p>
+</td>
+<td class="px-6 py-4"><span class="px-2 py-0.5 bg-slate-100 text-outline rounded text-[11px] font-bold uppercase">Consult</span></td>
+<td class="px-6 py-4 text-center">1</td>
+<td class="px-6 py-4 text-right">150.00</td>
+<td class="px-6 py-4 text-right font-bold">150.00</td>
+<td class="px-6 py-4 text-center">
+<button class="text-error hover:bg-emergency-soft p-1 rounded transition-colors"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4"><input checked="" class="rounded border-outline text-primary focus:ring-primary" type="checkbox"/></td>
+<td class="px-6 py-4">
+<p class="font-semibold text-on-surface">Full Blood Count (FBC)</p>
+<p class="text-[11px] text-outline">Lab Ref: #LB-9920</p>
+</td>
+<td class="px-6 py-4"><span class="px-2 py-0.5 bg-slate-100 text-outline rounded text-[11px] font-bold uppercase">Laboratory</span></td>
+<td class="px-6 py-4 text-center">1</td>
+<td class="px-6 py-4 text-right">85.00</td>
+<td class="px-6 py-4 text-right font-bold">85.00</td>
+<td class="px-6 py-4 text-center">
+<button class="text-error hover:bg-emergency-soft p-1 rounded transition-colors"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4"><input checked="" class="rounded border-outline text-primary focus:ring-primary" type="checkbox"/></td>
+<td class="px-6 py-4">
+<p class="font-semibold text-on-surface">Amoxicillin 500mg (Cap)</p>
+<p class="text-[11px] text-outline">Qty: 21 Caps</p>
+</td>
+<td class="px-6 py-4"><span class="px-2 py-0.5 bg-slate-100 text-outline rounded text-[11px] font-bold uppercase">Pharmacy</span></td>
+<td class="px-6 py-4 text-center">1</td>
+<td class="px-6 py-4 text-right">45.00</td>
+<td class="px-6 py-4 text-right font-bold">45.00</td>
+<td class="px-6 py-4 text-center">
+<button class="text-error hover:bg-emergency-soft p-1 rounded transition-colors"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4"><input checked="" class="rounded border-outline text-primary focus:ring-primary" type="checkbox"/></td>
+<td class="px-6 py-4">
+<p class="font-semibold text-on-surface">In-Patient Registration Update</p>
+<p class="text-[11px] text-outline">File Opening/Renewal</p>
+</td>
+<td class="px-6 py-4"><span class="px-2 py-0.5 bg-slate-100 text-outline rounded text-[11px] font-bold uppercase">Reg. Fee</span></td>
+<td class="px-6 py-4 text-center">1</td>
+<td class="px-6 py-4 text-right">50.00</td>
+<td class="px-6 py-4 text-right font-bold">50.00</td>
+<td class="px-6 py-4 text-center">
+<button class="text-error hover:bg-emergency-soft p-1 rounded transition-colors"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Adjustments & Notes -->
+<div class="grid grid-cols-2 gap-6">
+<div class="bento-card p-6 rounded-xl">
+<h5 class="font-label-md text-label-md uppercase tracking-wider text-outline mb-4">Invoice Adjustments</h5>
+<div class="space-y-4">
+<div>
+<label class="block text-body-sm font-semibold text-on-surface mb-1">Discount (%)</label>
+<div class="flex gap-2">
+<input class="flex-1 border border-border-subtle rounded px-3 py-2 text-body-md focus:ring-1 focus:ring-primary" type="number" value="0"/>
+<select class="border border-border-subtle rounded px-3 py-2 text-body-md bg-surface-container-lowest">
+<option>Staff Discount</option>
+<option>Senior Citizen</option>
+<option>Management Waiver</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-body-sm font-semibold text-on-surface mb-1">Tax Configuration</label>
+<div class="flex items-center gap-4">
+<label class="flex items-center gap-2 text-body-md cursor-pointer">
+<input checked="" class="rounded text-primary border-outline" type="checkbox"/> NHIL (2.5%)
+                                    </label>
+<label class="flex items-center gap-2 text-body-md cursor-pointer">
+<input checked="" class="rounded text-primary border-outline" type="checkbox"/> GETFund (2.5%)
+                                    </label>
+</div>
+</div>
+</div>
+</div>
+<div class="bento-card p-6 rounded-xl">
+<h5 class="font-label-md text-label-md uppercase tracking-wider text-outline mb-4">Internal Notes</h5>
+<textarea class="w-full h-[110px] border border-border-subtle rounded-lg p-3 text-body-md focus:outline-none focus:ring-1 focus:ring-primary resize-none" placeholder="Add private notes for account auditors..."></textarea>
+</div>
+</div>
+</section>
+<!-- Totals Panel Section -->
+<section class="col-span-4 flex flex-col gap-6">
+<!-- Summary Card -->
+<div class="bento-card p-8 rounded-xl bg-primary text-on-primary flex flex-col justify-between relative overflow-hidden">
+<!-- Subtle pattern overlay -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); background-size: 20px 20px;"></div>
+<div class="relative z-10">
+<h5 class="font-label-md text-label-md uppercase tracking-widest text-primary-fixed/80 mb-6">Total Amount Due</h5>
+<p class="text-[14px] font-medium text-primary-fixed/60">GHS</p>
+<p class="font-display-lg text-[48px] leading-tight font-bold tracking-tight">346.50</p>
+</div>
+<div class="relative z-10 pt-8 mt-8 border-t border-white/10 space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-body-sm text-primary-fixed/80">Subtotal</span>
+<span class="font-bold">330.00</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-body-sm text-primary-fixed/80">Discounts (0%)</span>
+<span class="font-bold">0.00</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-body-sm text-primary-fixed/80">Taxes (5%)</span>
+<span class="font-bold">16.50</span>
+</div>
+</div>
+</div>
+<!-- Payment Status Panel -->
+<div class="bento-card p-6 rounded-xl border-2 border-primary-container/20">
+<h5 class="font-label-md text-label-md uppercase tracking-wider text-outline mb-4">Payment Breakdown</h5>
+<div class="space-y-4">
+<div class="flex justify-between py-2 border-b border-border-subtle">
+<span class="text-body-md text-on-surface">Amount Paid</span>
+<div class="text-right">
+<span class="font-bold text-on-surface">GHS 0.00</span>
+<p class="text-[10px] text-emergency-dark font-bold uppercase">Unpaid</p>
+</div>
+</div>
+<div class="flex justify-between py-2 border-b border-border-subtle">
+<span class="text-body-md text-on-surface">NHIS Contribution</span>
+<span class="font-bold text-primary">GHS 125.00</span>
+</div>
+<div class="flex justify-between py-3">
+<span class="font-bold text-body-lg text-on-surface">Balance Due</span>
+<span class="font-bold text-body-lg text-secondary">GHS 221.50</span>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-border-subtle">
+<label class="block text-body-sm font-semibold text-on-surface mb-2">Select Primary Payment Method</label>
+<div class="grid grid-cols-3 gap-2">
+<button class="flex flex-col items-center justify-center p-3 rounded-lg border border-primary bg-medical-green-soft text-primary transition-all">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-[10px] font-bold mt-1">CASH</span>
+</button>
+<button class="flex flex-col items-center justify-center p-3 rounded-lg border border-border-subtle hover:border-primary transition-all text-outline hover:text-primary">
+<span class="material-symbols-outlined">smartphone</span>
+<span class="text-[10px] font-bold mt-1">MOMO</span>
+</button>
+<button class="flex flex-col items-center justify-center p-3 rounded-lg border border-border-subtle hover:border-primary transition-all text-outline hover:text-primary">
+<span class="material-symbols-outlined">credit_card</span>
+<span class="text-[10px] font-bold mt-1">POS</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Quick Help / Policy -->
+<div class="bg-pending-soft p-4 rounded-xl border border-on-tertiary-container/20">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-on-tertiary-container">info</span>
+<div>
+<p class="text-[12px] font-bold text-on-tertiary-fixed mb-1">Billing Policy Note</p>
+<p class="text-[11px] text-on-tertiary-fixed/70 leading-relaxed">Ensure all Lab and Pharmacy items are vetted before issuing final invoice. Discounts exceeding 15% require medical director authorization.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Interactive Layer for adding items (Microinteraction) -->
+<script>
+        // Simple logic for checking/unchecking all rows
+        const masterCheckbox = document.querySelector('thead input[type="checkbox"]');
+        const rowCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+        
+        masterCheckbox.addEventListener('change', () => {
+            rowCheckboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+        });
+
+        // Hover effects and state changes
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.classList.add('bg-slate-50');
+            });
+            row.addEventListener('mouseleave', () => {
+                row.classList.remove('bg-slate-50');
+            });
+        });
+    </script>
+</body></html>

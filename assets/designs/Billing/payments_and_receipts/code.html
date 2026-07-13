@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHIP Billing - Payments &amp; Receipts</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-indicator {
+            position: absolute;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #ffb168; /* Flame Orange from on-tertiary-container */
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-highest": "#d3e4fe",
+                      "surface-container-low": "#eff4ff",
+                      "on-background": "#0b1c30",
+                      "surface-bright": "#f8f9ff",
+                      "on-tertiary-container": "#ffb168",
+                      "on-tertiary-fixed": "#2d1600",
+                      "tertiary": "#572e00",
+                      "medical-green-soft": "#E8F5E9",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-variant": "#d3e4fe",
+                      "on-tertiary-fixed-variant": "#6b3b00",
+                      "on-primary": "#ffffff",
+                      "secondary-container": "#ea002c",
+                      "surface": "#f8f9ff",
+                      "primary-fixed": "#a5f693",
+                      "on-secondary-fixed-variant": "#930018",
+                      "primary-fixed-dim": "#8ad97a",
+                      "background": "#f8f9ff",
+                      "surface-container": "#e5eeff",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "on-secondary-fixed": "#410005",
+                      "on-surface-variant": "#40493c",
+                      "tertiary-fixed-dim": "#ffb877",
+                      "tertiary-container": "#784200",
+                      "emergency-soft": "#FDECEF",
+                      "outline": "#707a6b",
+                      "on-surface": "#0b1c30",
+                      "inverse-on-surface": "#eaf1ff",
+                      "accent-blue": "#EAF3FA",
+                      "surface-container-high": "#dce9ff",
+                      "secondary-fixed-dim": "#ffb3af",
+                      "surface-tint": "#206d1b",
+                      "secondary": "#bb0021",
+                      "primary-container": "#0b5d0b",
+                      "surface-dim": "#cbdbf5",
+                      "primary": "#004302",
+                      "on-primary-fixed": "#002201",
+                      "tertiary-fixed": "#ffdcc0",
+                      "on-secondary": "#ffffff",
+                      "border-subtle": "#E2E8F0",
+                      "inverse-surface": "#213145",
+                      "on-secondary-container": "#fffbff",
+                      "error": "#ba1a1a",
+                      "emergency-dark": "#B80021",
+                      "pending-soft": "#FFF4E8",
+                      "outline-variant": "#c0cab8",
+                      "on-primary-container": "#86d576",
+                      "secondary-fixed": "#ffdad7",
+                      "on-error-container": "#93000a",
+                      "app-bg": "#F8FAFC",
+                      "error-container": "#ffdad6",
+                      "on-primary-fixed-variant": "#005304",
+                      "deep-forest": "#064906",
+                      "inverse-primary": "#8ad97a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "1rem",
+                      "sidebar-width": "260px",
+                      "topbar-height": "64px",
+                      "margin-desktop": "2rem",
+                      "container-max": "1440px",
+                      "gutter": "1.5rem"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Manrope"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Manrope"],
+                      "display-lg": ["Manrope"],
+                      "body-sm": ["Inter"],
+                      "table-data": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                      "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-deep-forest dark:bg-on-background flex flex-col py-6 shadow-sm border-r border-border-subtle dark:border-outline z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-on-primary-container rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">KHIP</h1>
+<p class="text-[10px] text-primary-fixed uppercase tracking-widest opacity-80">HealthLink Integrated</p>
+</div>
+</div>
+<nav class="flex-1 px-3 space-y-1 overflow-y-auto">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low font-medium hover:bg-primary-container/20 transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary-container group-hover:text-on-primary-container">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Patient Billing -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low font-medium hover:bg-primary-container/20 transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary-container group-hover:text-on-primary-container">payments</span>
+<span class="font-body-md text-body-md">Patient Billing</span>
+</a>
+<!-- Invoices -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low font-medium hover:bg-primary-container/20 transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary-container group-hover:text-on-primary-container">description</span>
+<span class="font-body-md text-body-md">Invoices</span>
+</a>
+<!-- Payments (ACTIVE) -->
+<a class="relative flex items-center gap-3 px-3 py-2.5 rounded bg-primary-container text-on-primary-container border-l-4 border-on-tertiary-container font-medium transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<span class="font-body-md text-body-md">Payments</span>
+</a>
+<!-- Receipts -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low font-medium hover:bg-primary-container/20 transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary-container group-hover:text-on-primary-container">receipt_long</span>
+<span class="font-body-md text-body-md">Receipts</span>
+</a>
+<!-- Outstanding Balances -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low font-medium hover:bg-primary-container/20 transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary-container group-hover:text-on-primary-container">pending_actions</span>
+<span class="font-body-md text-body-md">Outstanding Balances</span>
+</a>
+<!-- Daily Collections -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low font-medium hover:bg-primary-container/20 transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary-container group-hover:text-on-primary-container">summarize</span>
+<span class="font-body-md text-body-md">Daily Collections</span>
+</a>
+<!-- NHIS & Waivers -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low font-medium hover:bg-primary-container/20 transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary-container group-hover:text-on-primary-container">health_and_safety</span>
+<span class="font-body-md text-body-md">NHIS &amp; Waivers</span>
+</a>
+<!-- Financial Reports -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low font-medium hover:bg-primary-container/20 transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary-container group-hover:text-on-primary-container">analytics</span>
+<span class="font-body-md text-body-md">Financial Reports</span>
+</a>
+<!-- Notifications -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low font-medium hover:bg-primary-container/20 transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary-container group-hover:text-on-primary-container">notifications</span>
+<span class="font-body-md text-body-md">Notifications</span>
+</a>
+</nav>
+<div class="mt-auto px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low font-medium hover:bg-primary-container/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-primary-container">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low font-medium hover:bg-primary-container/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-primary-container">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Top Navbar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface dark:bg-surface-dim flex justify-between items-center px-margin-desktop z-40 border-b border-border-subtle dark:border-outline">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-lg text-headline-lg font-black text-primary">KHIP Billing</h2>
+<div class="h-6 w-[1px] bg-outline-variant"></div>
+<p class="font-label-md text-label-md font-semibold text-primary">Billing / Accounts Officer</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">calendar_today</span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-label-md text-label-md font-semibold text-on-surface">Dr. Sarah Jenkins</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Senior Registrar</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-fixed overflow-hidden border border-primary/20">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a healthcare administrator, wearing clinical attire with a warm, confident expression. Soft hospital office lighting, sharp focus on the face, minimalist blurred medical background. Corporate high-quality photography style with natural color tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQgpBCbg9gKfYln_Jx1VFI-IKCANAqDXKpLFVftbKFUXCMuqoC7kXDFqbPRopXAoVldIsqTfaJYXKH6k2t7-oj1og5EVUE39jRqfeT4rIgCdTIfGzRUIQbNfp3F7RzhE46qYF_OlUK9Js0x4dU-1r49ZNNb3YAznlBKyq-v9Ez8zPC0QAt6AH7eHrVnUWUdpIlM92kwGz3vZVYJXeD4pdWxdhOoGMoTi4MIIQrLMiMEdLLhgZGQ75i"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="fixed top-topbar-height left-[sidebar-width] right-0 bottom-0 overflow-y-auto bg-app-bg p-margin-desktop">
+<!-- Header & Stats -->
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-1">Payments &amp; Receipts</h3>
+<p class="text-on-surface-variant font-body-md">Manage transaction history, process reversals, and generate financial records.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded font-semibold hover:shadow-md transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                    New Payment
+                </button>
+<button class="flex items-center gap-2 px-4 py-2 border border-primary text-primary rounded font-semibold hover:bg-primary/5 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">ios_share</span>
+                    Export All
+                </button>
+</div>
+</div>
+<!-- Filter Bento Grid -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 mb-8">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">filter_list</span>
+<h4 class="font-headline-md text-headline-md text-on-surface">Search Filters</h4>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+<div class="space-y-1">
+<label class="text-label-md font-semibold text-on-surface-variant">Receipt #</label>
+<input class="w-full px-3 py-2 border border-border-subtle rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none text-body-md transition-all" placeholder="REC-2023-..." type="text"/>
+</div>
+<div class="space-y-1">
+<label class="text-label-md font-semibold text-on-surface-variant">Invoice #</label>
+<input class="w-full px-3 py-2 border border-border-subtle rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none text-body-md transition-all" placeholder="INV-2023-..." type="text"/>
+</div>
+<div class="space-y-1">
+<label class="text-label-md font-semibold text-on-surface-variant">Patient Name</label>
+<input class="w-full px-3 py-2 border border-border-subtle rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none text-body-md transition-all" placeholder="Search patient..." type="text"/>
+</div>
+<div class="space-y-1">
+<label class="text-label-md font-semibold text-on-surface-variant">Method</label>
+<select class="w-full px-3 py-2 border border-border-subtle rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none text-body-md transition-all appearance-none bg-white">
+<option>All Methods</option>
+<option>Cash</option>
+<option>POS/Card</option>
+<option>Bank Transfer</option>
+<option>Insurance (NHIS)</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="text-label-md font-semibold text-on-surface-variant">Status</label>
+<select class="w-full px-3 py-2 border border-border-subtle rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none text-body-md transition-all appearance-none bg-white">
+<option>All Statuses</option>
+<option>Successful</option>
+<option>Pending</option>
+<option>Failed</option>
+<option>Reversed</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="text-label-md font-semibold text-on-surface-variant">Date Range</label>
+<input class="w-full px-3 py-2 border border-border-subtle rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none text-body-md transition-all" type="date"/>
+</div>
+</div>
+<div class="mt-4 flex justify-end">
+<button class="px-6 py-2 bg-surface-container text-primary font-bold rounded hover:bg-surface-container-high transition-colors">Clear Filters</button>
+</div>
+</div>
+<!-- Data Table Card -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue border-b border-border-subtle">
+<th class="px-6 py-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider">Receipt Number</th>
+<th class="px-6 py-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider">Invoice Number</th>
+<th class="px-6 py-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider">Patient</th>
+<th class="px-6 py-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider">Method</th>
+<th class="px-6 py-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider">Amount</th>
+<th class="px-6 py-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider">Transaction Ref</th>
+<th class="px-6 py-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider">Received By</th>
+<th class="px-6 py-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider">Payment Date</th>
+<th class="px-6 py-4 text-label-md font-bold text-on-surface-variant uppercase tracking-wider text-center">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-table-data text-on-surface font-semibold">REC-8849201</td>
+<td class="px-6 py-4 font-table-data text-primary hover:underline cursor-pointer">INV-100223</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-accent-blue flex items-center justify-center text-[10px] font-bold text-primary">JD</div>
+<span class="font-table-data text-on-surface">John Doe</span>
+</div>
+</td>
+<td class="px-6 py-4 font-table-data">POS / Card</td>
+<td class="px-6 py-4 font-table-data font-bold">₦45,200.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-medical-green-soft text-primary-container text-[11px] font-bold rounded-full border border-primary-container/20">Successful</span>
+</td>
+<td class="px-6 py-4 font-table-data text-on-surface-variant">TXN-99810239</td>
+<td class="px-6 py-4 font-table-data">S. Jenkins</td>
+<td class="px-6 py-4 font-table-data text-on-surface-variant">24 Oct, 2023</td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-2 opacity-40 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-primary-container/10 rounded-full text-primary" title="View"><span class="material-symbols-outlined text-[18px]">visibility</span></button>
+<button class="p-1.5 hover:bg-primary-container/10 rounded-full text-primary" title="Print"><span class="material-symbols-outlined text-[18px]">print</span></button>
+<button class="p-1.5 hover:bg-secondary/10 rounded-full text-secondary" title="Reverse"><span class="material-symbols-outlined text-[18px]">undo</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-table-data text-on-surface font-semibold">REC-8849195</td>
+<td class="px-6 py-4 font-table-data text-primary hover:underline cursor-pointer">INV-100221</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-pending-soft flex items-center justify-center text-[10px] font-bold text-on-tertiary-fixed-variant">ES</div>
+<span class="font-table-data text-on-surface">Elena Smith</span>
+</div>
+</td>
+<td class="px-6 py-4 font-table-data">Bank Transfer</td>
+<td class="px-6 py-4 font-table-data font-bold">₦12,500.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-pending-soft text-on-tertiary-fixed-variant text-[11px] font-bold rounded-full border border-on-tertiary-fixed-variant/20">Pending</span>
+</td>
+<td class="px-6 py-4 font-table-data text-on-surface-variant">TXN-99810235</td>
+<td class="px-6 py-4 font-table-data">M. Benson</td>
+<td class="px-6 py-4 font-table-data text-on-surface-variant">24 Oct, 2023</td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-2 opacity-40 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-primary-container/10 rounded-full text-primary"><span class="material-symbols-outlined text-[18px]">visibility</span></button>
+<button class="p-1.5 hover:bg-primary-container/10 rounded-full text-primary"><span class="material-symbols-outlined text-[18px]">print</span></button>
+<button class="p-1.5 hover:bg-secondary/10 rounded-full text-secondary"><span class="material-symbols-outlined text-[18px]">undo</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-table-data text-on-surface font-semibold">REC-8849182</td>
+<td class="px-6 py-4 font-table-data text-primary hover:underline cursor-pointer">INV-100215</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-emergency-soft flex items-center justify-center text-[10px] font-bold text-secondary">RJ</div>
+<span class="font-table-data text-on-surface">Robert Johnson</span>
+</div>
+</td>
+<td class="px-6 py-4 font-table-data">Cash</td>
+<td class="px-6 py-4 font-table-data font-bold">₦2,000.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-emergency-soft text-secondary text-[11px] font-bold rounded-full border border-secondary/20">Failed</span>
+</td>
+<td class="px-6 py-4 font-table-data text-on-surface-variant">TXN-99810212</td>
+<td class="px-6 py-4 font-table-data">S. Jenkins</td>
+<td class="px-6 py-4 font-table-data text-on-surface-variant">23 Oct, 2023</td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-2 opacity-40 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-primary-container/10 rounded-full text-primary"><span class="material-symbols-outlined text-[18px]">visibility</span></button>
+<button class="p-1.5 hover:bg-primary-container/10 rounded-full text-primary"><span class="material-symbols-outlined text-[18px]">print</span></button>
+<button class="p-1.5 hover:bg-secondary/10 rounded-full text-secondary"><span class="material-symbols-outlined text-[18px]">undo</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-table-data text-on-surface font-semibold">REC-8849170</td>
+<td class="px-6 py-4 font-table-data text-primary hover:underline cursor-pointer">INV-100210</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-[10px] font-bold text-on-surface">AW</div>
+<span class="font-table-data text-on-surface">Alice Walker</span>
+</div>
+</td>
+<td class="px-6 py-4 font-table-data">POS / Card</td>
+<td class="px-6 py-4 font-table-data font-bold">₦88,300.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant text-[11px] font-bold rounded-full border border-outline/20">Reversed</span>
+</td>
+<td class="px-6 py-4 font-table-data text-on-surface-variant">TXN-99810190</td>
+<td class="px-6 py-4 font-table-data">M. Benson</td>
+<td class="px-6 py-4 font-table-data text-on-surface-variant">23 Oct, 2023</td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-2 opacity-40 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-primary-container/10 rounded-full text-primary"><span class="material-symbols-outlined text-[18px]">visibility</span></button>
+<button class="p-1.5 hover:bg-primary-container/10 rounded-full text-primary"><span class="material-symbols-outlined text-[18px]">print</span></button>
+<button class="p-1.5 hover:bg-secondary/10 rounded-full text-secondary" disabled=""><span class="material-symbols-outlined text-[18px] opacity-20">undo</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 bg-surface-container-low flex items-center justify-between">
+<span class="text-body-sm text-on-surface-variant">Showing 1 to 4 of 284 records</span>
+<div class="flex items-center gap-2">
+<button class="p-1 border border-border-subtle rounded hover:bg-white transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center bg-primary text-on-primary rounded font-bold text-[13px]">1</button>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-white rounded font-bold text-[13px]">2</button>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-white rounded font-bold text-[13px]">3</button>
+<span class="px-2">...</span>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-white rounded font-bold text-[13px]">72</button>
+<button class="p-1 border border-border-subtle rounded hover:bg-white transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Floating Quick Stats Summary (Subtle Bento element) -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-xl border-l-4 border-primary shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded bg-medical-green-soft flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<p class="text-label-md font-semibold text-on-surface-variant uppercase">Total Collections</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">₦1,245,000</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl border-l-4 border-on-tertiary-container shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded bg-pending-soft flex items-center justify-center text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">schedule</span>
+</div>
+<div>
+<p class="text-label-md font-semibold text-on-surface-variant uppercase">Pending Verification</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">18</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl border-l-4 border-secondary shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded bg-emergency-soft flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">error_outline</span>
+</div>
+<div>
+<p class="text-label-md font-semibold text-on-surface-variant uppercase">Failed Trans.</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">4</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl border-l-4 border-outline shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+</div>
+<div>
+<p class="text-label-md font-semibold text-on-surface-variant uppercase">Total Reversals</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">12</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Simple row selection toggle logic for visual feedback
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                // Highlight row or could open details modal
+                console.log('Row selected:', row.querySelector('td').innerText);
+            });
+        });
+
+        // Hover animation for icons
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                const icon = btn.querySelector('.material-symbols-outlined');
+                if(icon) {
+                    icon.style.transform = 'translateY(-1px)';
+                    icon.style.transition = 'transform 0.2s ease';
+                }
+            });
+            btn.addEventListener('mouseleave', () => {
+                const icon = btn.querySelector('.material-symbols-outlined');
+                if(icon) {
+                    icon.style.transform = 'translateY(0)';
+                }
+            });
+        });
+    </script>
+</body></html>

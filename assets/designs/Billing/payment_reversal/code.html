@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Payment Reversal - KHIP Billing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .sidebar-active-indicator {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #ffb168; /* Flame Orange from theme tertiary-container mapping */
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "on-background": "#0b1c30",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-container": "#ffb168",
+                        "on-tertiary-fixed": "#2d1600",
+                        "tertiary": "#572e00",
+                        "medical-green-soft": "#E8F5E9",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#ea002c",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#a5f693",
+                        "on-secondary-fixed-variant": "#930018",
+                        "primary-fixed-dim": "#8ad97a",
+                        "background": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#410005",
+                        "on-surface-variant": "#40493c",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "tertiary-container": "#784200",
+                        "emergency-soft": "#FDECEF",
+                        "outline": "#707a6b",
+                        "on-surface": "#0b1c30",
+                        "inverse-on-surface": "#eaf1ff",
+                        "accent-blue": "#EAF3FA",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "surface-tint": "#206d1b",
+                        "secondary": "#bb0021",
+                        "primary-container": "#0b5d0b",
+                        "surface-dim": "#cbdbf5",
+                        "primary": "#004302",
+                        "on-primary-fixed": "#002201",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-secondary": "#ffffff",
+                        "border-subtle": "#E2E8F0",
+                        "inverse-surface": "#213145",
+                        "on-secondary-container": "#fffbff",
+                        "error": "#ba1a1a",
+                        "emergency-dark": "#B80021",
+                        "pending-soft": "#FFF4E8",
+                        "outline-variant": "#c0cab8",
+                        "on-primary-container": "#86d576",
+                        "secondary-fixed": "#ffdad7",
+                        "on-error-container": "#93000a",
+                        "app-bg": "#F8FAFC",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#005304",
+                        "deep-forest": "#064906",
+                        "inverse-primary": "#8ad97a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "1rem",
+                        "sidebar-width": "260px",
+                        "topbar-height": "64px",
+                        "margin-desktop": "2rem",
+                        "gutter": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "display-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "table-data": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-app-bg text-on-surface">
+<!-- SideNavBar (from JSON) -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-deep-forest dark:bg-on-background flex flex-col py-6 border-r border-border-subtle dark:border-outline shadow-sm z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-fixed rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary leading-none">KHIP</h1>
+<p class="text-[10px] text-primary-fixed opacity-80 uppercase tracking-widest mt-1">HealthLink Integrated</p>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors text-surface-container-low hover:bg-primary-container/20 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Active State: Payments -->
+<a class="relative flex items-center gap-3 px-3 py-2.5 rounded bg-primary-container text-on-primary-container font-body-md text-body-md font-medium" href="#">
+<div class="sidebar-active-indicator"></div>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span>Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors text-surface-container-low hover:bg-primary-container/20 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">description</span>
+<span>Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors text-surface-container-low hover:bg-primary-container/20 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span>Receipts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors text-surface-container-low hover:bg-primary-container/20 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">pending_actions</span>
+<span>Outstanding Balances</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors text-surface-container-low hover:bg-primary-container/20 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Financial Reports</span>
+</a>
+</nav>
+<div class="px-3 pt-6 border-t border-primary-container/30 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors text-surface-container-low hover:bg-primary-container/20 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors text-surface-container-low hover:bg-primary-container/20 font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined text-secondary-fixed">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- TopNavBar (from JSON) -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-[64px] bg-surface dark:bg-surface-dim flex justify-between items-center px-8 z-40 border-b border-border-subtle dark:border-outline">
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg text-body-sm focus:ring-2 focus:ring-primary outline-none w-64" placeholder="Search Patient or Receipt..." type="text"/>
+</div>
+<div class="h-6 w-[1px] bg-outline-variant mx-2"></div>
+<span class="font-label-md text-label-md font-semibold text-primary">Billing / Accounts Officer</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-primary transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">calendar_today</span>
+</button>
+<div class="flex items-center gap-3 border-l border-outline-variant pl-6">
+<div class="text-right">
+<p class="font-label-md text-label-md font-bold text-on-surface">Officer Kwesi</p>
+<p class="text-[10px] text-on-surface-variant">Acct ID: 49022</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged male hospital administrator with a kind expression, wearing a crisp white shirt and a dark green tie. The portrait is taken in a brightly lit, modern clinical office with soft blue and grey tones in the background, creating a trustworthy and efficient medical-professional atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjRj7W-BrYkWVgoR23GYIJkiWw4sJkgrVjnlQFiVueFYic4I1RAZA8YJKPE5w1pF6pL4pJe-JArQGApq3V7IihdRQTK_dVbJoAMQbL0mhhqCl7Q7j2rWZqXqE_3sVeDYKr86lIucCnsHJxC9BdfebyfAxlVfMGPL5Rm7NiJyXCdPcAiFFpEyQqINQCUlKIxSMYwQTIYXp656jtgnHifD1swWxpiTMuIwxaEQiSZwoPUecZPkyXJeRm"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[260px] pt-24 px-8 pb-12 max-w-[1440px]">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-body-sm text-on-surface-variant mb-6">
+<a class="hover:text-primary transition-colors" href="#">Payments</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Receipt #RCT-88291</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="font-semibold text-on-surface">Payment Reversal</span>
+</nav>
+<div class="grid grid-cols-12 gap-8">
+<!-- Reversal Form Section -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<section class="bg-surface-container-lowest rounded-xl border border-border-subtle p-8 shadow-sm">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-12 h-12 bg-emergency-soft rounded-full flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment_return</span>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Authorize Payment Reversal</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Carefully review the transaction details before confirming the reversal.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-surface-container-low rounded-lg mb-8">
+<div>
+<p class="text-label-md font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Receipt Number</p>
+<p class="font-headline-md text-headline-md text-on-surface">#RCT-88291</p>
+</div>
+<div>
+<p class="text-label-md font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Payment Amount</p>
+<p class="font-headline-md text-headline-md text-secondary">GH₵ 4,250.00</p>
+</div>
+<div class="md:col-span-2 h-[1px] bg-outline-variant opacity-30"></div>
+<div>
+<p class="text-label-md font-semibold text-on-surface-variant mb-1">Invoice Reference</p>
+<p class="font-body-md text-on-surface">INV-2023-00921-A</p>
+</div>
+<div>
+<p class="text-label-md font-semibold text-on-surface-variant mb-1">Payment Method</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">account_balance_wallet</span>
+<span class="font-body-md text-on-surface">Mobile Money (MTN)</span>
+</div>
+</div>
+<div>
+<p class="text-label-md font-semibold text-on-surface-variant mb-1">Patient Name</p>
+<p class="font-body-md text-on-surface">Emmanuel Osei Tutu (MRN: 882001)</p>
+</div>
+<div>
+<p class="text-label-md font-semibold text-on-surface-variant mb-1">Date of Payment</p>
+<p class="font-body-md text-on-surface">Oct 24, 2023 • 14:22 PM</p>
+</div>
+</div>
+<form class="space-y-6">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Reason for Reversal <span class="text-error">*</span></label>
+<select class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" required="">
+<option disabled="" selected="" value="">Select a reason...</option>
+<option value="double">Accidental Double Payment</option>
+<option value="wrong_patient">Incorrect Patient Account</option>
+<option value="billing_error">Medical Billing Correction</option>
+<option value="request">Patient Refund Request</option>
+<option value="other">Other (Specify below)</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface block">Supporting Reference / Narrative</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none min-h-[120px]" placeholder="Provide detailed context for audit trail..."></textarea>
+</div>
+<!-- Warning Alert Box -->
+<div class="bg-pending-soft border border-on-tertiary-container/30 rounded-lg p-5 flex gap-4">
+<span class="material-symbols-outlined text-tertiary-container mt-1">warning</span>
+<div class="font-body-md text-body-md text-tertiary">
+<p class="font-bold mb-1">Warning Message:</p>
+<p>This action will reverse the payment and recalculate the invoice balance. Original transaction remains in audit history for compliance purposes.</p>
+</div>
+</div>
+<div class="pt-4">
+<label class="flex items-start gap-3 cursor-pointer group">
+<input class="mt-1 w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" required="" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface select-none">
+                                    I confirm that I have reviewed the transaction details and am authorized to reverse this payment. I understand this action is <span class="font-bold text-secondary">irreversible</span>.
+                                </span>
+</label>
+</div>
+<div class="flex items-center gap-4 pt-6">
+<button class="bg-secondary hover:bg-secondary-container text-on-secondary px-8 py-3 rounded-lg font-bold text-body-md transition-all active:scale-95 shadow-md flex items-center gap-2" type="submit">
+<span class="material-symbols-outlined">check_circle</span>
+                                Confirm Reversal
+                            </button>
+<button class="bg-surface-container-highest hover:bg-surface-container-high text-on-surface-variant px-8 py-3 rounded-lg font-semibold text-body-md transition-all active:scale-95" type="button">
+                                Cancel
+                            </button>
+</div>
+</form>
+</section>
+</div>
+<!-- Contextual Sidebar / Audit History -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<!-- System Check Card -->
+<section class="bg-surface-container-lowest rounded-xl border border-border-subtle p-6 shadow-sm">
+<h3 class="font-label-md text-label-md font-bold text-on-surface-variant uppercase mb-4">Security Verification</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between py-2 border-b border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">shield</span>
+<span class="text-body-sm text-on-surface">Authorization Level</span>
+</div>
+<span class="bg-medical-green-soft text-primary-container px-2 py-0.5 rounded text-[11px] font-bold">VERIFIED</span>
+</div>
+<div class="flex items-center justify-between py-2 border-b border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">fingerprint</span>
+<span class="text-body-sm text-on-surface">User Session</span>
+</div>
+<span class="text-body-sm font-medium">Valid (14m)</span>
+</div>
+<div class="flex items-center justify-between py-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">database</span>
+<span class="text-body-sm text-on-surface">Ledger Status</span>
+</div>
+<span class="text-body-sm font-medium">Synced</span>
+</div>
+</div>
+</section>
+<!-- Patient Snapshot Card -->
+<section class="bg-surface-container-lowest rounded-xl border border-border-subtle overflow-hidden shadow-sm">
+<div class="h-24 bg-gradient-to-r from-primary to-deep-forest relative">
+<div class="absolute -bottom-6 left-6 w-16 h-16 rounded-full border-4 border-white bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A clinical portrait of a young Ghanaian man, Emmanuel Osei Tutu, with a friendly expression. He is wearing a professional light blue shirt. The background is a soft-focus medical clinic setting with high-end lighting, maintaining a clean and professional healthcare aesthetic in a light-mode color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfFO96qM7TKM2kt59rMENUebkls5NXUAWD9Qk5qG2nsPSdUETrBCX_bq3PKW4Oa1L9kZgTNGHqYY8MZ36Muse2hQE7BIHwIMrqF9jFK5NeJhn4awxuekuJ6HF3IeAl92Cjl8zB5jW4gfLkMFSQ9zJXP1WyU5npVTlmnjlDudlTRd-dHEcex-JwLt9Rgp3VARjt0PmWZEisvBTbu-oZXH010lvMLyutoVfUHhKH-cuIUvK85s6yq2TO"/>
+</div>
+</div>
+<div class="pt-8 px-6 pb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface">Emmanuel Osei Tutu</h3>
+<p class="text-body-sm text-on-surface-variant mb-4">Patient ID: 882001-K</p>
+<div class="space-y-3">
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold mb-1">Current Balance</p>
+<p class="font-headline-md text-on-surface">GH₵ 12,400.00</p>
+<p class="text-[11px] text-secondary font-medium mt-1">+ GH₵ 4,250.00 after reversal</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Audit Log Preview -->
+<section class="bg-surface-container-lowest rounded-xl border border-border-subtle p-6 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-label-md text-label-md font-bold text-on-surface-variant uppercase">Transaction History</h3>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">history</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-3">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-[1px] h-full bg-outline-variant/30"></div>
+</div>
+<div class="pb-4">
+<p class="text-body-sm font-semibold text-on-surface">Payment Captured</p>
+<p class="text-[11px] text-on-surface-variant">Oct 24, 2023 • 14:22 PM by Officer A.</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+<div class="w-[1px] h-full bg-outline-variant/30"></div>
+</div>
+<div class="pb-4">
+<p class="text-body-sm font-semibold text-on-surface">Invoice Finalized</p>
+<p class="text-[11px] text-on-surface-variant">Oct 24, 2023 • 13:45 PM by Billing Dept.</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+</div>
+<div>
+<p class="text-body-sm font-semibold text-on-surface">Admission Recorded</p>
+<p class="text-[11px] text-on-surface-variant">Oct 22, 2023 • 09:10 AM by Triage</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Simple confirmation modal simulator or form validation micro-interactions
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const confirmed = document.querySelector('input[type="checkbox"]').checked;
+            if (confirmed) {
+                const btn = e.target.querySelector('button[type="submit"]');
+                btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Processing...';
+                btn.classList.add('opacity-70', 'cursor-not-allowed');
+                
+                setTimeout(() => {
+                    alert('Payment Reversal Successful. Redirecting to Audit Log...');
+                    window.location.reload();
+                }, 1500);
+            }
+        });
+    </script>
+</body></html>

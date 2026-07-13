@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NHIS &amp; Waivers - KHIP Billing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-low": "#eff4ff",
+                    "on-background": "#0b1c30",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-container": "#ffb168",
+                    "on-tertiary-fixed": "#2d1600",
+                    "tertiary": "#572e00",
+                    "medical-green-soft": "#E8F5E9",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#d3e4fe",
+                    "on-tertiary-fixed-variant": "#6b3b00",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#ea002c",
+                    "surface": "#f8f9ff",
+                    "primary-fixed": "#a5f693",
+                    "on-secondary-fixed-variant": "#930018",
+                    "primary-fixed-dim": "#8ad97a",
+                    "background": "#f8f9ff",
+                    "surface-container": "#e5eeff",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#410005",
+                    "on-surface-variant": "#40493c",
+                    "tertiary-fixed-dim": "#ffb877",
+                    "tertiary-container": "#784200",
+                    "emergency-soft": "#FDECEF",
+                    "outline": "#707a6b",
+                    "on-surface": "#0b1c30",
+                    "inverse-on-surface": "#eaf1ff",
+                    "accent-blue": "#EAF3FA",
+                    "surface-container-high": "#dce9ff",
+                    "secondary-fixed-dim": "#ffb3af",
+                    "surface-tint": "#206d1b",
+                    "secondary": "#bb0021",
+                    "primary-container": "#0b5d0b",
+                    "surface-dim": "#cbdbf5",
+                    "primary": "#004302",
+                    "on-primary-fixed": "#002201",
+                    "tertiary-fixed": "#ffdcc0",
+                    "on-secondary": "#ffffff",
+                    "border-subtle": "#E2E8F0",
+                    "inverse-surface": "#213145",
+                    "on-secondary-container": "#fffbff",
+                    "error": "#ba1a1a",
+                    "emergency-dark": "#B80021",
+                    "pending-soft": "#FFF4E8",
+                    "outline-variant": "#c0cab8",
+                    "on-primary-container": "#86d576",
+                    "secondary-fixed": "#ffdad7",
+                    "on-error-container": "#93000a",
+                    "app-bg": "#F8FAFC",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#005304",
+                    "deep-forest": "#064906",
+                    "inverse-primary": "#8ad97a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "1rem",
+                    "sidebar-width": "260px",
+                    "topbar-height": "64px",
+                    "margin-desktop": "2rem",
+                    "container-max": "1440px",
+                    "gutter": "1.5rem"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "display-lg": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "table-data": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC;
+            font-family: 'Inter', sans-serif;
+            color: #0b1c30;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for clinical density */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="overflow-hidden">
+<!-- Side Navigation Bar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-deep-forest dark:bg-on-background border-r border-border-subtle dark:border-outline shadow-sm flex flex-col py-6 z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-fixed rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary tracking-tight leading-none">KHIP</h1>
+<p class="font-label-md text-[10px] text-primary-fixed-dim uppercase tracking-widest mt-1">HealthLink Integrated</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+<!-- Navigation Items Mapping -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors font-body-md text-body-md font-medium text-surface-container-low hover:bg-primary-container/20" href="#">
+<span class="material-symbols-outlined text-primary-container">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors font-body-md text-body-md font-medium text-surface-container-low hover:bg-primary-container/20" href="#">
+<span class="material-symbols-outlined text-primary-container">payments</span>
+<span>Patient Billing</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors font-body-md text-body-md font-medium text-surface-container-low hover:bg-primary-container/20" href="#">
+<span class="material-symbols-outlined text-primary-container">description</span>
+<span>Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors font-body-md text-body-md font-medium text-surface-container-low hover:bg-primary-container/20" href="#">
+<span class="material-symbols-outlined text-primary-container">account_balance_wallet</span>
+<span>Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors font-body-md text-body-md font-medium text-surface-container-low hover:bg-primary-container/20" href="#">
+<span class="material-symbols-outlined text-primary-container">receipt_long</span>
+<span>Receipts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors font-body-md text-body-md font-medium text-surface-container-low hover:bg-primary-container/20" href="#">
+<span class="material-symbols-outlined text-primary-container">pending_actions</span>
+<span>Outstanding Balances</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors font-body-md text-body-md font-medium text-surface-container-low hover:bg-primary-container/20" href="#">
+<span class="material-symbols-outlined text-primary-container">summarize</span>
+<span>Daily Collections</span>
+</a>
+<!-- Active Navigation -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors font-body-md text-body-md font-medium bg-primary-container text-on-primary-container border-l-4 border-on-tertiary-container" href="#">
+<span class="material-symbols-outlined">health_and_safety</span>
+<span>NHIS &amp; Waivers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors font-body-md text-body-md font-medium text-surface-container-low hover:bg-primary-container/20" href="#">
+<span class="material-symbols-outlined text-primary-container">analytics</span>
+<span>Financial Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors font-body-md text-body-md font-medium text-surface-container-low hover:bg-primary-container/20" href="#">
+<span class="material-symbols-outlined text-primary-container">notifications</span>
+<span>Notifications</span>
+</a>
+</nav>
+<div class="px-4 mt-auto pt-6 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors font-body-md text-body-md font-medium text-surface-container-low hover:bg-primary-container/20" href="#">
+<span class="material-symbols-outlined text-primary-container">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded transition-colors font-body-md text-body-md font-medium text-surface-container-low hover:bg-primary-container/20" href="#">
+<span class="material-symbols-outlined text-primary-container">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface dark:bg-surface-dim border-b border-border-subtle dark:border-outline z-40 flex justify-between items-center px-margin-desktop">
+<div class="flex items-center gap-6">
+<h2 class="font-headline-lg text-headline-lg font-black text-primary">KHIP Billing</h2>
+<div class="h-6 w-[1px] bg-border-subtle"></div>
+<nav class="flex items-center gap-4">
+<span class="font-label-md text-label-md font-semibold text-primary font-bold border-b-2 border-primary pb-1">Billing / Accounts Officer</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">search</span>
+</div>
+<input class="bg-surface-container-lowest border-border-subtle rounded-full pl-9 pr-4 py-2 text-sm w-64 focus:ring-2 focus:ring-primary focus:border-primary transition-all" placeholder="Search patient or invoice..." type="text"/>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">calendar_today</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors text-on-surface-variant relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<div class="h-8 w-[1px] bg-border-subtle mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface">Admin User</p>
+<p class="text-[10px] text-on-surface-variant">Senior Officer</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-container/10 border border-primary-container/20 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a healthcare administrator in a clean office setting, soft natural lighting, professional and trustworthy vibe, high resolution digital photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxw5VL8_CAo3-eDof5wFz6M0jGFL7Vy5KaDK78kNY5DLJo3K6rSUURMZy2CiEev8BmwbmW4-YvsIs5EGfQ5E2At_o6a2Dsysf00YuM5m5_9RPqw5AxvK5-EOaoNau_2FZwu0jfTw1zt5zY3zEKgFDMblcYBJLT5d5EpCP0xbb8S_SVUoJoou3HfRMrf2YcF7RJE7W7OtAQHfZsV3IbTCoXXYMbakHiPonai86OgWhi7fs8PXXkWz9F"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[260px] mt-[64px] h-[calc(100vh-64px)] overflow-y-auto p-margin-desktop bg-app-bg">
+<div class="max-w-container-max mx-auto space-y-gutter">
+<!-- Page Header & Global Actions -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-background">NHIS &amp; Waivers</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage health insurance claims and patient billing exceptions</p>
+</div>
+<div class="flex gap-3">
+<button class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary font-semibold rounded shadow-sm hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">add_card</span>
+<span>Record NHIS Payment</span>
+</button>
+<button class="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-primary border border-primary font-semibold rounded shadow-sm hover:bg-primary/5 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">money_off</span>
+<span>Record Waiver</span>
+</button>
+</div>
+</div>
+<!-- Bento Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="bg-white border border-border-subtle p-5 rounded flex flex-col gap-1 relative overflow-hidden group">
+<div class="absolute top-0 left-0 h-full w-1 bg-primary"></div>
+<span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Total NHIS Claims (M-T-D)</span>
+<span class="font-headline-lg text-headline-lg text-on-surface mt-1">GHS 124,500.00</span>
+<div class="flex items-center gap-1 text-primary text-[10px] font-bold mt-2">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>12% Increase from last month</span>
+</div>
+</div>
+<div class="bg-white border border-border-subtle p-5 rounded flex flex-col gap-1 relative overflow-hidden group">
+<div class="absolute top-0 left-0 h-full w-1 bg-on-tertiary-container"></div>
+<span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Total Waivers (M-T-D)</span>
+<span class="font-headline-lg text-headline-lg text-on-surface mt-1">GHS 18,240.50</span>
+<div class="flex items-center gap-1 text-on-tertiary-container text-[10px] font-bold mt-2">
+<span class="material-symbols-outlined text-sm">info</span>
+<span>Within monthly threshold (5%)</span>
+</div>
+</div>
+<div class="bg-white border border-border-subtle p-5 rounded flex flex-col gap-1 relative overflow-hidden group">
+<div class="absolute top-0 left-0 h-full w-1 bg-accent-blue"></div>
+<span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Pending NHIS Approvals</span>
+<span class="font-headline-lg text-headline-lg text-on-surface mt-1">42</span>
+<div class="flex items-center gap-1 text-on-surface-variant text-[10px] font-bold mt-2">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>Avg. processing time: 4 days</span>
+</div>
+</div>
+<div class="bg-white border border-border-subtle p-5 rounded flex flex-col gap-1 relative overflow-hidden group">
+<div class="absolute top-0 left-0 h-full w-1 bg-secondary"></div>
+<span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Rejected Claims</span>
+<span class="font-headline-lg text-headline-lg text-secondary mt-1">08</span>
+<div class="flex items-center gap-1 text-secondary text-[10px] font-bold mt-2">
+<span class="material-symbols-outlined text-sm">warning</span>
+<span>Action required on 3 major claims</span>
+</div>
+</div>
+</div>
+<!-- Management Sections: NHIS Section -->
+<section class="bg-white border border-border-subtle rounded-lg shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle flex justify-between items-center bg-accent-blue/30">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-primary/10 text-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined">health_and_safety</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">NHIS Management</h3>
+</div>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-white rounded transition-colors text-on-surface-variant"><span class="material-symbols-outlined">filter_list</span></button>
+<button class="p-2 hover:bg-white rounded transition-colors text-on-surface-variant"><span class="material-symbols-outlined">download</span></button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-accent-blue text-on-surface font-label-md text-label-md uppercase tracking-wider border-b border-border-subtle">
+<th class="px-6 py-4">Patient Name</th>
+<th class="px-6 py-4">Invoice #</th>
+<th class="px-6 py-4">NHIS #</th>
+<th class="px-6 py-4">Covered (GHS)</th>
+<th class="px-6 py-4">Patient Paid (GHS)</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4 text-center">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- NHIS Row 1 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-table-data text-table-data text-on-surface">Kwame Boateng</span>
+<span class="text-[11px] text-on-surface-variant">ID: PAT-2023-8941</span>
+</div>
+</td>
+<td class="px-6 py-4 font-table-data text-table-data">INV-90214</td>
+<td class="px-6 py-4 font-table-data text-table-data">772391024</td>
+<td class="px-6 py-4 font-table-data text-table-data font-bold">1,450.00</td>
+<td class="px-6 py-4 font-table-data text-table-data">250.00</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-medical-green-soft text-primary">Fully Paid</span>
+</td>
+<td class="px-6 py-4 text-center">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">visibility</span></button>
+</td>
+</tr>
+<!-- NHIS Row 2 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-table-data text-table-data text-on-surface">Abena Mansa</span>
+<span class="text-[11px] text-on-surface-variant">ID: PAT-2023-1102</span>
+</div>
+</td>
+<td class="px-6 py-4 font-table-data text-table-data">INV-90551</td>
+<td class="px-6 py-4 font-table-data text-table-data">102938475</td>
+<td class="px-6 py-4 font-table-data text-table-data font-bold">820.00</td>
+<td class="px-6 py-4 font-table-data text-table-data">120.00</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-pending-soft text-on-tertiary-container">Pending Claim</span>
+</td>
+<td class="px-6 py-4 text-center">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">visibility</span></button>
+</td>
+</tr>
+<!-- NHIS Row 3 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-table-data text-table-data text-on-surface">Ekow Mensah</span>
+<span class="text-[11px] text-on-surface-variant">ID: PAT-2023-4562</span>
+</div>
+</td>
+<td class="px-6 py-4 font-table-data text-table-data">INV-90872</td>
+<td class="px-6 py-4 font-table-data text-table-data">992837461</td>
+<td class="px-6 py-4 font-table-data text-table-data font-bold">3,200.00</td>
+<td class="px-6 py-4 font-table-data text-table-data">0.00</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emergency-soft text-secondary">Rejected</span>
+</td>
+<td class="px-6 py-4 text-center">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">edit</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-3 bg-surface text-right">
+<a class="text-primary font-bold text-xs uppercase tracking-widest hover:underline" href="#">View All NHIS Claims</a>
+</div>
+</section>
+<!-- Waiver Management Section -->
+<section class="bg-white border border-border-subtle rounded-lg shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle flex justify-between items-center bg-emergency-soft/20">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-secondary/10 text-secondary rounded flex items-center justify-center">
+<span class="material-symbols-outlined">money_off</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Waivers Management</h3>
+</div>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-white rounded transition-colors text-on-surface-variant"><span class="material-symbols-outlined">filter_list</span></button>
+<button class="p-2 hover:bg-white rounded transition-colors text-on-surface-variant"><span class="material-symbols-outlined">history</span></button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-accent-blue text-on-surface font-label-md text-label-md uppercase tracking-wider border-b border-border-subtle">
+<th class="px-6 py-4">Patient Name</th>
+<th class="px-6 py-4">Invoice #</th>
+<th class="px-6 py-4">Waived (GHS)</th>
+<th class="px-6 py-4">Reason</th>
+<th class="px-6 py-4">Approving Officer</th>
+<th class="px-6 py-4">Approval Ref</th>
+<th class="px-6 py-4 text-center">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Waiver Row 1 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-table-data text-table-data text-on-surface">Selorm Agbodza</span>
+<span class="text-[11px] text-on-surface-variant">ID: PAT-2023-7721</span>
+</div>
+</td>
+<td class="px-6 py-4 font-table-data text-table-data">INV-88210</td>
+<td class="px-6 py-4 font-table-data text-table-data font-bold text-secondary">450.00</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-on-surface-variant max-w-[200px] truncate">Indigent - Social Work Recommendation</td>
+<td class="px-6 py-4 font-table-data text-table-data">Dr. Cecilia Lartey</td>
+<td class="px-6 py-4 font-table-data text-table-data italic text-[11px]">WAV-2023-112</td>
+<td class="px-6 py-4 text-center">
+<button class="text-on-surface-variant hover:text-secondary transition-colors"><span class="material-symbols-outlined">print</span></button>
+</td>
+</tr>
+<!-- Waiver Row 2 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-table-data text-table-data text-on-surface">John Doe</span>
+<span class="text-[11px] text-on-surface-variant">ID: PAT-2023-0021</span>
+</div>
+</td>
+<td class="px-6 py-4 font-table-data text-table-data">INV-89332</td>
+<td class="px-6 py-4 font-table-data text-table-data font-bold text-secondary">1,200.00</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-on-surface-variant max-w-[200px] truncate">Emergency Life-Saving Care (Protocol A)</td>
+<td class="px-6 py-4 font-table-data text-table-data">Medical Director</td>
+<td class="px-6 py-4 font-table-data text-table-data italic text-[11px]">WAV-2023-145</td>
+<td class="px-6 py-4 text-center">
+<button class="text-on-surface-variant hover:text-secondary transition-colors"><span class="material-symbols-outlined">print</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-3 bg-surface text-right">
+<a class="text-secondary font-bold text-xs uppercase tracking-widest hover:underline" href="#">View All Waivers</a>
+</div>
+</section>
+<!-- Bottom Contextual Info -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="bg-primary-container/5 border border-primary-container/20 rounded-lg p-6 flex items-start gap-4">
+<span class="material-symbols-outlined text-primary p-2 bg-white rounded-full">lightbulb</span>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary mb-1">NHIS Filing Deadline</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Current batch (May 2024) must be finalized and submitted to the regional office by <span class="font-bold">June 15th</span>. You have 21 pending claims remaining.</p>
+</div>
+</div>
+<div class="bg-on-tertiary-container/5 border border-on-tertiary-container/20 rounded-lg p-6 flex items-start gap-4">
+<span class="material-symbols-outlined text-on-tertiary-container p-2 bg-white rounded-full">shield</span>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-tertiary-container mb-1">Waiver Threshold Warning</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">The department is currently at <span class="font-bold">4.2%</span> of its waiver budget. Automatic notification will be sent to Finance if this exceeds 5.0%.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Modal Placeholder for Record NHIS (Simulated via Visibility) -->
+<div class="fixed inset-0 bg-on-background/60 backdrop-blur-sm z-[100] hidden items-center justify-center" id="nhis-modal">
+<div class="bg-white w-full max-w-lg rounded-lg shadow-2xl overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Record NHIS Payment</h3>
+<button class="text-on-surface-variant hover:text-error" onclick="closeModal()"><span class="material-symbols-outlined">close</span></button>
+</div>
+<form class="p-6 space-y-4">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1">Patient Search*</label>
+<input class="w-full border-border-subtle rounded focus:ring-primary focus:border-primary" placeholder="Start typing name or ID..." type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1">NHIS Card #*</label>
+<input class="w-full border-border-subtle rounded focus:ring-primary focus:border-primary" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1">Invoice Amount (GHS)</label>
+<input class="w-full bg-slate-50 border-border-subtle rounded text-on-surface-variant italic" disabled="" type="text" value="0.00"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1">Covered Amount (GHS)*</label>
+<input class="w-full border-border-subtle rounded focus:ring-primary focus:border-primary" step="0.01" type="number"/>
+</div>
+<div class="pt-4 border-t border-border-subtle flex justify-end gap-3">
+<button class="px-4 py-2 text-on-surface-variant hover:bg-slate-100 rounded transition-all" onclick="closeModal()" type="button">Cancel</button>
+<button class="px-6 py-2 bg-primary text-on-primary font-bold rounded shadow hover:opacity-90 active:scale-95 transition-all" type="submit">Save Claim</button>
+</div>
+</form>
+</div>
+</div>
+<script>
+        function openModal() {
+            document.getElementById('nhis-modal').classList.remove('hidden');
+            document.getElementById('nhis-modal').classList.add('flex');
+        }
+        function closeModal() {
+            document.getElementById('nhis-modal').classList.add('hidden');
+            document.getElementById('nhis-modal').classList.remove('flex');
+        }
+
+        // Attach to the "Record NHIS Payment" button
+        document.querySelectorAll('button').forEach(btn => {
+            if(btn.innerText.includes('Record NHIS Payment')) {
+                btn.onclick = openModal;
+            }
+        });
+    </script>
+</body></html>

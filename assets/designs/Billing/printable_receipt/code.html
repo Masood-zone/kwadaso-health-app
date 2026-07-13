@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHIP - Printable Receipt</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background-color: white !important; }
+            .receipt-canvas { 
+                box-shadow: none !important; 
+                border: none !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .sidebar-fixed, .topbar-fixed { display: none !important; }
+            .main-content { margin: 0 !important; width: 100% !important; }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for clinical UI */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-highest": "#d3e4fe",
+                      "surface-container-low": "#eff4ff",
+                      "on-background": "#0b1c30",
+                      "surface-bright": "#f8f9ff",
+                      "on-tertiary-container": "#ffb168",
+                      "on-tertiary-fixed": "#2d1600",
+                      "tertiary": "#572e00",
+                      "medical-green-soft": "#E8F5E9",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-variant": "#d3e4fe",
+                      "on-tertiary-fixed-variant": "#6b3b00",
+                      "on-primary": "#ffffff",
+                      "secondary-container": "#ea002c",
+                      "surface": "#f8f9ff",
+                      "primary-fixed": "#a5f693",
+                      "on-secondary-fixed-variant": "#930018",
+                      "primary-fixed-dim": "#8ad97a",
+                      "background": "#f8f9ff",
+                      "surface-container": "#e5eeff",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "on-secondary-fixed": "#410005",
+                      "on-surface-variant": "#40493c",
+                      "tertiary-fixed-dim": "#ffb877",
+                      "tertiary-container": "#784200",
+                      "emergency-soft": "#FDECEF",
+                      "outline": "#707a6b",
+                      "on-surface": "#0b1c30",
+                      "inverse-on-surface": "#eaf1ff",
+                      "accent-blue": "#EAF3FA",
+                      "surface-container-high": "#dce9ff",
+                      "secondary-fixed-dim": "#ffb3af",
+                      "surface-tint": "#206d1b",
+                      "secondary": "#bb0021",
+                      "primary-container": "#0b5d0b",
+                      "surface-dim": "#cbdbf5",
+                      "primary": "#004302",
+                      "on-primary-fixed": "#002201",
+                      "tertiary-fixed": "#ffdcc0",
+                      "on-secondary": "#ffffff",
+                      "border-subtle": "#E2E8F0",
+                      "inverse-surface": "#213145",
+                      "on-secondary-container": "#fffbff",
+                      "error": "#ba1a1a",
+                      "emergency-dark": "#B80021",
+                      "pending-soft": "#FFF4E8",
+                      "outline-variant": "#c0cab8",
+                      "on-primary-container": "#86d576",
+                      "secondary-fixed": "#ffdad7",
+                      "on-error-container": "#93000a",
+                      "app-bg": "#F8FAFC",
+                      "error-container": "#ffdad6",
+                      "on-primary-fixed-variant": "#005304",
+                      "deep-forest": "#064906",
+                      "inverse-primary": "#8ad97a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "1rem",
+                      "sidebar-width": "260px",
+                      "topbar-height": "64px",
+                      "margin-desktop": "2rem",
+                      "container-max": "1440px",
+                      "gutter": "1.5rem"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Manrope"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Manrope"],
+                      "display-lg": ["Manrope"],
+                      "body-sm": ["Inter"],
+                      "table-data": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                      "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md overflow-x-hidden">
+<!-- Sidebar Navigation Shell -->
+<aside class="sidebar-fixed fixed left-0 top-0 h-screen w-[260px] bg-deep-forest dark:bg-on-background border-r border-border-subtle dark:border-outline shadow-sm flex flex-col py-6 z-50 no-print">
+<div class="px-6 mb-10 flex items-center gap-3">
+<div class="w-10 h-10 bg-on-primary-container rounded-lg flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined font-bold">local_hospital</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary leading-tight">KHIP</h1>
+<p class="text-[10px] text-primary-fixed opacity-80 uppercase tracking-widest font-bold">HealthLink Integrated</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+<!-- Nav Item (Dashboard) -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Nav Item (Patient Billing) - Active -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-container text-on-primary-container border-l-4 border-on-tertiary-container font-body-md text-body-md font-medium cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span>Patient Billing</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">description</span>
+<span>Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span>Payments</span>
+</a>
+<!-- Nav Item (Receipts) -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span>Receipts</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">pending_actions</span>
+<span>Outstanding Balances</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">summarize</span>
+<span>Daily Collections</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">health_and_safety</span>
+<span>NHIS & Waivers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Financial Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span>Notifications</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="topbar-fixed fixed top-0 right-0 w-[calc(100%-260px)] h-[64px] bg-surface dark:bg-surface-dim border-b border-border-subtle dark:border-outline flex justify-between items-center px-margin-desktop z-40 no-print">
+<div class="flex items-center gap-8">
+<h2 class="font-headline-lg text-headline-lg font-black text-primary">KHIP Billing</h2>
+<div class="flex items-center gap-4 text-on-surface-variant font-medium">
+<span class="text-primary font-bold border-b-2 border-primary pb-1">Billing / Accounts Officer</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/10 text-on-surface-variant transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/10 text-on-surface-variant transition-all">
+<span class="material-symbols-outlined">calendar_today</span>
+</button>
+</div>
+<div class="flex items-center gap-3 pl-6 border-l border-border-subtle">
+<div class="text-right">
+<p class="text-label-md font-semibold text-on-surface">Kwame Boateng</p>
+<p class="text-[10px] text-on-surface-variant uppercase">Staff ID: KH-8820</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a healthcare administrator in a clean office setting, featuring soft natural light, minimalist background, and high-quality photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaPbbvPW5lcW6n5V2ktdr8CQpeSmYjA_ljH6j4UP1EcazETmIpBFpFHaIz2RTWe07V-H1i-MKEOU1IodMSzByQ0bOf3YQzwsTWKxzcbu0KEzdYaBKcO8uOqQLrx4hQ5Yv_RrdURohJ40_said4K8ebqamb616hr4FIX1vMaZ6EQTXeghen54MweK6QkQm4JPRyosvVQhPaah0yOIWF7ZFfeSxhmJUAQO92qAi5q25rrzy7bJfrdYCG"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="main-content ml-[260px] pt-[64px] p-margin-desktop min-h-screen">
+<!-- Breadcrumbs & Actions -->
+<div class="mb-8 flex justify-between items-center no-print">
+<div>
+<nav class="flex items-center gap-2 text-label-md text-on-surface-variant mb-2">
+<a class="hover:text-primary" href="#">Financials</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-primary" href="#">Receipts</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-bold">RCP-2024-9981</span>
+</nav>
+<h3 class="font-headline-lg text-headline-lg font-bold text-on-background">Payment Receipt</h3>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary rounded-lg font-bold hover:shadow-lg active:scale-95 transition-all" onclick="window.print()">
+<span class="material-symbols-outlined text-[20px]">print</span>
+                    Print Receipt
+                </button>
+<button class="flex items-center gap-2 px-6 py-2.5 bg-surface-container-lowest border border-border-subtle text-primary rounded-lg font-bold hover:bg-primary/5 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                    Export PDF
+                </button>
+</div>
+</div>
+<!-- Receipt Printable Canvas -->
+<div class="receipt-canvas max-w-[850px] mx-auto bg-white border border-border-subtle shadow-lg p-12 relative overflow-hidden">
+<!-- Watermark Background -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none flex items-center justify-center rotate-[-30deg]">
+<span class="text-[120px] font-black text-primary select-none">KHIP VALIDATED</span>
+</div>
+<!-- Header Section -->
+<div class="relative z-10 flex justify-between items-start border-b-2 border-primary pb-8 mb-8">
+<div class="flex gap-4">
+<div class="w-16 h-16 bg-primary flex items-center justify-center rounded-xl text-on-primary">
+<span class="material-symbols-outlined text-[40px]">local_hospital</span>
+</div>
+<div>
+<h1 class="font-display-lg text-display-lg text-primary leading-tight">KHIP</h1>
+<p class="text-body-lg font-bold text-on-background tracking-wide">Kwadaso HealthLink Integrated Platform</p>
+<p class="text-body-sm text-on-surface-variant max-w-[300px]">12 Hospital Road, Kwadaso, Kumasi, Ghana<br/>Tel: +233 (0) 322 091 445<br/>Email: billing@khip.gh.org</p>
+</div>
+</div>
+<div class="text-right">
+<div class="inline-block px-4 py-2 bg-medical-green-soft text-primary font-bold rounded mb-4 text-headline-md">
+                        OFFICIAL RECEIPT
+                    </div>
+<div class="space-y-1">
+<p class="text-body-sm font-bold text-on-surface-variant">RECEIPT #:</p>
+<p class="font-headline-md text-headline-md font-bold text-on-background">RCP-2024-9981</p>
+<p class="text-body-sm font-bold text-on-surface-variant mt-2">DATE:</p>
+<p class="text-body-md font-medium">October 24, 2024 | 14:32 PM</p>
+</div>
+</div>
+</div>
+<!-- Client & Reference Info -->
+<div class="grid grid-cols-2 gap-12 mb-10 relative z-10">
+<div class="space-y-4">
+<h4 class="text-label-md font-bold text-primary uppercase tracking-widest border-b border-medical-green-soft pb-2">Patient Details</h4>
+<div class="grid grid-cols-3 gap-y-2">
+<span class="text-body-sm text-on-surface-variant">Name:</span>
+<span class="col-span-2 text-body-md font-bold">ABENA MANSAH FORDJUOR</span>
+<span class="text-body-sm text-on-surface-variant">Patient ID:</span>
+<span class="col-span-2 text-body-md font-medium">KH-PID-455201</span>
+<span class="text-body-sm text-on-surface-variant">Contact:</span>
+<span class="col-span-2 text-body-md font-medium">+233 24 555 0192</span>
+<span class="text-body-sm text-on-surface-variant">Ward/Dept:</span>
+<span class="col-span-2 text-body-md font-medium">Outpatient - General Medicine</span>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="text-label-md font-bold text-primary uppercase tracking-widest border-b border-medical-green-soft pb-2">Transaction Reference</h4>
+<div class="grid grid-cols-3 gap-y-2">
+<span class="text-body-sm text-on-surface-variant">Invoice #:</span>
+<span class="col-span-2 text-body-md font-bold">INV-2024-00124</span>
+<span class="text-body-sm text-on-surface-variant">Payment Method:</span>
+<span class="col-span-2 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-body-md font-medium">Mobile Money (MTN)</span>
+</span>
+<span class="text-body-sm text-on-surface-variant">Trans. Ref:</span>
+<span class="col-span-2 text-body-md font-medium font-mono text-[13px]">MM-GH-882910394821</span>
+<span class="text-body-sm text-on-surface-variant">Status:</span>
+<span class="col-span-2 text-body-md font-bold text-primary">SUCCESSFUL</span>
+</div>
+</div>
+</div>
+<!-- Transaction Summary Table -->
+<div class="mb-10 relative z-10">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue text-primary">
+<th class="py-3 px-4 font-bold text-label-md uppercase">Item Description</th>
+<th class="py-3 px-4 font-bold text-label-md uppercase text-right">Unit Price (GHS)</th>
+<th class="py-3 px-4 font-bold text-label-md uppercase text-center">Qty</th>
+<th class="py-3 px-4 font-bold text-label-md uppercase text-right">Amount (GHS)</th>
+</tr>
+</thead>
+<tbody class="text-body-md text-on-background">
+<tr class="border-b border-border-subtle">
+<td class="py-4 px-4 font-medium">General Consultation Fee</td>
+<td class="py-4 px-4 text-right">150.00</td>
+<td class="py-4 px-4 text-center">1</td>
+<td class="py-4 px-4 text-right font-bold">150.00</td>
+</tr>
+<tr class="border-b border-border-subtle">
+<td class="py-4 px-4 font-medium">Laboratory Services: Full Blood Count (FBC)</td>
+<td class="py-4 px-4 text-right">85.00</td>
+<td class="py-4 px-4 text-center">1</td>
+<td class="py-4 px-4 text-right font-bold">85.00</td>
+</tr>
+<tr class="border-b border-border-subtle">
+<td class="py-4 px-4 font-medium">Pharmacy: Amoxicillin (500mg) - 21 Capsules</td>
+<td class="py-4 px-4 text-right">42.50</td>
+<td class="py-4 px-4 text-center">1</td>
+<td class="py-4 px-4 text-right font-bold">42.50</td>
+</tr>
+<tr class="border-b-2 border-primary/20">
+<td class="py-4 px-4 font-medium">Emergency Surcharge (After Hours)</td>
+<td class="py-4 px-4 text-right">50.00</td>
+<td class="py-4 px-4 text-center">1</td>
+<td class="py-4 px-4 text-right font-bold">50.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Financial Totals -->
+<div class="flex justify-end mb-12 relative z-10">
+<div class="w-1/2 space-y-3 bg-surface-container-low p-6 rounded-lg">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="text-body-md">Subtotal</span>
+<span class="font-medium">GHS 327.50</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="text-body-md">NHIS Subsidy (20%)</span>
+<span class="font-medium text-primary">-(GHS 65.50)</span>
+</div>
+<div class="flex justify-between items-center text-on-background pt-2 border-t border-border-subtle">
+<span class="text-body-md font-bold">Total Bill Amount</span>
+<span class="font-headline-md text-headline-md font-bold">GHS 262.00</span>
+</div>
+<div class="flex justify-between items-center bg-primary text-on-primary p-3 rounded mt-2">
+<span class="text-body-md font-bold">Current Payment</span>
+<span class="font-headline-md text-headline-md font-black">GHS 262.00</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant pt-2">
+<span class="text-body-sm italic">Total Paid to Date</span>
+<span class="text-body-md font-bold text-on-background">GHS 262.00</span>
+</div>
+<div class="flex justify-between items-center text-secondary font-bold pt-1">
+<span class="text-body-sm">REMAINING BALANCE</span>
+<span class="text-body-md">GHS 0.00</span>
+</div>
+</div>
+</div>
+<!-- Footer Section -->
+<div class="border-t border-border-subtle pt-8 relative z-10">
+<div class="grid grid-cols-3 gap-8">
+<div class="text-center space-y-4">
+<div class="h-[1px] bg-on-surface-variant w-3/4 mx-auto mt-12 opacity-30"></div>
+<p class="text-body-sm font-bold text-on-surface-variant uppercase">Patient's Signature</p>
+</div>
+<div class="text-center space-y-2">
+<div class="flex flex-col items-center justify-center p-4 border border-dashed border-primary/30 rounded-lg bg-medical-green-soft/50">
+<span class="material-symbols-outlined text-primary text-[32px]">verified</span>
+<p class="text-[10px] font-bold text-primary mt-1">KHIP ELECTRONIC SEAL</p>
+<p class="text-[8px] text-on-surface-variant">Ver. 2.4.0.11</p>
+</div>
+</div>
+<div class="text-center space-y-4">
+<div class="h-[1px] bg-on-surface-variant w-3/4 mx-auto mt-12 opacity-30"></div>
+<p class="text-body-sm font-bold text-on-surface-variant uppercase">Cashier's Signature</p>
+<p class="text-[11px] text-on-surface-variant -mt-3">Kwame Boateng (Staff ID: 8820)</p>
+</div>
+</div>
+<div class="mt-12 text-center text-on-surface-variant text-[11px] leading-relaxed">
+<p>This is a computer-generated document. No manual signature is required if stamped with the KHIP Electronic Seal.</p>
+<p>Thank you for choosing Kwadaso HealthLink Integrated Platform. Wishing you a speedy recovery.</p>
+<p class="mt-2 font-bold text-primary">"Precision in Care, Excellence in Service"</p>
+</div>
+</div>
+<!-- Cut Line Graphic for Visual Interest -->
+<div class="absolute -bottom-1 left-0 right-0 h-4 bg-[radial-gradient(circle,transparent_8px,white_8px)] bg-[length:24px_24px] rotate-180 opacity-50 no-print"></div>
+</div>
+<!-- Extra Note Section (No Print) -->
+<div class="mt-8 max-w-[850px] mx-auto bg-pending-soft p-6 rounded-lg border border-on-tertiary-container/20 flex gap-4 no-print">
+<span class="material-symbols-outlined text-tertiary-container">info</span>
+<div>
+<p class="text-body-md font-bold text-tertiary-container">Important Information</p>
+<p class="text-body-sm text-on-tertiary-fixed-variant">This receipt has been automatically emailed to the patient's registered address. You can also view historical receipts in the 'Payments' module. If this was a partial payment, the system will update the 'Outstanding Balances' ledger immediately.</p>
+</div>
+</div>
+</main>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Simple scale effect on hover for printable card in UI
+        const receiptCard = document.querySelector('.receipt-canvas');
+        receiptCard.addEventListener('mouseenter', () => {
+            if (window.innerWidth > 1024) {
+                receiptCard.style.transform = 'translateY(-4px)';
+                receiptCard.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            }
+        });
+        receiptCard.addEventListener('mouseleave', () => {
+            receiptCard.style.transform = 'translateY(0)';
+        });
+    </script>
+</body></html>

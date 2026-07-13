@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KHIP Billing - Outstanding Balances</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        /* Custom scrollbar for clinical precision */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .active-indicator {
+            position: absolute;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #ffb168; /* Flame Orange from Design System context */
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "on-background": "#0b1c30",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-container": "#ffb168",
+                        "on-tertiary-fixed": "#2d1600",
+                        "tertiary": "#572e00",
+                        "medical-green-soft": "#E8F5E9",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#ea002c",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#a5f693",
+                        "on-secondary-fixed-variant": "#930018",
+                        "primary-fixed-dim": "#8ad97a",
+                        "background": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#410005",
+                        "on-surface-variant": "#40493c",
+                        "tertiary-fixed-dim": "#ffb877",
+                        "tertiary-container": "#784200",
+                        "emergency-soft": "#FDECEF",
+                        "outline": "#707a6b",
+                        "on-surface": "#0b1c30",
+                        "inverse-on-surface": "#eaf1ff",
+                        "accent-blue": "#EAF3FA",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "surface-tint": "#206d1b",
+                        "secondary": "#bb0021",
+                        "primary-container": "#0b5d0b",
+                        "surface-dim": "#cbdbf5",
+                        "primary": "#004302",
+                        "on-primary-fixed": "#002201",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-secondary": "#ffffff",
+                        "border-subtle": "#E2E8F0",
+                        "inverse-surface": "#213145",
+                        "on-secondary-container": "#fffbff",
+                        "error": "#ba1a1a",
+                        "emergency-dark": "#B80021",
+                        "pending-soft": "#FFF4E8",
+                        "outline-variant": "#c0cab8",
+                        "on-primary-container": "#86d576",
+                        "secondary-fixed": "#ffdad7",
+                        "on-error-container": "#93000a",
+                        "app-bg": "#F8FAFC",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#005304",
+                        "deep-forest": "#064906",
+                        "inverse-primary": "#8ad97a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "1rem",
+                        "sidebar-width": "260px",
+                        "topbar-height": "64px",
+                        "margin-desktop": "2rem",
+                        "gutter": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "display-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "table-data": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-app-bg text-on-surface font-body-md">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-deep-forest dark:bg-on-background flex flex-col py-6 border-r border-border-subtle dark:border-outline shadow-sm z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-on-primary-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary leading-tight">KHIP</h1>
+<p class="text-[10px] uppercase tracking-widest text-on-primary-container/70 font-bold">HealthLink Integrated</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto px-3 space-y-1">
+<!-- Navigation Items Mapping -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium group" href="#">
+<span class="material-symbols-outlined text-primary-container">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium group" href="#">
+<span class="material-symbols-outlined text-primary-container">payments</span>
+<span>Patient Billing</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium group" href="#">
+<span class="material-symbols-outlined text-primary-container">description</span>
+<span>Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium group" href="#">
+<span class="material-symbols-outlined text-primary-container">account_balance_wallet</span>
+<span>Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium group" href="#">
+<span class="material-symbols-outlined text-primary-container">receipt_long</span>
+<span>Receipts</span>
+</a>
+<!-- Active Tab: Outstanding Balances -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded bg-primary-container text-on-primary-container border-l-4 border-on-tertiary-container font-body-md text-body-md font-medium relative shadow-inner" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">pending_actions</span>
+<span>Outstanding Balances</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium group" href="#">
+<span class="material-symbols-outlined text-primary-container">summarize</span>
+<span>Daily Collections</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium group" href="#">
+<span class="material-symbols-outlined text-primary-container">health_and_safety</span>
+<span>NHIS &amp; Waivers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium group" href="#">
+<span class="material-symbols-outlined text-primary-container">analytics</span>
+<span>Financial Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium group" href="#">
+<span class="material-symbols-outlined text-primary-container">notifications</span>
+<span>Notifications</span>
+</a>
+</nav>
+<div class="px-3 pt-4 border-t border-white/10 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-surface-container-low hover:bg-primary-container/20 transition-colors font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-secondary-fixed hover:bg-secondary/20 transition-colors font-body-md text-body-md font-medium" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-260px)] h-topbar-height bg-surface dark:bg-surface-dim flex justify-between items-center px-margin-desktop z-40 border-b border-border-subtle dark:border-outline">
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-sm">search</span>
+<input class="pl-9 pr-4 py-1.5 bg-surface-container-low border border-border-subtle rounded-lg w-72 focus:outline-none focus:ring-2 focus:ring-primary text-body-sm transition-all" placeholder="Search patients or invoices..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md">Billing / Accounts Officer</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors relative">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-2.5 right-2.5 w-2 h-2 bg-secondary rounded-full border-2 border-surface"></span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">calendar_today</span>
+</button>
+<div class="h-8 w-px bg-border-subtle mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-label-md font-semibold text-on-surface">Dr. Sarah Jenkins</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-tighter">Chief Accountant</p>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a female doctor in her 40s with a warm and authoritative expression. She is wearing a white lab coat and a stethoscope is visible around her neck. The lighting is soft and corporate, set against a blurred medical facility background with high-key lighting that matches a clean, modern design aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOveK05DMH32u4QheWV2ShLGhgqoDTFvwVM00tNy7eBp5cYcbPo3ab8LpsK7B_muIVr7ermFdd_8Mw1NfyaOk9nMIrjyNwkXyIOJNpkyLaFnLwabCn6I8uyB6NzHjJ0fdYZ7GGK1ma1eyvC238zHyUoyRYd367yMBJ_xB02-LMLeuRhk7zMMmtZFxoyMLXhqRGPLkkLHOGE5PQrtok8yOXoa8JkXObfYjsVMdM6DUWave_hLh2q_rG"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[calc(64px+2rem)] pl-[calc(260px+2rem)] pr-margin-desktop pb-12 min-h-screen">
+<!-- Page Header & Stats -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface mb-1">Outstanding Balances</h2>
+<p class="text-body-md text-on-surface-variant">Monitor and manage all unpaid patient accounts and overdue invoices.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-primary text-primary rounded font-bold hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined">print</span>
+                    Print Aging Report
+                </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded font-bold hover:bg-deep-forest transition-all shadow-sm">
+<span class="material-symbols-outlined">add</span>
+                    Record Bulk Payment
+                </button>
+</div>
+</div>
+<!-- Metric Bento Grid -->
+<div class="grid grid-cols-4 gap-6 mb-8">
+<div class="bg-surface-container-lowest border border-border-subtle p-5 rounded relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary"></div>
+<p class="text-label-md font-semibold text-on-surface-variant mb-1">TOTAL OUTSTANDING</p>
+<h3 class="text-headline-lg font-headline-lg text-on-surface">₦14,250,800</h3>
+<div class="mt-4 flex items-center text-secondary text-[11px] font-bold">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+                    +12.4% FROM LAST MONTH
+                </div>
+</div>
+<div class="bg-surface-container-lowest border border-border-subtle p-5 rounded relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-tertiary-container"></div>
+<p class="text-label-md font-semibold text-on-surface-variant mb-1">OVERDUE (30+ DAYS)</p>
+<h3 class="text-headline-lg font-headline-lg text-on-surface">₦4,120,450</h3>
+<div class="mt-4 flex items-center text-tertiary-container text-[11px] font-bold">
+<span class="material-symbols-outlined text-sm mr-1">schedule</span>
+                    24 ACCOUNTS OVERDUE
+                </div>
+</div>
+<div class="bg-surface-container-lowest border border-border-subtle p-5 rounded relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+<p class="text-label-md font-semibold text-on-surface-variant mb-1">PARTIAL PAYMENTS</p>
+<h3 class="text-headline-lg font-headline-lg text-on-surface">₦2,840,200</h3>
+<div class="mt-4 flex items-center text-primary-container text-[11px] font-bold">
+<span class="material-symbols-outlined text-sm mr-1">check_circle</span>
+                    115 INVOICES SETTLED PARTIALLY
+                </div>
+</div>
+<div class="bg-surface-container-lowest border border-border-subtle p-5 rounded relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-accent-blue"></div>
+<p class="text-label-md font-semibold text-on-surface-variant mb-1">RECOVERY RATE</p>
+<h3 class="text-headline-lg font-headline-lg text-on-surface">78.5%</h3>
+<div class="mt-4 flex items-center text-primary text-[11px] font-bold">
+<span class="material-symbols-outlined text-sm mr-1">show_chart</span>
+                    TARGET: 85%
+                </div>
+</div>
+</div>
+<!-- Filters Section -->
+<div class="bg-white border border-border-subtle rounded-xl p-4 mb-6 shadow-sm">
+<div class="grid grid-cols-5 gap-4">
+<div class="space-y-1.5">
+<label class="text-label-md font-semibold text-on-surface-variant">Patient Name / ID</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-lg">person</span>
+<input class="w-full pl-10 pr-3 py-2 border border-border-subtle rounded text-body-md focus:border-primary focus:ring-0" placeholder="Search Patient..." type="text"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-label-md font-semibold text-on-surface-variant">Status</label>
+<select class="w-full px-3 py-2 border border-border-subtle rounded text-body-md focus:border-primary focus:ring-0 bg-white">
+<option>All Statuses</option>
+<option>Partially Paid</option>
+<option>Unpaid</option>
+<option>Overdue</option>
+<option>Disputed</option>
+</select>
+</div>
+<div class="space-y-1.5">
+<label class="text-label-md font-semibold text-on-surface-variant">Date Range</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-lg">calendar_month</span>
+<input class="w-full pl-10 pr-3 py-2 border border-border-subtle rounded text-body-md focus:border-primary focus:ring-0" placeholder="Jan 01 - Jan 30" type="text"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-label-md font-semibold text-on-surface-variant">Days Outstanding</label>
+<select class="w-full px-3 py-2 border border-border-subtle rounded text-body-md focus:border-primary focus:ring-0 bg-white">
+<option>Any Duration</option>
+<option>0-30 Days</option>
+<option>31-60 Days</option>
+<option>61-90 Days</option>
+<option>90+ Days</option>
+</select>
+</div>
+<div class="flex items-end">
+<button class="w-full h-[42px] bg-primary-container text-on-primary-container font-bold rounded flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">filter_list</span>
+                        Apply Filters
+                    </button>
+</div>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-accent-blue border-b border-border-subtle">
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Patient Details</th>
+<th class="px-4 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Invoice #</th>
+<th class="px-4 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Date</th>
+<th class="px-4 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total</th>
+<th class="px-4 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Paid</th>
+<th class="px-4 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Balance Due</th>
+<th class="px-4 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-center">Outstanding</th>
+<th class="px-4 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Last Payment</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container font-bold text-xs">EO</div>
+<div>
+<p class="font-table-data text-table-data text-on-surface">Emeka Okafor</p>
+<p class="text-[11px] text-on-surface-variant">PAT-99201</p>
+</div>
+</div>
+</td>
+<td class="px-4 py-4 font-table-data text-table-data">INV-2023-004</td>
+<td class="px-4 py-4 font-table-data text-table-data">Oct 12, 2023</td>
+<td class="px-4 py-4 font-table-data text-table-data">₦85,000</td>
+<td class="px-4 py-4 font-table-data text-table-data text-right text-primary-container">₦25,000</td>
+<td class="px-4 py-4 font-table-data text-table-data text-right font-bold text-secondary">₦60,000</td>
+<td class="px-4 py-4 text-center">
+<span class="px-2 py-1 rounded bg-emergency-soft text-emergency-dark font-bold text-[10px] uppercase">45 Days Overdue</span>
+</td>
+<td class="px-4 py-4 font-table-data text-table-data">Oct 15, 2023</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 text-primary-container hover:bg-medical-green-soft rounded" title="Record Payment">
+<span class="material-symbols-outlined text-lg">payments</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded" title="Print Statement">
+<span class="material-symbols-outlined text-lg">print</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-container/10 flex items-center justify-center text-tertiary-container font-bold text-xs">AJ</div>
+<div>
+<p class="font-table-data text-table-data text-on-surface">Aminu Jibrin</p>
+<p class="text-[11px] text-on-surface-variant">PAT-88122</p>
+</div>
+</div>
+</td>
+<td class="px-4 py-4 font-table-data text-table-data">INV-2023-112</td>
+<td class="px-4 py-4 font-table-data text-table-data">Nov 05, 2023</td>
+<td class="px-4 py-4 font-table-data text-table-data">₦210,000</td>
+<td class="px-4 py-4 font-table-data text-table-data text-right text-primary-container">₦0</td>
+<td class="px-4 py-4 font-table-data text-table-data text-right font-bold text-secondary">₦210,000</td>
+<td class="px-4 py-4 text-center">
+<span class="px-2 py-1 rounded bg-emergency-soft text-emergency-dark font-bold text-[10px] uppercase">21 Days</span>
+</td>
+<td class="px-4 py-4 font-table-data text-table-data text-on-surface-variant italic">—</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 text-primary-container hover:bg-medical-green-soft rounded">
+<span class="material-symbols-outlined text-lg">payments</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded">
+<span class="material-symbols-outlined text-lg">print</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-on-tertiary-container/10 flex items-center justify-center text-tertiary font-bold text-xs">SA</div>
+<div>
+<p class="font-table-data text-table-data text-on-surface">Sarah Adebayo</p>
+<p class="text-[11px] text-on-surface-variant">PAT-77341</p>
+</div>
+</div>
+</td>
+<td class="px-4 py-4 font-table-data text-table-data">INV-2023-156</td>
+<td class="px-4 py-4 font-table-data text-table-data">Nov 20, 2023</td>
+<td class="px-4 py-4 font-table-data text-table-data">₦45,000</td>
+<td class="px-4 py-4 font-table-data text-table-data text-right text-primary-container">₦40,000</td>
+<td class="px-4 py-4 font-table-data text-table-data text-right font-bold text-tertiary">₦5,000</td>
+<td class="px-4 py-4 text-center">
+<span class="px-2 py-1 rounded bg-pending-soft text-on-tertiary-fixed-variant font-bold text-[10px] uppercase">6 Days</span>
+</td>
+<td class="px-4 py-4 font-table-data text-table-data">Nov 21, 2023</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 text-primary-container hover:bg-medical-green-soft rounded">
+<span class="material-symbols-outlined text-lg">payments</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded">
+<span class="material-symbols-outlined text-lg">print</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed/30 flex items-center justify-center text-secondary font-bold text-xs">CA</div>
+<div>
+<p class="font-table-data text-table-data text-on-surface">Chijioke Arinze</p>
+<p class="text-[11px] text-on-surface-variant">PAT-10223</p>
+</div>
+</div>
+</td>
+<td class="px-4 py-4 font-table-data text-table-data">INV-2023-001</td>
+<td class="px-4 py-4 font-table-data text-table-data">Aug 15, 2023</td>
+<td class="px-4 py-4 font-table-data text-table-data">₦450,000</td>
+<td class="px-4 py-4 font-table-data text-table-data text-right text-primary-container">₦100,000</td>
+<td class="px-4 py-4 font-table-data text-table-data text-right font-bold text-emergency-dark">₦350,000</td>
+<td class="px-4 py-4 text-center">
+<span class="px-2 py-1 rounded bg-secondary-container text-on-secondary-container font-bold text-[10px] uppercase">100+ Days CRITICAL</span>
+</td>
+<td class="px-4 py-4 font-table-data text-table-data">Aug 20, 2023</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 text-primary-container hover:bg-medical-green-soft rounded">
+<span class="material-symbols-outlined text-lg">payments</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded">
+<span class="material-symbols-outlined text-lg">print</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination -->
+<div class="px-6 py-4 flex items-center justify-between bg-surface-bright border-t border-border-subtle">
+<p class="text-body-sm text-on-surface-variant">Showing <span class="font-bold text-on-surface">1 - 10</span> of <span class="font-bold text-on-surface">142</span> outstanding invoices</p>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-border-subtle rounded hover:bg-surface transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center bg-primary text-on-primary rounded font-bold text-sm">1</button>
+<button class="w-8 h-8 flex items-center justify-center border border-border-subtle rounded hover:bg-surface text-sm">2</button>
+<button class="w-8 h-8 flex items-center justify-center border border-border-subtle rounded hover:bg-surface text-sm">3</button>
+<button class="px-3 py-1 border border-border-subtle rounded hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- System Background Decor -->
+<div class="fixed bottom-0 right-0 p-8 pointer-events-none opacity-5">
+<span class="material-symbols-outlined text-[120px]" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+</div>
+</main>
+<!-- Contextual Toast Notification (Mockup) -->
+<div class="fixed bottom-8 right-8 bg-inverse-surface text-inverse-on-surface px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4 translate-y-24 opacity-0 transition-all duration-500 z-[100]" id="toast">
+<div class="w-8 h-8 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-fixed">
+<span class="material-symbols-outlined">info</span>
+</div>
+<div>
+<p class="font-bold text-sm">Aging Report Generated</p>
+<p class="text-xs opacity-80">The system has updated the overdue status for 14 patient records.</p>
+</div>
+<button class="ml-4 opacity-60 hover:opacity-100" onclick="document.getElementById('toast').style.transform = 'translateY(100px)'">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<script>
+        // Micro-interaction for showing the toast
+        setTimeout(() => {
+            const toast = document.getElementById('toast');
+            toast.style.transform = 'translateY(0)';
+            toast.style.opacity = '1';
+        }, 2000);
+
+        // Sidebar link active state logic simulated
+        document.querySelectorAll('aside nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                // Prevent real navigation for demo
+                // e.preventDefault();
+            });
+        });
+    </script>
+</body></html>
