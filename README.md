@@ -17,6 +17,7 @@ A staff-facing hospital management system for **SDA Hospital Kwadaso**, Ghana. K
 - [Environment Variables](#environment-variables)
 - [Design System](#design-system)
 - [Development](#development)
+- [Documentation](#documentation)
 
 ---
 
@@ -40,19 +41,20 @@ Browser/Client → Next.js Pages (Server Components) → Service Layer (TanStack
 
 5. **Database**: All persistence goes through **Prisma ORM** with a PostgreSQL driver adapter. The schema models the full hospital domain — patients, encounters, prescriptions, lab orders, invoices, and more.
 
-### Typical Workflow (Triage → Consultation → Pharmacy → Billing)
+### Complete Patient Workflow
 
 ```
-Patient arrives
+Hospital Admin (setup)
   → Records Officer registers patient / looks up existing record
+  → Records Officer books appointment or checks in patient
   → Nurse captures vitals (blood pressure, temperature, weight, etc.) in Triage
-  → Patient enters the queue for Doctor consultation
-  → Doctor creates an Encounter, writes SOAP notes, orders labs, prescribes medication
-  → Lab Technician processes the request, records results → linked to patient EHR
+  → Nurse sends patient to clinician queue
+  → Doctor/PA creates Encounter, writes SOAP notes, records diagnosis
+  → Doctor/PA orders labs and/or prescribes medication
+  → Lab Technician processes lab requests, records results
   → Pharmacist dispenses prescribed medication → stock updated automatically
   → Billing Officer generates an invoice → payment recorded
-  → If needed, Doctor creates a Referral to another facility/department
-  → Patient receives a summary; all data is available for future visits
+  → Patient is discharged; all data available for future visits
 ```
 
 ---
@@ -63,13 +65,13 @@ Patient arrives
 |---|---|---|
 | **Authentication** | Email/password login, session management, role-based access control | Implemented |
 | **Super Admin** | Staff CRUD, role & permission management, department management, hospital settings, audit logs | Implemented |
-| **Hospital Admin** | Patient flow, departments, appointments, queue, billing, staff, oversight, notifications, audit logs, settings, reports | Implemented |
+| **Hospital Admin** | Patient flow, departments, appointments, queue, billing oversight, staff, notifications, audit logs, settings, reports | Implemented |
 | **Records Officer** | Patient registration, search, profile, visit history, timeline, documents, appointments, check-in, queue, duplicate detection, print/export | Implemented |
 | **Nurse/Triage** | Triage queue, vital signs capture & history, emergency flagging, immunizations, queue board, notifications | Implemented |
-| **Clinical Encounters** | SOAP notes, diagnoses, treatment plans | Schema ready |
-| **Laboratory (LIMS)** | Test requests, sample tracking, result entry, EHR linkage | Schema ready |
-| **Pharmacy** | Prescriptions, dispensing, medication stock management, stock movements | Schema ready |
-| **Billing & Payments** | Invoicing, payment tracking, partial payments | Schema ready |
+| **Clinician (Doctor/PA)** | Consultation queue, encounter management, SOAP notes, diagnoses, lab requests, prescriptions, referrals, follow-ups | Implemented |
+| **Laboratory (LIMS)** | Lab request queue, sample collection/tracking, result entry, validation, critical alerts, test catalog, reports | Implemented |
+| **Pharmacy** | Prescription queue, dispensing, medication stock management, low stock alerts, expired tracking, reorder requests, reports | Implemented |
+| **Billing & Payments** | Invoice creation/management, payment processing, NHIS/waivers, outstanding balances, patient statements, daily collections, financial reports | Implemented |
 | **Referrals** | Inter-facility and inter-department referrals | Schema ready |
 | **Messaging** | Secure, audit-trailed internal messaging between staff | Schema ready |
 | **Reporting & HMIS** | Morbidity reports, immunization coverage, data export | Schema ready |
@@ -104,25 +106,36 @@ kwadaso-health-app/
 ├── app/
 │   ├── api/                         # API route handlers
 │   │   ├── auth/[...all]/           # Better Auth endpoints
-│   │   ├── hospital-admin/          # Hospital admin API (dashboard, CRUD, queue, etc.)
+│   │   ├── billing/                 # Billing API (invoices, payments, reports)
+│   │   ├── clinician/               # Clinician API (encounters, prescriptions, labs)
+│   │   ├── hospital-admin/          # Hospital admin API (dashboard, CRUD, queue)
+│   │   ├── laboratory/              # Laboratory API (requests, samples, results)
 │   │   ├── nurse/                   # Nurse/triage API (queue, vitals, immunizations)
-│   │   ├── records-officer/         # Records officer API (patients, appointments, queue)
+│   │   ├── pharmacy/                # Pharmacy API (prescriptions, dispensing, stock)
+│   │   ├── records-officer/         # Records officer API (patients, appointments)
 │   │   └── super-admin/             # Super admin API (staff, roles, departments)
+│   ├── billing/                     # Billing pages
+│   ├── clinician/                   # Clinician pages
+│   ├── laboratory/                  # Laboratory pages
 │   ├── login/                       # Login page
-│   ├── super-admin/                 # Super admin pages
-│   ├── hospital-admin/              # Hospital admin pages
 │   ├── nurse/                       # Nurse/triage pages
+│   ├── pharmacy/                    # Pharmacy pages
 │   ├── records-officer/             # Records officer pages
+│   ├── super-admin/                 # Super admin pages
 │   ├── unauthorized/                # Unauthorized access page
 │   └── session-expired/             # Session expiry page
 ├── assets/
 │   └── designs/                     # UI mockups (HTML + PNG) by role
 ├── components/
 │   ├── auth/                        # Login form, auth providers
+│   ├── billing/                     # Billing UI components
+│   ├── clinician/                   # Clinician UI components
 │   ├── common/                      # Shared layout components
 │   ├── dashboard/                   # Dashboard shell with sidebar nav
 │   ├── hospital-admin/              # Hospital admin UI components
+│   ├── laboratory/                  # Laboratory UI components
 │   ├── nurse/                       # Nurse/triage UI components
+│   ├── pharmacy/                    # Pharmacy UI components
 │   ├── records-officer/             # Records officer UI components
 │   ├── providers/                   # React Query, theme, session providers
 │   ├── super-admin/                 # Super admin UI components
@@ -132,27 +145,43 @@ kwadaso-health-app/
 │   ├── auth-client.ts               # Better Auth React client
 │   ├── auth-session.ts              # Session guards: requireStaffPage, requireRoleApi
 │   ├── axios.ts                     # Axios instance with 401 interceptor
+│   ├── billing.ts                   # Billing business logic
+│   ├── clinician.ts                 # Clinician business logic
+│   ├── clinician-data.ts            # Clinician data queries
 │   ├── hospital-admin.ts            # Hospital admin business logic
+│   ├── identifiers.ts               # Friendly identifier generation
+│   ├── laboratory.ts                # Laboratory business logic
 │   ├── nurse.ts                     # Nurse business logic
+│   ├── pharmacy.ts                  # Pharmacy business logic
 │   ├── records-officer.ts           # Records officer business logic
 │   ├── super-admin.ts               # Super admin business logic
 │   ├── prisma.ts                    # Prisma client singleton
 │   ├── role-routes.ts               # Role → dashboard route mapping
 │   └── utils.ts                     # Utility functions (cn, etc.)
 ├── prisma/
-│   ├── schema.prisma                # Database schema (40+ models)
+│   ├── schema.prisma                # Database schema (50+ models)
 │   ├── seed-admins.ts               # Seed script (facility, staff, demo data)
+│   ├── data/                        # Ghana-specific seed data
+│   ├── seeders/                     # Additional seed scripts
 │   └── migrations/                  # Migration history
 ├── services/
+│   ├── billing/                     # TanStack Query hooks for billing
+│   ├── clinician/                   # TanStack Query hooks for clinician
 │   ├── hospital-admin/              # TanStack Query hooks for hospital admin
+│   ├── laboratory/                  # TanStack Query hooks for laboratory
 │   ├── nurse/                       # TanStack Query hooks for nurse/triage
+│   ├── pharmacy/                    # TanStack Query hooks for pharmacy
 │   ├── records-officer/             # TanStack Query hooks for records officer
 │   └── super-admin/                 # TanStack Query hooks for super admin
 ├── types/
 │   ├── api.ts                       # ApiResponse<T>, PaginatedResponse<T>
+│   ├── billing.ts                   # Billing types
+│   ├── clinician.ts                 # Clinician types
 │   ├── dashboard.ts                 # Shared dashboard data types
 │   ├── hospital-admin.ts            # Hospital admin types
+│   ├── laboratory.ts                # Laboratory types
 │   ├── nurse.ts                     # Nurse types
+│   ├── pharmacy.ts                  # Pharmacy types
 │   ├── records-officer.ts           # Records officer types
 │   └── super-admin.ts              # Super admin types
 └── public/                          # Static assets
@@ -162,7 +191,7 @@ kwadaso-health-app/
 
 ## Database Schema
 
-The schema contains **40+ models** organized into these domain areas:
+The schema contains **50+ models** organized into these domain areas:
 
 ### Access Control
 `User` · `Role` · `Permission` · `UserRole` · `RolePermission` · `Session` · `Account` · `Verification`
@@ -177,10 +206,10 @@ The schema contains **40+ models** organized into these domain areas:
 `Appointment` · `PatientQueue` · `VitalSigns` · `Encounter` · `ClinicalNote` (SOAP) · `Diagnosis`
 
 ### Laboratory
-`LabTestCatalog` · `LabRequest` · `LabRequestTest` · `LabSample` · `LabResult` · `LabResultItem`
+`LabTestCatalog` · `LabTestParameterDefinition` · `LabRequest` · `LabRequestTest` · `LabSample` · `LabResult` · `LabResultItem`
 
 ### Pharmacy
-`Medication` · `Prescription` · `PrescriptionItem` · `MedicationStock` · `StockMovement` · `Dispensing` · `DispenseItem`
+`Medication` · `MedicationStock` · `StockMovement` · `Prescription` · `PrescriptionItem` · `Dispensing` · `DispenseItem` · `PharmacyReorder`
 
 ### Billing
 `Invoice` · `InvoiceItem` · `Payment`
@@ -199,20 +228,20 @@ KHIP uses **Better Auth** with email/password authentication. Every user is assi
 
 ### Staff Roles
 
-| Role | Access |
-|---|---|
-| `SUPER_ADMIN` | Full system access — staff management, roles, permissions, departments, settings, audit logs |
-| `HOSPITAL_ADMIN` | Hospital-level dashboards, department workload, staff activity |
-| `MUNICIPAL_HEALTH_DIRECTOR` | Cross-facility oversight and reporting |
-| `M_AND_E_OFFICER` | Monitoring, evaluation, HMIS data |
-| `RECORDS_OFFICER` | Patient registration, records management |
-| `FRONT_DESK` | Patient check-in, appointment management |
-| `DOCTOR` | Clinical encounters, SOAP notes, diagnoses, prescriptions, referrals |
-| `PHYSICIAN_ASSISTANT` | Clinical encounters (supervised) |
-| `NURSE` | Triage, vital signs capture, nursing notes |
-| `LAB_TECHNICIAN` | Lab requests, sample tracking, result entry |
-| `PHARMACIST` | Prescriptions, dispensing, stock management |
-| `BILLING_OFFICER` | Invoicing, payment processing |
+| Role | Dashboard | Description |
+|---|---|---|
+| `SUPER_ADMIN` | `/super-admin/dashboard` | Full system access — staff management, roles, permissions, departments, settings, audit logs |
+| `HOSPITAL_ADMIN` | `/hospital-admin/dashboard` | Hospital-level dashboards, department workload, staff activity, appointments, queue, billing oversight |
+| `MUNICIPAL_HEALTH_DIRECTOR` | `/unauthorized` | Cross-facility oversight and reporting (read-only) |
+| `M_AND_E_OFFICER` | `/unauthorized` | Monitoring, evaluation, HMIS data (read-only) |
+| `RECORDS_OFFICER` | `/records-officer` | Patient registration, records management, appointments, check-in, queue |
+| `FRONT_DESK` | `/records-officer` | Patient check-in, appointment management |
+| `DOCTOR` | `/clinician` | Clinical encounters, SOAP notes, diagnoses, prescriptions, referrals |
+| `PHYSICIAN_ASSISTANT` | `/clinician` | Clinical encounters (supervised) |
+| `NURSE` | `/nurse/dashboard` | Triage, vital signs capture, nursing notes, immunizations |
+| `LAB_TECHNICIAN` | `/laboratory` | Lab requests, sample tracking, result entry, validation |
+| `PHARMACIST` | `/pharmacy` | Prescriptions, dispensing, stock management |
+| `BILLING_OFFICER` | `/billing` | Invoicing, payment processing, NHIS/waivers, reports |
 
 ### How Route Protection Works
 
@@ -276,9 +305,15 @@ The app will be available at [http://localhost:3000](http://localhost:3000).
 | Super Admin | `superadmin@kwadaso.health` | `ChangeMe123!` |
 | Hospital Admin | `hospitaladmin@kwadaso.health` | `ChangeMe123!` |
 | Records Officer | `recordofficer@kwadaso.health` | `ChangeMe123!` |
+| Front Desk | `frontdesk@kwadaso.health` | `ChangeMe123!` |
+| Doctor | `doctor@kwadaso.health` | `ChangeMe123!` |
+| Physician Assistant | `physicianassistant@kwadaso.health` | `ChangeMe123!` |
 | Nurse | `nurse@kwadaso.health` | `ChangeMe123!` |
+| Lab Technician | `laboratory@kwadaso.health` | `ChangeMe123!` |
+| Pharmacist | `pharmacist@kwadaso.health` | `ChangeMe123!` |
+| Billing Officer | `billing@kwadaso.health` | `ChangeMe123!` |
 
-> **Important**: Change these passwords immediately in production.
+> **Important**: Change these passwords immediately in production. See `KHIP_USER_ACCOUNTS.md` for the complete user guide and patient journey walkthrough.
 
 ---
 
@@ -328,7 +363,7 @@ KHIP uses a Material Design 3 inspired token system with a custom **KHIP** layer
 
 1. **Thin pages, rich components**: Server pages handle auth guards only. All UI logic lives in domain components under `components/`.
 2. **Service layer isolation**: All client-side data fetching goes through TanStack Query hooks in `services/`. Components never call API routes directly.
-3. **Role-based organization**: Components, services, and types are organized by role (`super-admin/`, `hospital-admin/`, `records-officer/`, `nurse/`) for clear boundaries.
+3. **Role-based organization**: Components, services, and types are organized by role (`super-admin/`, `hospital-admin/`, `records-officer/`, `nurse/`, `clinician/`, `laboratory/`, `pharmacy/`, `billing/`) for clear boundaries.
 4. **Shared primitives**: `components/ui/` contains reusable shadcn/ui components. `components/common/` holds shared layout pieces.
 
 ### Adding a New Role Dashboard
@@ -343,6 +378,15 @@ KHIP uses a Material Design 3 inspired token system with a custom **KHIP** layer
 
 ---
 
+## Documentation
+
+| Document | Description |
+|---|---|
+| `KHIP_USER_ACCOUNTS.md` | Complete user accounts guide with patient journey walkthrough |
+| `KHIP_SYSTEM_WALKTHROUGH.md` | Comprehensive system documentation covering architecture, data models, and state machines |
+
+---
+
 ## Project Team
 
 | Name | Role | Index Number |
@@ -353,7 +397,7 @@ KHIP uses a Material Design 3 inspired token system with a custom **KHIP** layer
 
 **Supervisor**: Dr. Victor Dela Tattrah
 
-**Institution**: Akenten Appiah Menka University of Skills Training and Entrepreneurial Development ( Faculty of Applied Science and Mathematics Technology)
+**Institution**: Akenten Appiah Menka University of Skills Training and Entrepreneurial Development (Faculty of Applied Science and Mathematics Technology)
 
 **Degree**: BSc Information Technology Education
 
