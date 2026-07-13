@@ -45,7 +45,7 @@ export const prescriptionInclude = {
   patient: true,
   prescribedBy: true,
   items: true,
-  dispensing: true,
+  dispensings: { orderBy: { createdAt: "desc" as const } },
 } satisfies Prisma.PrescriptionInclude
 
 export const referralInclude = {
@@ -292,7 +292,7 @@ export function serializePrescription(prescription: PrescriptionRecord) {
       quantity: item.quantity,
       instructions: item.instructions,
     })),
-    dispensingStatus: prescription.dispensing?.status ?? null,
+    dispensingStatus: prescription.dispensings[0]?.status ?? null,
   }
 }
 

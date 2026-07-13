@@ -159,7 +159,7 @@ export function ClinicianShell({
               <Menu className="size-4" />
             </Button>
             <p className="font-heading text-lg font-bold text-primary md:text-xl">
-              KHMS EHR
+              KHIP
             </p>
             <div className="hidden h-9 w-72 items-center gap-2 rounded border border-input bg-surface-container-low px-3 md:flex">
               <Search className="size-4 text-muted-foreground" />
