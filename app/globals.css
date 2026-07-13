@@ -92,6 +92,22 @@
     --radius-4xl: 0.75rem;
 }
 
+@media print {
+  body.printing-label * {
+    visibility: hidden;
+  }
+  body.printing-label .print-label,
+  body.printing-label .print-label * {
+    visibility: visible;
+  }
+  body.printing-label .print-label {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 4in;
+    border: 0;
+  }
+}
+
 :root {
     --surface: #f8f9ff;
     --surface-dim: #cbdbf5;

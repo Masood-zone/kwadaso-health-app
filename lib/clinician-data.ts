@@ -412,7 +412,8 @@ export async function getPatientClinicalProfile(
     prisma.labResult.findMany({
       where: {
         patientId,
-        status: { in: ["VALIDATED", "RELEASED"] },
+        status: "RELEASED",
+        test: { facilityId },
         OR: [{ encounter: { facilityId } }, { encounterId: null }],
       },
       include: labResultInclude,

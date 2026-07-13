@@ -491,6 +491,7 @@ model Facility {
   toReferrals        Referral[]        @relation("ReferralToFacility")
   reportExports      ReportExport[]
   notifications      Notification[]    @relation("FacilityNotifications")
+  labTestCatalog     LabTestCatalog[]  @relation("FacilityLabTestCatalog")
   offlineSyncJobs    OfflineSyncJob[]
 
   @@index([type])
@@ -887,7 +888,8 @@ model Diagnosis {
 
 model LabTestCatalog {
   id              String   @id @default(cuid())
-  code            String   @unique
+  facilityId      String
+  code            String
   name            String
   category        String?
   sampleType      String?
@@ -899,11 +901,39 @@ model LabTestCatalog {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  requestTests LabRequestTest[]
-  results      LabResult[]
+  facility             Facility                     @relation("FacilityLabTestCatalog", fields: [facilityId], references: [id], onDelete: Cascade)
+  parameterDefinitions LabTestParameterDefinition[]
+  requestTests         LabRequestTest[]
+  results              LabResult[]
 
+  @@unique([facilityId, code])
+  @@index([facilityId])
   @@index([name])
   @@index([category])
+  @@index([isActive])
+}
+
+model LabTestParameterDefinition {
+  id               String   @id @default(cuid())
+  labTestCatalogId String
+  name             String
+  unit             String?
+  referenceRange   String?
+  referenceLow     Decimal? @db.Decimal(18, 6)
+  referenceHigh    Decimal? @db.Decimal(18, 6)
+  criticalLow      Decimal? @db.Decimal(18, 6)
+  criticalHigh     Decimal? @db.Decimal(18, 6)
+  isRequired       Boolean  @default(true)
+  sortOrder        Int      @default(0)
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  labTestCatalog LabTestCatalog  @relation(fields: [labTestCatalogId], references: [id], onDelete: Cascade)
+  resultItems    LabResultItem[]
+
+  @@unique([labTestCatalogId, name])
+  @@index([labTestCatalogId])
   @@index([isActive])
 }
 
@@ -966,9 +996,10 @@ model LabSample {
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
-  labRequest  LabRequest @relation(fields: [labRequestId], references: [id], onDelete: Cascade)
-  collectedBy User?      @relation("LabSampleCollectedBy", fields: [collectedById], references: [id], onDelete: SetNull)
-  receivedBy  User?      @relation("LabSampleReceivedBy", fields: [receivedById], references: [id], onDelete: SetNull)
+  labRequest  LabRequest  @relation(fields: [labRequestId], references: [id], onDelete: Cascade)
+  collectedBy User?       @relation("LabSampleCollectedBy", fields: [collectedById], references: [id], onDelete: SetNull)
+  receivedBy  User?       @relation("LabSampleReceivedBy", fields: [receivedById], references: [id], onDelete: SetNull)
+  results     LabResult[]
 
   @@index([labRequestId])
   @@index([collectedById])
@@ -984,6 +1015,7 @@ model LabResult {
   patientId        String
   encounterId      String?
   testId           String
+  labSampleId      String?
   status           LabResultStatus @default(DRAFT)
   resultText       String?
   abnormalFlag     Boolean         @default(false)
@@ -994,6 +1026,7 @@ model LabResult {
   validatedAt      DateTime?
   releasedAt       DateTime?
   notes            String?
+  validationNote   String?
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
 
@@ -1001,6 +1034,7 @@ model LabResult {
   patient     Patient         @relation(fields: [patientId], references: [id], onDelete: Cascade)
   encounter   Encounter?      @relation(fields: [encounterId], references: [id], onDelete: SetNull)
   test        LabTestCatalog  @relation(fields: [testId], references: [id])
+  labSample   LabSample?      @relation(fields: [labSampleId], references: [id], onDelete: SetNull)
   enteredBy   User?           @relation("LabResultEnteredBy", fields: [enteredById], references: [id], onDelete: SetNull)
   validatedBy User?           @relation("LabResultValidatedBy", fields: [validatedById], references: [id], onDelete: SetNull)
   items       LabResultItem[]
@@ -1008,6 +1042,7 @@ model LabResult {
   @@index([patientId])
   @@index([encounterId])
   @@index([testId])
+  @@index([labSampleId])
   @@index([enteredById])
   @@index([validatedById])
   @@index([status])
@@ -1015,18 +1050,23 @@ model LabResult {
 }
 
 model LabResultItem {
-  id             String   @id @default(cuid())
-  labResultId    String
-  parameterName  String
-  value          String?
-  unit           String?
-  referenceRange String?
-  isAbnormal     Boolean  @default(false)
-  createdAt      DateTime @default(now())
+  id                    String   @id @default(cuid())
+  labResultId           String
+  parameterDefinitionId String?
+  parameterName         String
+  value                 String?
+  unit                  String?
+  referenceRange        String?
+  isAbnormal            Boolean  @default(false)
+  isCritical            Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
 
-  labResult LabResult @relation(fields: [labResultId], references: [id], onDelete: Cascade)
+  labResult           LabResult                   @relation(fields: [labResultId], references: [id], onDelete: Cascade)
+  parameterDefinition LabTestParameterDefinition? @relation(fields: [parameterDefinitionId], references: [id], onDelete: SetNull)
 
   @@index([labResultId])
+  @@index([parameterDefinitionId])
 }
 
 // =============================

@@ -6,6 +6,7 @@ export const dashboardRoutes: Partial<Record<StaffRole, string>> = {
   RECORDS_OFFICER: "/records-officer",
   FRONT_DESK: "/records-officer",
   NURSE: "/nurse/dashboard",
+  LAB_TECHNICIAN: "/laboratory",
   DOCTOR: "/clinician",
   PHYSICIAN_ASSISTANT: "/clinician",
 }

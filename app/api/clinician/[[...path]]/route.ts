@@ -18,6 +18,7 @@ import {
   requireClinicianApi,
   writeClinicianAuditLog,
 } from "@/lib/clinician"
+import { reconcileEncounterAfterLaboratory } from "@/lib/laboratory"
 import {
   clinicalNoteInclude,
   clinicianEncounterInclude,
@@ -412,7 +413,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
           orderBy: { name: "asc" },
         }),
         prisma.labTestCatalog.findMany({
-          where: { isActive: true },
+          where: { facilityId: actor!.facilityId, isActive: true },
           orderBy: { name: "asc" },
         }),
         prisma.medication.findMany({
@@ -640,7 +641,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
   if (resource === "lab-results") {
     const where: Prisma.LabResultWhereInput = {
       encounter: { facilityId: actor!.facilityId },
-      status: { in: [LabResultStatus.VALIDATED, LabResultStatus.RELEASED] },
+      status: LabResultStatus.RELEASED,
     }
     if (id) {
       const record = await prisma.labResult.findFirst({
@@ -967,6 +968,7 @@ export async function POST(request: NextRequest, context: RouteContext) {
         const tests = await tx.labTestCatalog.count({
           where: {
             id: { in: parsed.data.tests.map((item) => item.testId) },
+            facilityId: actor!.facilityId,
             isActive: true,
           },
         })
@@ -1651,6 +1653,12 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
           before: { status: before.status },
           after: { status: updated.status },
         })
+        if (parsed.data.cancel) {
+          await reconcileEncounterAfterLaboratory(tx, updated.encounterId, {
+            request,
+            actor: actor!,
+          })
+        }
         return updated
       })
       return ok(serializeLabRequest(row))
