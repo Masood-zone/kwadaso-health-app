@@ -1,24 +1,35 @@
--- Repair the recorded-but-missing laboratory migration using the facility code
--- that exists in this database.
-ALTER TABLE "LabTestCatalog" ADD COLUMN "facilityId" TEXT;
+-- Repair migration: Add facilityId to LabTestCatalog if not exists
+-- and create LabTestParameterDefinition table if not exists
 
-UPDATE "LabTestCatalog"
-SET "facilityId" = (
-  SELECT "id" FROM "Facility" WHERE "code" = 'KWADASO-HEALTHLINK' LIMIT 1
-)
-WHERE "facilityId" IS NULL;
+-- Add facilityId column if it doesn't exist
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'LabTestCatalog' AND column_name = 'facilityId'
+  ) THEN
+    ALTER TABLE "LabTestCatalog" ADD COLUMN "facilityId" TEXT;
 
-ALTER TABLE "LabTestCatalog" ALTER COLUMN "facilityId" SET NOT NULL;
-DROP INDEX IF EXISTS "LabTestCatalog_code_key";
-CREATE UNIQUE INDEX "LabTestCatalog_facilityId_code_key" ON "LabTestCatalog"("facilityId", "code");
-CREATE INDEX "LabTestCatalog_facilityId_idx" ON "LabTestCatalog"("facilityId");
+    UPDATE "LabTestCatalog"
+    SET "facilityId" = (
+      SELECT "id" FROM "Facility" WHERE "code" = 'SDA-KWADASO' LIMIT 1
+    )
+    WHERE "facilityId" IS NULL;
 
-ALTER TABLE "LabTestCatalog"
-ADD CONSTRAINT "LabTestCatalog_facilityId_fkey"
-FOREIGN KEY ("facilityId") REFERENCES "Facility"("id")
-ON DELETE CASCADE ON UPDATE CASCADE;
+    ALTER TABLE "LabTestCatalog" ALTER COLUMN "facilityId" SET NOT NULL;
+    DROP INDEX IF EXISTS "LabTestCatalog_code_key";
+    CREATE UNIQUE INDEX "LabTestCatalog_facilityId_code_key" ON "LabTestCatalog"("facilityId", "code");
+    CREATE INDEX "LabTestCatalog_facilityId_idx" ON "LabTestCatalog"("facilityId");
 
-CREATE TABLE "LabTestParameterDefinition" (
+    ALTER TABLE "LabTestCatalog"
+    ADD CONSTRAINT "LabTestCatalog_facilityId_fkey"
+    FOREIGN KEY ("facilityId") REFERENCES "Facility"("id")
+    ON DELETE CASCADE ON UPDATE CASCADE;
+  END IF;
+END $$;
+
+-- Create LabTestParameterDefinition table if it doesn't exist
+CREATE TABLE IF NOT EXISTS "LabTestParameterDefinition" (
   "id" TEXT NOT NULL,
   "labTestCatalogId" TEXT NOT NULL,
   "name" TEXT NOT NULL,
@@ -36,31 +47,57 @@ CREATE TABLE "LabTestParameterDefinition" (
   CONSTRAINT "LabTestParameterDefinition_pkey" PRIMARY KEY ("id")
 );
 
-CREATE UNIQUE INDEX "LabTestParameterDefinition_labTestCatalogId_name_key"
+CREATE UNIQUE INDEX IF NOT EXISTS "LabTestParameterDefinition_labTestCatalogId_name_key"
 ON "LabTestParameterDefinition"("labTestCatalogId", "name");
-CREATE INDEX "LabTestParameterDefinition_labTestCatalogId_idx"
+CREATE INDEX IF NOT EXISTS "LabTestParameterDefinition_labTestCatalogId_idx"
 ON "LabTestParameterDefinition"("labTestCatalogId");
-CREATE INDEX "LabTestParameterDefinition_isActive_idx"
+CREATE INDEX IF NOT EXISTS "LabTestParameterDefinition_isActive_idx"
 ON "LabTestParameterDefinition"("isActive");
 
-ALTER TABLE "LabTestParameterDefinition"
-ADD CONSTRAINT "LabTestParameterDefinition_labTestCatalogId_fkey"
-FOREIGN KEY ("labTestCatalogId") REFERENCES "LabTestCatalog"("id")
-ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.table_constraints
+    WHERE constraint_name = 'LabTestParameterDefinition_labTestCatalogId_fkey'
+  ) THEN
+    ALTER TABLE "LabTestParameterDefinition"
+    ADD CONSTRAINT "LabTestParameterDefinition_labTestCatalogId_fkey"
+    FOREIGN KEY ("labTestCatalogId") REFERENCES "LabTestCatalog"("id")
+    ON DELETE CASCADE ON UPDATE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE "LabResult" ADD COLUMN "labSampleId" TEXT;
-ALTER TABLE "LabResult" ADD COLUMN "validationNote" TEXT;
-CREATE INDEX "LabResult_labSampleId_idx" ON "LabResult"("labSampleId");
-ALTER TABLE "LabResult"
-ADD CONSTRAINT "LabResult_labSampleId_fkey"
-FOREIGN KEY ("labSampleId") REFERENCES "LabSample"("id")
-ON DELETE SET NULL ON UPDATE CASCADE;
+-- Add labSampleId to LabResult if not exists
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'LabResult' AND column_name = 'labSampleId'
+  ) THEN
+    ALTER TABLE "LabResult" ADD COLUMN "labSampleId" TEXT;
+    ALTER TABLE "LabResult" ADD COLUMN "validationNote" TEXT;
+    CREATE INDEX "LabResult_labSampleId_idx" ON "LabResult"("labSampleId");
+    ALTER TABLE "LabResult"
+    ADD CONSTRAINT "LabResult_labSampleId_fkey"
+    FOREIGN KEY ("labSampleId") REFERENCES "LabSample"("id")
+    ON DELETE SET NULL ON UPDATE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE "LabResultItem" ADD COLUMN "parameterDefinitionId" TEXT;
-ALTER TABLE "LabResultItem" ADD COLUMN "isCritical" BOOLEAN NOT NULL DEFAULT false;
-ALTER TABLE "LabResultItem" ADD COLUMN "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
-CREATE INDEX "LabResultItem_parameterDefinitionId_idx" ON "LabResultItem"("parameterDefinitionId");
-ALTER TABLE "LabResultItem"
-ADD CONSTRAINT "LabResultItem_parameterDefinitionId_fkey"
-FOREIGN KEY ("parameterDefinitionId") REFERENCES "LabTestParameterDefinition"("id")
-ON DELETE SET NULL ON UPDATE CASCADE;
+-- Add columns to LabResultItem if not exists
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'LabResultItem' AND column_name = 'parameterDefinitionId'
+  ) THEN
+    ALTER TABLE "LabResultItem" ADD COLUMN "parameterDefinitionId" TEXT;
+    ALTER TABLE "LabResultItem" ADD COLUMN "isCritical" BOOLEAN NOT NULL DEFAULT false;
+    ALTER TABLE "LabResultItem" ADD COLUMN "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
+    CREATE INDEX "LabResultItem_parameterDefinitionId_idx" ON "LabResultItem"("parameterDefinitionId");
+    ALTER TABLE "LabResultItem"
+    ADD CONSTRAINT "LabResultItem_parameterDefinitionId_fkey"
+    FOREIGN KEY ("parameterDefinitionId") REFERENCES "LabTestParameterDefinition"("id")
+    ON DELETE SET NULL ON UPDATE CASCADE;
+  END IF;
+END $$;
