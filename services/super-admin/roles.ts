@@ -46,6 +46,7 @@ export function useUpdateRolePermissions() {
     },
     onSuccess: (matrix) => {
       if (matrix) queryClient.setQueryData(["super-admin", "roles"], matrix)
+      void queryClient.invalidateQueries({ queryKey: dashboardQueryKeys.superAdmin })
       void queryClient.invalidateQueries({ queryKey: dashboardQueryKeys.superAdminSummary })
     },
   })

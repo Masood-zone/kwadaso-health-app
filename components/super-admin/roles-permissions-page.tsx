@@ -12,16 +12,14 @@ import {
   PageHeader,
   SectionHeader,
 } from "@/components/super-admin/super-admin-ui"
-import {
-  useRolePermissionMatrix,
-  useUpdateRolePermissions,
-} from "@/services/super-admin/roles"
+import { useSuperAdminDashboard } from "@/services/super-admin/dashboard"
+import { useUpdateRolePermissions } from "@/services/super-admin/roles"
 
 export function RolesPermissionsPage() {
-  const { data, isLoading, isError } = useRolePermissionMatrix()
+  const { data: dashboard, isLoading, isError } = useSuperAdminDashboard()
   const updateRolePermissions = useUpdateRolePermissions()
-  const roles = useMemo(() => data?.roles ?? [], [data?.roles])
-  const permissions = useMemo(() => data?.permissions ?? [], [data?.permissions])
+  const roles = useMemo(() => dashboard?.management.roles ?? [], [dashboard?.management.roles])
+  const permissions = useMemo(() => dashboard?.management.permissions ?? [], [dashboard?.management.permissions])
   const [selectedRoleId, setSelectedRoleId] = useState("")
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>([])
   const selectedRole = roles.find((role) => role.id === selectedRoleId) ?? roles[0]
@@ -51,6 +49,36 @@ export function RolesPermissionsPage() {
   }
 
   if (isError) return <DashboardError message="Role permissions could not be loaded." />
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <PageHeader
+          eyebrow="Admin / Access Control"
+          title="Access Control Management"
+          description="Define granular permissions for hospital staff roles across clinical and administrative modules."
+        />
+        <div className="grid grid-cols-1 gap-5 xl:grid-cols-[340px_minmax(0,1fr)]">
+          <div className="khms-card animate-pulse p-5">
+            <div className="h-8 w-32 rounded bg-muted" />
+            <div className="mt-4 space-y-3">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-16 rounded bg-muted" />
+              ))}
+            </div>
+          </div>
+          <div className="khms-card animate-pulse p-5">
+            <div className="h-8 w-48 rounded bg-muted" />
+            <div className="mt-4 grid grid-cols-2 gap-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-32 rounded bg-muted" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">
