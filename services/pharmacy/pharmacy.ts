@@ -4,6 +4,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import api from "@/lib/axios"
 import { toApiClientError } from "@/lib/api-client-error"
+import { dashboardQueryKeys } from "@/lib/query-keys"
+import { queryFreshness } from "@/lib/query-client"
 import type { ApiResponse } from "@/types"
 import type {
   DispensingCreatePayload,
@@ -63,15 +65,18 @@ function withQuery(path: string, filters: Record<string, unknown> = {}) {
   return params.size ? `${path}?${params}` : path
 }
 
-function usePharmacyInvalidation() {
+function usePharmacyInvalidation(...queryKeys: ReadonlyArray<readonly unknown[]>) {
   const client = useQueryClient()
-  return () => client.invalidateQueries({ queryKey: ["pharmacy"] })
+  return () => queryKeys.forEach((queryKey) => {
+    void client.invalidateQueries({ queryKey })
+  })
 }
 
 export function usePharmacyDashboard() {
   return useQuery({
-    queryKey: ["pharmacy", "dashboard"],
+    queryKey: dashboardQueryKeys.pharmacy,
     queryFn: () => getData<PharmacyDashboardSummary>("/pharmacy/dashboard"),
+    staleTime: queryFreshness.dashboard,
   })
 }
 export function usePharmacyLookups() {
@@ -81,7 +86,7 @@ export function usePharmacyLookups() {
       getData<Record<string, Array<Record<string, unknown>>>>(
         "/pharmacy/lookups"
       ),
-    staleTime: 300000,
+    staleTime: queryFreshness.lookup,
   })
 }
 export function usePharmacyPrescriptions(filters: PrescriptionFilters = {}) {
@@ -91,6 +96,9 @@ export function usePharmacyPrescriptions(filters: PrescriptionFilters = {}) {
       getData<PharmacyPage<PrescriptionQueueItem>>(
         withQuery("/pharmacy/prescriptions", filters)
       ),
+    staleTime: queryFreshness.live,
+    refetchInterval: 15_000,
+    refetchIntervalInBackground: false,
   })
 }
 export function usePharmacyPrescription(id?: string) {
@@ -101,7 +109,7 @@ export function usePharmacyPrescription(id?: string) {
   })
 }
 export function useCancelPrescription(id: string) {
-  const invalidate = usePharmacyInvalidation()
+  const invalidate = usePharmacyInvalidation(["pharmacy", "prescriptions"], ["pharmacy", "prescription", id], dashboardQueryKeys.pharmacy)
   return useMutation({
     mutationFn: (cancellationReason: string) =>
       mutateData<
@@ -115,7 +123,7 @@ export function useCancelPrescription(id: string) {
   })
 }
 export function useReleasePrescriptionExternally(id: string) {
-  const invalidate = usePharmacyInvalidation()
+  const invalidate = usePharmacyInvalidation(["pharmacy", "prescriptions"], ["pharmacy", "prescription", id], dashboardQueryKeys.pharmacy)
   return useMutation({
     mutationFn: (reason: string) =>
       mutateData<PrescriptionDetail, { reason: string }>(
@@ -127,7 +135,7 @@ export function useReleasePrescriptionExternally(id: string) {
   })
 }
 export function useDispensePrescription(id: string) {
-  const invalidate = usePharmacyInvalidation()
+  const invalidate = usePharmacyInvalidation(["pharmacy", "prescriptions"], ["pharmacy", "prescription", id], ["pharmacy", "dispensing"], ["pharmacy", "stock"], dashboardQueryKeys.pharmacy)
   return useMutation({
     mutationFn: (payload: DispensingCreatePayload) =>
       mutateData<Record<string, unknown>, DispensingCreatePayload>(
@@ -167,7 +175,7 @@ export function useMedications(filters: Record<string, unknown> = {}) {
   })
 }
 export function useCreateMedication() {
-  const invalidate = usePharmacyInvalidation()
+  const invalidate = usePharmacyInvalidation(["pharmacy", "medications"], ["pharmacy", "lookups"])
   return useMutation({
     mutationFn: (payload: MedicationCreatePayload) =>
       mutateData<MedicationCatalogItem, MedicationCreatePayload>(
@@ -179,7 +187,7 @@ export function useCreateMedication() {
   })
 }
 export function useUpdateMedication(id: string) {
-  const invalidate = usePharmacyInvalidation()
+  const invalidate = usePharmacyInvalidation(["pharmacy", "medications"], ["pharmacy", "lookups"])
   return useMutation({
     mutationFn: (payload: MedicationUpdatePayload) =>
       mutateData<MedicationCatalogItem, MedicationUpdatePayload>(
@@ -208,7 +216,7 @@ export function useStockDetail(id?: string) {
   })
 }
 export function useCreateStock() {
-  const invalidate = usePharmacyInvalidation()
+  const invalidate = usePharmacyInvalidation(["pharmacy", "stock"], ["pharmacy", "low-stock"], ["pharmacy", "expired"], dashboardQueryKeys.pharmacy)
   return useMutation({
     mutationFn: (payload: StockCreatePayload) =>
       mutateData<MedicationStockItem, StockCreatePayload>(
@@ -220,7 +228,7 @@ export function useCreateStock() {
   })
 }
 export function useUpdateStock(id: string) {
-  const invalidate = usePharmacyInvalidation()
+  const invalidate = usePharmacyInvalidation(["pharmacy", "stock"], ["pharmacy", "stock", id], ["pharmacy", "low-stock"], ["pharmacy", "expired"], dashboardQueryKeys.pharmacy)
   return useMutation({
     mutationFn: (payload: StockUpdatePayload) =>
       mutateData<MedicationStockItem, StockUpdatePayload>(
@@ -232,7 +240,7 @@ export function useUpdateStock(id: string) {
   })
 }
 export function useCreateMovement(id: string) {
-  const invalidate = usePharmacyInvalidation()
+  const invalidate = usePharmacyInvalidation(["pharmacy", "stock"], ["pharmacy", "stock", id], ["pharmacy", "stock-movements"], ["pharmacy", "low-stock"], ["pharmacy", "expired"], dashboardQueryKeys.pharmacy)
   return useMutation({
     mutationFn: (payload: StockMovementPayload) =>
       mutateData<Record<string, unknown>, StockMovementPayload>(
@@ -244,7 +252,7 @@ export function useCreateMovement(id: string) {
   })
 }
 export function useWriteOffStock(id: string, kind: "expired" | "damaged") {
-  const invalidate = usePharmacyInvalidation()
+  const invalidate = usePharmacyInvalidation(["pharmacy", "stock"], ["pharmacy", "stock", id], ["pharmacy", "stock-movements"], ["pharmacy", "low-stock"], ["pharmacy", "expired"], dashboardQueryKeys.pharmacy)
   return useMutation({
     mutationFn: (payload: {
       quantity: number
@@ -295,7 +303,7 @@ export function useExpiredStock() {
   })
 }
 export function useCreateReorder(stockId: string) {
-  const invalidate = usePharmacyInvalidation()
+  const invalidate = usePharmacyInvalidation(["pharmacy", "low-stock"], ["pharmacy", "stock", stockId], dashboardQueryKeys.pharmacy)
   return useMutation({
     mutationFn: (payload: {
       requestedQuantity: number
@@ -310,7 +318,7 @@ export function useCreateReorder(stockId: string) {
   })
 }
 export function useUpdateReorder(id: string) {
-  const invalidate = usePharmacyInvalidation()
+  const invalidate = usePharmacyInvalidation(["pharmacy", "low-stock"], ["pharmacy", "stock"], dashboardQueryKeys.pharmacy)
   return useMutation({
     mutationFn: (payload: {
       status: "REQUESTED" | "ORDERED" | "RECEIVED" | "CANCELLED"
@@ -352,7 +360,7 @@ export function usePharmacyReports(filters: PharmacyReportFilters = {}) {
   })
 }
 export function useExportPharmacyReport() {
-  const invalidate = usePharmacyInvalidation()
+  const invalidate = usePharmacyInvalidation(["pharmacy", "reports"])
   return useMutation({
     mutationFn: (payload: PharmacyReportFilters & { type?: string }) =>
       mutateData<Record<string, unknown>, typeof payload>(
@@ -375,7 +383,7 @@ export function usePharmacyNotifications(
   })
 }
 export function useUpdatePharmacyNotification(id: string) {
-  const invalidate = usePharmacyInvalidation()
+  const invalidate = usePharmacyInvalidation(["pharmacy", "notifications"])
   return useMutation({
     mutationFn: (status: "READ" | "ARCHIVED") =>
       mutateData<PharmacyNotificationItem, { status: "READ" | "ARCHIVED" }>(

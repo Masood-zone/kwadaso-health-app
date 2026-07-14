@@ -63,6 +63,7 @@ export async function GET(request: NextRequest) {
         : {}),
     },
     orderBy: { createdAt: "desc" },
+    take: 100,
     include: { department: true, facility: true },
   })
 
@@ -75,7 +76,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const { staff: actor, response } = await requireRoleApi(request, [
     "SUPER_ADMIN",
-  ])
+  ], { forceFreshSession: true })
   if (response) return response
 
   const parsed = staffSchema.safeParse(await request.json())

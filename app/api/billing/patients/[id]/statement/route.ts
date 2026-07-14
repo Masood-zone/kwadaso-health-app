@@ -12,8 +12,8 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
     const invoiceDate = dateRange(params, "createdAt")
     const paymentDate = dateRange(params, "paidAt")
     const [invoices, payments] = await Promise.all([
-      prisma.invoice.findMany({ where: { patientId: id, facilityId: actor.facilityId, ...invoiceDate }, include: billingInvoiceInclude, orderBy: { createdAt: "asc" } }),
-      prisma.payment.findMany({ where: { invoice: { patientId: id, facilityId: actor.facilityId }, ...paymentDate }, include: billingPaymentInclude, orderBy: { createdAt: "asc" } }),
+      prisma.invoice.findMany({ where: { patientId: id, facilityId: actor.facilityId, ...invoiceDate }, include: billingInvoiceInclude, orderBy: { createdAt: "asc" }, take: 500 }),
+      prisma.payment.findMany({ where: { invoice: { patientId: id, facilityId: actor.facilityId }, ...paymentDate }, include: billingPaymentInclude, orderBy: { createdAt: "asc" }, take: 500 }),
     ])
     const data: PatientBillingStatement = {
       patient: { id: patient.id, patientNo: patient.patientNo, name: fullName(patient), phone: patient.phone, nhisNumber: patient.nhisNumber },

@@ -1,3 +1,4 @@
+import { cache } from "react"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 import type { NextRequest } from "next/server"
@@ -11,9 +12,36 @@ export type AuthenticatedStaff = NonNullable<
   Awaited<ReturnType<typeof getCurrentStaff>>
 >
 
-export async function getCurrentStaff(request?: NextRequest | Request) {
+const authenticatedStaffSelect = {
+  id: true,
+  staffId: true,
+  email: true,
+  name: true,
+  firstName: true,
+  lastName: true,
+  otherNames: true,
+  phone: true,
+  jobTitle: true,
+  defaultRole: true,
+  status: true,
+  facilityId: true,
+  departmentId: true,
+  facility: { select: { id: true, name: true } },
+  department: {
+    select: { id: true, name: true, type: true, isActive: true },
+  },
+  roles: { select: { roleId: true } },
+} as const
+
+async function loadCurrentStaff(
+  requestHeaders: Headers,
+  forceFreshSession = false
+) {
   const session = await auth.api.getSession({
-    headers: request?.headers ?? (await headers()),
+    headers: requestHeaders,
+    ...(forceFreshSession
+      ? { query: { disableCookieCache: true } }
+      : {}),
   })
 
   const userId = session?.user?.id
@@ -21,16 +49,26 @@ export async function getCurrentStaff(request?: NextRequest | Request) {
 
   return prisma.user.findUnique({
     where: { id: userId },
-    include: {
-      department: true,
-      facility: true,
-      roles: {
-        include: {
-          role: true,
-        },
-      },
-    },
+    select: authenticatedStaffSelect,
   })
+}
+
+const getCurrentStaffForPage = cache(async () =>
+  loadCurrentStaff(await headers())
+)
+
+export async function getCurrentStaff(
+  request?: NextRequest | Request,
+  options: { forceFreshSession?: boolean } = {}
+) {
+  if (!request && !options.forceFreshSession) {
+    return getCurrentStaffForPage()
+  }
+
+  return loadCurrentStaff(
+    request?.headers ?? (await headers()),
+    options.forceFreshSession
+  )
 }
 
 export async function requireStaffPage(currentPath: string) {
@@ -76,9 +114,10 @@ export async function redirectToStaffDashboard() {
 
 export async function requireRoleApi(
   request: NextRequest,
-  allowedRoles: StaffRole[]
+  allowedRoles: StaffRole[],
+  options: { forceFreshSession?: boolean } = {}
 ) {
-  const staff = await getCurrentStaff(request)
+  const staff = await getCurrentStaff(request, options)
 
   if (!staff) {
     return {

@@ -3,6 +3,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import api from "@/lib/axios"
+import { dashboardQueryKeys } from "@/lib/query-keys"
+import { setOptimisticQueryData } from "@/lib/query-cache"
 import type { ApiResponse } from "@/types"
 import type { SuperAdminSettingsData } from "@/types/super-admin"
 
@@ -38,6 +40,15 @@ export function useUpdateSettings() {
       }
       return response.data.data
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["super-admin"] }),
+    onMutate: async (settings) => {
+      const queryKey = ["super-admin", "settings"] as const
+      await queryClient.cancelQueries({ queryKey, exact: true })
+      return { rollback: setOptimisticQueryData(queryClient, queryKey, settings) }
+    },
+    onError: (_error, _settings, context) => context?.rollback(),
+    onSuccess: (settings) => {
+      queryClient.setQueryData(["super-admin", "settings"], settings)
+      void queryClient.invalidateQueries({ queryKey: dashboardQueryKeys.superAdminSummary })
+    },
   })
 }

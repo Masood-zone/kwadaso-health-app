@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import api from "@/lib/axios"
+import { dashboardQueryKeys } from "@/lib/query-keys"
 import type { ApiResponse } from "@/types"
 import type {
   SuperAdminPermission,
@@ -43,6 +44,9 @@ export function useUpdateRolePermissions() {
       }
       return response.data.data
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["super-admin"] }),
+    onSuccess: (matrix) => {
+      if (matrix) queryClient.setQueryData(["super-admin", "roles"], matrix)
+      void queryClient.invalidateQueries({ queryKey: dashboardQueryKeys.superAdminSummary })
+    },
   })
 }

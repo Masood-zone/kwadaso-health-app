@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import api from "@/lib/axios"
+import { dashboardQueryKeys } from "@/lib/query-keys"
 import type { ApiResponse } from "@/types"
 import type { SuperAdminDepartmentSummary } from "@/types/super-admin"
 
@@ -42,7 +43,13 @@ export function useCreateDepartment() {
       }
       return response.data.data
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["super-admin"] }),
+    onSuccess: (department) => {
+      queryClient.setQueryData<SuperAdminDepartmentSummary[]>(
+        ["super-admin", "departments"],
+        (current) => current ? [department, ...current.filter((item) => item.id !== department.id)] : current
+      )
+      void queryClient.invalidateQueries({ queryKey: dashboardQueryKeys.superAdminSummary })
+    },
   })
 }
 
@@ -66,6 +73,12 @@ export function useUpdateDepartment() {
       }
       return response.data.data
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["super-admin"] }),
+    onSuccess: (department) => {
+      queryClient.setQueryData<SuperAdminDepartmentSummary[]>(
+        ["super-admin", "departments"],
+        (current) => current?.map((item) => item.id === department.id ? department : item)
+      )
+      void queryClient.invalidateQueries({ queryKey: dashboardQueryKeys.superAdminSummary })
+    },
   })
 }

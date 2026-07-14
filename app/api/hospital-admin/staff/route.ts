@@ -54,6 +54,7 @@ export async function GET(request: NextRequest) {
         : {}),
     },
     orderBy: { createdAt: "desc" },
+    take: 100,
     include: { department: true },
   })
 
@@ -64,7 +65,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const { staff: actor, response } = await requireHospitalAdminApi(request)
+  const { staff: actor, response } = await requireHospitalAdminApi(request, {
+    forceFreshSession: true,
+  })
   if (response) return response
 
   const parsed = staffCreateSchema.safeParse(await request.json())

@@ -56,7 +56,9 @@ export async function PATCH(
   request: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
-  const { staff: actor, response } = await requireHospitalAdminApi(request)
+  const { staff: actor, response } = await requireHospitalAdminApi(request, {
+    forceFreshSession: true,
+  })
   if (response) return response
 
   const { id } = await context.params

@@ -60,8 +60,11 @@ export async function getSignedInHospitalAdmin(
   return getCurrentStaff(request)
 }
 
-export async function requireHospitalAdminApi(request: NextRequest) {
-  const result = await requireRoleApi(request, ["HOSPITAL_ADMIN"])
+export async function requireHospitalAdminApi(
+  request: NextRequest,
+  options: { forceFreshSession?: boolean } = {}
+) {
+  const result = await requireRoleApi(request, ["HOSPITAL_ADMIN"], options)
   if (result.response) return result
 
   if (!result.staff?.facilityId) {

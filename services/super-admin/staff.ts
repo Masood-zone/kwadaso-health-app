@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import api from "@/lib/axios"
+import { dashboardQueryKeys } from "@/lib/query-keys"
 import type { ApiResponse } from "@/types"
 import type { SuperAdminStaffSummary } from "@/types/super-admin"
 
@@ -61,8 +62,13 @@ export function useCreateStaff() {
       }
       return response.data.data
     },
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["super-admin"] }),
+    onSuccess: (staff) => {
+      queryClient.setQueriesData<SuperAdminStaffSummary[]>(
+        { queryKey: ["super-admin", "staff"] },
+        (current) => (current ? [staff, ...current.filter((item) => item.id !== staff.id)] : current)
+      )
+      void queryClient.invalidateQueries({ queryKey: dashboardQueryKeys.superAdminSummary })
+    },
   })
 }
 
@@ -90,7 +96,12 @@ export function useUpdateStaff() {
       }
       return response.data.data
     },
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["super-admin"] }),
+    onSuccess: (staff) => {
+      queryClient.setQueriesData<SuperAdminStaffSummary[]>(
+        { queryKey: ["super-admin", "staff"] },
+        (current) => current?.map((item) => (item.id === staff.id ? staff : item))
+      )
+      void queryClient.invalidateQueries({ queryKey: dashboardQueryKeys.superAdminSummary })
+    },
   })
 }

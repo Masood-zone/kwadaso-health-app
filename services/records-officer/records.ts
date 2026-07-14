@@ -3,6 +3,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import api from "@/lib/axios"
+import { dashboardQueryKeys } from "@/lib/query-keys"
+import { queryFreshness } from "@/lib/query-client"
 import type { ApiResponse } from "@/types"
 import type {
   RecordsOfficerAppointmentCreatePayload,
@@ -67,14 +69,16 @@ export function useRecordsOfficerLookups() {
   return useQuery({
     queryKey: ["records-officer", "lookups"],
     queryFn: () => getData<RecordsOfficerLookups>("/records-officer/lookups"),
+    staleTime: queryFreshness.lookup,
   })
 }
 
 export function useRecordsOfficerDashboard() {
   return useQuery({
-    queryKey: ["records-officer", "dashboard"],
+    queryKey: dashboardQueryKeys.recordsOfficer,
     queryFn: () =>
       getData<RecordsOfficerDashboardSummary>("/records-officer/dashboard"),
+    staleTime: queryFreshness.dashboard,
   })
 }
 
@@ -220,6 +224,9 @@ export function useRecordsOfficerQueue(filters?: RecordsOfficerQueueFilters) {
     queryKey: ["records-officer", "queue", filters],
     queryFn: () =>
       getData<RecordsOfficerQueueListItem[]>(query("/records-officer/queue", filters)),
+    staleTime: queryFreshness.live,
+    refetchInterval: 15_000,
+    refetchIntervalInBackground: false,
   })
 }
 

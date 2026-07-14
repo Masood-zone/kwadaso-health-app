@@ -72,7 +72,7 @@ export async function PATCH(
 ) {
   const { staff: actor, response } = await requireRoleApi(request, [
     "SUPER_ADMIN",
-  ])
+  ], { forceFreshSession: true })
   if (response) return response
 
   const { id } = await context.params

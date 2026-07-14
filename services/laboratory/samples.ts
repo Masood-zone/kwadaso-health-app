@@ -3,10 +3,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { laboratoryGet, laboratoryMutate, laboratoryQuery } from "@/services/laboratory/client"
+import { queryFreshness } from "@/lib/query-client"
 import type { LabSampleCreatePayload, LabSampleDetail, LabSampleFilters, LabSampleListItem, LabSampleUpdatePayload, LaboratoryPage } from "@/types/laboratory"
 
 export function useLabSamples(filters: LabSampleFilters = {}) {
-  return useQuery({ queryKey: ["laboratory", "samples", filters], queryFn: () => laboratoryGet<LaboratoryPage<LabSampleListItem>>(laboratoryQuery("/laboratory/samples", filters)) })
+  return useQuery({ queryKey: ["laboratory", "samples", filters], queryFn: () => laboratoryGet<LaboratoryPage<LabSampleListItem>>(laboratoryQuery("/laboratory/samples", filters)), staleTime: queryFreshness.live, refetchInterval: 15_000, refetchIntervalInBackground: false })
 }
 
 export function useLabSample(id?: string) {

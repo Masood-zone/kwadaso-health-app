@@ -3,6 +3,8 @@
 import { useQuery } from "@tanstack/react-query"
 
 import api from "@/lib/axios"
+import { dashboardQueryKeys } from "@/lib/query-keys"
+import { queryFreshness } from "@/lib/query-client"
 import type { ApiResponse } from "@/types"
 import type { NurseDashboardSummary } from "@/types/nurse"
 
@@ -20,7 +22,8 @@ export async function getNurseDashboard() {
 
 export function useNurseDashboard() {
   return useQuery({
-    queryKey: ["nurse", "dashboard"],
+    queryKey: dashboardQueryKeys.nurse,
     queryFn: getNurseDashboard,
+    staleTime: queryFreshness.dashboard,
   })
 }

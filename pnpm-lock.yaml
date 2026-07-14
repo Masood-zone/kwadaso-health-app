@@ -20,6 +20,9 @@ importers:
       '@prisma/client':
         specifier: ^7.8.0
         version: 7.8.0(prisma@7.8.0(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(typescript@5.9.3)
+      '@prisma/sqlcommenter-query-insights':
+        specifier: ^7.8.0
+        version: 7.8.0
       '@tanstack/react-query':
         specifier: ^5.101.1
         version: 5.101.1(react@19.2.4)
@@ -978,6 +981,9 @@ packages:
 
   '@prisma/query-plan-executor@7.2.0':
     resolution: {integrity: sha512-EOZmNzcV8uJ0mae3DhTsiHgoNCuu1J9mULQpGCh62zN3PxPTd+qI9tJvk5jOst8WHKQNwJWR3b39t0XvfBB0WQ==}
+
+  '@prisma/sqlcommenter-query-insights@7.8.0':
+    resolution: {integrity: sha512-MXQ4FprRVPKjBq5KhQNTta4dlf6a9eF+7hoVLwTrCaxMKeRd5ThSujIDoNNnpJUFVaKnwi5vk2qoBnXM/P3+9Q==}
 
   '@prisma/streams-local@0.1.2':
     resolution: {integrity: sha512-l49yTxKKF2odFxaAXTmwmkBKL3+bVQ1tFOooGifu4xkdb9NMNLxHj27XAhTylWZod8I+ISGM5erU1xcl/oBCtg==}
@@ -4951,6 +4957,8 @@ snapshots:
       '@prisma/debug': 7.8.0
 
   '@prisma/query-plan-executor@7.2.0': {}
+
+  '@prisma/sqlcommenter-query-insights@7.8.0': {}
 
   '@prisma/streams-local@0.1.2':
     dependencies:

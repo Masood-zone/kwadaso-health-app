@@ -23,9 +23,9 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
   if (!patient) return Response.json({ success: false, message: "Patient was not found." }, { status: 404 })
   const [profile, requests, samples, results] = await Promise.all([
     prisma.patient.findUniqueOrThrow({ where: { id }, include: { allergies: true, chronicConditions: true } }),
-    prisma.labRequest.findMany({ where: { patientId: id, ...laboratoryRequestScope(actor!.facilityId) }, include: { patient: true, requestedBy: true, tests: { include: { test: true } } }, orderBy: { requestedAt: "desc" } }),
-    prisma.labSample.findMany({ where: { labRequest: { patientId: id, ...laboratoryRequestScope(actor!.facilityId) } }, include: laboratorySampleInclude, orderBy: { createdAt: "desc" } }),
-    prisma.labResult.findMany({ where: { patientId: id, ...laboratoryResultScope(actor!.facilityId), status: { in: ["VALIDATED", "RELEASED"] } }, include: laboratoryResultInclude, orderBy: { createdAt: "desc" } }),
+    prisma.labRequest.findMany({ where: { patientId: id, ...laboratoryRequestScope(actor!.facilityId) }, include: { patient: true, requestedBy: true, tests: { include: { test: true } } }, orderBy: { requestedAt: "desc" }, take: 200 }),
+    prisma.labSample.findMany({ where: { labRequest: { patientId: id, ...laboratoryRequestScope(actor!.facilityId) } }, include: laboratorySampleInclude, orderBy: { createdAt: "desc" }, take: 200 }),
+    prisma.labResult.findMany({ where: { patientId: id, ...laboratoryResultScope(actor!.facilityId), status: { in: ["VALIDATED", "RELEASED"] } }, include: laboratoryResultInclude, orderBy: { createdAt: "desc" }, take: 200 }),
   ])
   const trendMap = new Map<string, LaboratoryPatientHistory["trends"][number]>()
   for (const result of [...results].reverse()) {

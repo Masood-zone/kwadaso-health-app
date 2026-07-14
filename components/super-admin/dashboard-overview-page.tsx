@@ -14,10 +14,11 @@ import {
   ResponsiveTable,
   SectionHeader,
 } from "@/components/super-admin/super-admin-ui"
-import { useSuperAdminDashboard } from "@/services/super-admin/dashboard"
+import { useSuperAdminDashboardSummary } from "@/services/super-admin/dashboard"
 
 export function DashboardOverviewPage() {
-  const { data: dashboard, isLoading, isError } = useSuperAdminDashboard()
+  const { data: dashboard, isLoading, isError } =
+    useSuperAdminDashboardSummary()
 
   if (isLoading) return <DashboardLoading />
   if (isError || !dashboard) {

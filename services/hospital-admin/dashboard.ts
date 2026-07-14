@@ -3,6 +3,8 @@
 import { useQuery } from "@tanstack/react-query"
 
 import api from "@/lib/axios"
+import { dashboardQueryKeys } from "@/lib/query-keys"
+import { queryFreshness } from "@/lib/query-client"
 import type { ApiResponse } from "@/types"
 import type {
   HospitalAdminAppointmentSummaryData,
@@ -32,8 +34,9 @@ export function getHospitalAdminDashboard() {
 
 export function useHospitalAdminDashboard() {
   return useQuery({
-    queryKey: ["hospital-admin", "dashboard"],
+    queryKey: dashboardQueryKeys.hospitalAdmin,
     queryFn: getHospitalAdminDashboard,
+    staleTime: queryFreshness.dashboard,
   })
 }
 

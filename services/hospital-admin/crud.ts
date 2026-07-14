@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import api from "@/lib/axios"
+import { queryFreshness } from "@/lib/query-client"
 import type { ApiResponse } from "@/types"
 import type {
   HospitalAdminAppointmentCreatePayload,
@@ -68,6 +69,7 @@ export function useHospitalAdminLookups() {
   return useQuery({
     queryKey: ["hospital-admin", "lookups"],
     queryFn: () => getData<HospitalAdminEnumLookups>("/hospital-admin/lookups"),
+    staleTime: queryFreshness.lookup,
   })
 }
 
@@ -233,6 +235,9 @@ export function useHospitalAdminQueue(filters?: HospitalAdminQueueFilters) {
       getData<HospitalAdminQueueItem[]>(
         query("/hospital-admin/queue", filters)
       ),
+    staleTime: queryFreshness.live,
+    refetchInterval: 15_000,
+    refetchIntervalInBackground: false,
   })
 }
 

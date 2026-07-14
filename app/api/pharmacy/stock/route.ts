@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   return withPharmacy(request, async (actor) => {
     const params = request.nextUrl.searchParams; const { page, pageSize, skip } = parsePharmacyPagination(params); const search = params.get("search")?.trim(); const batch = params.get("batch")?.trim(); const expiry = params.get("expiry"); const lowStock = params.get("lowStock") === "true"
     const where: Prisma.MedicationStockWhereInput = { facilityId: actor.facilityId, ...(batch ? { batchNumber: { contains: batch, mode: "insensitive" } } : {}), ...(search ? { medication: { facilityId: actor.facilityId, OR: [{ name: { contains: search, mode: "insensitive" } }, { genericName: { contains: search, mode: "insensitive" } }] } } : {}), ...(expiry === "expired" ? { expiryDate: { lt: new Date() } } : expiry === "soon" ? { expiryDate: { gte: new Date(), lte: new Date(Date.now() + 30 * 86400000) } } : {}) }
-    const all = await prisma.medicationStock.findMany({ where, include: { medication: true, movements: { include: { performedBy: true }, orderBy: { createdAt: "desc" } } }, orderBy: [{ expiryDate: "asc" }, { createdAt: "desc" }] })
+    const all = await prisma.medicationStock.findMany({ where, include: { medication: true, movements: { include: { performedBy: true }, orderBy: { createdAt: "desc" }, take: 20 } }, orderBy: [{ expiryDate: "asc" }, { createdAt: "desc" }], take: 500 })
     const filtered = lowStock ? all.filter((stock) => stock.quantityOnHand <= stock.medication.reorderLevel) : all
     return pharmacyOk(pharmacyPage(filtered.slice(skip, skip + pageSize).map(serializeStock), filtered.length, page, pageSize))
   })
@@ -30,4 +30,3 @@ export async function POST(request: NextRequest) {
     return pharmacyOk(serializeStock(row), "Stock batch created.", 201)
   })
 }
-

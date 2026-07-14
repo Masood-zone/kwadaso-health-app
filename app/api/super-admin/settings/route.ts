@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const { staff: actor, response } = await requireRoleApi(request, [
     "SUPER_ADMIN",
-  ])
+  ], { forceFreshSession: true })
   if (response) return response
 
   const parsed = settingsSchema.safeParse(await request.json())

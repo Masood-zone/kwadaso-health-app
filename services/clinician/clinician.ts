@@ -3,6 +3,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import api from "@/lib/axios"
+import { dashboardQueryKeys } from "@/lib/query-keys"
+import { queryFreshness } from "@/lib/query-client"
 import type { ApiResponse } from "@/types"
 import type {
   ClinicalNotePayload,
@@ -68,19 +70,23 @@ function withQuery(path: string, values: Record<string, unknown>) {
 }
 
 function useClinicalMutation<TData, TVariables>(
-  mutationFn: (variables: TVariables) => Promise<TData>
+  mutationFn: (variables: TVariables) => Promise<TData>,
+  affectedKeys: ReadonlyArray<readonly unknown[]>
 ) {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["clinician"] }),
+    onSuccess: () => affectedKeys.forEach((queryKey) => {
+      void queryClient.invalidateQueries({ queryKey })
+    }),
   })
 }
 
 export function useClinicianDashboard() {
   return useQuery({
-    queryKey: ["clinician", "dashboard"],
+    queryKey: dashboardQueryKeys.clinician,
     queryFn: () => getData<ClinicianDashboardSummary>("/clinician/dashboard"),
+    staleTime: queryFreshness.dashboard,
   })
 }
 
@@ -88,6 +94,7 @@ export function useClinicianLookups() {
   return useQuery({
     queryKey: ["clinician", "lookups"],
     queryFn: () => getData<ClinicianLookups>("/clinician/lookups"),
+    staleTime: queryFreshness.lookup,
   })
 }
 
@@ -98,6 +105,9 @@ export function useConsultationQueue(filters: ConsultationQueueFilters = {}) {
       getData<ConsultationQueueItem[]>(
         withQuery("/clinician/consultation-queue", filters)
       ),
+    staleTime: queryFreshness.live,
+    refetchInterval: 15_000,
+    refetchIntervalInBackground: false,
   })
 }
 
@@ -105,8 +115,9 @@ export function useUpdateConsultationQueue() {
   return useClinicalMutation<
     ConsultationQueueItem,
     { id: string; status: string; notes?: string; cancellationReason?: string }
-  >(({ id, ...payload }) =>
-    mutateData("patch", `/clinician/consultation-queue/${id}`, payload)
+  >(
+    ({ id, ...payload }) => mutateData("patch", `/clinician/consultation-queue/${id}`, payload),
+    [["clinician", "consultation-queue"], dashboardQueryKeys.clinician]
   )
 }
 
@@ -154,14 +165,14 @@ export function useCreateEncounter() {
   return useClinicalMutation<
     ClinicianEncounterListItem,
     EncounterCreatePayload
-  >((payload) => mutateData("post", "/clinician/encounters", payload))
+  >((payload) => mutateData("post", "/clinician/encounters", payload), [["clinician", "encounters"], ["clinician", "consultation-queue"], dashboardQueryKeys.clinician])
 }
 
 export function useUpdateEncounter(id: string) {
   return useClinicalMutation<
     ClinicianEncounterListItem,
     EncounterUpdatePayload
-  >((payload) => mutateData("patch", `/clinician/encounters/${id}`, payload))
+  >((payload) => mutateData("patch", `/clinician/encounters/${id}`, payload), [["clinician", "encounters"], ["clinician", "encounter", id], dashboardQueryKeys.clinician])
 }
 
 export function useSaveClinicalNote(encounterId: string) {
@@ -173,7 +184,8 @@ export function useSaveClinicalNote(encounterId: string) {
       noteId ? "patch" : "post",
       `/clinician/encounters/${encounterId}/clinical-notes${noteId ? `/${noteId}` : ""}`,
       payload
-    )
+    ),
+    [["clinician", "encounter", encounterId]]
   )
 }
 
@@ -186,7 +198,8 @@ export function useSaveDiagnosis(encounterId: string) {
       diagnosisId ? "patch" : "post",
       `/clinician/encounters/${encounterId}/diagnoses${diagnosisId ? `/${diagnosisId}` : ""}`,
       payload
-    )
+    ),
+    [["clinician", "encounter", encounterId]]
   )
 }
 
@@ -195,7 +208,7 @@ export function useDeleteDiagnosis(encounterId: string) {
     mutateData(
       "delete",
       `/clinician/encounters/${encounterId}/diagnoses/${diagnosisId}`
-    )
+    ), [["clinician", "encounter", encounterId]]
   )
 }
 
@@ -220,7 +233,8 @@ export function useCreateLabRequest(encounterId: string) {
         "post",
         `/clinician/encounters/${encounterId}/lab-requests`,
         payload
-      )
+      ),
+    [["clinician", "lab-requests"], ["clinician", "encounter", encounterId], dashboardQueryKeys.clinician]
   )
 }
 
@@ -238,7 +252,8 @@ export function useCreatePrescription(encounterId: string) {
         "post",
         `/clinician/encounters/${encounterId}/prescriptions`,
         payload
-      )
+      ),
+    [["clinician", "prescriptions"], ["clinician", "encounter", encounterId], dashboardQueryKeys.clinician]
   )
 }
 
@@ -255,7 +270,8 @@ export function useCreateReferral(encounterId: string) {
       "post",
       `/clinician/encounters/${encounterId}/referrals`,
       payload
-    )
+    ),
+    [["clinician", "referrals"], ["clinician", "encounter", encounterId]]
   )
 }
 
@@ -273,7 +289,8 @@ export function useCreateFollowUp(encounterId: string) {
         "post",
         `/clinician/encounters/${encounterId}/follow-up`,
         payload
-      )
+      ),
+    [["clinician", "follow-ups"], ["clinician", "encounter", encounterId], dashboardQueryKeys.clinician]
   )
 }
 
@@ -281,8 +298,9 @@ export function useCompleteEncounter(encounterId: string) {
   return useClinicalMutation<
     ClinicianEncounterListItem,
     { acknowledged: true }
-  >((payload) =>
-    mutateData("post", `/clinician/encounters/${encounterId}/complete`, payload)
+  >(
+    (payload) => mutateData("post", `/clinician/encounters/${encounterId}/complete`, payload),
+    [["clinician", "encounter", encounterId], ["clinician", "encounters"], ["clinician", "consultation-queue"], dashboardQueryKeys.clinician]
   )
 }
 
@@ -305,7 +323,7 @@ export function useSendClinicianMessage() {
       participantIds?: string[]
       body: string
     }
-  >((payload) => mutateData("post", "/clinician/messages", payload))
+  >((payload) => mutateData("post", "/clinician/messages", payload), [["clinician", "messages"]])
 }
 
 export function useClinicianNotifications() {
@@ -320,7 +338,8 @@ export function useUpdateClinicianNotification() {
   return useClinicalMutation<
     ClinicianNotificationItem,
     { id: string; status: "READ" | "ARCHIVED" }
-  >(({ id, status }) =>
-    mutateData("patch", `/clinician/notifications/${id}`, { status })
+  >(
+    ({ id, status }) => mutateData("patch", `/clinician/notifications/${id}`, { status }),
+    [["clinician", "notifications"], dashboardQueryKeys.clinician]
   )
 }

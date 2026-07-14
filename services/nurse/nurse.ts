@@ -3,6 +3,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import api from "@/lib/axios"
+import { dashboardQueryKeys } from "@/lib/query-keys"
+import { queryFreshness } from "@/lib/query-client"
 import type { ApiResponse } from "@/types"
 import type {
   NurseDashboardSummary,
@@ -55,13 +57,15 @@ export function useNurseLookups() {
   return useQuery({
     queryKey: ["nurse", "lookups"],
     queryFn: () => getData<NurseLookups>("/nurse/lookups"),
+    staleTime: queryFreshness.lookup,
   })
 }
 
 export function useNurseDashboard() {
   return useQuery({
-    queryKey: ["nurse", "dashboard"],
+    queryKey: dashboardQueryKeys.nurse,
     queryFn: () => getData<NurseDashboardSummary>("/nurse/dashboard"),
+    staleTime: queryFreshness.dashboard,
   })
 }
 
@@ -72,6 +76,9 @@ export function useNurseTriageQueue(filters?: NurseTriageQueueFilters) {
       getData<NurseTriageQueueItem[]>(
         query("/nurse/triage-queue", filters)
       ),
+    staleTime: queryFreshness.live,
+    refetchInterval: 15_000,
+    refetchIntervalInBackground: false,
   })
 }
 

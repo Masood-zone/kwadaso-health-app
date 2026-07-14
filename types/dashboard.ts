@@ -32,6 +32,11 @@ export type SuperAdminDashboardData = {
   management: SuperAdminManagementData
 }
 
+export type SuperAdminDashboardSummary = Omit<
+  SuperAdminDashboardData,
+  "management"
+>
+
 export type HospitalAdminDashboardData = {
   facilityName: string
   metrics: DashboardMetric[]

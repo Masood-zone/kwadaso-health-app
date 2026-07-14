@@ -3,7 +3,8 @@
 import { ReactNode } from "react"
 import { Toaster } from "sonner"
 import { ThemeProvider } from "@/components/providers/theme-provider"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { QueryClientProvider } from "@tanstack/react-query"
+import { getQueryClient } from "@/lib/query-client"
 
 interface ProvidersProps {
   children: ReactNode
@@ -16,9 +17,9 @@ interface ProvidersProps {
  * - Toaster: Toast notifications
  * - Future: Authentication, Analytics, etc.
  */
-const queryClient = new QueryClient()
-
 export function Providers({ children }: ProvidersProps) {
+  const queryClient = getQueryClient()
+
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

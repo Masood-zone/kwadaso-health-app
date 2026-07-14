@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const { staff: actor, response } = await requireRoleApi(request, [
     "SUPER_ADMIN",
-  ])
+  ], { forceFreshSession: true })
   if (response) return response
 
   const parsed = updateRolePermissionsSchema.safeParse(await request.json())
@@ -82,12 +82,15 @@ export async function PATCH(request: NextRequest) {
   })
   const nextPermissionIds = new Set(permissions.map((permission) => permission.id))
 
-  await prisma.rolePermission.deleteMany({ where: { roleId } })
-  await Promise.all(
-    Array.from(nextPermissionIds).map((permissionId) =>
-      prisma.rolePermission.create({ data: { roleId, permissionId } })
-    )
-  )
+  await prisma.$transaction([
+    prisma.rolePermission.deleteMany({ where: { roleId } }),
+    prisma.rolePermission.createMany({
+      data: Array.from(nextPermissionIds).map((permissionId) => ({
+        roleId,
+        permissionId,
+      })),
+    }),
+  ])
 
   await writeAuditLog({
     request,
