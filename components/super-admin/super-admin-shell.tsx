@@ -133,7 +133,7 @@ export function SuperAdminShell({
               </span>
             </div>
             <p className="font-heading text-lg font-bold text-primary md:text-xl">
-              HMIS Administrative Portal
+              KHIP Administrative Portal
             </p>
           </div>
 

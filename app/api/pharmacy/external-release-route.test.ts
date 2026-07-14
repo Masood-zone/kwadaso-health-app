@@ -98,8 +98,8 @@ describe("pharmacy external prescription release", () => {
 
     expect(response.status).toBe(200)
     expect(mocks.transaction).toHaveBeenCalledWith(expect.any(Function), {
-      maxWait: 5_000,
-      timeout: 15_000,
+      maxWait: 10_000,
+      timeout: 30_000,
     })
     expect(tx.prescription.updateMany).toHaveBeenCalledWith({
       where: {

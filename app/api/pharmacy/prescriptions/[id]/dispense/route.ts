@@ -55,7 +55,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
       for (const override of parsed.data.safetyOverrides ?? []) await writePharmacyAuditLog({ client: tx, request, actor, action: AuditAction.APPROVE, entityType: "PharmacySafetyOverride", entityId: session.id, description: `Acknowledged ${override.type.toLowerCase().replaceAll("_", " ")} warning`, after: { prescriptionItemId: override.prescriptionItemId ?? null, reason: override.reason } })
       const full = await tx.dispensing.findUniqueOrThrow({ where: { id: session.id }, include: pharmacyDispensingInclude })
       return { dispensing: serializeDispensing(full), items: full.items.map((item) => ({ id: item.id, medicineName: item.medicineName, batchNumber: item.stock?.batchNumber ?? null, quantityDispensed: item.quantityDispensed })), remainingStock }
-    })
+    }, { maxWait: 10_000, timeout: 30_000 })
     return pharmacyOk(result, "Medication dispensed successfully.", 201)
   })
 }

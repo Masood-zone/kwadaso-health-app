@@ -139,7 +139,7 @@ export async function POST(
           },
         })
       },
-      { maxWait: 5_000, timeout: 15_000 }
+      { maxWait: 10_000, timeout: 30_000 }
     )
 
     const updated = await ensurePharmacyPrescription(id, actor.facilityId)

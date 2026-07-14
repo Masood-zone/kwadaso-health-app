@@ -73,6 +73,10 @@ describe("pharmacy dispensing route", () => {
     mocks.transaction.mockImplementation(async (callback) => callback(tx))
     const response = await POST(request(payload()), { params: Promise.resolve({ id: "rx-1" }) })
     expect(response.status).toBe(201)
+    expect(mocks.transaction).toHaveBeenCalledWith(
+      expect.any(Function),
+      { maxWait: 10_000, timeout: 30_000 }
+    )
     expect(tx.medicationStock.updateMany).toHaveBeenCalledWith(expect.objectContaining({ where: expect.objectContaining({ id: "stock-1", quantityOnHand: { gte: 5 } }), data: { quantityOnHand: { decrement: 5 } } }))
     expect(tx.stockMovement.create).toHaveBeenCalledWith({ data: expect.objectContaining({ type: "DISPENSE", quantity: 5, reference: "DSP-TEST-001" }) })
     expect(tx.prescription.update).toHaveBeenCalledWith({ where: { id: "rx-1" }, data: { status: "DISPENSED" } })

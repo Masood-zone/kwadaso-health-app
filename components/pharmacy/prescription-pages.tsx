@@ -347,7 +347,7 @@ export function PrescriptionDetailPage({ id }: { id: string }) {
                   setDispenseOpen(true)
                 }}
               >
-                Dispense medicine
+                Dispense medicine comfort
               </Button>
             ) : null}
             {open ? (
@@ -726,6 +726,7 @@ export function PrescriptionDetailPage({ id }: { id: string }) {
               Close
             </Button>
             <Button
+              type="submit"
               disabled={
                 dispense.isPending ||
                 !allocations.some((item) => item.quantityDispensed > 0)
@@ -770,6 +771,7 @@ export function PrescriptionDetailPage({ id }: { id: string }) {
               Close
             </Button>
             <Button
+              type="submit"
               disabled={
                 externalRelease.isPending || externalReason.trim().length < 3
               }

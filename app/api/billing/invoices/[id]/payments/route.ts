@@ -39,7 +39,11 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
       await writeBillingAuditLog({ client: tx, request, actor, action: AuditAction.CREATE, entityType: "Payment", entityId: created.id, description: `Recorded ${parsed.data.method.replaceAll("_", " ")} payment ${created.receiptNo}`, after: { receiptNo: created.receiptNo, invoiceId: invoice.id, amount: parsed.data.amount, method: parsed.data.method, invoiceStatus: updatedInvoice.status, balanceDue: Number(updatedInvoice.balanceDue) } })
       if (updatedInvoice.status === "PAID") await tx.notification.create({ data: { recipientId: actor.id, facilityId: actor.facilityId, targetRole: "BILLING_OFFICER", type: "BILLING", priority: "NORMAL", status: "UNREAD", title: "Invoice paid in full", body: `${updatedInvoice.invoiceNo} is now fully paid.`, actionUrl: `/billing/invoices/${invoice.id}`, entityType: "Invoice", entityId: invoice.id, createdById: actor.id } })
       return tx.payment.findUniqueOrThrow({ where: { id: created.id }, include: { receivedBy: true, approvedBy: true, reversedBy: true, invoice: { include: { patient: true, encounter: { include: { department: true } }, createdBy: true } } } })
-    }, { isolationLevel: "Serializable" })
+    }, {
+      isolationLevel: "Serializable",
+      maxWait: 10_000,
+      timeout: 30_000,
+    })
     return billingOk(serializePayment(payment), "Payment recorded and receipt generated.", 201)
   })
 }
