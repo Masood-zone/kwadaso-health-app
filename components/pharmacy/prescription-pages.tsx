@@ -815,6 +815,7 @@ export function PrescriptionDetailPage({ id }: { id: string }) {
               Close
             </Button>
             <Button
+              type="submit"
               variant="destructive"
               disabled={cancel.isPending || !cancelReason.trim()}
             >
