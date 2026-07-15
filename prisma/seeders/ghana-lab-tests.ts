@@ -48,7 +48,8 @@ export async function seedGhanaLabTests(
             isActive: test.isActive,
           },
         })
-      )
+      ),
+      { maxWait: 20_000, timeout: 60_000 }
     )
   }
 
@@ -67,50 +68,46 @@ export async function seedGhanaLabTests(
     )
   )
   let createdParameters = 0
-  const parameterOperations = ghanaLabTestCatalog
-    .flatMap((test) => {
-      const labTestCatalogId = testIdByCode.get(test.code)
-      if (!labTestCatalogId) {
-        throw new Error(
-          `Seeded laboratory test ${test.code} could not be reloaded.`
-        )
+  for (const test of ghanaLabTestCatalog) {
+    const labTestCatalogId = testIdByCode.get(test.code)
+    if (!labTestCatalogId) {
+      throw new Error(
+        `Seeded laboratory test ${test.code} could not be reloaded.`
+      )
+    }
+
+    for (const [sortOrder, parameter] of test.parameters.entries()) {
+      const definition: GhanaLabParameterSeed = parameter
+      const parameterKey = `${labTestCatalogId}:${definition.name}`
+      if (existingParameterKeys.has(parameterKey)) {
+        continue
       }
-      return test.parameters.map((parameter, sortOrder) => {
-        const definition: GhanaLabParameterSeed = parameter
-        if (
-          existingParameterKeys.has(`${labTestCatalogId}:${definition.name}`)
-        ) {
-          return null
-        }
-        createdParameters += 1
-        return prisma.labTestParameterDefinition.upsert({
-          where: {
-            labTestCatalogId_name: {
-              labTestCatalogId,
-              name: definition.name,
-            },
-          },
-          update: {},
-          create: {
+
+      await prisma.labTestParameterDefinition.upsert({
+        where: {
+          labTestCatalogId_name: {
             labTestCatalogId,
             name: definition.name,
-            unit: definition.unit ?? null,
-            referenceRange: null,
-            referenceLow: null,
-            referenceHigh: null,
-            criticalLow: null,
-            criticalHigh: null,
-            isRequired: definition.isRequired ?? true,
-            sortOrder,
-            isActive: true,
           },
-        })
+        },
+        update: {},
+        create: {
+          labTestCatalogId,
+          name: definition.name,
+          unit: definition.unit ?? null,
+          referenceRange: null,
+          referenceLow: null,
+          referenceHigh: null,
+          criticalLow: null,
+          criticalHigh: null,
+          isRequired: definition.isRequired ?? true,
+          sortOrder,
+          isActive: true,
+        },
       })
-    })
-    .filter((operation) => operation !== null)
-
-  for (let index = 0; index < parameterOperations.length; index += 4) {
-    await prisma.$transaction(parameterOperations.slice(index, index + 4))
+      existingParameterKeys.add(parameterKey)
+      createdParameters += 1
+    }
   }
 
   const verified = await prisma.labTestCatalog.findMany({

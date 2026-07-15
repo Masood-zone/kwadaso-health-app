@@ -53,7 +53,8 @@ async function seedMedications() {
             isActive: true,
           },
         })
-      )
+      ),
+      { maxWait: 20_000, timeout: 60_000 }
     )
   }
 
