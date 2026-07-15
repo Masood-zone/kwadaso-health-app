@@ -40,10 +40,21 @@ export async function GET(request: NextRequest) {
   const { response } = await requireRoleApi(request, ["SUPER_ADMIN"])
   if (response) return response
 
-  return Response.json({
-    success: true,
-    data: await getRoleMatrix(),
-  } satisfies ApiResponse)
+  try {
+    return Response.json({
+      success: true,
+      data: await getRoleMatrix(),
+    } satisfies ApiResponse)
+  } catch (error) {
+    console.error("Failed to load role permissions matrix", error)
+    return Response.json(
+      {
+        success: false,
+        message: "Role permissions could not be loaded.",
+      } satisfies ApiResponse,
+      { status: 500 }
+    )
+  }
 }
 
 export async function PATCH(request: NextRequest) {
